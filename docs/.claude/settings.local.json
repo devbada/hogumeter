@@ -1,0 +1,6 @@
+{
+  "disabledMcpjsonServers": [
+    "my-mcp-server",
+    "github"
+  ]
+}

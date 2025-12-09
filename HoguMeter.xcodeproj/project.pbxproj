@@ -1,0 +1,596 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
+		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
+		09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A91BE8BC3716FB99B58A61C /* Assets.xcassets */; };
+		20A7E95CA73016A397471852 /* FareDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */; };
+		216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF411F9647966C3705693A1 /* RegionFareRepository.swift */; };
+		2A96109F69FA8FC26692FE5A /* FareCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */; };
+		2CBC303524E539077FA5A84E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51672B1F5C485688668A33B9 /* SettingsView.swift */; };
+		3246DC6DA52DD4ECD93C6986 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */; };
+		50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */; };
+		5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */; };
+		6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F919C8DBB322D01DE8748 /* Date+Extensions.swift */; };
+		617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */; };
+		64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98978790385627A731AB8C4A /* LocationServiceProtocol.swift */; };
+		6CCDFEA2F0197F4AFEA9C4C4 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE10E81350094D7AFCFDBA7D /* SoundManager.swift */; };
+		723F264FAFB1728602B7CF37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA662AE9396E99BC52CF0B2 /* ContentView.swift */; };
+		76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D2FE06B925922F511B24A /* MeterViewModel.swift */; };
+		7D8A9B94D6CE8A2AFD1DC60C /* DefaultFares.json in Resources */ = {isa = PBXBuildFile; fileRef = B8EC38389F60836626B89AF5 /* DefaultFares.json */; };
+		8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */; };
+		916013FA7FE9C1775BE66E0A /* HorseAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */; };
+		9AECD22DC3BA877835DB39AE /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B06023C3A46ACB19895E34 /* View+Extensions.swift */; };
+		A8CEF1D349D1FDAFED3F62C6 /* TripInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7809A80CAB1ED395B10CE483 /* TripInfoView.swift */; };
+		AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CFE822AFFAAB528579537 /* HapticManager.swift */; };
+		AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE942707AFEC7295EEB5A7 /* LocationService.swift */; };
+		B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E37EDFDB8A450969B082FA /* MeterState.swift */; };
+		BE533C9F82EEE83AF0295CEC /* TripHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012E8AD839291A60E4A925E9 /* TripHistoryView.swift */; };
+		C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */; };
+		D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA4C0038D41AA6701D2A28 /* HoguMeterApp.swift */; };
+		E291D1B8DFC62EE54846C406 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152CB7C1DA299F19E4785383 /* CLLocation+Extensions.swift */; };
+		E77AC84402B576C792D4D24C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2CFB92DAEA79D831F37AC8 /* Trip.swift */; };
+		F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254E8830A8239D9335AEC8AA /* TripRepository.swift */; };
+		F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0593C144C4AF38D18F326822 /* ControlButtonsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		012E8AD839291A60E4A925E9 /* TripHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripHistoryView.swift; sourceTree = "<group>"; };
+		031F919C8DBB322D01DE8748 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
+		0F9CFE822AFFAAB528579537 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		0FF411F9647966C3705693A1 /* RegionFareRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareRepository.swift; sourceTree = "<group>"; };
+		152CB7C1DA299F19E4785383 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
+		1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionDetector.swift; sourceTree = "<group>"; };
+		254E8830A8239D9335AEC8AA /* TripRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRepository.swift; sourceTree = "<group>"; };
+		4F6D2FE06B925922F511B24A /* MeterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterViewModel.swift; sourceTree = "<group>"; };
+		50BA4C0038D41AA6701D2A28 /* HoguMeterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoguMeterApp.swift; sourceTree = "<group>"; };
+		51672B1F5C485688668A33B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
+		5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareCalculator.swift; sourceTree = "<group>"; };
+		649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareBreakdown.swift; sourceTree = "<group>"; };
+		6A91BE8BC3716FB99B58A61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7809A80CAB1ED395B10CE483 /* TripInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfoView.swift; sourceTree = "<group>"; };
+		7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		98978790385627A731AB8C4A /* LocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceProtocol.swift; sourceTree = "<group>"; };
+		9B1B90C5922AF2379FA3A78C /* HoguMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoguMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1B06023C3A46ACB19895E34 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		AAA662AE9396E99BC52CF0B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
+		B8EC38389F60836626B89AF5 /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
+		B9E37EDFDB8A450969B082FA /* MeterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterState.swift; sourceTree = "<group>"; };
+		BCD4857D5A02A463A519206D /* MainMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMeterView.swift; sourceTree = "<group>"; };
+		BD31455AFE19E38549BE98AC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C3D3C2AE8CD8E3FF17E5FACF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CE2CFB92DAEA79D831F37AC8 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseAnimationView.swift; sourceTree = "<group>"; };
+		D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFare.swift; sourceTree = "<group>"; };
+		E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareDisplayView.swift; sourceTree = "<group>"; };
+		FBCE942707AFEC7295EEB5A7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1C4CD31A0C689B4A3E299F35 /* HoguMeter */ = {
+			isa = PBXGroup;
+			children = (
+				C3D3C2AE8CD8E3FF17E5FACF /* Info.plist */,
+				870044A3F984EC99272F823B /* App */,
+				6DFEDA5D62F3D700A0F29910 /* Core */,
+				D8768EE5A84FEB1568D354B0 /* Data */,
+				513BA7EC6CCA7959C4002F6D /* Domain */,
+				690ECCCDFBA9FC6404A4FC15 /* Presentation */,
+				99C007C801EC648B57088386 /* Resources */,
+			);
+			path = HoguMeter;
+			sourceTree = "<group>";
+		};
+		3500C9519EFBE8E7CF847E29 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				51672B1F5C485688668A33B9 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		47B4BB3DE8A01CAB7657603B /* Static */ = {
+			isa = PBXGroup;
+			children = (
+				B8EC38389F60836626B89AF5 /* DefaultFares.json */,
+			);
+			path = Static;
+			sourceTree = "<group>";
+		};
+		4D7A588F46822B6EE0C4C4CE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				0593C144C4AF38D18F326822 /* ControlButtonsView.swift */,
+				E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */,
+				D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */,
+				7809A80CAB1ED395B10CE483 /* TripInfoView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		513BA7EC6CCA7959C4002F6D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				9C4B629BDD618D73E4A44EBE /* Entities */,
+				C3862C5704EB7489B0E90722 /* Services */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		5ACC0127E6A551F449192FBE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4F6D2FE06B925922F511B24A /* MeterViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5E2DEB05780C5F0FE5E36E09 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AAA662AE9396E99BC52CF0B2 /* ContentView.swift */,
+				9D776D339B2D084172464670 /* History */,
+				8DD21EC2B643041F62FE70A6 /* Main */,
+				3500C9519EFBE8E7CF847E29 /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		690ECCCDFBA9FC6404A4FC15 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				5ACC0127E6A551F449192FBE /* ViewModels */,
+				5E2DEB05780C5F0FE5E36E09 /* Views */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		6DFEDA5D62F3D700A0F29910 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D011F1E0DB460DFBAB04354A /* Extensions */,
+				FAF65945604109D785F4DB73 /* Protocols */,
+				8A364BF6B66BD10D3E354AD9 /* Utils */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		870044A3F984EC99272F823B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				50BA4C0038D41AA6701D2A28 /* HoguMeterApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		8A364BF6B66BD10D3E354AD9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BD31455AFE19E38549BE98AC /* Constants.swift */,
+				0F9CFE822AFFAAB528579537 /* HapticManager.swift */,
+				7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		8DD21EC2B643041F62FE70A6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				BCD4857D5A02A463A519206D /* MainMeterView.swift */,
+				4D7A588F46822B6EE0C4C4CE /* Components */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		99C007C801EC648B57088386 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6A91BE8BC3716FB99B58A61C /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9BC997CF63D53AC1696C50B8 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				0FF411F9647966C3705693A1 /* RegionFareRepository.swift */,
+				B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */,
+				254E8830A8239D9335AEC8AA /* TripRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		9C4B629BDD618D73E4A44EBE /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */,
+				B9E37EDFDB8A450969B082FA /* MeterState.swift */,
+				D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */,
+				CE2CFB92DAEA79D831F37AC8 /* Trip.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		9D776D339B2D084172464670 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				012E8AD839291A60E4A925E9 /* TripHistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		AA0A5A3EAD97BFB5B63AC2C7 = {
+			isa = PBXGroup;
+			children = (
+				1C4CD31A0C689B4A3E299F35 /* HoguMeter */,
+				F8D4513B92F4225487A3F83E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C3862C5704EB7489B0E90722 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */,
+				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
+				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
+				FE10E81350094D7AFCFDBA7D /* SoundManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D011F1E0DB460DFBAB04354A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				152CB7C1DA299F19E4785383 /* CLLocation+Extensions.swift */,
+				031F919C8DBB322D01DE8748 /* Date+Extensions.swift */,
+				53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */,
+				A1B06023C3A46ACB19895E34 /* View+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D8768EE5A84FEB1568D354B0 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F1FD66FB96CDB9875A7520D9 /* DataSources */,
+				9BC997CF63D53AC1696C50B8 /* Repositories */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F1FD66FB96CDB9875A7520D9 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				47B4BB3DE8A01CAB7657603B /* Static */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		F8D4513B92F4225487A3F83E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B1B90C5922AF2379FA3A78C /* HoguMeter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FAF65945604109D785F4DB73 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				98978790385627A731AB8C4A /* LocationServiceProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7AD9A8CC48597472928707A5 /* HoguMeter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 068FC9A3FFE624B99713D7B6 /* Build configuration list for PBXNativeTarget "HoguMeter" */;
+			buildPhases = (
+				D39A0FF20AB3D23D7274C8D9 /* Sources */,
+				0F57069CE399B34641E1A077 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HoguMeter;
+			packageProductDependencies = (
+			);
+			productName = HoguMeter;
+			productReference = 9B1B90C5922AF2379FA3A78C /* HoguMeter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7A98E770A27106E985427625 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+			};
+			buildConfigurationList = F3037E717AA8A1BF11E64B37 /* Build configuration list for PBXProject "HoguMeter" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ko;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				ko,
+			);
+			mainGroup = AA0A5A3EAD97BFB5B63AC2C7;
+			minimizedProjectReferenceProxies = 1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7AD9A8CC48597472928707A5 /* HoguMeter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0F57069CE399B34641E1A077 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */,
+				7D8A9B94D6CE8A2AFD1DC60C /* DefaultFares.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D39A0FF20AB3D23D7274C8D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E291D1B8DFC62EE54846C406 /* CLLocation+Extensions.swift in Sources */,
+				0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */,
+				723F264FAFB1728602B7CF37 /* ContentView.swift in Sources */,
+				F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */,
+				6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */,
+				3246DC6DA52DD4ECD93C6986 /* Double+Extensions.swift in Sources */,
+				5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */,
+				2A96109F69FA8FC26692FE5A /* FareCalculator.swift in Sources */,
+				20A7E95CA73016A397471852 /* FareDisplayView.swift in Sources */,
+				AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */,
+				D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */,
+				916013FA7FE9C1775BE66E0A /* HorseAnimationView.swift in Sources */,
+				AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */,
+				64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */,
+				8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */,
+				06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */,
+				B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */,
+				76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */,
+				617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */,
+				50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */,
+				216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */,
+				C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */,
+				2CBC303524E539077FA5A84E /* SettingsView.swift in Sources */,
+				6CCDFEA2F0197F4AFEA9C4C4 /* SoundManager.swift in Sources */,
+				E77AC84402B576C792D4D24C /* Trip.swift in Sources */,
+				BE533C9F82EEE83AF0295CEC /* TripHistoryView.swift in Sources */,
+				A8CEF1D349D1FDAFED3F62C6 /* TripInfoView.swift in Sources */,
+				F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */,
+				9AECD22DC3BA877835DB39AE /* View+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0D5CD377647FD5855B308128 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = U6BW42PX5S;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HoguMeter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2224A7444A6A4B9E67AD209F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hogumeter.app;
+				PRODUCT_NAME = HoguMeter;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		28C30757FF267340DCD39B48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hogumeter.app;
+				PRODUCT_NAME = HoguMeter;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		831E1B3350FE22D7E63651FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = U6BW42PX5S;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HoguMeter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		068FC9A3FFE624B99713D7B6 /* Build configuration list for PBXNativeTarget "HoguMeter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D5CD377647FD5855B308128 /* Debug */,
+				831E1B3350FE22D7E63651FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F3037E717AA8A1BF11E64B37 /* Build configuration list for PBXProject "HoguMeter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2224A7444A6A4B9E67AD209F /* Debug */,
+				28C30757FF267340DCD39B48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7A98E770A27106E985427625 /* Project object */;
+}
