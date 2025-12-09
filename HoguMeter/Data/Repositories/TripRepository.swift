@@ -10,11 +10,18 @@ import Foundation
 final class TripRepository {
 
     // MARK: - Properties
-    private var trips: [Trip] = []
+    private let userDefaults: UserDefaults
+    private let tripsKey = "saved_trips"
     private let maxTripsCount = 100
+
+    // MARK: - Init
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+    }
 
     // MARK: - Public Methods
     func save(_ trip: Trip) {
+        var trips = getAll()
         trips.insert(trip, at: 0)
 
         // 최대 개수 초과 시 오래된 것 삭제
@@ -22,22 +29,40 @@ final class TripRepository {
             trips = Array(trips.prefix(maxTripsCount))
         }
 
-        // TODO: Core Data에 저장
+        saveToDisk(trips)
     }
 
     func getAll() -> [Trip] {
-        trips
+        guard let data = userDefaults.data(forKey: tripsKey) else {
+            return []
+        }
+
+        do {
+            let trips = try JSONDecoder().decode([Trip].self, from: data)
+            return trips
+        } catch {
+            print("Failed to decode trips: \(error)")
+            return []
+        }
     }
 
     func delete(_ trip: Trip) {
+        var trips = getAll()
         trips.removeAll { $0.id == trip.id }
-
-        // TODO: Core Data에서 삭제
+        saveToDisk(trips)
     }
 
     func deleteAll() {
-        trips.removeAll()
+        userDefaults.removeObject(forKey: tripsKey)
+    }
 
-        // TODO: Core Data에서 모두 삭제
+    // MARK: - Private Methods
+    private func saveToDisk(_ trips: [Trip]) {
+        do {
+            let data = try JSONEncoder().encode(trips)
+            userDefaults.set(data, forKey: tripsKey)
+        } catch {
+            print("Failed to encode trips: \(error)")
+        }
     }
 }

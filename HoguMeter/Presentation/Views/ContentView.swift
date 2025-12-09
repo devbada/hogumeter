@@ -11,6 +11,9 @@ struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @State private var showSettings = false
     @State private var showHistory = false
+    @State private var colorSchemePreference: SettingsRepository.ColorSchemePreference = .system
+
+    private let settingsRepository = SettingsRepository()
 
     var body: some View {
         TabView {
@@ -29,6 +32,28 @@ struct ContentView: View {
                     Label("기록", systemImage: "clock")
                 }
         }
+        .preferredColorScheme(preferredColorScheme)
+        .onAppear {
+            loadColorSchemePreference()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .colorSchemeChanged)) { _ in
+            loadColorSchemePreference()
+        }
+    }
+
+    private var preferredColorScheme: ColorScheme? {
+        switch colorSchemePreference {
+        case .system:
+            return nil
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        }
+    }
+
+    private func loadColorSchemePreference() {
+        colorSchemePreference = settingsRepository.colorSchemePreference
     }
 
     private func createMeterViewModel() -> MeterViewModel {

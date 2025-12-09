@@ -16,6 +16,13 @@ final class SettingsRepository {
         static let isRegionSurchargeEnabled = "isRegionSurchargeEnabled"
         static let regionSurchargeAmount = "regionSurchargeAmount"
         static let isSoundEnabled = "isSoundEnabled"
+        static let colorSchemePreference = "colorSchemePreference"
+    }
+
+    enum ColorSchemePreference: String {
+        case system
+        case light
+        case dark
     }
 
     // MARK: - Dependencies
@@ -78,6 +85,17 @@ final class SettingsRepository {
         }
         set {
             userDefaults.set(newValue, forKey: Keys.isSoundEnabled)
+        }
+    }
+
+    // MARK: - Color Scheme
+    var colorSchemePreference: ColorSchemePreference {
+        get {
+            let rawValue = userDefaults.string(forKey: Keys.colorSchemePreference) ?? "system"
+            return ColorSchemePreference(rawValue: rawValue) ?? .system
+        }
+        set {
+            userDefaults.set(newValue.rawValue, forKey: Keys.colorSchemePreference)
         }
     }
 }
