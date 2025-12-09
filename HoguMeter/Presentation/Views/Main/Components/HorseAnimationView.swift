@@ -10,18 +10,31 @@ import SwiftUI
 struct HorseAnimationView: View {
     let speed: HorseSpeed
 
+    @State private var animationPhase: CGFloat = 0
+    @State private var rotationAngle: Double = 0
+
     var body: some View {
         ZStack {
             // 배경
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.secondary.opacity(0.1))
 
-            // 말 이모지 (실제로는 애니메이션으로 대체 예정)
+            // 말 애니메이션 레이어
             VStack(spacing: 10) {
-                Text(horseEmoji)
-                    .font(.system(size: 100))
-                    .scaleEffect(animationScale)
-                    .animation(.easeInOut(duration: 0.3), value: speed)
+                ZStack {
+                    Text(horseEmoji)
+                        .font(.system(size: 100))
+                        .scaleEffect(animationScale)
+                        .rotationEffect(.degrees(rotationAngle))
+                        .offset(y: verticalOffset)
+                        .animation(.easeInOut(duration: 0.3), value: speed)
+                        .onAppear {
+                            startAnimation()
+                        }
+                        .onChange(of: speed) { _, _ in
+                            startAnimation()
+                        }
+                }
 
                 Text(speedText)
                     .font(.headline)
@@ -63,19 +76,84 @@ struct HorseAnimationView: View {
     }
 
     private var animationScale: CGFloat {
+        let baseScale: CGFloat
         switch speed {
         case .idle:
-            return 1.0
+            baseScale = 1.0
         case .walk:
-            return 1.05
+            baseScale = 1.05
         case .trot:
-            return 1.1
+            baseScale = 1.1
         case .run:
-            return 1.15
+            baseScale = 1.15
         case .gallop:
-            return 1.2
+            baseScale = 1.2
         case .sprint:
-            return 1.3
+            baseScale = 1.3
+        }
+
+        // 바운싱 효과 추가
+        let bounceEffect = speed == .idle ? 0 : sin(animationPhase) * 0.03
+        return baseScale + bounceEffect
+    }
+
+    private var verticalOffset: CGFloat {
+        guard speed != .idle else { return 0 }
+
+        // 속도에 따른 바운싱 강도
+        let bounceStrength: CGFloat
+        switch speed {
+        case .idle:
+            bounceStrength = 0
+        case .walk:
+            bounceStrength = 2
+        case .trot:
+            bounceStrength = 4
+        case .run:
+            bounceStrength = 6
+        case .gallop:
+            bounceStrength = 8
+        case .sprint:
+            bounceStrength = 10
+        }
+
+        return sin(animationPhase) * bounceStrength
+    }
+
+    private func startAnimation() {
+        guard speed != .idle else {
+            animationPhase = 0
+            rotationAngle = 0
+            return
+        }
+
+        // 속도에 따른 애니메이션 주기
+        let duration: Double
+        switch speed {
+        case .idle:
+            duration = 0
+        case .walk:
+            duration = 1.0
+        case .trot:
+            duration = 0.8
+        case .run:
+            duration = 0.6
+        case .gallop:
+            duration = 0.4
+        case .sprint:
+            duration = 0.2
+        }
+
+        guard duration > 0 else { return }
+
+        // 바운싱 애니메이션
+        withAnimation(.linear(duration: duration).repeatForever(autoreverses: false)) {
+            animationPhase = .pi * 2
+        }
+
+        // 미세한 흔들림 효과
+        withAnimation(.easeInOut(duration: duration * 2).repeatForever(autoreverses: true)) {
+            rotationAngle = speed == .sprint ? 5 : 2
         }
     }
 }
