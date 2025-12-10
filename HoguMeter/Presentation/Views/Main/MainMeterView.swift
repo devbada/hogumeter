@@ -18,7 +18,7 @@ struct MainMeterView: View {
                     .padding(.top, 10)
 
                 // 말 애니메이션
-                HorseAnimationView(speed: viewModel.horseAnimationSpeed)
+                HorseAnimationView(speed: viewModel.horseSpeed)
                     .frame(height: 200)
 
                 Spacer()

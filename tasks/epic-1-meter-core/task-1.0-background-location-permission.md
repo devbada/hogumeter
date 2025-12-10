@@ -1,7 +1,7 @@
 # Task 1.0: 백그라운드 GPS 권한 설정
 
 > **Epic**: Epic 1 - 미터기 핵심
-> **Status**: 🔵 Ready
+> **Status**: 🟢 Done
 > **Priority**: P0
 > **PRD**: FR-1.3 (선행 작업)
 
@@ -13,24 +13,21 @@
 
 ## ✅ Acceptance Criteria
 
-- [ ] Info.plist에 위치 권한 설명 추가
-- [ ] `NSLocationWhenInUseUsageDescription` 설정
-- [ ] `NSLocationAlwaysAndWhenInUseUsageDescription` 설정
-- [ ] Background Modes에 `location` 추가
-- [ ] 권한 요청 시나리오 문서화
+- [x] Info.plist에 위치 권한 설명 추가
+- [x] `NSLocationWhenInUseUsageDescription` 설정
+- [x] `NSLocationAlwaysAndWhenInUseUsageDescription` 설정
+- [x] Background Modes에 `location` 추가
+- [x] 권한 요청 시나리오 문서화
 
 ## 🔗 관련 파일
 
 ### 설정 파일
-- [ ] `HoguMeter/Info.plist`
+- [x] `HoguMeter/Info.plist`
   - Privacy 설명 추가
   - Background Modes 설정
 
-### 권한 관리 (선택적)
-- [ ] `HoguMeter/Core/Utilities/PermissionManager.swift`
-  - 위치 권한 상태 확인
-  - 권한 요청 로직
-  - 권한 거부 시 안내
+### 권한 관리
+- LocationService에서 직접 처리 (별도 PermissionManager 불필요)
 
 ---
 
@@ -117,5 +114,41 @@ final class PermissionManager {
 
 ---
 
+## 📝 구현 노트
+
+### 주요 구현 내용
+
+1. **Info.plist 권한 설정 완료** (HoguMeter/Info.plist:23-35)
+   ```xml
+   <key>NSLocationWhenInUseUsageDescription</key>
+   <string>호구미터가 주행 거리를 측정하기 위해 위치 정보가 필요합니다.</string>
+
+   <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+   <string>앱이 백그라운드에서도 주행을 계속 측정하기 위해 위치 정보가 필요합니다.</string>
+
+   <key>UIBackgroundModes</key>
+   <array>
+       <string>location</string>
+   </array>
+   ```
+
+2. **권한 요청 구현**
+   - LocationService에서 CLLocationManager 사용
+   - 앱 시작 시 자동으로 "When In Use" 권한 요청
+   - 백그라운드 위치 추적 활성화
+
+3. **권한 상태 확인**
+   - CLLocationManager.authorizationStatus로 상태 확인
+   - 권한 없을 시 LocationService가 업데이트 중단
+   - 사용자가 설정에서 직접 권한 관리
+
+### 기술 스택
+- Core Location Framework
+- Info.plist Privacy Keys
+- UIBackgroundModes
+
+---
+
 **Created**: 2025-12-09
-**Status**: 🔵 Ready (구현 대기)
+**Completed**: 2025-12-10
+**Status**: 🟢 Done

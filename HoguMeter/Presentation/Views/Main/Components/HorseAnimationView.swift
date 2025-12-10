@@ -2,63 +2,76 @@
 //  HorseAnimationView.swift
 //  HoguMeter
 //
-//  Created on 2025-01-15.
+//  Created on 2025-12-10.
+//  Updated: 5-stage horse animation system
 //
 
 import SwiftUI
 
+/// 말 애니메이션 메인 뷰 (5단계 속도 시스템)
 struct HorseAnimationView: View {
     let speed: HorseSpeed
 
     var body: some View {
-        VStack(spacing: 10) {
-            Text(horseEmoji)
-                .font(.system(size: 100))
+        ZStack {
+            // 배경 효과 (속도선, 파티클)
+            HorseEffectsView(speed: speed)
 
-            Text(speedText)
-                .font(.headline)
-                .foregroundColor(.secondary)
-        }
-    }
+            // 말 캐릭터
+            VStack(spacing: 12) {
+                HorseCharacterView(speed: speed)
 
-    private var horseEmoji: String {
-        switch speed {
-        case .idle:
-            return "🐴"
-        case .walk:
-            return "🐎"
-        case .trot, .run:
-            return "🏇"
-        case .gallop:
-            return "🏇💨"
-        case .sprint:
-            return "🏇💨🔥"
+                // 상태 텍스트
+                Text(speed.displayName)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                    .transition(.opacity)
+            }
         }
-    }
-
-    private var speedText: String {
-        switch speed {
-        case .idle:
-            return "대기 중"
-        case .walk:
-            return "걷기"
-        case .trot:
-            return "빠른 걸음"
-        case .run:
-            return "달리기"
-        case .gallop:
-            return "질주"
-        case .sprint:
-            return "폭주!"
-        }
+        .animation(AnimationConstants.smoothTransition, value: speed)
     }
 }
 
 #Preview {
-    VStack(spacing: 20) {
-        HorseAnimationView(speed: .idle)
-        HorseAnimationView(speed: .walk)
-        HorseAnimationView(speed: .sprint)
+    VStack(spacing: 40) {
+        Text("5단계 말 애니메이션 시스템")
+            .font(.title2)
+            .fontWeight(.bold)
+
+        ScrollView {
+            VStack(spacing: 30) {
+                PreviewCard(speed: .walk, description: "0~5 km/h")
+                PreviewCard(speed: .trot, description: "5~10 km/h")
+                PreviewCard(speed: .run, description: "10~30 km/h")
+                PreviewCard(speed: .gallop, description: "30~100 km/h - 특수 효과")
+                PreviewCard(speed: .rocket, description: "100+ km/h - 로켓 모드!")
+            }
+            .padding()
+        }
     }
-    .frame(height: 200)
+}
+
+// MARK: - Preview Helper
+
+private struct PreviewCard: View {
+    let speed: HorseSpeed
+    let description: String
+
+    var body: some View {
+        VStack(spacing: 10) {
+            Text(speed.displayName)
+                .font(.headline)
+            Text(description)
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+            HorseAnimationView(speed: speed)
+                .frame(height: 150)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.gray.opacity(0.1))
+                )
+        }
+    }
 }

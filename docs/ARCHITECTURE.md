@@ -258,15 +258,44 @@ final class MeterViewModel {
     private(set) var fareBreakdown: FareBreakdown?
     
     // MARK: - Horse Animation State
-    private(set) var horseAnimationSpeed: HorseSpeed = .idle
-    
-    enum HorseSpeed {
-        case idle           // 0 km/h
-        case walk           // 1-20 km/h
-        case trot           // 21-40 km/h
-        case run            // 41-60 km/h
-        case gallop         // 61-80 km/h
-        case sprint         // 80+ km/h
+    private(set) var horseSpeed: HorseSpeed = .walk
+
+    enum HorseSpeed: String, CaseIterable {
+        case walk = "walk"           // 0 ~ 5 km/h
+        case trot = "trot"           // 5 ~ 10 km/h
+        case run = "run"             // 10 ~ 30 km/h
+        case gallop = "gallop"       // 30 ~ 100 km/h
+        case rocket = "rocket"       // 100+ km/h
+
+        var displayName: String {
+            switch self {
+            case .walk: return "걷기"
+            case .trot: return "빠른 걸음"
+            case .run: return "달리기"
+            case .gallop: return "질주본능 발휘"
+            case .rocket: return "로켓포 발사"
+            }
+        }
+
+        var emoji: String {
+            switch self {
+            case .walk: return "🐴"
+            case .trot: return "🐎"
+            case .run: return "🏃‍♂️🐴"
+            case .gallop: return "🔥🐴💨"
+            case .rocket: return "🚀🐴💥"
+            }
+        }
+
+        static func from(speed: Double) -> HorseSpeed {
+            switch speed {
+            case 0..<5: return .walk
+            case 5..<10: return .trot
+            case 10..<30: return .run
+            case 30..<100: return .gallop
+            default: return .rocket
+            }
+        }
     }
     
     // MARK: - Dependencies
@@ -363,26 +392,16 @@ final class MeterViewModel {
     }
     
     private func updateHorseAnimation() {
-        let speed = currentSpeed
-        
-        horseAnimationSpeed = switch speed {
-        case 0:
-            .idle
-        case 1..<21:
-            .walk
-        case 21..<41:
-            .trot
-        case 41..<61:
-            .run
-        case 61..<81:
-            .gallop
-        default:
-            .sprint
-        }
-        
-        // 80km/h 이상 특수 효과음
-        if speed >= 80 && horseAnimationSpeed != .sprint {
-            soundManager.play(.horseExcited)
+        let newSpeed = HorseSpeed.from(speed: currentSpeed)
+
+        // 변화가 있을 때만 업데이트
+        if newSpeed != horseSpeed {
+            horseSpeed = newSpeed
+
+            // 100km/h 이상 로켓포 발사 특수 효과음
+            if newSpeed == .rocket {
+                soundManager.play(.horseExcited)
+            }
         }
     }
     

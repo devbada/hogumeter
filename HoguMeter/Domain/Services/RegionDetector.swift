@@ -44,12 +44,26 @@ final class RegionDetector {
                 return
             }
 
-            let region = [
-                placemark.administrativeArea,
-                placemark.locality ?? placemark.subAdministrativeArea
-            ]
-            .compactMap { $0 }
-            .joined(separator: " ")
+            // 상세 주소 구성: "서울특별시 영등포구" 형식
+            let adminArea = placemark.administrativeArea ?? ""
+            let subLocality = placemark.subLocality ?? ""
+            let locality = placemark.locality ?? ""
+
+            var components: [String] = []
+
+            // 시/도 추가
+            if !adminArea.isEmpty {
+                components.append(adminArea)
+            }
+
+            // 구/군 단위 추가 (subLocality 우선, 없으면 locality)
+            if !subLocality.isEmpty {
+                components.append(subLocality)
+            } else if !locality.isEmpty && locality != adminArea {
+                components.append(locality)
+            }
+
+            let region = components.joined(separator: " ")
 
             if !region.isEmpty && region != self?.currentRegion {
                 if self?.currentRegion != nil {

@@ -25,4 +25,38 @@
 
 ---
 
+## 📝 구현 노트
+
+### 주요 구현 내용
+
+1. **RegionDetector 서비스** (HoguMeter/Domain/Services/RegionDetector.swift:12-72)
+   - CLGeocoder를 사용한 역지오코딩
+   - 10초 throttling으로 API 호출 최적화
+   - 지역 변경 횟수 자동 추적
+
+2. **상세 주소 표시** (개선: 2025-12-10)
+   - 기존: "서울특별시 서울특별시" (중복 문제)
+   - 개선: "서울특별시 영등포구" (상세 주소)
+   - `administrativeArea` (시/도) + `subLocality` (구/군) 조합
+   - locality와 administrativeArea 중복 방지 로직 추가
+
+3. **지역 변경 감지**
+   - 이전 지역과 현재 지역 비교
+   - 변경 시 regionChangeCount 증가
+   - FareCalculator에서 할증금 계산
+
+4. **성능 최적화**
+   - isGeocoding 플래그로 동시 호출 방지
+   - lastGeocodingTime으로 10초 간격 유지
+   - weak self로 메모리 누수 방지
+
+### 기술 스택
+- CoreLocation CLGeocoder
+- CLPlacemark 주소 정보
+- DispatchQueue 비동기 처리
+
+---
+
 **Created**: 2025-01-15
+**Completed**: 2025-12-09
+**Last Updated**: 2025-12-10 (상세 주소 개선)

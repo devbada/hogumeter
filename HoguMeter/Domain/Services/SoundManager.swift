@@ -6,69 +6,52 @@
 //
 
 import Foundation
-import AVFoundation
+import AudioToolbox
 
-enum SoundEffect: String {
-    case meterStart = "meter_start"
-    case meterStop = "meter_stop"
-    case meterTick = "meter_tick"
-    case horseNeigh = "horse_neigh"
-    case horseExcited = "horse_excited"
-    case regionChange = "region_change"
-    case nightMode = "night_mode"
+enum SoundEffect {
+    case meterStart
+    case meterStop
+    case meterTick
+    case horseNeigh
+    case horseExcited
+    case regionChange
+    case nightMode
+
+    // iOS 시스템 사운드 ID 매핑
+    var systemSoundID: SystemSoundID {
+        switch self {
+        case .meterStart:
+            return 1057 // Tock.caf - 시작음
+        case .meterStop:
+            return 1114 // 3rdParty_DirectionUp.caf - 정지음
+        case .meterTick:
+            return 1103 // Timer.caf - 틱 소리
+        case .horseNeigh:
+            return 1104 // Tink.caf - 말 울음소리 대용
+        case .horseExcited:
+            return 1309 // begin_record.caf - 흥분한 소리
+        case .regionChange:
+            return 1315 // connect_power.caf - 지역 변경
+        case .nightMode:
+            return 1256 // middle_9_Haptic.caf - 야간 모드
+        }
+    }
 }
 
 final class SoundManager {
 
     // MARK: - Properties
-    private var audioPlayers: [SoundEffect: AVAudioPlayer] = [:]
     private var isSoundEnabled: Bool = true
-
-    // MARK: - Init
-    init() {
-        setupAudioSession()
-    }
-
-    // MARK: - Setup
-    private func setupAudioSession() {
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-            print("Failed to setup audio session: \(error)")
-        }
-    }
 
     // MARK: - Public Methods
     func play(_ sound: SoundEffect) {
         guard isSoundEnabled else { return }
 
-        if let player = audioPlayers[sound] {
-            player.currentTime = 0
-            player.play()
-        } else {
-            loadAndPlay(sound)
-        }
+        // iOS 시스템 사운드 재생
+        AudioServicesPlaySystemSound(sound.systemSoundID)
     }
 
     func setEnabled(_ enabled: Bool) {
         isSoundEnabled = enabled
-    }
-
-    // MARK: - Private Methods
-    private func loadAndPlay(_ sound: SoundEffect) {
-        guard let url = Bundle.main.url(forResource: sound.rawValue, withExtension: "mp3") else {
-            print("Sound file not found: \(sound.rawValue)")
-            return
-        }
-
-        do {
-            let player = try AVAudioPlayer(contentsOf: url)
-            player.prepareToPlay()
-            audioPlayers[sound] = player
-            player.play()
-        } catch {
-            print("Failed to load sound: \(error)")
-        }
     }
 }

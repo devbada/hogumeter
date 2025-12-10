@@ -25,7 +25,7 @@ final class MeterViewModel {
     private(set) var fareBreakdown: FareBreakdown?
 
     // MARK: - Horse Animation State
-    private(set) var horseAnimationSpeed: HorseSpeed = .idle
+    private(set) var horseSpeed: HorseSpeed = .walk
 
     // MARK: - Dependencies
     private let locationService: LocationServiceProtocol
@@ -82,7 +82,7 @@ final class MeterViewModel {
         currentSpeed = 0
         currentRegion = ""
         fareBreakdown = nil
-        horseAnimationSpeed = .idle
+        horseSpeed = .walk
     }
 
     // MARK: - Private Methods
@@ -123,29 +123,17 @@ final class MeterViewModel {
     }
 
     private func updateHorseAnimation() {
-        let speed = currentSpeed
+        let newSpeed = HorseSpeed.from(speed: currentSpeed)
 
-        let newSpeed: HorseSpeed = switch speed {
-        case 0:
-            .idle
-        case 1..<21:
-            .walk
-        case 21..<41:
-            .trot
-        case 41..<61:
-            .run
-        case 61..<81:
-            .gallop
-        default:
-            .sprint
+        // 변화가 있을 때만 업데이트
+        if newSpeed != horseSpeed {
+            horseSpeed = newSpeed
+
+            // 100km/h 이상 로켓포 발사 특수 효과음
+            if newSpeed == .rocket {
+                soundManager.play(.horseExcited)
+            }
         }
-
-        // 80km/h 이상 특수 효과음
-        if speed >= 80 && horseAnimationSpeed != .sprint {
-            soundManager.play(.horseExcited)
-        }
-
-        horseAnimationSpeed = newSpeed
     }
 
     private func handleRegionChange(to newRegion: String) {

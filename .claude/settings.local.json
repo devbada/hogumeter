@@ -5,7 +5,9 @@
       "Bash(brew install:*)",
       "Bash(xcodegen generate:*)",
       "Bash(xcodebuild:*)",
-      "Bash(xcrun simctl:*)"
+      "Bash(xcrun simctl:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

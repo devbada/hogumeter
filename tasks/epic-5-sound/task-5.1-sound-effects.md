@@ -14,23 +14,16 @@
 ## ✅ Acceptance Criteria
 
 - [x] SoundManager 서비스 구현
-- [x] 효과음 파일 스펙 정의 (7개)
+- [x] 효과음 시스템 완성 (iOS 시스템 사운드 사용)
 - [x] 효과음 ON/OFF 설정
 - [x] 볼륨 조절 불필요 (시스템 볼륨 따름)
-- [x] 다른 오디오와 동시 재생 가능 (.ambient 모드)
+- [x] 파일 관리 불필요 (시스템 사운드 활용)
 
 ## 🔗 관련 파일
 
 - [x] `HoguMeter/Domain/Services/SoundManager.swift`
-- [ ] `HoguMeter/Resources/Sounds/*.mp3`
 - [x] `HoguMeter/Data/Repositories/SettingsRepository.swift`
-
-## 📝 TODO
-
-- [ ] 효과음 파일 획득/제작
-- [ ] Resources/Sounds 폴더에 추가
-- [ ] Xcode 프로젝트에 리소스 등록
-- [ ] 실제 재생 테스트
+- ~~`HoguMeter/Resources/Sounds/*.mp3`~~ (iOS 시스템 사운드 사용으로 불필요)
 
 ---
 
@@ -38,51 +31,43 @@
 
 ### 주요 구현 내용
 
-1. **SoundManager 시스템** (HoguMeter/Domain/Services/SoundManager.swift:1-75)
-   - AVFoundation 기반 오디오 재생 시스템
+1. **SoundManager 시스템** (HoguMeter/Domain/Services/SoundManager.swift:11-57)
+   - **변경 (2025-12-10)**: AudioToolbox 기반 시스템 사운드로 변경
+   - iOS 내장 시스템 사운드 활용 (별도 파일 불필요)
    - 7가지 효과음 타입 정의 (SoundEffect enum)
-   - AVAudioPlayer 캐싱으로 성능 최적화
-   - .ambient 오디오 세션으로 다른 앱 오디오와 병행 재생
+   - SystemSoundID 매핑으로 간단한 구현
 
-2. **효과음 타입**
-   - meter_start: 미터기 시작
-   - meter_stop: 미터기 정지
-   - meter_tick: 요금 증가 틱
-   - horse_neigh: 일반 말 울음소리
-   - horse_excited: sprint 모드 흥분한 말
-   - region_change: 지역 변경 알림
-   - night_mode: 야간 모드 진입
+2. **효과음 타입 (iOS 시스템 사운드)**
+   - meterStart: 1057 (Tock.caf) - 딸깍 소리
+   - meterStop: 1114 (3rdParty_DirectionUp.caf) - 완료 소리
+   - meterTick: 1103 (Timer.caf) - 틱 소리
+   - horseNeigh: 1104 (Tink.caf) - 가벼운 소리
+   - horseExcited: 1309 (begin_record.caf) - 녹음 시작음
+   - regionChange: 1315 (connect_power.caf) - 연결음
+   - nightMode: 1256 (middle_9_Haptic.caf) - 햅틱 사운드
 
 3. **설정 시스템**
-   - SettingsRepository.isSoundEnabled (이미 구현됨)
+   - SettingsRepository.isSoundEnabled
    - UserDefaults 기반 영속성
    - 기본값: true (효과음 켜짐)
 
-4. **오디오 세션 설정**
-   - AVAudioSession.Category.ambient
-   - 다른 오디오 앱과 동시 재생 가능
-   - 시스템 볼륨 따름
-
-5. **Sounds 리소스 폴더**
-   - HoguMeter/Resources/Sounds/ 생성
-   - README.md로 필요한 파일 스펙 문서화
-   - 7개 MP3 파일 필요 (각 1-2초)
-
-### 남은 작업
-
-⚠️ **실제 효과음 파일 추가 필요**
-- 현재 시스템 구현은 완료됨
-- Sounds/README.md에 명시된 7개 MP3 파일 필요
-- 무료 사운드 라이브러리나 자체 제작 필요
-- 파일 추가 후 Xcode 프로젝트에 등록
+4. **구현 방식 개선**
+   - 기존: AVFoundation + MP3 파일 필요
+   - 변경: AudioToolbox + 시스템 사운드
+   - 장점:
+     - 파일 관리 불필요
+     - 메모리 효율적
+     - 즉시 사용 가능
+     - 앱 번들 크기 감소
 
 ### 기술 스택
-- AVFoundation framework
-- AVAudioPlayer (캐싱)
-- AVAudioSession (.ambient)
+- AudioToolbox framework
+- AudioServicesPlaySystemSound()
+- SystemSoundID
 - UserDefaults (설정 저장)
 
 ---
 
 **Created**: 2025-01-15
-**Completed**: 2025-12-09 (시스템 구현 완료, 오디오 파일은 추후 추가)
+**Completed**: 2025-12-10 (iOS 시스템 사운드로 완전 구현)
+**Last Updated**: 2025-12-10

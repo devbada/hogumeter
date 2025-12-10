@@ -1,7 +1,7 @@
 # Epic 1: 미터기 핵심 기능 (Meter Core)
 
 > **Priority**: P0 (Must Have)
-> **Status**: 🔵 Ready
+> **Status**: 🟢 Done
 > **Target**: Week 1-2
 > **PRD Reference**: Epic 1 (FR-1.1 ~ FR-1.4)
 
@@ -22,7 +22,7 @@ HoguMeter의 핵심 기능인 택시 미터기 기능을 구현합니다. GPS를
 
 | Task | Title | Status | Priority | PRD |
 |------|-------|--------|----------|-----|
-| 1.0 | 백그라운드 GPS 권한 설정 | 🔵 Ready | P0 | FR-1.3 |
+| 1.0 | 백그라운드 GPS 권한 설정 | 🟢 Done | P0 | FR-1.3 |
 | 1.1 | 미터기 컨트롤 (시작/정지/리셋) | 🟢 Done | P0 | FR-1.1 |
 | 1.2 | 요금 계산 시스템 | 🟢 Done | P0 | FR-1.2 |
 | 1.3 | GPS 거리 측정 | 🟢 Done | P0 | FR-1.3 |
@@ -155,15 +155,24 @@ Week 2:
 
 ## 📊 진행 상황
 
-**전체 진행률**: 80% (4/5 Tasks 완료)
+**전체 진행률**: 100% (5/5 Tasks 완료)
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| 🟢 Done | 4 | 80% |
+| 🟢 Done | 5 | 100% |
 | 🟡 In Progress | 0 | 0% |
-| 🔵 Ready | 1 | 20% |
+| 🔵 Ready | 0 | 0% |
+
+## 📝 주요 구현 결과
+
+1. **Task 1.0**: Info.plist 위치 권한 설정 완료
+2. **Task 1.1**: MeterViewModel, ControlButtonsView 구현
+3. **Task 1.2**: FareCalculator, FareBreakdown 구현
+4. **Task 1.3**: LocationService, GPS 거리 측정 구현
+5. **Task 1.4**: FareDisplayView, TripInfoView 구현
 
 ---
 
 **Created**: 2025-01-15
-**Last Updated**: 2025-01-15
+**Completed**: 2025-12-10
+**Last Updated**: 2025-12-10
