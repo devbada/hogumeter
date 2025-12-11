@@ -22,7 +22,6 @@
 		216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF411F9647966C3705693A1 /* RegionFareRepository.swift */; };
 		2A96109F69FA8FC26692FE5A /* FareCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */; };
 		2CBC303524E539077FA5A84E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51672B1F5C485688668A33B9 /* SettingsView.swift */; };
-		2E2930C739F171FAA1E382C1 /* RegionFareSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895243FBB3FAFDFB307CA6DC /* RegionFareSettingsView.swift */; };
 		3246DC6DA52DD4ECD93C6986 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */; };
 		50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */; };
 		5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */; };
@@ -145,13 +144,25 @@
 	A764A5FB348A4CF08B97CE65 /* RegionFare */ = {
 		isa = PBXGroup;
 		children = (
+			1C646C24B5FB4F85AC084635 /* Components */,
 			107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */,
 			F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */,
 			3E4B71F5BFB242D5B2184BFF /* RegionFareAddView.swift */,
 		);
 		path = RegionFare;
 		sourceTree = "<group>";
-	}};
+	};
+	1C646C24B5FB4F85AC084635 /* Components */ = {
+		isa = PBXGroup;
+		children = (
+			ADB716A0A1F84630A677B9E8 /* FareInputField.swift */,
+			73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */,
+			4C81A295E43547E1BF7D23A3 /* RegionFareRowView.swift */,
+		);
+		path = Components;
+		sourceTree = "<group>";
+	};
+
 
 		472E66C7809099294A67AF59 /* Sounds */ = {
 			isa = PBXGroup;
@@ -178,9 +189,7 @@
 				7809A80CAB1ED395B10CE483 /* TripInfoView.swift */,
 				ABCD1234HORSE567890ABCDEF /* Horse */,
 			
-				ADB716A0A1F84630A677B9E8 /* FareInputField.swift */,
-				73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */,
-				4C81A295E43547E1BF7D23A3 /* RegionFareRowView.swift */,);
+				);
 			path = Components;
 			sourceTree = "<group>";
 		};
@@ -286,6 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				BCD4857D5A02A463A519206D /* MainMeterView.swift */,
+				4D7A588F46822B6EE0C4C4CE /* Components */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -490,7 +500,6 @@
 				617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */,
 				50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */,
 				216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */,
-				2E2930C739F171FAA1E382C1 /* RegionFareSettingsView.swift in Sources */,
 				C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */,
 				2CBC303524E539077FA5A84E /* SettingsView.swift in Sources */,
 				5C461A7BDE09D084EE55B0DF /* ShareSheet.swift in Sources */,
