@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Trip: Identifiable, Codable {
+struct Trip: Identifiable, Codable, Equatable {
     let id: UUID
     let startTime: Date
     let endTime: Date

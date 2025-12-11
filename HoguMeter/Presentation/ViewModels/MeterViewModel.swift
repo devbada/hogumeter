@@ -23,6 +23,7 @@ final class MeterViewModel {
     private(set) var currentRegion: String = ""
     private(set) var isNightTime: Bool = false
     private(set) var fareBreakdown: FareBreakdown?
+    private(set) var completedTrip: Trip?           // 완료된 주행 정보
 
     // MARK: - Horse Animation State
     private(set) var horseSpeed: HorseSpeed = .walk
@@ -72,6 +73,9 @@ final class MeterViewModel {
         stopTimer()
         calculateFinalFare()
         soundManager.play(.meterStop)
+
+        // Trip 생성 및 저장
+        saveTrip()
     }
 
     func resetMeter() {
@@ -83,6 +87,11 @@ final class MeterViewModel {
         currentRegion = ""
         fareBreakdown = nil
         horseSpeed = .walk
+        completedTrip = nil
+    }
+
+    func clearCompletedTrip() {
+        completedTrip = nil
     }
 
     // MARK: - Private Methods
@@ -172,5 +181,27 @@ final class MeterViewModel {
             regionChanges: regionDetector.regionChangeCount,
             isNightTime: isNightTime
         )
+    }
+
+    private func saveTrip() {
+        guard let startTime = tripStartTime,
+              let breakdown = fareBreakdown else { return }
+
+        let trip = Trip(
+            id: UUID(),
+            startTime: startTime,
+            endTime: Date(),
+            totalFare: breakdown.totalFare,
+            distance: distance,
+            duration: duration,
+            startRegion: regionDetector.startRegion ?? "알 수 없음",
+            endRegion: currentRegion.isEmpty ? "알 수 없음" : currentRegion,
+            regionChanges: regionDetector.regionChangeCount,
+            isNightTrip: isNightTime,
+            fareBreakdown: breakdown
+        )
+
+        tripRepository.save(trip)
+        completedTrip = trip  // 영수증 표시용
     }
 }

@@ -78,6 +78,12 @@ struct SettingsView: View {
                 }
 
                 Section("정보") {
+                    NavigationLink {
+                        AppInfoView()
+                    } label: {
+                        Label("앱 정보", systemImage: "info.circle")
+                    }
+
                     HStack {
                         Text("버전")
                         Spacer()
@@ -93,21 +99,6 @@ struct SettingsView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-                }
-
-                Section("앱 정보") {
-                    VStack(alignment: .center, spacing: 8) {
-                        Text("🏇")
-                            .font(.system(size: 60))
-                        Text("호구미터")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                        Text("내 차 탔으면 내놔")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 20)
                 }
             }
             .navigationTitle("설정")

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FareBreakdown: Codable {
+struct FareBreakdown: Codable, Equatable {
     let baseFare: Int
     let distanceFare: Int
     let timeFare: Int
