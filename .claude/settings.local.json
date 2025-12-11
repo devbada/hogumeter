@@ -7,7 +7,11 @@
       "Bash(xcodebuild:*)",
       "Bash(xcrun simctl:*)",
       "Bash(grep:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(rm:*)",
+      "Bash(python3:*)",
+      "Bash(plutil:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

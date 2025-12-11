@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
+		3A5F7A7DC3994498BFF8C586 /* HorseSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F257388E6B23451CA58E4005 /* HorseSpeed.swift */; };
+		4BCD857079344F7A9122AA57 /* AnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */; };
+		E3312FD1B24A4309978FBB0F /* ParticleSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813333B822BA437DB21D8BBD /* ParticleSystem.swift */; };
+		4050BD823E8E4CF499EB32BA /* SpeedLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4891CE60DD42328C732683 /* SpeedLinesView.swift */; };
+		25BD52C65BB8493BBAF7216B /* HorseCharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EBB6ECF04B4BE7A920DB67 /* HorseCharacterView.swift */; };
+		88F236D2B3954CB399E8DFFE /* HorseEffectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3CC32C34F34AA99A8B2061 /* HorseEffectsView.swift */; };
 		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
 		07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */; };
 		09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A91BE8BC3716FB99B58A61C /* Assets.xcassets */; };
@@ -26,7 +32,6 @@
 		617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */; };
 		64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98978790385627A731AB8C4A /* LocationServiceProtocol.swift */; };
 		6CCDFEA2F0197F4AFEA9C4C4 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE10E81350094D7AFCFDBA7D /* SoundManager.swift */; };
-		716F86422EE91905002A9E60 /* SpeedLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716F86412EE91905002A9E60 /* SpeedLinesView.swift */; };
 		723F264FAFB1728602B7CF37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA662AE9396E99BC52CF0B2 /* ContentView.swift */; };
 		76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D2FE06B925922F511B24A /* MeterViewModel.swift */; };
 		7D8A9B94D6CE8A2AFD1DC60C /* DefaultFares.json in Resources */ = {isa = PBXBuildFile; fileRef = B8EC38389F60836626B89AF5 /* DefaultFares.json */; };
@@ -45,6 +50,14 @@
 		E77AC84402B576C792D4D24C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2CFB92DAEA79D831F37AC8 /* Trip.swift */; };
 		F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254E8830A8239D9335AEC8AA /* TripRepository.swift */; };
 		F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0593C144C4AF38D18F326822 /* ControlButtonsView.swift */; };
+		94C37E103BDF4E589E95F538 /* FareValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C213CAB5415840C487A7EC9C /* FareValidation.swift */; };
+		0FD6CBE88E6843FFB0A2F09D /* RegionFareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413DBFD55E4145B8A85EA505 /* RegionFareViewModel.swift */; };
+		C6DFA678059E468D912CF781 /* FareInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB716A0A1F84630A677B9E8 /* FareInputField.swift */; };
+		51EAE60FB133460EA8997108 /* TimePickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */; };
+		26D53FAAAD8E4CF0BDD1FFA9 /* RegionFareRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81A295E43547E1BF7D23A3 /* RegionFareRowView.swift */; };
+		C4EBE25BEA214013BDA1AC8D /* RegionFareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */; };
+		39E7411EB97940CFBF058548 /* RegionFareEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */; };
+		97164F4FCB224FC481743D46 /* RegionFareAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4B71F5BFB242D5B2184BFF /* RegionFareAddView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,7 +77,12 @@
 		5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareCalculator.swift; sourceTree = "<group>"; };
 		649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareBreakdown.swift; sourceTree = "<group>"; };
 		6A91BE8BC3716FB99B58A61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		716F86412EE91905002A9E60 /* SpeedLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedLinesView.swift; sourceTree = "<group>"; };
+		F257388E6B23451CA58E4005 /* HorseSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseSpeed.swift; sourceTree = "<group>"; };
+		4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationConstants.swift; sourceTree = "<group>"; };
+		813333B822BA437DB21D8BBD /* ParticleSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleSystem.swift; sourceTree = "<group>"; };
+		1F4891CE60DD42328C732683 /* SpeedLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedLinesView.swift; sourceTree = "<group>"; };
+		58EBB6ECF04B4BE7A920DB67 /* HorseCharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseCharacterView.swift; sourceTree = "<group>"; };
+		7D3CC32C34F34AA99A8B2061 /* HorseEffectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseEffectsView.swift; sourceTree = "<group>"; };
 		7809A80CAB1ED395B10CE483 /* TripInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfoView.swift; sourceTree = "<group>"; };
 		7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8100867116DB0E09560748A3 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
@@ -88,6 +106,15 @@
 		F7C8C7C5559A72454F0ADB32 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		FBCE942707AFEC7295EEB5A7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		EE7619D8DDA1429BB0AA76BB /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
+		C213CAB5415840C487A7EC9C /* FareValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareValidation.swift; sourceTree = "<group>"; };
+		413DBFD55E4145B8A85EA505 /* RegionFareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareViewModel.swift; sourceTree = "<group>"; };
+		ADB716A0A1F84630A677B9E8 /* FareInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareInputField.swift; sourceTree = "<group>"; };
+		73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerField.swift; sourceTree = "<group>"; };
+		4C81A295E43547E1BF7D23A3 /* RegionFareRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareRowView.swift; sourceTree = "<group>"; };
+		107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareListView.swift; sourceTree = "<group>"; };
+		F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareEditView.swift; sourceTree = "<group>"; };
+		3E4B71F5BFB242D5B2184BFF /* RegionFareAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareAddView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -108,12 +135,24 @@
 		3500C9519EFBE8E7CF847E29 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				A764A5FB348A4CF08B97CE65 /* RegionFare */,
 				895243FBB3FAFDFB307CA6DC /* RegionFareSettingsView.swift */,
 				51672B1F5C485688668A33B9 /* SettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
 		};
+	A764A5FB348A4CF08B97CE65 /* RegionFare */ = {
+		isa = PBXGroup;
+		children = (
+			107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */,
+			F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */,
+			3E4B71F5BFB242D5B2184BFF /* RegionFareAddView.swift */,
+		);
+		path = RegionFare;
+		sourceTree = "<group>";
+	}};
+
 		472E66C7809099294A67AF59 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,29 +172,54 @@
 		4D7A588F46822B6EE0C4C4CE /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				716F86412EE91905002A9E60 /* SpeedLinesView.swift */,
 				0593C144C4AF38D18F326822 /* ControlButtonsView.swift */,
 				E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */,
 				D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */,
 				7809A80CAB1ED395B10CE483 /* TripInfoView.swift */,
-			);
+				ABCD1234HORSE567890ABCDEF /* Horse */,
+			
+				ADB716A0A1F84630A677B9E8 /* FareInputField.swift */,
+				73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */,
+				4C81A295E43547E1BF7D23A3 /* RegionFareRowView.swift */,);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		513BA7EC6CCA7959C4002F6D /* Domain */ = {
+		ABCD1234HORSE567890ABCDEF /* Horse */ = {
+		isa = PBXGroup;
+		children = (
+			58EBB6ECF04B4BE7A920DB67 /* HorseCharacterView.swift */,
+			7D3CC32C34F34AA99A8B2061 /* HorseEffectsView.swift */,
+			813333B822BA437DB21D8BBD /* ParticleSystem.swift */,
+			1F4891CE60DD42328C732683 /* SpeedLinesView.swift */,
+		);
+		path = Horse;
+		sourceTree = "<group>";
+	};
+	513BA7EC6CCA7959C4002F6D /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				3F45D1B954D74F139A323FF0 /* UseCases */,
 				9C4B629BDD618D73E4A44EBE /* Entities */,
 				C3862C5704EB7489B0E90722 /* Services */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
 		};
+	3F45D1B954D74F139A323FF0 /* UseCases */ = {
+		isa = PBXGroup;
+		children = (
+			C213CAB5415840C487A7EC9C /* FareValidation.swift */,
+		);
+		path = UseCases;
+		sourceTree = "<group>";
+	};
+
 		5ACC0127E6A551F449192FBE /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				4F6D2FE06B925922F511B24A /* MeterViewModel.swift */,
-			);
+			
+				413DBFD55E4145B8A85EA505 /* RegionFareViewModel.swift */,);
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
@@ -213,6 +277,7 @@
 				BD31455AFE19E38549BE98AC /* Constants.swift */,
 				0F9CFE822AFFAAB528579537 /* HapticManager.swift */,
 				7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */,
+				4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -221,7 +286,6 @@
 			isa = PBXGroup;
 			children = (
 				BCD4857D5A02A463A519206D /* MainMeterView.swift */,
-				4D7A588F46822B6EE0C4C4CE /* Components */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -231,7 +295,8 @@
 			children = (
 				6A91BE8BC3716FB99B58A61C /* Assets.xcassets */,
 				472E66C7809099294A67AF59 /* Sounds */,
-			);
+			
+				EE7619D8DDA1429BB0AA76BB /* DefaultFares.json */,);
 			path = Resources;
 			sourceTree = "<group>";
 		};
@@ -252,6 +317,7 @@
 				B9E37EDFDB8A450969B082FA /* MeterState.swift */,
 				D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */,
 				CE2CFB92DAEA79D831F37AC8 /* Trip.swift */,
+				F257388E6B23451CA58E4005 /* HorseSpeed.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -406,7 +472,12 @@
 				20A7E95CA73016A397471852 /* FareDisplayView.swift in Sources */,
 				AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */,
 				D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */,
-				716F86422EE91905002A9E60 /* SpeedLinesView.swift in Sources */,
+				3A5F7A7DC3994498BFF8C586 /* HorseSpeed.swift in Sources */,
+				4BCD857079344F7A9122AA57 /* AnimationConstants.swift in Sources */,
+				E3312FD1B24A4309978FBB0F /* ParticleSystem.swift in Sources */,
+				4050BD823E8E4CF499EB32BA /* SpeedLinesView.swift in Sources */,
+				25BD52C65BB8493BBAF7216B /* HorseCharacterView.swift in Sources */,
+				88F236D2B3954CB399E8DFFE /* HorseEffectsView.swift in Sources */,
 				916013FA7FE9C1775BE66E0A /* HorseAnimationView.swift in Sources */,
 				AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */,
 				64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */,
@@ -430,7 +501,15 @@
 				F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */,
 				9AECD22DC3BA877835DB39AE /* View+Extensions.swift in Sources */,
 				5837A55E21D62D154460B70C /* View+Snapshot.swift in Sources */,
-			);
+			
+				94C37E103BDF4E589E95F538 /* FareValidation.swift in Sources */,
+				0FD6CBE88E6843FFB0A2F09D /* RegionFareViewModel.swift in Sources */,
+				C6DFA678059E468D912CF781 /* FareInputField.swift in Sources */,
+				51EAE60FB133460EA8997108 /* TimePickerField.swift in Sources */,
+				26D53FAAAD8E4CF0BDD1FFA9 /* RegionFareRowView.swift in Sources */,
+				C4EBE25BEA214013BDA1AC8D /* RegionFareListView.swift in Sources */,
+				39E7411EB97940CFBF058548 /* RegionFareEditView.swift in Sources */,
+				97164F4FCB224FC481743D46 /* RegionFareAddView.swift in Sources */,);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
