@@ -13,6 +13,7 @@ final class RegionDetector {
 
     // MARK: - Properties
     private(set) var currentRegion: String?
+    private(set) var startRegion: String?
     private(set) var regionChangeCount: Int = 0
 
     private let geocoder = CLGeocoder()
@@ -66,6 +67,11 @@ final class RegionDetector {
             let region = components.joined(separator: " ")
 
             if !region.isEmpty && region != self?.currentRegion {
+                // 시작 지역 저장 (첫 번째 지역)
+                if self?.startRegion == nil {
+                    self?.startRegion = region
+                }
+
                 if self?.currentRegion != nil {
                     self?.regionChangeCount += 1
                 }
@@ -79,6 +85,7 @@ final class RegionDetector {
 
     func reset() {
         currentRegion = nil
+        startRegion = nil
         regionChangeCount = 0
         lastGeocodingTime = nil
     }

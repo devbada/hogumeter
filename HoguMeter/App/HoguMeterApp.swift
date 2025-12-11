@@ -12,11 +12,25 @@ struct HoguMeterApp: App {
 
     // MARK: - Dependencies
     @StateObject private var appState = AppState()
+    @StateObject private var disclaimerViewModel = DisclaimerViewModel()
+    @State private var showDisclaimer = false
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(appState)
+            ZStack {
+                // 메인 앱
+                ContentView()
+                    .environmentObject(appState)
+
+                // 면책 다이얼로그 (매 실행 시)
+                if showDisclaimer {
+                    DisclaimerDialogView(isPresented: $showDisclaimer)
+                        .transition(.opacity)
+                }
+            }
+            .onAppear {
+                showDisclaimer = true  // 앱 실행할 때마다 표시
+            }
         }
     }
 }

@@ -12,7 +12,15 @@
       "Bash(rm:*)",
       "Bash(python3:*)",
       "Bash(plutil:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(find:*)",
+      "Bash(chmod:*)",
+      "Bash(pip3 install:*)",
+      "Bash(/usr/bin/python3:*)",
+      "Bash(/opt/homebrew/bin/python3:*)",
+      "Bash(/opt/homebrew/bin/pip3 install:*)",
+      "Bash(sips -s format png app_icon_source.jpg --out app_icon_source.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight app_icon_source.png)"
     ]
   },
   "enableAllProjectMcpServers": true,

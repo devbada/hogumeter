@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainMeterView: View {
     @State var viewModel: MeterViewModel
+    @State private var showReceipt = false  // 영수증 표시 상태
 
     var body: some View {
         NavigationView {
@@ -42,6 +43,18 @@ struct MainMeterView: View {
                 .padding(.bottom, 20)
             }
             .navigationTitle("🐴 호구미터")
+            // 영수증 Sheet 추가
+            .sheet(isPresented: $showReceipt) {
+                if let trip = viewModel.completedTrip {
+                    ReceiptView(trip: trip)
+                        .onDisappear {
+                            viewModel.clearCompletedTrip()
+                        }
+                }
+            }
+            .onChange(of: viewModel.completedTrip) { _, newTrip in
+                showReceipt = (newTrip != nil)
+            }
         }
     }
 }
