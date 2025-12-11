@@ -41,7 +41,7 @@ final class SettingsRepository {
     // MARK: - Current Region Fare
     var currentRegionFare: RegionFare {
         let code = userDefaults.string(forKey: Keys.currentRegionCode) ?? "seoul"
-        return regionFareRepository.getFare(byCode: code) ?? regionFareRepository.defaultFares.first!
+        return regionFareRepository.getFare(byCode: code) ?? regionFareRepository.allFares.first!
     }
 
     func setCurrentRegion(code: String) {
