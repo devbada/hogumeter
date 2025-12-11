@@ -1,10 +1,13 @@
 {
   "version": "2025.01",
   "lastUpdated": "2025-01-01",
+  "defaultRegions": ["seoul", "gyeonggi", "incheon", "busan"],
   "regions": [
     {
       "code": "seoul",
       "name": "서울",
+      "isDefault": true,
+      "isUserCreated": false,
       "baseFare": 4800,
       "baseDistance": 1600,
       "distanceFare": 100,
@@ -18,6 +21,8 @@
     {
       "code": "gyeonggi",
       "name": "경기",
+      "isDefault": true,
+      "isUserCreated": false,
       "baseFare": 4800,
       "baseDistance": 1600,
       "distanceFare": 100,
@@ -31,6 +36,23 @@
     {
       "code": "incheon",
       "name": "인천",
+      "isDefault": true,
+      "isUserCreated": false,
+      "baseFare": 4800,
+      "baseDistance": 1600,
+      "distanceFare": 100,
+      "distanceUnit": 131,
+      "timeFare": 100,
+      "timeUnit": 30,
+      "nightSurchargeRate": 1.2,
+      "nightStartTime": "22:00",
+      "nightEndTime": "04:00"
+    },
+    {
+      "code": "busan",
+      "name": "부산",
+      "isDefault": true,
+      "isUserCreated": false,
       "baseFare": 4800,
       "baseDistance": 1600,
       "distanceFare": 100,

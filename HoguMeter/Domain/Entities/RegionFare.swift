@@ -7,10 +7,12 @@
 
 import Foundation
 
-struct RegionFare: Identifiable, Codable {
+struct RegionFare: Identifiable, Codable, Equatable {
     let id: UUID
     var code: String
     var name: String
+    var isDefault: Bool         // 기본 제공 지역 여부
+    var isUserCreated: Bool     // 사용자 생성 여부
     var baseFare: Int           // 기본요금 (원)
     var baseDistance: Int       // 기본거리 (m)
     var distanceFare: Int       // 거리요금 (원)
@@ -20,11 +22,20 @@ struct RegionFare: Identifiable, Codable {
     var nightSurchargeRate: Double  // 야간할증 배율
     var nightStartTime: String  // 야간 시작 (HH:mm)
     var nightEndTime: String    // 야간 종료 (HH:mm)
+    var createdAt: Date         // 생성일
+    var updatedAt: Date         // 수정일
+
+    // 삭제 가능 여부
+    var canDelete: Bool {
+        !isDefault
+    }
 
     init(
         id: UUID = UUID(),
         code: String,
         name: String,
+        isDefault: Bool = false,
+        isUserCreated: Bool = false,
         baseFare: Int,
         baseDistance: Int,
         distanceFare: Int,
@@ -33,11 +44,15 @@ struct RegionFare: Identifiable, Codable {
         timeUnit: Int,
         nightSurchargeRate: Double,
         nightStartTime: String,
-        nightEndTime: String
+        nightEndTime: String,
+        createdAt: Date = Date(),
+        updatedAt: Date = Date()
     ) {
         self.id = id
         self.code = code
         self.name = name
+        self.isDefault = isDefault
+        self.isUserCreated = isUserCreated
         self.baseFare = baseFare
         self.baseDistance = baseDistance
         self.distanceFare = distanceFare
@@ -47,5 +62,7 @@ struct RegionFare: Identifiable, Codable {
         self.nightSurchargeRate = nightSurchargeRate
         self.nightStartTime = nightStartTime
         self.nightEndTime = nightEndTime
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
     }
 }

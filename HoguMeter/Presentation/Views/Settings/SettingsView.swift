@@ -15,13 +15,14 @@ struct SettingsView: View {
     @State private var colorSchemePreference: SettingsRepository.ColorSchemePreference = .system
 
     private let repository = SettingsRepository()
+    @State private var regionFareViewModel = RegionFareViewModel(repository: RegionFareRepository())
 
     var body: some View {
         NavigationView {
             Form {
                 Section("요금 설정") {
                     NavigationLink {
-                        RegionFareSettingsView()
+                        RegionFareListView(viewModel: regionFareViewModel)
                     } label: {
                         Label("지역별 요금", systemImage: "map")
                     }
