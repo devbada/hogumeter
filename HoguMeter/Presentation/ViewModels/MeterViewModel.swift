@@ -115,9 +115,9 @@ final class MeterViewModel {
         // Update horse animation
         updateHorseAnimation()
 
-        // Calculate fare
+        // Calculate fare (병산제: 고속거리 + 저속시간)
         currentFare = fareCalculator.calculate(
-            distance: locationService.totalDistance,
+            highSpeedDistance: locationService.highSpeedDistance,
             lowSpeedDuration: locationService.lowSpeedDuration,
             regionChanges: regionDetector.regionChangeCount,
             isNightTime: isNightTime
@@ -176,7 +176,7 @@ final class MeterViewModel {
 
     private func calculateFinalFare() {
         fareBreakdown = fareCalculator.breakdown(
-            distance: locationService.totalDistance,
+            highSpeedDistance: locationService.highSpeedDistance,
             lowSpeedDuration: locationService.lowSpeedDuration,
             regionChanges: regionDetector.regionChangeCount,
             isNightTime: isNightTime

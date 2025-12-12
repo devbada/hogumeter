@@ -7,7 +7,16 @@
 
 import Foundation
 
-final class SettingsRepository {
+// MARK: - Protocol for testability
+
+protocol SettingsRepositoryProtocol {
+    var currentRegionFare: RegionFare { get }
+    var isRegionSurchargeEnabled: Bool { get set }
+}
+
+// MARK: - Implementation
+
+final class SettingsRepository: SettingsRepositoryProtocol {
 
     // MARK: - UserDefaults Keys
     private enum Keys {
