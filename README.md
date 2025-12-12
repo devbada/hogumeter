@@ -4,6 +4,13 @@
 >
 > 친구들과 함께하는 드라이브를 더 재미있게 만들어주는 장난스러운 택시미터기 앱
 
+<p align="center">
+  <img src="resource_images/app_screenshot.png" alt="미터기" width="200">
+  <img src="resource_images/screenshot_settings.png" alt="설정" width="200">
+  <img src="resource_images/screenshot_history.png" alt="기록" width="200">
+  <img src="resource_images/screenshot_disclaimer.png" alt="면책 동의" width="200">
+</p>
+
 ---
 
 ## 📱 앱 소개
