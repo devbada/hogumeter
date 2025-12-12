@@ -91,7 +91,7 @@ struct SettingsView: View {
                             .foregroundColor(.secondary)
                     }
 
-                    Link(destination: URL(string: "https://example.com/privacy")!) {
+                    Link(destination: URL(string: "https://devbada.github.io/hogumeter/privacy.html")!) {
                         HStack {
                             Text("개인정보처리방침")
                             Spacer()
