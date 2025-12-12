@@ -38,8 +38,8 @@ struct LoadingAnimationView: View {
                 ZStack {
                     // 말 캐릭터
                     Text(horseEmoji)
-                        .font(.system(size: 100))
-                        .offset(x: horsePosition, y: -20)
+                        .font(.system(size: 200))
+                        .offset(x: horsePosition, y: -40)
 
                     // 미터기
                     VStack(spacing: 4) {
@@ -53,7 +53,7 @@ struct LoadingAnimationView: View {
                             .padding(.vertical, 6)
                             .background(
                                 Capsule()
-                                    .fill(Color.black.opacity(0.3))
+                                    .fill(Color.black.opacity(0.4))
                             )
                     }
                     .offset(x: horsePosition + 50, y: 20)
@@ -86,7 +86,7 @@ struct LoadingAnimationView: View {
                                         .animation(
                                             .easeInOut(duration: 0.5)
                                                 .repeatForever()
-                                                .delay(Double(index) * 0.15),
+                                                .delay(Double(index) * 0.20),
                                             value: animatingDot
                                         )
                                 }

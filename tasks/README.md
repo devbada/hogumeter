@@ -26,12 +26,12 @@ tasks/
 | P0 | Epic 1: 미터기 핵심 | 🟢 Done | 5/5 Tasks | Week 1-2 |
 | P0 | Epic 2: 말 애니메이션 | 🟢 Done (간소화) | 1/3 Tasks | Week 3 |
 | P1 | Epic 3: 요금 설정 | 🟢 Done | 3/3 Tasks | Week 2 |
-| P1 | Epic 4: 영수증/공유 | 🟢 Done | 2/2 Tasks | Week 4 |
+| P1 | Epic 4: 영수증/공유 | 🟢 Done | 3/3 Tasks | Week 4 |
 | P1 | Epic 5: 효과음 | 🟢 Done | 1/1 Tasks | Week 5 |
 | P2 | Epic 6: 주행 기록 | 🟢 Done | 2/2 Tasks | Week 4 |
 | P2 | Epic 7: 설정/기타 | 🟢 Done | 2/2 Tasks | Week 5 |
 
-**전체 완료율**: 100% (모든 핵심 기능 완료)
+**전체 완료율**: 100% (16/16 Tasks)
 
 ## 📝 Task 작성 가이드
 
@@ -152,27 +152,27 @@ epic-{번호}/task-{번호}-{task명}
 
 ---
 
-## 📊 최신 업데이트 (2025-12-10)
+## 📊 최신 업데이트 (2025-12-12)
 
 ### ✅ 완료된 작업
 - **Epic 1**: 모든 Task 완료 (Info.plist 위치 권한 설정 포함)
 - **Epic 2**: 복잡한 애니메이션 삭제, 이모지 기반 간소화
 - **Epic 3**: 모든 Task 완료, 상태 업데이트
-- **Epic 4-7**: 모든 기능 구현 완료
+- **Epic 4**: 모든 Task 완료 (영수증 생성, 공유, 성능 개선)
+- **Epic 5-7**: 모든 기능 구현 완료
 - **RegionDetector**: 상세 주소 표시로 개선 ("서울특별시 영등포구")
 - **SoundManager**: iOS 시스템 사운드로 변경 (파일 관리 불필요)
 
 ### 📝 주요 변경사항
+- 2025-12-12: Task 4.3 완료 (ImageRenderer로 성능 개선)
+- 2025-12-12: 요금 계산 버그 수정 (lowSpeedThreshold 동적 적용)
 - 2025-12-10: Epic 1 완료 (Info.plist 권한 설정)
 - 2025-12-10: SoundManager를 iOS 시스템 사운드로 변경
 - 2025-12-10: RegionDetector 상세 주소 표시 개선
 - 2025-12-09: Epic 2 애니메이션 간소화 (SprintEffectView, BackgroundScrollView 삭제)
 - 2025-12-09: Epic 2-7 모든 Task 구현 완료
 
-### 🎉 프로젝트 완료
-**모든 Epic 완료!** 7개 Epic, 15개 Task 모두 구현 완료되었습니다.
-
 ---
 
 **Created**: 2025-01-15
-**Last Updated**: 2025-12-10
+**Last Updated**: 2025-12-12

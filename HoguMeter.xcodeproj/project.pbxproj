@@ -28,7 +28,6 @@
 		5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */; };
 		A1B2C3D4E5F6789012345678 /* FareTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876543210FEDCBA98765432 /* FareTimeZone.swift */; };
 		5837A55E21D62D154460B70C /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8100867116DB0E09560748A3 /* View+Snapshot.swift */; };
-		5C461A7BDE09D084EE55B0DF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C8C7C5559A72454F0ADB32 /* ShareSheet.swift */; };
 		6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F919C8DBB322D01DE8748 /* Date+Extensions.swift */; };
 		617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */; };
 		64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98978790385627A731AB8C4A /* LocationServiceProtocol.swift */; };
@@ -111,7 +110,6 @@
 		D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFare.swift; sourceTree = "<group>"; };
 		E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareDisplayView.swift; sourceTree = "<group>"; };
 		F029931CE359423C7030D6A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		F7C8C7C5559A72454F0ADB32 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		FBCE942707AFEC7295EEB5A7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		EE7619D8DDA1429BB0AA76BB /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
@@ -322,7 +320,6 @@
 			isa = PBXGroup;
 			children = (
 				323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */,
-				F7C8C7C5559A72454F0ADB32 /* ShareSheet.swift */,
 			);
 			path = Receipt;
 			sourceTree = "<group>";
@@ -560,7 +557,6 @@
 				216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */,
 				C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */,
 				2CBC303524E539077FA5A84E /* SettingsView.swift in Sources */,
-				5C461A7BDE09D084EE55B0DF /* ShareSheet.swift in Sources */,
 				6CCDFEA2F0197F4AFEA9C4C4 /* SoundManager.swift in Sources */,
 				E77AC84402B576C792D4D24C /* Trip.swift in Sources */,
 				BE533C9F82EEE83AF0295CEC /* TripHistoryView.swift in Sources */,
