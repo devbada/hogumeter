@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E948C93E3EB17349B5472590 /* LoadingAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */; };
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
 		3A5F7A7DC3994498BFF8C586 /* HorseSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F257388E6B23451CA58E4005 /* HorseSpeed.swift */; };
 		4BCD857079344F7A9122AA57 /* AnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimationView.swift; sourceTree = "<group>"; };
 		012E8AD839291A60E4A925E9 /* TripHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripHistoryView.swift; sourceTree = "<group>"; };
 		031F919C8DBB322D01DE8748 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 	1C6E9DFC1E9547F7BA33E60C /* Onboarding */ = {
 		isa = PBXGroup;
 		children = (
+				8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */,
 			06FFF7C0C0104936A761FA16 /* DisclaimerDialogView.swift */,
 		);
 		path = Onboarding;
@@ -521,6 +524,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E948C93E3EB17349B5472590 /* LoadingAnimationView.swift in Sources */,
 				E291D1B8DFC62EE54846C406 /* CLLocation+Extensions.swift in Sources */,
 				0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */,
 				723F264FAFB1728602B7CF37 /* ContentView.swift in Sources */,
