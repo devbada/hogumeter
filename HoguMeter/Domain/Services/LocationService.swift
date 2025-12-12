@@ -12,6 +12,7 @@ import Combine
 protocol LocationServiceProtocol {
     var locationPublisher: AnyPublisher<CLLocation, Never> { get }
     var totalDistance: Double { get }
+    var highSpeedDistance: Double { get }    // 고속 구간 이동 거리 (병산제용)
     var lowSpeedDuration: TimeInterval { get }
 
     func startTracking()
@@ -27,8 +28,9 @@ final class LocationService: NSObject, LocationServiceProtocol {
     }
 
     // MARK: - Properties
-    private(set) var totalDistance: Double = 0              // meters
-    private(set) var lowSpeedDuration: TimeInterval = 0     // seconds
+    private(set) var totalDistance: Double = 0              // meters (UI 표시용 총 거리)
+    private(set) var highSpeedDistance: Double = 0          // meters (요금 계산용 고속구간 거리)
+    private(set) var lowSpeedDuration: TimeInterval = 0     // seconds (요금 계산용 저속구간 시간)
 
     private let locationManager = CLLocationManager()
     private var lastLocation: CLLocation?
@@ -59,6 +61,7 @@ final class LocationService: NSObject, LocationServiceProtocol {
     // MARK: - Public Methods
     func startTracking() {
         totalDistance = 0
+        highSpeedDistance = 0
         lowSpeedDuration = 0
         lastLocation = nil
         lastUpdateTime = nil
@@ -87,21 +90,28 @@ extension LocationService: CLLocationManagerDelegate {
             return
         }
 
-        // 거리 계산
+        // 병산제: 고속이면 거리만, 저속이면 시간만 계산
+        let isHighSpeed = location.speed >= lowSpeedThreshold
+
         if let lastLocation = lastLocation {
             let delta = location.distance(from: lastLocation)
 
             // 비정상적인 점프 필터링
             if delta < 100 {
-                totalDistance += delta
+                totalDistance += delta  // UI 표시용 총 거리
+
+                // 고속 구간에서만 거리 추가 (병산제)
+                if isHighSpeed {
+                    highSpeedDistance += delta
+                }
             }
         }
 
-        // 저속 시간 계산
+        // 저속/정차 시에만 시간 추가 (병산제)
         if let lastTime = lastUpdateTime {
             let timeDelta = location.timestamp.timeIntervalSince(lastTime)
 
-            if location.speed >= 0 && location.speed < lowSpeedThreshold {
+            if !isHighSpeed && location.speed >= 0 {
                 lowSpeedDuration += timeDelta
             }
         }

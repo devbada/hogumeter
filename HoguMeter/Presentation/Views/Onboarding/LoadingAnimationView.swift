@@ -35,13 +35,14 @@ struct LoadingAnimationView: View {
                 Spacer()
 
                 // 말 + 미터기 애니메이션
-                ZStack {
-                    // 말 캐릭터
+                VStack(spacing: 20) {
+                    // 말 캐릭터 (좌우 반전하여 오른쪽을 향하게)
                     Text(horseEmoji)
                         .font(.system(size: 200))
-                        .offset(x: horsePosition, y: -40)
+                        .scaleEffect(x: -1, y: 1)  // 좌우 반전
+                        .offset(x: horsePosition)
 
-                    // 미터기
+                    // 미터기 (말 아래에 별도로 배치)
                     VStack(spacing: 4) {
                         Text("🚖")
                             .font(.system(size: 40))
@@ -56,9 +57,8 @@ struct LoadingAnimationView: View {
                                     .fill(Color.black.opacity(0.4))
                             )
                     }
-                    .offset(x: horsePosition + 50, y: 20)
                 }
-                .frame(height: 200)
+                .frame(height: 320)
 
                 Spacer()
 
