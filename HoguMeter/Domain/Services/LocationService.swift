@@ -34,10 +34,15 @@ final class LocationService: NSObject, LocationServiceProtocol {
     private var lastLocation: CLLocation?
     private var lastUpdateTime: Date?
 
-    private let lowSpeedThreshold: Double = 15.0 / 3.6      // 15 km/h in m/s
+    // 저속 기준 속도 (m/s) - RegionFare의 lowSpeedThreshold(km/h)를 사용
+    private var lowSpeedThreshold: Double = 15.72 / 3.6     // 기본값: 서울 15.72 km/h
+
+    // MARK: - Dependencies
+    private let settingsRepository: SettingsRepository
 
     // MARK: - Init
-    override init() {
+    init(settingsRepository: SettingsRepository) {
+        self.settingsRepository = settingsRepository
         super.init()
         setupLocationManager()
     }
@@ -57,6 +62,10 @@ final class LocationService: NSObject, LocationServiceProtocol {
         lowSpeedDuration = 0
         lastLocation = nil
         lastUpdateTime = nil
+
+        // 현재 지역 요금의 저속 기준 속도 적용
+        let currentFare = settingsRepository.currentRegionFare
+        lowSpeedThreshold = currentFare.lowSpeedThreshold / 3.6  // km/h → m/s
 
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()

@@ -60,10 +60,11 @@ struct MainMeterView: View {
 }
 
 #Preview {
-    MainMeterView(
+    let settingsRepo = SettingsRepository()
+    return MainMeterView(
         viewModel: MeterViewModel(
-            locationService: LocationService(),
-            fareCalculator: FareCalculator(settingsRepository: SettingsRepository()),
+            locationService: LocationService(settingsRepository: settingsRepo),
+            fareCalculator: FareCalculator(settingsRepository: settingsRepo),
             regionDetector: RegionDetector(),
             soundManager: SoundManager(),
             tripRepository: TripRepository()

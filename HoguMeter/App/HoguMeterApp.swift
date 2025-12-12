@@ -69,7 +69,7 @@ class AppState: ObservableObject {
         self.tripRepository = TripRepository()
 
         // Initialize services
-        self.locationService = LocationService()
+        self.locationService = LocationService(settingsRepository: settingsRepository)
         self.regionDetector = RegionDetector()
         self.soundManager = SoundManager()
         self.fareCalculator = FareCalculator(settingsRepository: settingsRepository)
