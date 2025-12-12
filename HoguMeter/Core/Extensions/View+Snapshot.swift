@@ -9,20 +9,18 @@ import SwiftUI
 import UIKit
 
 extension View {
-    /// View를 UIImage로 캡처합니다.
+    /// View를 UIImage로 캡처합니다. (iOS 16+ ImageRenderer 사용)
     @MainActor
-    func snapshot() -> UIImage {
-        let controller = UIHostingController(rootView: self)
-        let view = controller.view
+    func snapshot(size: CGSize = CGSize(width: 375, height: 600)) -> UIImage {
+        // iOS 16+ ImageRenderer 사용 (훨씬 빠름)
+        let renderer = ImageRenderer(content: self.frame(width: size.width, height: size.height))
+        renderer.scale = 2.0  // @2x Retina
 
-        let targetSize = controller.view.intrinsicContentSize
-        view?.bounds = CGRect(origin: .zero, size: targetSize)
-        view?.backgroundColor = .clear
-
-        let renderer = UIGraphicsImageRenderer(size: targetSize)
-
-        return renderer.image { _ in
-            view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+        if let image = renderer.uiImage {
+            return image
         }
+
+        // Fallback: 빈 이미지 반환
+        return UIImage()
     }
 }

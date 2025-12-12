@@ -14,6 +14,7 @@ struct ReceiptView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showShareSheet = false
     @State private var receiptImage: UIImage?
+    @State private var isGeneratingImage = false
 
     var body: some View {
         NavigationView {
@@ -71,6 +72,10 @@ struct ReceiptView: View {
                 if let image = receiptImage {
                     ShareSheet(items: [image])
                 }
+            }
+            .onAppear {
+                // 영수증이 표시되면 미리 이미지 생성 (백그라운드에서)
+                prepareImage()
             }
         }
     }
@@ -245,29 +250,43 @@ struct ReceiptView: View {
         }
     }
 
+    // MARK: - Image Preparation
+    @MainActor
+    private func prepareImage() {
+        guard receiptImage == nil, !isGeneratingImage else { return }
+
+        isGeneratingImage = true
+        receiptImage = generateReceiptImage()
+        isGeneratingImage = false
+    }
+
+    @MainActor
+    private func generateReceiptImage() -> UIImage {
+        let receiptContent = VStack(spacing: 0) {
+            receiptHeader
+            Divider().padding(.vertical, 15)
+            timeSection
+            Divider().padding(.vertical, 15)
+            fareBreakdownSection
+            Divider().padding(.vertical, 15)
+            totalFareSection
+            Divider().padding(.vertical, 15)
+            sloganSection
+        }
+        .padding(25)
+        .frame(width: 350)
+        .background(Color.white)
+
+        return receiptContent.snapshot(size: CGSize(width: 350, height: 600))
+    }
+
     // MARK: - Share Action
     @MainActor
     private func shareReceipt() {
-        // 영수증 내용만 캡처 (NavigationView 제외)
-        let receiptContent = ScrollView {
-            VStack(spacing: 0) {
-                receiptHeader
-                Divider().padding(.vertical, 20)
-                timeSection
-                Divider().padding(.vertical, 20)
-                fareBreakdownSection
-                Divider().padding(.vertical, 20)
-                totalFareSection
-                Divider().padding(.vertical, 20)
-                sloganSection
-                Spacer(minLength: 40)
-            }
-            .padding(30)
+        // 이미지가 없으면 생성
+        if receiptImage == nil {
+            receiptImage = generateReceiptImage()
         }
-        .frame(width: 375, height: 800)
-        .background(Color.white)
-
-        receiptImage = receiptContent.snapshot()
         showShareSheet = true
     }
 }
