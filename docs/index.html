@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>호구미터 - 친구들과 함께하는 장난스러운 택시미터기 앱</title>
+    <meta name="description" content="내 차 탔으면 내놔! 친구들과 함께하는 드라이브를 더 재미있게 만들어주는 엔터테인먼트 택시미터기 앱">
+    <meta name="keywords" content="호구미터, HoguMeter, 택시미터기, iOS앱, 드라이브, 친구">
+    <meta property="og:title" content="호구미터 - 장난스러운 택시미터기 앱">
+    <meta property="og:description" content="내 차 탔으면 내놔! 친구들과 함께하는 드라이브를 더 재미있게">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            background-color: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #FF9500 0%, #FF6B00 50%, #FF3B30 100%);
+            color: white;
+            padding: 80px 20px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .app-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero .tagline {
+            font-size: 1.5em;
+            font-weight: 500;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .hero .description {
+            font-size: 1.1em;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .app-store-badge {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .app-store-badge img {
+            height: 50px;
+        }
+
+        .coming-soon {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 80px 20px;
+            background: #f5f5f7;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #1d1d1f;
+        }
+
+        .screenshot-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .screenshot-item {
+            text-align: center;
+        }
+
+        .screenshot-item img {
+            width: 220px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-item img:hover {
+            transform: translateY(-10px);
+        }
+
+        .screenshot-item p {
+            margin-top: 15px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1d1d1f;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Fare Info Section */
+        .fare-info {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .fare-info .section-title {
+            color: white;
+        }
+
+        .fare-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .fare-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 250px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .fare-card h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .fare-card .time {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .fare-card .price {
+            font-size: 2.5em;
+            font-weight: 900;
+        }
+
+        .fare-card .surcharge {
+            font-size: 0.9em;
+            margin-top: 10px;
+            padding: 5px 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Privacy Section */
+        .privacy {
+            padding: 60px 20px;
+            background: #f5f5f7;
+            text-align: center;
+        }
+
+        .privacy-highlight {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .privacy-highlight h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+        }
+
+        .privacy-badges {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .privacy-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: #e8f5e9;
+            border-radius: 30px;
+            color: #2e7d32;
+            font-weight: 500;
+        }
+
+        .privacy-badge .icon {
+            font-size: 1.5em;
+        }
+
+        .privacy-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #FF9500;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .privacy-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            background: #1d1d1f;
+            color: white;
+            text-align: center;
+        }
+
+        footer .links {
+            margin-bottom: 20px;
+        }
+
+        footer a {
+            color: #FF9500;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer .copyright {
+            opacity: 0.6;
+            font-size: 0.9em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero .tagline {
+                font-size: 1.2em;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+            }
+
+            .screenshot-item img {
+                width: 160px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fare-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="app-icon">🐴</div>
+            <h1>호구미터</h1>
+            <p class="tagline">"내 차 탔으면 내놔"</p>
+            <p class="description">
+                친구들과 함께하는 드라이브를 더 재미있게 만들어주는<br>
+                장난스러운 택시미터기 시뮬레이션 앱
+            </p>
+            <div class="coming-soon">
+                App Store 출시 예정
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots">
+        <h2 class="section-title">앱 미리보기</h2>
+        <div class="screenshot-gallery">
+            <div class="screenshot-item">
+                <img src="images/app_screenshot.png" alt="미터기 화면">
+                <p>실시간 미터기</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot_settings.png" alt="설정 화면">
+                <p>요금 설정</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot_history.png" alt="기록 화면">
+                <p>주행 기록</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot_disclaimer.png" alt="면책 동의 화면">
+                <p>면책 동의</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">주요 기능</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📍</div>
+                <h3>GPS 기반 실시간 요금 계산</h3>
+                <p>실제 택시처럼 이동 거리와 시간을 측정하여 요금을 계산합니다. 병산제를 적용해 정확한 요금을 보여드립니다.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🐴</div>
+                <h3>재미있는 말 애니메이션</h3>
+                <p>속도에 따라 변하는 귀여운 말 이모지 애니메이션! 빠르게 달릴수록 더 신나는 효과를 경험하세요.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌙</div>
+                <h3>시간대별 요금 자동 적용</h3>
+                <p>주간, 심야1, 심야2 시간대에 따라 자동으로 할증 요금이 적용됩니다.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3>지역별 요금 설정</h3>
+                <p>서울, 경기 등 지역별로 다른 요금 체계를 설정할 수 있습니다. 지역 이동 시 할증도 자동 적용!</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧾</div>
+                <h3>영수증 캡쳐</h3>
+                <p>주행 완료 후 상세 요금 내역이 담긴 영수증을 캡쳐하여 사진첩에 저장할 수 있습니다.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>주행 기록 관리</h3>
+                <p>모든 주행 기록이 자동으로 저장됩니다. 언제든지 과거 기록을 확인하고 관리할 수 있어요.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fare Info Section -->
+    <section class="fare-info">
+        <h2 class="section-title">요금 체계 (서울 기준)</h2>
+        <div class="fare-cards">
+            <div class="fare-card">
+                <h4>주간</h4>
+                <p class="time">04:00 ~ 22:00</p>
+                <p class="price">4,800원</p>
+                <span class="surcharge">기본요금</span>
+            </div>
+            <div class="fare-card">
+                <h4>심야 1</h4>
+                <p class="time">22:00~23:00, 02:00~04:00</p>
+                <p class="price">5,760원</p>
+                <span class="surcharge">+20% 할증</span>
+            </div>
+            <div class="fare-card">
+                <h4>심야 2</h4>
+                <p class="time">23:00 ~ 02:00</p>
+                <p class="price">6,720원</p>
+                <span class="surcharge">+40% 할증</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Section -->
+    <section class="privacy">
+        <div class="privacy-highlight">
+            <h3>🔒 개인정보 보호</h3>
+            <p>호구미터는 사용자의 개인정보를 소중히 여깁니다.</p>
+            <div class="privacy-badges">
+                <div class="privacy-badge">
+                    <span class="icon">✓</span>
+                    <span>서버 전송 없음</span>
+                </div>
+                <div class="privacy-badge">
+                    <span class="icon">✓</span>
+                    <span>기기 내 저장</span>
+                </div>
+                <div class="privacy-badge">
+                    <span class="icon">✓</span>
+                    <span>광고 없음</span>
+                </div>
+            </div>
+            <p>모든 데이터는 사용자의 기기에만 저장되며, 외부로 전송되지 않습니다.</p>
+            <a href="privacy.html" class="privacy-link">개인정보 처리방침 보기 →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="links">
+            <a href="privacy.html">개인정보처리방침</a>
+            <a href="privacy-en.html">Privacy Policy</a>
+            <a href="mailto:imdevbada@gmail.com">문의하기</a>
+        </div>
+        <p class="copyright">© 2025 HoguMeter. All rights reserved.</p>
+    </footer>
+</body>
+</html>
