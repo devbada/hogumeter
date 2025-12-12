@@ -11,6 +11,7 @@ struct TripHistoryView: View {
     @State private var trips: [Trip] = []
     @State private var showDeleteAlert = false
     @State private var tripToDelete: Trip?
+    @State private var showDeleteAllAlert = false
 
     private let repository = TripRepository()
 
@@ -41,10 +42,26 @@ struct TripHistoryView: View {
             .navigationTitle("주행 기록")
             .toolbar {
                 if !trips.isEmpty {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(role: .destructive) {
+                            showDeleteAllAlert = true
+                        } label: {
+                            Text("전체 삭제")
+                                .foregroundColor(.red)
+                        }
+                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         EditButton()
                     }
                 }
+            }
+            .alert("전체 삭제", isPresented: $showDeleteAllAlert) {
+                Button("취소", role: .cancel) { }
+                Button("전체 삭제", role: .destructive) {
+                    deleteAllTrips()
+                }
+            } message: {
+                Text("모든 주행 기록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")
             }
             .onAppear {
                 loadTrips()
@@ -61,6 +78,11 @@ struct TripHistoryView: View {
 
     private func deleteTrip(_ trip: Trip) {
         repository.delete(trip)
+        loadTrips()
+    }
+
+    private func deleteAllTrips() {
+        repository.deleteAll()
         loadTrips()
     }
 
