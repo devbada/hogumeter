@@ -23,7 +23,9 @@
       "Bash(sips -g pixelWidth -g pixelHeight app_icon_source.png)",
       "Bash(tee:*)",
       "Bash(file:*)",
-      "Bash(sips:*)"
+      "Bash(sips:*)",
+      "Bash(open -a Simulator)",
+      "Bash(osascript:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
