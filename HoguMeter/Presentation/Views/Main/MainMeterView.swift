@@ -10,6 +10,7 @@ import SwiftUI
 struct MainMeterView: View {
     @State var viewModel: MeterViewModel
     @State private var showReceipt = false  // 영수증 표시 상태
+    @State private var showMap = false      // 지도 표시 상태
 
     var body: some View {
         NavigationView {
@@ -43,6 +44,25 @@ struct MainMeterView: View {
                 .padding(.bottom, 20)
             }
             .navigationTitle("🐴 호구미터")
+            .toolbar {
+                // 지도 버튼 (미터 실행 중일 때만 표시)
+                if viewModel.state == .running {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: { showMap = true }) {
+                            Image(systemName: "map")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+            }
+            // 지도 화면
+            .fullScreenCover(isPresented: $showMap) {
+                MapContainerView(
+                    meterViewModel: viewModel,
+                    locationService: viewModel.locationService,
+                    isPresented: $showMap
+                )
+            }
             // 영수증 Sheet 추가
             .sheet(isPresented: $showReceipt) {
                 if let trip = viewModel.completedTrip {

@@ -29,8 +29,11 @@ final class MeterViewModel {
     private(set) var horseSpeed: HorseSpeed = .walk
 
     // MARK: - Dependencies
-    private let locationService: LocationServiceProtocol
+    private let _locationService: LocationServiceProtocol
     private let fareCalculator: FareCalculator
+
+    // 지도 화면에서 사용하기 위한 접근자
+    var locationService: LocationServiceProtocol { _locationService }
     private let regionDetector: RegionDetector
     private let soundManager: SoundManager
     private let tripRepository: TripRepository
@@ -48,7 +51,7 @@ final class MeterViewModel {
         soundManager: SoundManager,
         tripRepository: TripRepository
     ) {
-        self.locationService = locationService
+        self._locationService = locationService
         self.fareCalculator = fareCalculator
         self.regionDetector = regionDetector
         self.soundManager = soundManager
@@ -62,14 +65,14 @@ final class MeterViewModel {
         state = .running
         tripStartTime = Date()
         regionDetector.reset()
-        locationService.startTracking()
+        _locationService.startTracking()
         startTimer()
         soundManager.play(.meterStart)
     }
 
     func stopMeter() {
         state = .stopped
-        locationService.stopTracking()
+        _locationService.stopTracking()
         stopTimer()
         calculateFinalFare()
         soundManager.play(.meterStop)
@@ -97,7 +100,7 @@ final class MeterViewModel {
     // MARK: - Private Methods
     private func setupBindings() {
         // Location updates
-        locationService.locationPublisher
+        _locationService.locationPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] location in
                 self?.handleLocationUpdate(location)
@@ -107,7 +110,7 @@ final class MeterViewModel {
 
     private func handleLocationUpdate(_ location: CLLocation) {
         // Update distance
-        distance = locationService.totalDistance / 1000  // m to km
+        distance = _locationService.totalDistance / 1000  // m to km
 
         // Update speed
         currentSpeed = max(0, location.speed * 3.6)  // m/s to km/h
