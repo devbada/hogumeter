@@ -13,23 +13,35 @@ struct HoguMeterApp: App {
     // MARK: - Dependencies
     @StateObject private var appState = AppState()
     @StateObject private var disclaimerViewModel = DisclaimerViewModel()
+    @State private var showLoadingAnimation = true
     @State private var showDisclaimer = false
 
     var body: some Scene {
         WindowGroup {
             ZStack {
-                // 메인 앱
-                ContentView()
-                    .environmentObject(appState)
+                if showLoadingAnimation {
+                    // 로딩 애니메이션 (말 달리기)
+                    LoadingAnimationView {
+                        // 애니메이션 완료 후 호출
+                        withAnimation(.easeOut(duration: 0.5)) {
+                            showLoadingAnimation = false
+                            showDisclaimer = true
+                        }
+                    }
+                    .transition(.opacity)
+                    .zIndex(2)
+                } else {
+                    // 메인 앱
+                    ContentView()
+                        .environmentObject(appState)
 
-                // 면책 다이얼로그 (매 실행 시)
-                if showDisclaimer {
-                    DisclaimerDialogView(isPresented: $showDisclaimer)
-                        .transition(.opacity)
+                    // 면책 다이얼로그 (매 실행 시)
+                    if showDisclaimer {
+                        DisclaimerDialogView(isPresented: $showDisclaimer)
+                            .transition(.opacity)
+                            .zIndex(1)
+                    }
                 }
-            }
-            .onAppear {
-                showDisclaimer = true  // 앱 실행할 때마다 표시
             }
         }
     }
