@@ -153,7 +153,7 @@ struct AppInfoView: View {
     // MARK: - Actions
 
     private func openEmail() {
-        let email = "support@hogumeter.com"
+        let email = "imdevbada@gmail.com"
         let subject = "호구미터 문의"
         let body = """
 
