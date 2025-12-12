@@ -19,42 +19,56 @@ final class FareCalculator {
 
     // MARK: - Public Methods
 
-    /// 실시간 요금 계산
+    /// 실시간 요금 계산 (현재 시간 기준)
     func calculate(
         distance: Double,           // meters
         lowSpeedDuration: TimeInterval,  // seconds
         regionChanges: Int,
-        isNightTime: Bool
+        isNightTime: Bool = false   // Deprecated, 호환성 유지용
     ) -> Int {
-        let settings = settingsRepository.currentRegionFare
+        return calculate(
+            distance: distance,
+            lowSpeedDuration: lowSpeedDuration,
+            regionChanges: regionChanges,
+            at: Date()
+        )
+    }
+
+    /// 특정 시간 기준 요금 계산
+    func calculate(
+        distance: Double,           // meters
+        lowSpeedDuration: TimeInterval,  // seconds
+        regionChanges: Int,
+        at date: Date
+    ) -> Int {
+        let fare = settingsRepository.currentRegionFare
+        let timeZone = FareTimeZone.current(from: date)
+
+        // 시간대별 요금 선택
+        let fareComponents = fare.getFare(for: timeZone)
 
         // 기본요금
-        var fare = settings.baseFare
+        var totalFare = fareComponents.baseFare
 
         // 거리요금 (기본거리 초과분)
-        let extraDistance = max(0, distance - Double(settings.baseDistance))
-        let distanceUnits = Int(extraDistance / Double(settings.distanceUnit))
-        var distanceFare = distanceUnits * settings.distanceFare
+        let extraDistance = max(0, distance - Double(fareComponents.baseDistance))
+        let distanceUnits = Int(extraDistance / Double(fareComponents.distanceUnit))
+        totalFare += distanceUnits * fareComponents.distanceFare
 
         // 시간요금 (저속 시간)
-        let timeUnits = Int(lowSpeedDuration / Double(settings.timeUnit))
-        var timeFare = timeUnits * settings.timeFare
+        let timeUnits = Int(lowSpeedDuration / Double(fareComponents.timeUnit))
+        totalFare += timeUnits * fareComponents.timeFare
 
-        // 야간 할증
-        if isNightTime && settingsRepository.isNightSurchargeEnabled {
-            let rate = settings.nightSurchargeRate
-            distanceFare = Int(Double(distanceFare) * rate)
-            timeFare = Int(Double(timeFare) * rate)
-        }
-
-        fare += distanceFare + timeFare
-
-        // 지역 할증
+        // 지역 할증 (시계외)
         if settingsRepository.isRegionSurchargeEnabled {
-            fare += regionChanges * settingsRepository.regionSurchargeAmount
+            let surcharge = Double(totalFare - fareComponents.baseFare) * fare.outsideCitySurcharge
+            totalFare += Int(surcharge) * regionChanges
         }
 
-        return fare
+        // 반올림
+        totalFare = roundToUnit(totalFare, unit: fare.roundingUnit)
+
+        return totalFare
     }
 
     /// 요금 상세 내역 계산
@@ -62,31 +76,51 @@ final class FareCalculator {
         distance: Double,
         lowSpeedDuration: TimeInterval,
         regionChanges: Int,
-        isNightTime: Bool
+        isNightTime: Bool = false   // Deprecated, 호환성 유지용
     ) -> FareBreakdown {
-        let settings = settingsRepository.currentRegionFare
+        return breakdown(
+            distance: distance,
+            lowSpeedDuration: lowSpeedDuration,
+            regionChanges: regionChanges,
+            at: Date()
+        )
+    }
 
-        let baseFare = settings.baseFare
+    /// 특정 시간 기준 요금 상세 내역 계산
+    func breakdown(
+        distance: Double,
+        lowSpeedDuration: TimeInterval,
+        regionChanges: Int,
+        at date: Date
+    ) -> FareBreakdown {
+        let fare = settingsRepository.currentRegionFare
+        let timeZone = FareTimeZone.current(from: date)
+        let fareComponents = fare.getFare(for: timeZone)
 
-        let extraDistance = max(0, distance - Double(settings.baseDistance))
-        let distanceUnits = Int(extraDistance / Double(settings.distanceUnit))
-        var distanceFare = distanceUnits * settings.distanceFare
+        let baseFare = fareComponents.baseFare
 
-        let timeUnits = Int(lowSpeedDuration / Double(settings.timeUnit))
-        var timeFare = timeUnits * settings.timeFare
+        // 거리요금
+        let extraDistance = max(0, distance - Double(fareComponents.baseDistance))
+        let distanceUnits = Int(extraDistance / Double(fareComponents.distanceUnit))
+        let distanceFare = distanceUnits * fareComponents.distanceFare
 
-        var nightSurcharge = 0
-        if isNightTime && settingsRepository.isNightSurchargeEnabled {
-            let rate = settings.nightSurchargeRate - 1.0
-            nightSurcharge = Int(Double(distanceFare + timeFare) * rate)
-            distanceFare = Int(Double(distanceFare) * settings.nightSurchargeRate)
-            timeFare = Int(Double(timeFare) * settings.nightSurchargeRate)
-        }
+        // 시간요금
+        let timeUnits = Int(lowSpeedDuration / Double(fareComponents.timeUnit))
+        let timeFare = timeUnits * fareComponents.timeFare
 
+        // 지역 할증
         var regionSurcharge = 0
         if settingsRepository.isRegionSurchargeEnabled {
-            regionSurcharge = regionChanges * settingsRepository.regionSurchargeAmount
+            let surcharge = Double(distanceFare + timeFare) * fare.outsideCitySurcharge
+            regionSurcharge = Int(surcharge) * regionChanges
         }
+
+        // 심야 할증 (시간대별 요금에 이미 반영되어 있으므로, 별도 할증은 0)
+        // 시간대별로 기본요금이 다르기 때문에 추가 할증 계산 불필요
+        let nightSurcharge = 0
+
+        let totalBeforeRounding = baseFare + distanceFare + timeFare + regionSurcharge
+        let totalFare = roundToUnit(totalBeforeRounding, unit: fare.roundingUnit)
 
         return FareBreakdown(
             baseFare: baseFare,
@@ -97,30 +131,21 @@ final class FareCalculator {
         )
     }
 
-    /// 야간 시간대 확인
+    /// 현재 시간대 확인
+    func currentTimeZone() -> FareTimeZone {
+        return FareTimeZone.current()
+    }
+
+    /// 야간 시간대 확인 (Deprecated - FareTimeZone 사용 권장)
     func isNightTime() -> Bool {
-        let settings = settingsRepository.currentRegionFare
+        let timeZone = FareTimeZone.current()
+        return timeZone != .day
+    }
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
+    // MARK: - Private Methods
 
-        guard let startTime = formatter.date(from: settings.nightStartTime),
-              let endTime = formatter.date(from: settings.nightEndTime) else {
-            return false
-        }
-
-        let calendar = Calendar.current
-        let now = Date()
-        let currentHour = calendar.component(.hour, from: now)
-
-        let startHour = calendar.component(.hour, from: startTime)
-        let endHour = calendar.component(.hour, from: endTime)
-
-        // 야간이 자정을 넘는 경우 (예: 22:00 ~ 04:00)
-        if startHour > endHour {
-            return currentHour >= startHour || currentHour < endHour
-        } else {
-            return currentHour >= startHour && currentHour < endHour
-        }
+    /// 지정된 단위로 반올림
+    private func roundToUnit(_ value: Int, unit: Int) -> Int {
+        return ((value + unit / 2) / unit) * unit
     }
 }

@@ -71,15 +71,27 @@ final class RegionFareViewModel {
             name: trimmedName,
             isDefault: false,
             isUserCreated: true,
-            baseFare: baseFare.baseFare,
-            baseDistance: baseFare.baseDistance,
-            distanceFare: baseFare.distanceFare,
-            distanceUnit: baseFare.distanceUnit,
-            timeFare: baseFare.timeFare,
-            timeUnit: baseFare.timeUnit,
-            nightSurchargeRate: baseFare.nightSurchargeRate,
-            nightStartTime: baseFare.nightStartTime,
-            nightEndTime: baseFare.nightEndTime
+            // 주간 요금
+            dayBaseFare: baseFare.dayBaseFare,
+            dayBaseDistance: baseFare.dayBaseDistance,
+            dayDistanceFare: baseFare.dayDistanceFare,
+            dayDistanceUnit: baseFare.dayDistanceUnit,
+            dayTimeFare: baseFare.dayTimeFare,
+            dayTimeUnit: baseFare.dayTimeUnit,
+            // 심야1 요금
+            night1BaseFare: baseFare.night1BaseFare,
+            night1BaseDistance: baseFare.night1BaseDistance,
+            night1DistanceFare: baseFare.night1DistanceFare,
+            night1DistanceUnit: baseFare.night1DistanceUnit,
+            night1TimeFare: baseFare.night1TimeFare,
+            night1TimeUnit: baseFare.night1TimeUnit,
+            // 심야2 요금
+            night2BaseFare: baseFare.night2BaseFare,
+            night2BaseDistance: baseFare.night2BaseDistance,
+            night2DistanceFare: baseFare.night2DistanceFare,
+            night2DistanceUnit: baseFare.night2DistanceUnit,
+            night2TimeFare: baseFare.night2TimeFare,
+            night2TimeUnit: baseFare.night2TimeUnit
         )
 
         repository.addFare(newFare)

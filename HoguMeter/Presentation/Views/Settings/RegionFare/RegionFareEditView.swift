@@ -13,13 +13,10 @@ struct RegionFareEditView: View {
     @State private var editedFare: RegionFare
     @Binding var isPresented: Bool
 
-    @State private var nightSurchargeText: String
-
     init(viewModel: RegionFareViewModel, fare: RegionFare, isPresented: Binding<Bool>) {
         self.viewModel = viewModel
         self._editedFare = State(initialValue: fare)
         self._isPresented = isPresented
-        self._nightSurchargeText = State(initialValue: String(format: "%.1f", fare.nightSurchargeRate))
     }
 
     var body: some View {
@@ -35,95 +32,160 @@ struct RegionFareEditView: View {
                 }
             }
 
-            // 기본 요금
-            Section("기본 요금") {
+            // 주간 요금 (04:00 ~ 22:00)
+            Section {
                 FareInputField(
                     title: "기본요금",
-                    value: $editedFare.baseFare,
+                    value: $editedFare.dayBaseFare,
                     suffix: "원",
                     keyboardType: .numberPad
                 )
 
                 FareInputField(
                     title: "기본거리",
-                    value: $editedFare.baseDistance,
+                    value: $editedFare.dayBaseDistance,
                     suffix: "m",
                     keyboardType: .numberPad
                 )
-            }
 
-            // 거리 요금
-            Section("거리 요금") {
                 FareInputField(
                     title: "거리당 요금",
-                    value: $editedFare.distanceFare,
+                    value: $editedFare.dayDistanceFare,
                     suffix: "원",
                     keyboardType: .numberPad
                 )
 
                 FareInputField(
                     title: "거리 단위",
-                    value: $editedFare.distanceUnit,
+                    value: $editedFare.dayDistanceUnit,
                     suffix: "m",
                     keyboardType: .numberPad
                 )
-            }
 
-            // 시간 요금
-            Section("시간 요금") {
                 FareInputField(
                     title: "시간당 요금",
-                    value: $editedFare.timeFare,
+                    value: $editedFare.dayTimeFare,
                     suffix: "원",
                     keyboardType: .numberPad
                 )
 
                 FareInputField(
                     title: "시간 단위",
-                    value: $editedFare.timeUnit,
+                    value: $editedFare.dayTimeUnit,
                     suffix: "초",
                     keyboardType: .numberPad
                 )
+            } header: {
+                HStack {
+                    Text("주간 요금")
+                    Text("☀️ 04:00 ~ 22:00")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
 
-            // 야간 할증
-            Section("야간 할증") {
+            // 심야1 요금 (22:00 ~ 23:00, 02:00 ~ 04:00) - 20% 할증
+            Section {
+                FareInputField(
+                    title: "기본요금",
+                    value: $editedFare.night1BaseFare,
+                    suffix: "원",
+                    keyboardType: .numberPad
+                )
+
+                FareInputField(
+                    title: "기본거리",
+                    value: $editedFare.night1BaseDistance,
+                    suffix: "m",
+                    keyboardType: .numberPad
+                )
+
+                FareInputField(
+                    title: "거리당 요금",
+                    value: $editedFare.night1DistanceFare,
+                    suffix: "원",
+                    keyboardType: .numberPad
+                )
+
+                FareInputField(
+                    title: "거리 단위",
+                    value: $editedFare.night1DistanceUnit,
+                    suffix: "m",
+                    keyboardType: .numberPad
+                )
+
+                FareInputField(
+                    title: "시간당 요금",
+                    value: $editedFare.night1TimeFare,
+                    suffix: "원",
+                    keyboardType: .numberPad
+                )
+
+                FareInputField(
+                    title: "시간 단위",
+                    value: $editedFare.night1TimeUnit,
+                    suffix: "초",
+                    keyboardType: .numberPad
+                )
+            } header: {
                 HStack {
-                    Text("할증 배율")
-                        .font(.subheadline)
+                    Text("심야1 요금 (20% 할증)")
+                    Text("🌙 22:00 ~ 23:00, 02:00 ~ 04:00")
+                        .font(.caption)
                         .foregroundColor(.secondary)
-
-                    Spacer()
-
-                    TextField("1.0", text: $nightSurchargeText)
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.trailing)
-                        .frame(width: 80)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 12)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .onChange(of: nightSurchargeText) { _, newValue in
-                            if let value = Double(newValue) {
-                                editedFare.nightSurchargeRate = value
-                            }
-                        }
-
-                    Text("배")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .frame(width: 30, alignment: .leading)
                 }
+            }
 
-                TimePickerField(
-                    title: "야간 시작",
-                    time: $editedFare.nightStartTime
+            // 심야2 요금 (23:00 ~ 02:00) - 40% 할증
+            Section {
+                FareInputField(
+                    title: "기본요금",
+                    value: $editedFare.night2BaseFare,
+                    suffix: "원",
+                    keyboardType: .numberPad
                 )
 
-                TimePickerField(
-                    title: "야간 종료",
-                    time: $editedFare.nightEndTime
+                FareInputField(
+                    title: "기본거리",
+                    value: $editedFare.night2BaseDistance,
+                    suffix: "m",
+                    keyboardType: .numberPad
                 )
+
+                FareInputField(
+                    title: "거리당 요금",
+                    value: $editedFare.night2DistanceFare,
+                    suffix: "원",
+                    keyboardType: .numberPad
+                )
+
+                FareInputField(
+                    title: "거리 단위",
+                    value: $editedFare.night2DistanceUnit,
+                    suffix: "m",
+                    keyboardType: .numberPad
+                )
+
+                FareInputField(
+                    title: "시간당 요금",
+                    value: $editedFare.night2TimeFare,
+                    suffix: "원",
+                    keyboardType: .numberPad
+                )
+
+                FareInputField(
+                    title: "시간 단위",
+                    value: $editedFare.night2TimeUnit,
+                    suffix: "초",
+                    keyboardType: .numberPad
+                )
+            } header: {
+                HStack {
+                    Text("심야2 요금 (40% 할증)")
+                    Text("🌑 23:00 ~ 02:00")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
 
             // 기본값으로 초기화 (기본 제공 지역만)
@@ -183,20 +245,7 @@ struct RegionFareEditView: View {
     NavigationStack {
         RegionFareEditView(
             viewModel: RegionFareViewModel(repository: RegionFareRepository()),
-            fare: RegionFare(
-                code: "seoul",
-                name: "서울",
-                isDefault: true,
-                baseFare: 4800,
-                baseDistance: 1600,
-                distanceFare: 100,
-                distanceUnit: 131,
-                timeFare: 100,
-                timeUnit: 30,
-                nightSurchargeRate: 1.2,
-                nightStartTime: "22:00",
-                nightEndTime: "04:00"
-            ),
+            fare: RegionFare.seoul(),
             isPresented: .constant(true)
         )
     }
