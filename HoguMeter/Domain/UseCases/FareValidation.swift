@@ -18,58 +18,84 @@ struct FareValidation {
             errors.append("지역명을 입력해주세요.")
         }
 
-        // 기본 요금 검증
-        if fare.baseFare < 1000 || fare.baseFare > 50000 {
-            errors.append("기본요금은 1,000원 ~ 50,000원 사이여야 합니다.")
-        }
+        // 주간 요금 검증
+        errors.append(contentsOf: validateTimeZoneFare(
+            timeZoneName: "주간",
+            baseFare: fare.dayBaseFare,
+            baseDistance: fare.dayBaseDistance,
+            distanceFare: fare.dayDistanceFare,
+            distanceUnit: fare.dayDistanceUnit,
+            timeFare: fare.dayTimeFare,
+            timeUnit: fare.dayTimeUnit
+        ))
 
-        // 기본 거리 검증
-        if fare.baseDistance < 100 || fare.baseDistance > 10000 {
-            errors.append("기본거리는 100m ~ 10,000m 사이여야 합니다.")
-        }
+        // 심야1 요금 검증
+        errors.append(contentsOf: validateTimeZoneFare(
+            timeZoneName: "심야1",
+            baseFare: fare.night1BaseFare,
+            baseDistance: fare.night1BaseDistance,
+            distanceFare: fare.night1DistanceFare,
+            distanceUnit: fare.night1DistanceUnit,
+            timeFare: fare.night1TimeFare,
+            timeUnit: fare.night1TimeUnit
+        ))
 
-        // 거리당 요금 검증
-        if fare.distanceFare < 10 || fare.distanceFare > 1000 {
-            errors.append("거리당 요금은 10원 ~ 1,000원 사이여야 합니다.")
-        }
-
-        // 거리 단위 검증
-        if fare.distanceUnit < 10 || fare.distanceUnit > 1000 {
-            errors.append("거리 단위는 10m ~ 1,000m 사이여야 합니다.")
-        }
-
-        // 시간당 요금 검증
-        if fare.timeFare < 10 || fare.timeFare > 1000 {
-            errors.append("시간당 요금은 10원 ~ 1,000원 사이여야 합니다.")
-        }
-
-        // 시간 단위 검증
-        if fare.timeUnit < 10 || fare.timeUnit > 300 {
-            errors.append("시간 단위는 10초 ~ 300초 사이여야 합니다.")
-        }
-
-        // 야간 할증 배율 검증
-        if fare.nightSurchargeRate < 1.0 || fare.nightSurchargeRate > 3.0 {
-            errors.append("야간 할증 배율은 1.0배 ~ 3.0배 사이여야 합니다.")
-        }
-
-        // 시간 형식 검증
-        if !isValidTimeFormat(fare.nightStartTime) {
-            errors.append("야간 시작 시간 형식이 올바르지 않습니다. (HH:mm)")
-        }
-
-        if !isValidTimeFormat(fare.nightEndTime) {
-            errors.append("야간 종료 시간 형식이 올바르지 않습니다. (HH:mm)")
-        }
+        // 심야2 요금 검증
+        errors.append(contentsOf: validateTimeZoneFare(
+            timeZoneName: "심야2",
+            baseFare: fare.night2BaseFare,
+            baseDistance: fare.night2BaseDistance,
+            distanceFare: fare.night2DistanceFare,
+            distanceUnit: fare.night2DistanceUnit,
+            timeFare: fare.night2TimeFare,
+            timeUnit: fare.night2TimeUnit
+        ))
 
         return errors
     }
 
-    /// 시간 형식 검증 (HH:mm)
-    private static func isValidTimeFormat(_ time: String) -> Bool {
-        let pattern = "^([0-1][0-9]|2[0-3]):[0-5][0-9]$"
-        let regex = try? NSRegularExpression(pattern: pattern)
-        let range = NSRange(location: 0, length: time.utf16.count)
-        return regex?.firstMatch(in: time, range: range) != nil
+    /// 시간대별 요금 검증
+    private static func validateTimeZoneFare(
+        timeZoneName: String,
+        baseFare: Int,
+        baseDistance: Int,
+        distanceFare: Int,
+        distanceUnit: Int,
+        timeFare: Int,
+        timeUnit: Int
+    ) -> [String] {
+        var errors: [String] = []
+
+        // 기본 요금 검증
+        if baseFare < 1000 || baseFare > 50000 {
+            errors.append("[\(timeZoneName)] 기본요금은 1,000원 ~ 50,000원 사이여야 합니다.")
+        }
+
+        // 기본 거리 검증
+        if baseDistance < 100 || baseDistance > 10000 {
+            errors.append("[\(timeZoneName)] 기본거리는 100m ~ 10,000m 사이여야 합니다.")
+        }
+
+        // 거리당 요금 검증
+        if distanceFare < 10 || distanceFare > 1000 {
+            errors.append("[\(timeZoneName)] 거리당 요금은 10원 ~ 1,000원 사이여야 합니다.")
+        }
+
+        // 거리 단위 검증
+        if distanceUnit < 10 || distanceUnit > 1000 {
+            errors.append("[\(timeZoneName)] 거리 단위는 10m ~ 1,000m 사이여야 합니다.")
+        }
+
+        // 시간당 요금 검증
+        if timeFare < 10 || timeFare > 1000 {
+            errors.append("[\(timeZoneName)] 시간당 요금은 10원 ~ 1,000원 사이여야 합니다.")
+        }
+
+        // 시간 단위 검증
+        if timeUnit < 10 || timeUnit > 300 {
+            errors.append("[\(timeZoneName)] 시간 단위는 10초 ~ 300초 사이여야 합니다.")
+        }
+
+        return errors
     }
 }

@@ -133,15 +133,27 @@ final class RegionFareRepository: ObservableObject {
                     name: regionData.name,
                     isDefault: regionData.isDefault,
                     isUserCreated: regionData.isUserCreated,
-                    baseFare: regionData.baseFare,
-                    baseDistance: regionData.baseDistance,
-                    distanceFare: regionData.distanceFare,
-                    distanceUnit: regionData.distanceUnit,
-                    timeFare: regionData.timeFare,
-                    timeUnit: regionData.timeUnit,
-                    nightSurchargeRate: regionData.nightSurchargeRate,
-                    nightStartTime: regionData.nightStartTime,
-                    nightEndTime: regionData.nightEndTime
+                    // 주간 요금
+                    dayBaseFare: regionData.dayBaseFare,
+                    dayBaseDistance: regionData.dayBaseDistance,
+                    dayDistanceFare: regionData.dayDistanceFare,
+                    dayDistanceUnit: regionData.dayDistanceUnit,
+                    dayTimeFare: regionData.dayTimeFare,
+                    dayTimeUnit: regionData.dayTimeUnit,
+                    // 심야1 요금
+                    night1BaseFare: regionData.night1BaseFare,
+                    night1BaseDistance: regionData.night1BaseDistance,
+                    night1DistanceFare: regionData.night1DistanceFare,
+                    night1DistanceUnit: regionData.night1DistanceUnit,
+                    night1TimeFare: regionData.night1TimeFare,
+                    night1TimeUnit: regionData.night1TimeUnit,
+                    // 심야2 요금
+                    night2BaseFare: regionData.night2BaseFare,
+                    night2BaseDistance: regionData.night2BaseDistance,
+                    night2DistanceFare: regionData.night2DistanceFare,
+                    night2DistanceUnit: regionData.night2DistanceUnit,
+                    night2TimeFare: regionData.night2TimeFare,
+                    night2TimeUnit: regionData.night2TimeUnit
                 )
             }
         } catch {
@@ -150,69 +162,11 @@ final class RegionFareRepository: ObservableObject {
         }
     }
 
-    /// JSON 로드 실패 시 하드코딩된 기본값
+    /// JSON 로드 실패 시 하드코딩된 기본값 (서울시 택시요금 기준)
     private func createHardcodedDefaults() -> [RegionFare] {
         [
-            RegionFare(
-                code: "seoul",
-                name: "서울",
-                isDefault: true,
-                isUserCreated: false,
-                baseFare: 4800,
-                baseDistance: 1600,
-                distanceFare: 100,
-                distanceUnit: 131,
-                timeFare: 100,
-                timeUnit: 30,
-                nightSurchargeRate: 1.2,
-                nightStartTime: "22:00",
-                nightEndTime: "04:00"
-            ),
-            RegionFare(
-                code: "gyeonggi",
-                name: "경기",
-                isDefault: true,
-                isUserCreated: false,
-                baseFare: 4800,
-                baseDistance: 1600,
-                distanceFare: 100,
-                distanceUnit: 131,
-                timeFare: 100,
-                timeUnit: 30,
-                nightSurchargeRate: 1.2,
-                nightStartTime: "22:00",
-                nightEndTime: "04:00"
-            ),
-            RegionFare(
-                code: "incheon",
-                name: "인천",
-                isDefault: true,
-                isUserCreated: false,
-                baseFare: 4800,
-                baseDistance: 1600,
-                distanceFare: 100,
-                distanceUnit: 131,
-                timeFare: 100,
-                timeUnit: 30,
-                nightSurchargeRate: 1.2,
-                nightStartTime: "22:00",
-                nightEndTime: "04:00"
-            ),
-            RegionFare(
-                code: "busan",
-                name: "부산",
-                isDefault: true,
-                isUserCreated: false,
-                baseFare: 4800,
-                baseDistance: 1600,
-                distanceFare: 100,
-                distanceUnit: 131,
-                timeFare: 100,
-                timeUnit: 30,
-                nightSurchargeRate: 1.2,
-                nightStartTime: "22:00",
-                nightEndTime: "04:00"
-            )
+            // 서울 (기본)
+            RegionFare.seoul()
         ]
     }
 }
@@ -231,13 +185,28 @@ private struct RegionData: Codable {
     let name: String
     let isDefault: Bool
     let isUserCreated: Bool
-    let baseFare: Int
-    let baseDistance: Int
-    let distanceFare: Int
-    let distanceUnit: Int
-    let timeFare: Int
-    let timeUnit: Int
-    let nightSurchargeRate: Double
-    let nightStartTime: String
-    let nightEndTime: String
+
+    // 주간 요금
+    let dayBaseFare: Int
+    let dayBaseDistance: Int
+    let dayDistanceFare: Int
+    let dayDistanceUnit: Int
+    let dayTimeFare: Int
+    let dayTimeUnit: Int
+
+    // 심야1 요금
+    let night1BaseFare: Int
+    let night1BaseDistance: Int
+    let night1DistanceFare: Int
+    let night1DistanceUnit: Int
+    let night1TimeFare: Int
+    let night1TimeUnit: Int
+
+    // 심야2 요금
+    let night2BaseFare: Int
+    let night2BaseDistance: Int
+    let night2DistanceFare: Int
+    let night2DistanceUnit: Int
+    let night2TimeFare: Int
+    let night2TimeUnit: Int
 }

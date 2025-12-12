@@ -26,6 +26,7 @@
 		3246DC6DA52DD4ECD93C6986 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */; };
 		50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */; };
 		5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */; };
+		A1B2C3D4E5F6789012345678 /* FareTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876543210FEDCBA98765432 /* FareTimeZone.swift */; };
 		5837A55E21D62D154460B70C /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8100867116DB0E09560748A3 /* View+Snapshot.swift */; };
 		5C461A7BDE09D084EE55B0DF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C8C7C5559A72454F0ADB32 /* ShareSheet.swift */; };
 		6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F919C8DBB322D01DE8748 /* Date+Extensions.swift */; };
@@ -82,6 +83,7 @@
 		53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareCalculator.swift; sourceTree = "<group>"; };
 		649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareBreakdown.swift; sourceTree = "<group>"; };
+		9876543210FEDCBA98765432 /* FareTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareTimeZone.swift; sourceTree = "<group>"; };
 		6A91BE8BC3716FB99B58A61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F257388E6B23451CA58E4005 /* HorseSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseSpeed.swift; sourceTree = "<group>"; };
 		4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationConstants.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 			isa = PBXGroup;
 			children = (
 				649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */,
+				9876543210FEDCBA98765432 /* FareTimeZone.swift */,
 				B9E37EDFDB8A450969B082FA /* MeterState.swift */,
 				D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */,
 				CE2CFB92DAEA79D831F37AC8 /* Trip.swift */,
@@ -532,6 +535,7 @@
 				6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */,
 				3246DC6DA52DD4ECD93C6986 /* Double+Extensions.swift in Sources */,
 				5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */,
+				A1B2C3D4E5F6789012345678 /* FareTimeZone.swift in Sources */,
 				2A96109F69FA8FC26692FE5A /* FareCalculator.swift in Sources */,
 				20A7E95CA73016A397471852 /* FareDisplayView.swift in Sources */,
 				AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */,

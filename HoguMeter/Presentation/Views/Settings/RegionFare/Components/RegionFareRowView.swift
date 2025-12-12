@@ -23,8 +23,8 @@ struct RegionFareRowView: View {
                 Text(fare.name)
                     .font(.headline)
 
-                // 요금 정보
-                Text("기본 \(fare.baseFare.formatted())원 | \(fare.distanceUnit)m당 \(fare.distanceFare)원")
+                // 요금 정보 (주간 기준)
+                Text("기본 \(fare.dayBaseFare.formatted())원 | \(fare.dayDistanceUnit)m당 \(fare.dayDistanceFare)원")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -46,37 +46,34 @@ struct RegionFareRowView: View {
 #Preview {
     VStack {
         RegionFareRowView(
-            fare: RegionFare(
-                code: "seoul",
-                name: "서울",
-                isDefault: true,
-                baseFare: 4800,
-                baseDistance: 1600,
-                distanceFare: 100,
-                distanceUnit: 131,
-                timeFare: 100,
-                timeUnit: 30,
-                nightSurchargeRate: 1.2,
-                nightStartTime: "22:00",
-                nightEndTime: "04:00"
-            ),
+            fare: RegionFare.seoul(),
             isSelected: true
         )
 
         RegionFareRowView(
             fare: RegionFare(
-                code: "gyeonggi",
-                name: "경기",
-                isDefault: true,
-                baseFare: 4800,
-                baseDistance: 1600,
-                distanceFare: 100,
-                distanceUnit: 131,
-                timeFare: 100,
-                timeUnit: 30,
-                nightSurchargeRate: 1.2,
-                nightStartTime: "22:00",
-                nightEndTime: "04:00"
+                code: "custom",
+                name: "내 지역",
+                isDefault: false,
+                isUserCreated: true,
+                dayBaseFare: 5000,
+                dayBaseDistance: 1600,
+                dayDistanceFare: 100,
+                dayDistanceUnit: 131,
+                dayTimeFare: 100,
+                dayTimeUnit: 30,
+                night1BaseFare: 6000,
+                night1BaseDistance: 1600,
+                night1DistanceFare: 120,
+                night1DistanceUnit: 131,
+                night1TimeFare: 120,
+                night1TimeUnit: 30,
+                night2BaseFare: 7000,
+                night2BaseDistance: 1600,
+                night2DistanceFare: 140,
+                night2DistanceUnit: 131,
+                night2TimeFare: 140,
+                night2TimeUnit: 30
             ),
             isSelected: false
         )
