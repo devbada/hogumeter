@@ -112,6 +112,8 @@ HoguMeter/
 | [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | 기술 아키텍처 |
 | [DEVELOPMENT_GUIDE.md](./docs/DEVELOPMENT_GUIDE.md) | 개발 가이드 |
 | [DEVELOPMENT_GUIDE-FOR-AI.md](./docs/DEVELOPMENT_GUIDE-FOR-AI.md) | AI 개발 가이드 |
+| [PRIVACY_POLICY.md](./docs/PRIVACY_POLICY.md) | 개인정보 처리방침 (한글) |
+| [PRIVACY_POLICY_EN.md](./docs/PRIVACY_POLICY_EN.md) | Privacy Policy (English) |
 | [tasks/README.md](./tasks/README.md) | 태스크 관리 |
 
 ---
