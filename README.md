@@ -6,104 +6,67 @@
 
 ---
 
-## 📚 BMAD Method 문서 구조
+## 📱 앱 소개
 
-이 프로젝트는 **BMAD Method (Breakthrough Method for Agile AI-Driven Development)** 를 따라 개발됩니다.
-
-### 📁 문서 목록
-
-| 문서 | 설명 | 상태 |
-|-----|------|------|
-| [PROJECT_BRIEF.md](./docs/PROJECT_BRIEF.md) | 프로젝트 개요, 비전, 목표, 페르소나, 기능 개요 | ✅ 완료 |
-| [PRD.md](./docs/PRD.md) | 상세 기능 요구사항, User Stories, 화면 흐름 | ✅ 완료 |
-| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | 기술 스택, 아키텍처, 핵심 컴포넌트 설계 | ✅ 완료 |
-| [DEVELOPMENT_GUIDE.md](./docs/DEVELOPMENT_GUIDE.md) | 개발 가이드 (통합 버전) | ✅ 완료 |
-| [DEVELOPMENT_GUIDE-FOR-AI.md](./docs/DEVELOPMENT_GUIDE-FOR-AI.md) | AI를 위한 개발 가이드 | ✅ 완료 |
-| [DEVELOPMENT_GUIDE_FOR_DEVELOPER.md](./docs/DEVELOPMENT_GUIDE_FOR_DEVELOPER.md) | 사람 개발자를 위한 가이드 | ✅ 완료 |
-| [tasks/](./tasks/) | Epic별 개발 태스크 | 🚧 진행 중 |
+| 항목 | 내용 |
+|-----|------|
+| **앱 이름** | 호구미터 (HoguMeter) |
+| **플랫폼** | iOS (iPhone) |
+| **최소 지원 버전** | iOS 17.0+ |
+| **기술 스택** | Swift 5.9+, SwiftUI, Core Location |
+| **개발 상태** | ✅ MVP 완료 |
 
 ---
 
-## 📖 문서 읽는 순서
+## ✨ 주요 기능
 
-### 처음 프로젝트를 파악할 때
-1. **PROJECT_BRIEF.md** → 전체 그림 파악
-2. **PRD.md** → 상세 기능 이해
-3. **ARCHITECTURE.md** → 기술 구현 방향
+### 1. 실시간 택시 미터기
+- GPS 기반 거리/시간 요금 계산
+- 시작/정지/리셋 컨트롤
 
-### 개발 시작 시
-1. **DEVELOPMENT_GUIDE.md** → 개발 규칙 및 컨벤션 확인
-   - AI 개발자: `DEVELOPMENT_GUIDE-FOR-AI.md` 참고
-   - 사람 개발자: `DEVELOPMENT_GUIDE_FOR_DEVELOPER.md` 참고
-2. **ARCHITECTURE.md** → 프로젝트 구조 확인
-3. **PRD.md** → 구현할 기능의 수락 기준 확인
-4. **tasks/epic-X/** → 개별 태스크 수행
+### 2. 시간대별 요금 계산
+서울시 택시요금 체계 (2024년 기준):
+- **주간** (04:00 ~ 22:00): 기본 4,800원
+- **심야1** (22:00 ~ 23:00, 02:00 ~ 04:00): 20% 할증
+- **심야2** (23:00 ~ 02:00): 40% 할증
 
----
+### 3. 지역별 요금 설정
+- 기본 서울시 택시요금 제공
+- 사용자 지정 요금 추가/수정/삭제
+- 지역 변경 시 자동 할증
 
-## 🎯 프로젝트 개요
+### 4. 말 애니메이션
+- 속도에 따라 변하는 이모지 애니메이션
+- 고속 주행 시 스피드 효과
 
-### 앱 정보
-- **앱 이름**: 호구미터 (HoguMeter)
-- **플랫폼**: iOS (iPhone)
-- **최소 지원 버전**: iOS 17.0+
-- **개발 기간**: 6주
-- **기술 스택**: Swift 5.9+, SwiftUI, Core Location
+### 5. 영수증 캡쳐
+- 상세 요금 내역 영수증 생성
+- 사진첩에 바로 저장 (Core Graphics 고속 렌더링)
 
-### 핵심 기능
-1. **실시간 택시 미터기** - GPS 기반 거리/시간 요금 계산
-2. **🐴 달리는 말 애니메이션** - 속도에 따라 변하는 재미있는 애니메이션
-3. **시간대별 요금 설정** - 주간/심야1/심야2 시간대별 정확한 요금 계산
-4. **지역별 요금 설정** - 서울시 택시 요금 기준 (사용자 지정 가능)
-5. **야간/지역 할증** - 자동 할증 적용
-6. **영수증 공유** - 카카오톡으로 재미있는 영수증 공유
+### 6. 주행 기록
+- 모든 주행 기록 자동 저장
+- 기록 상세 보기 및 삭제
+
+### 7. 효과음
+- iOS 시스템 사운드 연동
+- 시작/정지/요금 변경 알림
 
 ---
 
 ## ✅ 구현 현황
 
-### Epic 0: 앱 초기 설정 ✅ 완료
-- [x] Task 0.1: 면책 동의 다이얼로그
-- [x] Task 0.2: 주행 기록 통합
-- [x] Task 0.3: 앱 아이콘
-- [x] Task 0.4: 런치 스크린 및 로딩 애니메이션
+**전체 진행률**: 100% (16/16 Tasks 완료)
 
-### Epic 1: 미터기 핵심 기능 🚧 진행 중
-- [x] Task 1.1: 실시간 거리 계산
-- [x] Task 1.2: 실시간 요금 계산
-- [ ] Task 1.3: 미터기 UI 개선
-- [ ] Task 1.4: 컨트롤 버튼 (시작/정지/리셋)
-
-### Epic 2: 말 애니메이션 🔜 예정
-- [ ] Task 2.1: 말 캐릭터 에셋
-- [ ] Task 2.2: 속도별 애니메이션 (걷기/달리기/질주)
-- [ ] Task 2.3: 80km/h 특수 효과
-
-### Epic 3: 요금 설정 ✅ 완료
-- [x] Task 3.1: 지역별 요금 추가 및 편집
-  - 서울시 택시요금 체계 (2023.02.01 기준)
-  - 주간 요금 (04:00 ~ 22:00)
-  - 심야1 요금 (22:00 ~ 23:00, 02:00 ~ 04:00) - 20% 할증
-  - 심야2 요금 (23:00 ~ 02:00) - 40% 할증
-
-### Epic 4: 영수증 공유 🔜 예정
-- [ ] Task 4.1: 영수증 디자인
-- [ ] Task 4.2: 카카오톡 공유
-- [ ] Task 4.3: 이미지 저장
-
-### Epic 5: 사운드 🔜 예정
-- [ ] Task 5.1: 효과음 연동
-- [ ] Task 5.2: 배경음악 (선택)
-
-### Epic 6: 주행 기록 🔜 예정
-- [ ] Task 6.1: 기록 저장
-- [ ] Task 6.2: 기록 목록 보기
-- [ ] Task 6.3: 기록 상세 보기
-
-### Epic 7: 설정 🔜 예정
-- [ ] Task 7.1: 다크모드
-- [ ] Task 7.2: 앱 정보
-- [ ] Task 7.3: 설정 UI 통합
+| Epic | 설명 | 상태 |
+|------|------|------|
+| Epic 0 | 앱 초기 설정 | 🟢 Done |
+| Epic 1 | 미터기 핵심 기능 | 🟢 Done |
+| Epic 2 | 말 애니메이션 | 🟢 Done |
+| Epic 3 | 요금 설정 | 🟢 Done |
+| Epic 4 | 영수증/캡쳐 | 🟢 Done |
+| Epic 5 | 효과음 | 🟢 Done |
+| Epic 6 | 주행 기록 | 🟢 Done |
+| Epic 7 | 설정 | 🟢 Done |
 
 ---
 
@@ -114,32 +77,33 @@ HoguMeter/
 ├── HoguMeter/
 │   ├── App/                    # 앱 진입점
 │   ├── Core/                   # 코어 유틸리티
+│   │   ├── Extensions/         # Swift 확장
+│   │   └── Utils/              # 유틸리티 클래스
 │   ├── Data/                   # 데이터 레이어
 │   │   └── Repositories/       # Repository 구현
 │   ├── Domain/                 # 도메인 레이어
 │   │   ├── Entities/           # 도메인 엔티티
-│   │   ├── Services/           # 도메인 서비스
-│   │   └── UseCases/           # 유즈케이스
+│   │   └── Services/           # 도메인 서비스
 │   ├── Presentation/           # 프레젠테이션 레이어
 │   │   ├── ViewModels/         # ViewModel
 │   │   └── Views/              # SwiftUI View
 │   └── Resources/              # 리소스 파일
-│       └── Assets.xcassets/    # 에셋 카탈로그
 ├── docs/                       # 프로젝트 문서
-│   ├── PROJECT_BRIEF.md
-│   ├── PRD.md
-│   ├── ARCHITECTURE.md
-│   └── DEVELOPMENT_GUIDE*.md
 └── tasks/                      # Epic별 개발 태스크
-    ├── epic-0-app-setup/
-    ├── epic-1-meter-core/
-    ├── epic-2-horse-animation/
-    ├── epic-3-fare-settings/
-    ├── epic-4-receipt-share/
-    ├── epic-5-sound/
-    ├── epic-6-history/
-    └── epic-7-settings/
 ```
+
+---
+
+## 📚 문서
+
+| 문서 | 설명 |
+|-----|------|
+| [PROJECT_BRIEF.md](./docs/PROJECT_BRIEF.md) | 프로젝트 개요, 비전, 목표 |
+| [PRD.md](./docs/PRD.md) | 상세 기능 요구사항 |
+| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | 기술 아키텍처 |
+| [DEVELOPMENT_GUIDE.md](./docs/DEVELOPMENT_GUIDE.md) | 개발 가이드 |
+| [DEVELOPMENT_GUIDE-FOR-AI.md](./docs/DEVELOPMENT_GUIDE-FOR-AI.md) | AI 개발 가이드 |
+| [tasks/README.md](./tasks/README.md) | 태스크 관리 |
 
 ---
 
@@ -164,15 +128,15 @@ open HoguMeter.xcodeproj
 # 3. 시뮬레이터 선택 후 실행 (⌘ + R)
 ```
 
-### Claude CLI로 개발하기
+### Claude Code로 개발하기
 
 ```bash
-# Claude CLI 실행
+# Claude Code 실행
 claude
 
 # AI와 대화하며 개발
-> tasks/epic-1-meter-core/task-1.3.md를 읽고 미터기 UI를 개선해줘.
-> 말 애니메이션 컴포넌트를 만들어줘. 속도에 따라 다르게 움직여야 해.
+> tasks/epic-1-meter-core/ 폴더를 읽고 미터기 기능을 확인해줘
+> 영수증 캡쳐 기능을 개선해줘
 ```
 
 ---
@@ -186,29 +150,8 @@ claude
 | 아키텍처 | Clean Architecture + MVVM |
 | 위치 | Core Location |
 | 저장 | UserDefaults, Codable |
-| 오디오 | AVFoundation |
+| 이미지 생성 | Core Graphics |
 | 상태 관리 | @Observable (iOS 17+) |
-| IDE | Xcode 15+ |
-
----
-
-## 🎨 주요 특징
-
-### 1. 시간대별 정확한 요금 계산
-서울시 택시요금 체계 (2023.02.01 기준)를 정확히 반영:
-- **주간** (04:00 ~ 22:00): 기본 4,800원
-- **심야1** (22:00 ~ 23:00, 02:00 ~ 04:00): 기본 5,800원 (20% 할증)
-- **심야2** (23:00 ~ 02:00): 기본 6,700원 (40% 할증)
-
-### 2. Clean Architecture
-- Domain, Data, Presentation 레이어 분리
-- 테스트 가능한 구조
-- 의존성 역전 원칙 적용
-
-### 3. SwiftUI + iOS 17
-- 최신 SwiftUI 기능 활용
-- @Observable 매크로로 간결한 상태 관리
-- 선언적 UI
 
 ---
 
@@ -220,89 +163,42 @@ claude
 
 ---
 
-## 🧪 테스트
+## 🔧 최근 업데이트 (2025-12-12)
 
-```bash
-# 단위 테스트 실행
-⌘ + U
+### 성능 개선
+- 영수증 이미지 생성: Core Graphics 직접 렌더링 (1-2초 → <0.1초)
 
-# UI 테스트 실행
-⌘ + U (UI Test 타겟 선택)
-```
+### 기능 변경
+- 영수증 공유 → 캡쳐로 변경 (사진첩 바로 저장)
+- ShareSheet 제거, UX 단순화
+
+### 버그 수정
+- 요금 계산 시 lowSpeedThreshold 동적 적용
 
 ---
 
-## 📦 빌드 및 배포
+## 📦 빌드
 
-### 개발 빌드
 ```bash
 # Simulator용 빌드
 xcodebuild -project HoguMeter.xcodeproj \
   -scheme HoguMeter \
   -sdk iphonesimulator \
-  -destination 'platform=iOS Simulator,name=iPhone 15' \
+  -destination 'platform=iOS Simulator,name=iPhone 16' \
   build
 ```
-
-### 배포 준비
-1. App Store Connect에 앱 등록
-2. 버전 및 빌드 번호 업데이트
-3. Archive 생성 (⌘ + B → Product → Archive)
-4. TestFlight 배포 또는 App Store 제출
 
 ---
 
 ## 📄 라이선스
 
-MIT License - All Rights Reserved
-
----
-
-## 👥 기여하기
-
-이 프로젝트는 학습 및 포트폴리오 목적으로 개발되었습니다.
+MIT License
 
 ---
 
 ## 📞 연락처
 
 프로젝트 관련 문의: imdevbada@gmail.com
-
----
-
-## 🗺️ 로드맵
-
-### Phase 1: Foundation ✅ 완료
-- [x] 프로젝트 셋업
-- [x] 기본 UI 레이아웃
-- [x] Core Location 연동
-- [x] 앱 아이콘 및 런치 스크린
-
-### Phase 2: Core Features 🚧 진행 중
-- [x] GPS 거리 계산
-- [x] 실시간 요금 계산
-- [x] 시간대별 요금 시스템
-- [ ] 미터기 UI 개선
-
-### Phase 3: Animation 🔜 예정
-- [ ] 말 캐릭터 에셋
-- [ ] 속도별 애니메이션
-- [ ] 80km/h 특수 효과
-
-### Phase 4: Additional Features 🔜 예정
-- [ ] 설정 화면 통합
-- [ ] 주행 기록 저장
-- [ ] 영수증 공유
-
-### Phase 5: Polish 🔜 예정
-- [ ] 효과음 연동
-- [ ] 다크모드 완성
-- [ ] UI 다듬기
-
-### Phase 6: Release 🔜 예정
-- [ ] 테스트
-- [ ] 앱스토어 준비
-- [ ] 심사 제출
 
 ---
 

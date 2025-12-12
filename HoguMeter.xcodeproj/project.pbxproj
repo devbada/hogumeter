@@ -27,7 +27,6 @@
 		50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */; };
 		5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */; };
 		A1B2C3D4E5F6789012345678 /* FareTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876543210FEDCBA98765432 /* FareTimeZone.swift */; };
-		5837A55E21D62D154460B70C /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8100867116DB0E09560748A3 /* View+Snapshot.swift */; };
 		6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F919C8DBB322D01DE8748 /* Date+Extensions.swift */; };
 		617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */; };
 		64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98978790385627A731AB8C4A /* LocationServiceProtocol.swift */; };
@@ -92,7 +91,6 @@
 		7D3CC32C34F34AA99A8B2061 /* HorseEffectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseEffectsView.swift; sourceTree = "<group>"; };
 		7809A80CAB1ED395B10CE483 /* TripInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfoView.swift; sourceTree = "<group>"; };
 		7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		8100867116DB0E09560748A3 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
 		895243FBB3FAFDFB307CA6DC /* RegionFareSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareSettingsView.swift; sourceTree = "<group>"; };
 		8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		98978790385627A731AB8C4A /* LocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceProtocol.swift; sourceTree = "<group>"; };
@@ -420,7 +418,6 @@
 				53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */,
 				8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */,
 				A1B06023C3A46ACB19895E34 /* View+Extensions.swift */,
-				8100867116DB0E09560748A3 /* View+Snapshot.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -563,8 +560,6 @@
 				A8CEF1D349D1FDAFED3F62C6 /* TripInfoView.swift in Sources */,
 				F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */,
 				9AECD22DC3BA877835DB39AE /* View+Extensions.swift in Sources */,
-				5837A55E21D62D154460B70C /* View+Snapshot.swift in Sources */,
-			
 				94C37E103BDF4E589E95F538 /* FareValidation.swift in Sources */,
 				0FD6CBE88E6843FFB0A2F09D /* RegionFareViewModel.swift in Sources */,
 				C6DFA678059E468D912CF781 /* FareInputField.swift in Sources */,
