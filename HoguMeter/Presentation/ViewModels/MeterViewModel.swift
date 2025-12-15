@@ -45,6 +45,8 @@ final class MeterViewModel {
     private var cancellables = Set<AnyCancellable>()
     private var tripStartTime: Date?
     private var timer: Timer?
+    private var lastLocationUpdateTime: Date?
+    private let speedTimeoutInterval: TimeInterval = 3.0  // 3초간 업데이트 없으면 속도 0
 
     // MARK: - Init
     init(
@@ -96,6 +98,7 @@ final class MeterViewModel {
         fareBreakdown = nil
         horseSpeed = .walk
         completedTrip = nil
+        lastLocationUpdateTime = nil
         _routeManager.clearRoute()
     }
 
@@ -120,6 +123,7 @@ final class MeterViewModel {
 
         // Update speed
         currentSpeed = max(0, location.speed * 3.6)  // m/s to km/h
+        lastLocationUpdateTime = Date()
 
         // Update horse animation
         updateHorseAnimation()
@@ -176,7 +180,19 @@ final class MeterViewModel {
             Task { @MainActor in
                 self.duration = Date().timeIntervalSince(startTime)
                 self.checkNightTime()
+                self.checkSpeedTimeout()
             }
+        }
+    }
+
+    /// 일정 시간 동안 위치 업데이트가 없으면 속도를 0으로 설정
+    private func checkSpeedTimeout() {
+        guard let lastUpdate = lastLocationUpdateTime else { return }
+
+        let timeSinceLastUpdate = Date().timeIntervalSince(lastUpdate)
+        if timeSinceLastUpdate > speedTimeoutInterval && currentSpeed > 0 {
+            currentSpeed = 0
+            updateHorseAnimation()
         }
     }
 

@@ -70,6 +70,8 @@
 		RTPT00012345678901234567 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPT00001234567890ABCDEF /* RoutePoint.swift */; };
 		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
 		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
+		AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */; };
+		AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZMG00001234567890ABCDEF /* AutoZoomManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +153,8 @@
 		RTPT00001234567890ABCDEF /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
 		STPT00001234567890ABCDEF /* StartPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPointAnnotation.swift; sourceTree = "<group>"; };
 		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
+		AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
+		AZMG00001234567890ABCDEF /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -389,6 +393,7 @@
 		9C4B629BDD618D73E4A44EBE /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */,
 				649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */,
 				9876543210FEDCBA98765432 /* FareTimeZone.swift */,
 				B9E37EDFDB8A450969B082FA /* MeterState.swift */,
@@ -452,6 +457,7 @@
 		C3862C5704EB7489B0E90722 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AZMG00001234567890ABCDEF /* AutoZoomManager.swift */,
 				5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */,
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
 				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
@@ -678,6 +684,8 @@
 				RTPT00012345678901234567 /* RoutePoint.swift in Sources */,
 				STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */,
 				RTMG00012345678901234567 /* RouteManager.swift in Sources */,
+				AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */,
+				AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
