@@ -20,6 +20,13 @@ class MapViewModel: ObservableObject {
     @Published var currentSpeed: Double = 0
     @Published var isTrackingEnabled = true
 
+    // MARK: - Auto Zoom
+    private let autoZoomManager = AutoZoomManager()
+
+    var isAutoZoomEnabled: Bool {
+        autoZoomManager.isAutoZoomEnabled
+    }
+
     // MARK: - Dependencies
     private let locationService: LocationServiceProtocol
     private let routeManager: RouteManager
@@ -57,6 +64,14 @@ class MapViewModel: ObservableObject {
                 self?.updateLocation(location)
             }
             .store(in: &cancellables)
+
+        // 자동 줌 레벨 변경 감지
+        autoZoomManager.$targetSpan
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newSpan in
+                self?.applyAutoZoom(span: newSpan)
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - Private Methods
@@ -65,6 +80,9 @@ class MapViewModel: ObservableObject {
         currentHeading = location.course >= 0 ? location.course : currentHeading
         currentSpeed = max(0, location.speed * 3.6) // m/s -> km/h
 
+        // 자동 줌 업데이트
+        autoZoomManager.updateZoom(for: currentSpeed)
+
         // 추적 모드일 때만 지도 중심 업데이트
         if isTrackingEnabled {
             region = MKCoordinateRegion(center: location.coordinate, span: region.span)
@@ -72,16 +90,41 @@ class MapViewModel: ObservableObject {
         }
     }
 
+    private func applyAutoZoom(span: MKCoordinateSpan) {
+        guard isTrackingEnabled else { return }
+        guard autoZoomManager.isAutoZoomEnabled else { return }
+
+        // 부드러운 전환을 위해 현재 위치 유지하며 span만 변경
+        region = MKCoordinateRegion(center: region.center, span: span)
+        shouldUpdateRegion = true
+    }
+
     // MARK: - Public Methods
     func centerOnCurrentLocation() {
-        guard let location = currentLocation else { return }
+        // 우선순위: 현재 위치 > 경로의 마지막 좌표 > 시작 위치
+        let targetLocation: CLLocationCoordinate2D? = currentLocation
+            ?? routeCoordinates.last
+            ?? startLocation
+
+        guard let location = targetLocation else {
+            // 위치 정보가 없으면 햅틱 피드백으로 알림
+            HapticManager.warning()
+            return
+        }
+
         region = MKCoordinateRegion(center: location, span: defaultSpan)
         shouldUpdateRegion = true
         isTrackingEnabled = true
+        HapticManager.light()
     }
 
     func initializeMapCenter() {
-        if let location = currentLocation {
+        // 우선순위: 현재 위치 > 경로의 마지막 좌표 > 시작 위치
+        let targetLocation: CLLocationCoordinate2D? = currentLocation
+            ?? routeCoordinates.last
+            ?? startLocation
+
+        if let location = targetLocation {
             region = MKCoordinateRegion(center: location, span: defaultSpan)
             shouldUpdateRegion = true
         }
@@ -89,5 +132,16 @@ class MapViewModel: ObservableObject {
 
     func disableTracking() {
         isTrackingEnabled = false
+    }
+
+    /// 사용자가 지도를 직접 조작했음을 알림
+    func userDidInteractWithMap() {
+        autoZoomManager.userDidInteract()
+    }
+
+    /// 자동 줌 토글
+    func toggleAutoZoom() {
+        autoZoomManager.toggleAutoZoom()
+        objectWillChange.send()
     }
 }

@@ -28,16 +28,18 @@ struct MapContainerView: View {
             .overlay(alignment: .top) {
                 topNavigationBar
             }
-            .overlay(alignment: .bottom) {
-                VStack(alignment: .trailing, spacing: 16) {
-                    // 현재위치 버튼
+            .overlay(alignment: .bottomTrailing) {
+                // 우측 버튼들 (하단 패널 위에 위치)
+                VStack(spacing: 12) {
+                    autoZoomButton
                     currentLocationButton
-                        .padding(.trailing, 16)
-
-                    // 하단 정보 오버레이
-                    bottomInfoOverlay
-                        .frame(maxWidth: .infinity)
                 }
+                .padding(.trailing, 16)
+                .padding(.bottom, 250) // bottomInfoOverlay 높이만큼 위로
+            }
+            .overlay(alignment: .bottom) {
+                // 하단 정보 오버레이
+                bottomInfoOverlay
             }
             .onAppear {
                 mapViewModel.initializeMapCenter()
@@ -78,6 +80,30 @@ struct MapContainerView: View {
             .background(.ultraThinMaterial)
         }
         .fixedSize(horizontal: false, vertical: true)
+    }
+
+    // MARK: - Auto Zoom Button
+    private var autoZoomButton: some View {
+        Button(action: {
+            mapViewModel.toggleAutoZoom()
+        }) {
+            ZStack {
+                Image(systemName: "scope")
+                    .font(.system(size: 20))
+                    .foregroundColor(mapViewModel.isAutoZoomEnabled ? .blue : .gray)
+
+                // 비활성화 시 취소선 표시
+                if !mapViewModel.isAutoZoomEnabled {
+                    Image(systemName: "line.diagonal")
+                        .font(.system(size: 24))
+                        .foregroundColor(.red.opacity(0.8))
+                }
+            }
+            .frame(width: 44, height: 44)
+            .background(.ultraThinMaterial)
+            .clipShape(Circle())
+            .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+        }
     }
 
     // MARK: - Current Location Button

@@ -118,10 +118,11 @@ struct MapViewRepresentable: UIViewRepresentable {
             self.parent = parent
         }
 
-        // 사용자가 지도를 드래그하면 추적 모드 비활성화
+        // 사용자가 지도를 드래그하면 추적 모드 비활성화 및 자동 줌 일시 중지
         @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
             if gesture.state == .began {
                 Task { @MainActor in
+                    parent.viewModel.userDidInteractWithMap()
                     parent.viewModel.disableTracking()
                 }
             }
