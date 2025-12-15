@@ -65,6 +65,8 @@
 		MAPVM00012345678901234567 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVM00001234567890ABCDEF /* MapViewModel.swift */; };
 		MAPCV00012345678901234567 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPCV00001234567890ABCDEF /* MapContainerView.swift */; };
 		MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */; };
+		TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */; };
+		TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +143,8 @@
 		MAPVM00001234567890ABCDEF /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		MAPCV00001234567890ABCDEF /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
 		MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
+		TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotation.swift; sourceTree = "<group>"; };
+		TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -278,6 +282,7 @@
 			children = (
 				MAPCV00001234567890ABCDEF /* MapContainerView.swift */,
 				MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */,
+				TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -384,6 +389,7 @@
 				D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */,
 				CE2CFB92DAEA79D831F37AC8 /* Trip.swift */,
 				F257388E6B23451CA58E4005 /* HorseSpeed.swift */,
+				TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -658,6 +664,8 @@
 				MAPVM00012345678901234567 /* MapViewModel.swift in Sources */,
 				MAPCV00012345678901234567 /* MapContainerView.swift in Sources */,
 				MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */,
+				TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */,
+				TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

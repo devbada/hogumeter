@@ -39,28 +39,37 @@ struct MapViewRepresentable: UIViewRepresentable {
             }
         }
 
-        // 현재 위치 마커 업데이트 (임시 - 기본 annotation 사용)
-        updateCurrentLocationAnnotation(mapView)
+        // 커스텀 마커 업데이트
+        updateTaxiHorseAnnotation(mapView)
     }
 
-    private func updateCurrentLocationAnnotation(_ mapView: MKMapView) {
+    private func updateTaxiHorseAnnotation(_ mapView: MKMapView) {
         guard let location = viewModel.currentLocation else { return }
 
-        // 기존 현재 위치 annotation 찾기
-        let existingAnnotation = mapView.annotations.first { annotation in
-            annotation.title == "현재 위치"
-        }
+        if let existingAnnotation = mapView.annotations.first(where: { $0 is TaxiHorseAnnotation }) as? TaxiHorseAnnotation {
+            // 기존 마커 업데이트 (부드러운 애니메이션)
+            UIView.animate(withDuration: 0.3) {
+                existingAnnotation.update(
+                    coordinate: location,
+                    heading: self.viewModel.currentHeading,
+                    speed: self.viewModel.currentSpeed
+                )
+            }
 
-        if let existing = existingAnnotation {
-            // 기존 annotation 제거 후 새로 추가 (위치 업데이트)
-            mapView.removeAnnotation(existing)
+            // AnnotationView 업데이트
+            if let annotationView = mapView.view(for: existingAnnotation) as? TaxiHorseAnnotationView {
+                annotationView.updateHeading(viewModel.currentHeading)
+                annotationView.updateSpeed(viewModel.currentSpeed)
+            }
+        } else {
+            // 새 마커 추가
+            let annotation = TaxiHorseAnnotation(
+                coordinate: location,
+                heading: viewModel.currentHeading,
+                speed: viewModel.currentSpeed
+            )
+            mapView.addAnnotation(annotation)
         }
-
-        // 새 annotation 추가
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = location
-        annotation.title = "현재 위치"
-        mapView.addAnnotation(annotation)
     }
 
     func makeCoordinator() -> Coordinator {
@@ -89,30 +98,22 @@ struct MapViewRepresentable: UIViewRepresentable {
             return true
         }
 
-        // 현재 위치 마커 스타일 (임시 - 추후 커스텀 마커로 변경)
+        // 커스텀 마커 뷰 제공
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            guard annotation.title == "현재 위치" else { return nil }
+            guard let taxiHorseAnnotation = annotation as? TaxiHorseAnnotation else { return nil }
 
-            let identifier = "CurrentLocation"
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            let view = mapView.dequeueReusableAnnotationView(
+                withIdentifier: TaxiHorseAnnotationView.reuseIdentifier
+            ) as? TaxiHorseAnnotationView ?? TaxiHorseAnnotationView(
+                annotation: annotation,
+                reuseIdentifier: TaxiHorseAnnotationView.reuseIdentifier
+            )
 
-            if annotationView == nil {
-                annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView?.canShowCallout = false
+            view.annotation = annotation
+            view.updateHeading(taxiHorseAnnotation.heading)
+            view.updateSpeed(taxiHorseAnnotation.speed)
 
-                // 임시 마커 (이모지 기반)
-                let label = UILabel()
-                label.text = "🚕🐴"
-                label.font = .systemFont(ofSize: 30)
-                label.sizeToFit()
-                annotationView?.addSubview(label)
-                annotationView?.frame = label.frame
-                annotationView?.centerOffset = CGPoint(x: 0, y: -15)
-            } else {
-                annotationView?.annotation = annotation
-            }
-
-            return annotationView
+            return view
         }
     }
 }
