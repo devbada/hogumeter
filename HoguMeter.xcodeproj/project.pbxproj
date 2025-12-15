@@ -72,6 +72,7 @@
 		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
 		AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */; };
 		AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZMG00001234567890ABCDEF /* AutoZoomManager.swift */; };
+		MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MRQT00001234567890ABCDEF /* MarqueeTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,7 @@
 		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 		AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
 		AZMG00001234567890ABCDEF /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
+		MRQT00001234567890ABCDEF /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -276,6 +278,7 @@
 		5E2DEB05780C5F0FE5E36E09 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				VCMP00001234567890ABCDEF /* Components */,
 				1C6E9DFC1E9547F7BA33E60C /* Onboarding */,
 				AAA662AE9396E99BC52CF0B2 /* ContentView.swift */,
 				9D776D339B2D084172464670 /* History */,
@@ -285,6 +288,14 @@
 				3500C9519EFBE8E7CF847E29 /* Settings */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		VCMP00001234567890ABCDEF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				MRQT00001234567890ABCDEF /* MarqueeTextView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		MAPGRP0001234567890ABCDEF /* Map */ = {
@@ -686,6 +697,7 @@
 				RTMG00012345678901234567 /* RouteManager.swift in Sources */,
 				AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */,
 				AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */,
+				MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
