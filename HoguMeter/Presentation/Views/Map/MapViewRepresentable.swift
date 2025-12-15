@@ -11,6 +11,11 @@ import MapKit
 struct MapViewRepresentable: UIViewRepresentable {
     @ObservedObject var viewModel: MapViewModel
 
+    // 폴리라인 업데이트 최적화를 위한 좌표 개수 추적
+    fileprivate class MapState {
+        var lastPolylineCount: Int = 0
+    }
+
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
@@ -42,8 +47,8 @@ struct MapViewRepresentable: UIViewRepresentable {
         // 커스텀 마커 업데이트
         updateTaxiHorseAnnotation(mapView)
 
-        // 폴리라인 업데이트
-        updatePolyline(mapView)
+        // 폴리라인 업데이트 (좌표 개수가 변경되었을 때만)
+        updatePolyline(mapView, mapState: context.coordinator.mapState)
 
         // 출발 마커 업데이트
         updateStartMarker(mapView)
@@ -53,14 +58,12 @@ struct MapViewRepresentable: UIViewRepresentable {
         guard let location = viewModel.currentLocation else { return }
 
         if let existingAnnotation = mapView.annotations.first(where: { $0 is TaxiHorseAnnotation }) as? TaxiHorseAnnotation {
-            // 기존 마커 업데이트 (부드러운 애니메이션)
-            UIView.animate(withDuration: 0.3) {
-                existingAnnotation.update(
-                    coordinate: location,
-                    heading: self.viewModel.currentHeading,
-                    speed: self.viewModel.currentSpeed
-                )
-            }
+            // 기존 마커 업데이트 (MKAnnotation coordinate는 KVO로 자동 애니메이션됨)
+            existingAnnotation.update(
+                coordinate: location,
+                heading: viewModel.currentHeading,
+                speed: viewModel.currentSpeed
+            )
 
             // AnnotationView 업데이트
             if let annotationView = mapView.view(for: existingAnnotation) as? TaxiHorseAnnotationView {
@@ -78,7 +81,14 @@ struct MapViewRepresentable: UIViewRepresentable {
         }
     }
 
-    private func updatePolyline(_ mapView: MKMapView) {
+    private func updatePolyline(_ mapView: MKMapView, mapState: MapState) {
+        let coordinates = viewModel.routeCoordinates
+        let currentCount = coordinates.count
+
+        // 좌표 개수가 변경되지 않았으면 스킵 (성능 최적화)
+        guard currentCount != mapState.lastPolylineCount else { return }
+        mapState.lastPolylineCount = currentCount
+
         // 기존 폴리라인 제거
         mapView.overlays.forEach { overlay in
             if overlay is MKPolyline {
@@ -86,9 +96,8 @@ struct MapViewRepresentable: UIViewRepresentable {
             }
         }
 
-        // 새 폴리라인 추가
-        let coordinates = viewModel.routeCoordinates
-        guard coordinates.count >= 2 else { return }
+        // 새 폴리라인 추가 (2개 이상 좌표가 있을 때만)
+        guard currentCount >= 2 else { return }
 
         var coords = coordinates
         let polyline = MKPolyline(coordinates: &coords, count: coords.count)
@@ -113,6 +122,7 @@ struct MapViewRepresentable: UIViewRepresentable {
     // MARK: - Coordinator
     class Coordinator: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
         var parent: MapViewRepresentable
+        fileprivate let mapState = MapState()
 
         init(_ parent: MapViewRepresentable) {
             self.parent = parent

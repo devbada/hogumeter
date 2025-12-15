@@ -17,9 +17,12 @@ class RouteManager: ObservableObject {
     // MARK: - Properties
     private let minimumDistance: Double = 5.0 // 최소 5m 이동 시에만 포인트 추가
 
+    // MARK: - Cached Coordinates (성능 최적화)
+    private var cachedCoordinates: [CLLocationCoordinate2D] = []
+
     // MARK: - Computed Properties
     var coordinates: [CLLocationCoordinate2D] {
-        routePoints.map { $0.coordinate }
+        cachedCoordinates
     }
 
     var totalDistance: Double {
@@ -37,6 +40,7 @@ class RouteManager: ObservableObject {
     // MARK: - Methods
     func startNewRoute(at location: CLLocation) {
         routePoints = []
+        cachedCoordinates = []
         startLocation = location.coordinate
         addPoint(location)
     }
@@ -54,10 +58,12 @@ class RouteManager: ObservableObject {
         }
 
         routePoints.append(newPoint)
+        cachedCoordinates.append(newPoint.coordinate)
     }
 
     func clearRoute() {
         routePoints = []
+        cachedCoordinates = []
         startLocation = nil
     }
 }
