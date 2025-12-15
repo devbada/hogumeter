@@ -32,10 +32,12 @@ final class MeterViewModel {
     private let _locationService: LocationServiceProtocol
     private let fareCalculator: FareCalculator
     private let _routeManager: RouteManager
+    private let _easterEggManager: EasterEggManager
 
     // 지도 화면에서 사용하기 위한 접근자
     var locationService: LocationServiceProtocol { _locationService }
     var routeManager: RouteManager { _routeManager }
+    var easterEggManager: EasterEggManager { _easterEggManager }
 
     private let regionDetector: RegionDetector
     private let soundManager: SoundManager
@@ -55,11 +57,13 @@ final class MeterViewModel {
         regionDetector: RegionDetector,
         soundManager: SoundManager,
         tripRepository: TripRepository,
-        routeManager: RouteManager = RouteManager()
+        routeManager: RouteManager = RouteManager(),
+        easterEggManager: EasterEggManager = EasterEggManager()
     ) {
         self._locationService = locationService
         self.fareCalculator = fareCalculator
         self._routeManager = routeManager
+        self._easterEggManager = easterEggManager
         self.regionDetector = regionDetector
         self.soundManager = soundManager
         self.tripRepository = tripRepository
@@ -75,6 +79,9 @@ final class MeterViewModel {
         _locationService.startTracking()
         startTimer()
         soundManager.play(.meterStart)
+
+        // 이스터에그: 주행 시작 (신데렐라 모드 체크 포함)
+        _easterEggManager.onTripStart(at: tripStartTime ?? Date())
     }
 
     func stopMeter() {
@@ -83,6 +90,9 @@ final class MeterViewModel {
         stopTimer()
         calculateFinalFare()
         soundManager.play(.meterStop)
+
+        // 이스터에그: 주행 종료
+        _easterEggManager.onTripEnd()
 
         // Trip 생성 및 저장
         saveTrip()
@@ -146,6 +156,11 @@ final class MeterViewModel {
             regionChanges: regionDetector.regionChangeCount,
             isNightTime: isNightTime
         )
+
+        // 이스터에그 체크
+        _easterEggManager.checkSpeed(currentSpeed)
+        _easterEggManager.checkDistance(distance)
+        _easterEggManager.checkFare(currentFare)
 
         // Check region change
         regionDetector.detect(location: location) { [weak self] newRegion in

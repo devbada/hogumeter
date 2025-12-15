@@ -50,6 +50,12 @@ struct MainMeterView: View {
                     )
                     .padding(.bottom, 20)
                 }
+
+                // 이스터에그 오버레이
+                EasterEggOverlayView(
+                    easterEgg: viewModel.easterEggManager.triggeredEasterEgg,
+                    onDismiss: { viewModel.easterEggManager.dismissEasterEgg() }
+                )
             }
             .navigationTitle("🐴 호구미터")
             .toolbar {
