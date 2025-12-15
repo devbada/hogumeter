@@ -29,8 +29,14 @@ final class MeterViewModel {
     private(set) var horseSpeed: HorseSpeed = .walk
 
     // MARK: - Dependencies
-    private let locationService: LocationServiceProtocol
+    private let _locationService: LocationServiceProtocol
     private let fareCalculator: FareCalculator
+    private let _routeManager: RouteManager
+
+    // 지도 화면에서 사용하기 위한 접근자
+    var locationService: LocationServiceProtocol { _locationService }
+    var routeManager: RouteManager { _routeManager }
+
     private let regionDetector: RegionDetector
     private let soundManager: SoundManager
     private let tripRepository: TripRepository
@@ -46,10 +52,12 @@ final class MeterViewModel {
         fareCalculator: FareCalculator,
         regionDetector: RegionDetector,
         soundManager: SoundManager,
-        tripRepository: TripRepository
+        tripRepository: TripRepository,
+        routeManager: RouteManager = RouteManager()
     ) {
-        self.locationService = locationService
+        self._locationService = locationService
         self.fareCalculator = fareCalculator
+        self._routeManager = routeManager
         self.regionDetector = regionDetector
         self.soundManager = soundManager
         self.tripRepository = tripRepository
@@ -62,14 +70,14 @@ final class MeterViewModel {
         state = .running
         tripStartTime = Date()
         regionDetector.reset()
-        locationService.startTracking()
+        _locationService.startTracking()
         startTimer()
         soundManager.play(.meterStart)
     }
 
     func stopMeter() {
         state = .stopped
-        locationService.stopTracking()
+        _locationService.stopTracking()
         stopTimer()
         calculateFinalFare()
         soundManager.play(.meterStop)
@@ -88,6 +96,7 @@ final class MeterViewModel {
         fareBreakdown = nil
         horseSpeed = .walk
         completedTrip = nil
+        _routeManager.clearRoute()
     }
 
     func clearCompletedTrip() {
@@ -97,7 +106,7 @@ final class MeterViewModel {
     // MARK: - Private Methods
     private func setupBindings() {
         // Location updates
-        locationService.locationPublisher
+        _locationService.locationPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] location in
                 self?.handleLocationUpdate(location)
@@ -107,13 +116,24 @@ final class MeterViewModel {
 
     private func handleLocationUpdate(_ location: CLLocation) {
         // Update distance
-        distance = locationService.totalDistance / 1000  // m to km
+        distance = _locationService.totalDistance / 1000  // m to km
 
         // Update speed
         currentSpeed = max(0, location.speed * 3.6)  // m/s to km/h
 
         // Update horse animation
         updateHorseAnimation()
+
+        // Update route (경로 기록)
+        if state == .running {
+            if _routeManager.startLocation == nil {
+                // 첫 위치 - 새 경로 시작
+                _routeManager.startNewRoute(at: location)
+            } else {
+                // 경로에 포인트 추가
+                _routeManager.addPoint(location)
+            }
+        }
 
         // Calculate fare (병산제: 고속거리 + 저속시간)
         currentFare = fareCalculator.calculate(

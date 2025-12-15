@@ -25,7 +25,13 @@
       "Bash(file:*)",
       "Bash(sips:*)",
       "Bash(open -a Simulator)",
-      "Bash(osascript:*)"
+      "Bash(osascript:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh auth status:*)",
+      "Bash(gh auth:*)",
+      "WebSearch"
     ]
   },
   "enableAllProjectMcpServers": true,
