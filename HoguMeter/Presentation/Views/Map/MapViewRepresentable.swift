@@ -41,6 +41,12 @@ struct MapViewRepresentable: UIViewRepresentable {
 
         // 커스텀 마커 업데이트
         updateTaxiHorseAnnotation(mapView)
+
+        // 폴리라인 업데이트
+        updatePolyline(mapView)
+
+        // 출발 마커 업데이트
+        updateStartMarker(mapView)
     }
 
     private func updateTaxiHorseAnnotation(_ mapView: MKMapView) {
@@ -72,6 +78,34 @@ struct MapViewRepresentable: UIViewRepresentable {
         }
     }
 
+    private func updatePolyline(_ mapView: MKMapView) {
+        // 기존 폴리라인 제거
+        mapView.overlays.forEach { overlay in
+            if overlay is MKPolyline {
+                mapView.removeOverlay(overlay)
+            }
+        }
+
+        // 새 폴리라인 추가
+        let coordinates = viewModel.routeCoordinates
+        guard coordinates.count >= 2 else { return }
+
+        var coords = coordinates
+        let polyline = MKPolyline(coordinates: &coords, count: coords.count)
+        mapView.addOverlay(polyline)
+    }
+
+    private func updateStartMarker(_ mapView: MKMapView) {
+        guard let startLocation = viewModel.startLocation else { return }
+
+        // 이미 있으면 스킵
+        let hasStartMarker = mapView.annotations.contains { $0 is StartPointAnnotation }
+        guard !hasStartMarker else { return }
+
+        let annotation = StartPointAnnotation(coordinate: startLocation)
+        mapView.addAnnotation(annotation)
+    }
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -100,20 +134,50 @@ struct MapViewRepresentable: UIViewRepresentable {
 
         // 커스텀 마커 뷰 제공
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            guard let taxiHorseAnnotation = annotation as? TaxiHorseAnnotation else { return nil }
+            // 출발 마커
+            if annotation is StartPointAnnotation {
+                let identifier = "StartPoint"
+                var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+                if view == nil {
+                    view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                    view?.markerTintColor = .systemGreen
+                    view?.glyphImage = UIImage(systemName: "flag.fill")
+                } else {
+                    view?.annotation = annotation
+                }
+                return view
+            }
 
-            let view = mapView.dequeueReusableAnnotationView(
-                withIdentifier: TaxiHorseAnnotationView.reuseIdentifier
-            ) as? TaxiHorseAnnotationView ?? TaxiHorseAnnotationView(
-                annotation: annotation,
-                reuseIdentifier: TaxiHorseAnnotationView.reuseIdentifier
-            )
+            // 택시+말 마커
+            if let taxiHorseAnnotation = annotation as? TaxiHorseAnnotation {
+                let view = mapView.dequeueReusableAnnotationView(
+                    withIdentifier: TaxiHorseAnnotationView.reuseIdentifier
+                ) as? TaxiHorseAnnotationView ?? TaxiHorseAnnotationView(
+                    annotation: annotation,
+                    reuseIdentifier: TaxiHorseAnnotationView.reuseIdentifier
+                )
 
-            view.annotation = annotation
-            view.updateHeading(taxiHorseAnnotation.heading)
-            view.updateSpeed(taxiHorseAnnotation.speed)
+                view.annotation = annotation
+                view.updateHeading(taxiHorseAnnotation.heading)
+                view.updateSpeed(taxiHorseAnnotation.speed)
 
-            return view
+                return view
+            }
+
+            return nil
+        }
+
+        // 폴리라인 렌더러
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            if let polyline = overlay as? MKPolyline {
+                let renderer = MKPolylineRenderer(polyline: polyline)
+                renderer.strokeColor = UIColor.systemBlue
+                renderer.lineWidth = 5
+                renderer.lineCap = .round
+                renderer.lineJoin = .round
+                return renderer
+            }
+            return MKOverlayRenderer(overlay: overlay)
         }
     }
 }

@@ -31,9 +31,12 @@ final class MeterViewModel {
     // MARK: - Dependencies
     private let _locationService: LocationServiceProtocol
     private let fareCalculator: FareCalculator
+    private let _routeManager: RouteManager
 
     // 지도 화면에서 사용하기 위한 접근자
     var locationService: LocationServiceProtocol { _locationService }
+    var routeManager: RouteManager { _routeManager }
+
     private let regionDetector: RegionDetector
     private let soundManager: SoundManager
     private let tripRepository: TripRepository
@@ -49,10 +52,12 @@ final class MeterViewModel {
         fareCalculator: FareCalculator,
         regionDetector: RegionDetector,
         soundManager: SoundManager,
-        tripRepository: TripRepository
+        tripRepository: TripRepository,
+        routeManager: RouteManager = RouteManager()
     ) {
         self._locationService = locationService
         self.fareCalculator = fareCalculator
+        self._routeManager = routeManager
         self.regionDetector = regionDetector
         self.soundManager = soundManager
         self.tripRepository = tripRepository
@@ -91,6 +96,7 @@ final class MeterViewModel {
         fareBreakdown = nil
         horseSpeed = .walk
         completedTrip = nil
+        _routeManager.clearRoute()
     }
 
     func clearCompletedTrip() {
@@ -117,6 +123,17 @@ final class MeterViewModel {
 
         // Update horse animation
         updateHorseAnimation()
+
+        // Update route (경로 기록)
+        if state == .running {
+            if _routeManager.startLocation == nil {
+                // 첫 위치 - 새 경로 시작
+                _routeManager.startNewRoute(at: location)
+            } else {
+                // 경로에 포인트 추가
+                _routeManager.addPoint(location)
+            }
+        }
 
         // Calculate fare (병산제: 고속거리 + 저속시간)
         currentFare = fareCalculator.calculate(

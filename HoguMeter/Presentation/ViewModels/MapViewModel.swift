@@ -22,14 +22,25 @@ class MapViewModel: ObservableObject {
 
     // MARK: - Dependencies
     private let locationService: LocationServiceProtocol
+    private let routeManager: RouteManager
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Constants
     private let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
 
+    // MARK: - Route Properties (from RouteManager)
+    var routeCoordinates: [CLLocationCoordinate2D] {
+        routeManager.coordinates
+    }
+
+    var startLocation: CLLocationCoordinate2D? {
+        routeManager.startLocation
+    }
+
     // MARK: - Init
-    init(locationService: LocationServiceProtocol) {
+    init(locationService: LocationServiceProtocol, routeManager: RouteManager) {
         self.locationService = locationService
+        self.routeManager = routeManager
 
         // 기본 위치 (서울)
         let defaultCoordinate = CLLocationCoordinate2D(latitude: 37.5665, longitude: 126.9780)

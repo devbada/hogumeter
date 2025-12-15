@@ -67,6 +67,9 @@
 		MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */; };
 		TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */; };
 		TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */; };
+		RTPT00012345678901234567 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPT00001234567890ABCDEF /* RoutePoint.swift */; };
+		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
+		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +148,9 @@
 		MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
 		TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotation.swift; sourceTree = "<group>"; };
 		TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotationView.swift; sourceTree = "<group>"; };
+		RTPT00001234567890ABCDEF /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
+		STPT00001234567890ABCDEF /* StartPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPointAnnotation.swift; sourceTree = "<group>"; };
+		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -390,6 +396,8 @@
 				CE2CFB92DAEA79D831F37AC8 /* Trip.swift */,
 				F257388E6B23451CA58E4005 /* HorseSpeed.swift */,
 				TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */,
+				RTPT00001234567890ABCDEF /* RoutePoint.swift */,
+				STPT00001234567890ABCDEF /* StartPointAnnotation.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -448,6 +456,7 @@
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
 				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
 				FE10E81350094D7AFCFDBA7D /* SoundManager.swift */,
+				RTMG00001234567890ABCDEF /* RouteManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -666,6 +675,9 @@
 				MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */,
 				TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */,
 				TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */,
+				RTPT00012345678901234567 /* RoutePoint.swift in Sources */,
+				STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */,
+				RTMG00012345678901234567 /* RouteManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

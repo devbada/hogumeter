@@ -15,10 +15,10 @@ struct MapContainerView: View {
     @StateObject private var mapViewModel: MapViewModel
 
     // MARK: - Init
-    init(meterViewModel: MeterViewModel, locationService: LocationServiceProtocol, isPresented: Binding<Bool>) {
+    init(meterViewModel: MeterViewModel, locationService: LocationServiceProtocol, routeManager: RouteManager, isPresented: Binding<Bool>) {
         self.meterViewModel = meterViewModel
         self._isPresented = isPresented
-        self._mapViewModel = StateObject(wrappedValue: MapViewModel(locationService: locationService))
+        self._mapViewModel = StateObject(wrappedValue: MapViewModel(locationService: locationService, routeManager: routeManager))
     }
 
     // MARK: - Body

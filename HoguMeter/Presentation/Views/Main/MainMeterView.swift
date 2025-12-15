@@ -60,6 +60,7 @@ struct MainMeterView: View {
                 MapContainerView(
                     meterViewModel: viewModel,
                     locationService: viewModel.locationService,
+                    routeManager: viewModel.routeManager,
                     isPresented: $showMap
                 )
             }
