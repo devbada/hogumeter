@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainMeterView: View {
     @State var viewModel: MeterViewModel
-    @State private var showReceipt = false  // 영수증 표시 상태
+    @State private var receiptTrip: Trip?   // 영수증에 표시할 Trip
     @State private var showMap = false      // 지도 표시 상태
 
     var body: some View {
@@ -56,7 +56,14 @@ struct MainMeterView: View {
                 }
             }
             // 지도 화면
-            .fullScreenCover(isPresented: $showMap) {
+            .fullScreenCover(isPresented: $showMap, onDismiss: {
+                // 지도 화면 닫힌 후 영수증 표시
+                if let trip = viewModel.completedTrip {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        receiptTrip = trip
+                    }
+                }
+            }) {
                 MapContainerView(
                     meterViewModel: viewModel,
                     locationService: viewModel.locationService,
@@ -64,17 +71,18 @@ struct MainMeterView: View {
                     isPresented: $showMap
                 )
             }
-            // 영수증 Sheet 추가
-            .sheet(isPresented: $showReceipt) {
-                if let trip = viewModel.completedTrip {
-                    ReceiptView(trip: trip)
-                        .onDisappear {
-                            viewModel.clearCompletedTrip()
-                        }
-                }
+            // 영수증 Sheet (item 기반)
+            .sheet(item: $receiptTrip) { trip in
+                ReceiptView(trip: trip)
+                    .onDisappear {
+                        viewModel.clearCompletedTrip()
+                    }
             }
             .onChange(of: viewModel.completedTrip) { _, newTrip in
-                showReceipt = (newTrip != nil)
+                // 지도 화면이 열려있지 않을 때만 영수증 표시
+                if !showMap, let trip = newTrip {
+                    receiptTrip = trip
+                }
             }
         }
     }

@@ -104,7 +104,7 @@ struct TripRowView: View {
                 Text(formattedDate)
                     .font(.headline)
                 Spacer()
-                Text("\(trip.totalFare)원")
+                Text("\(trip.totalFare.formatted())원")
                     .font(.headline)
                     .foregroundColor(.green)
             }
@@ -152,16 +152,16 @@ struct TripDetailView: View {
             }
 
             Section("요금 내역") {
-                LabeledContent("기본요금", value: "\(trip.fareBreakdown.baseFare)원")
-                LabeledContent("거리요금", value: "\(trip.fareBreakdown.distanceFare)원")
-                LabeledContent("시간요금", value: "\(trip.fareBreakdown.timeFare)원")
+                LabeledContent("기본요금", value: "\(trip.fareBreakdown.baseFare.formatted())원")
+                LabeledContent("거리요금", value: "\(trip.fareBreakdown.distanceFare.formatted())원")
+                LabeledContent("시간요금", value: "\(trip.fareBreakdown.timeFare.formatted())원")
                 if trip.fareBreakdown.regionSurcharge > 0 {
-                    LabeledContent("지역할증", value: "\(trip.fareBreakdown.regionSurcharge)원")
+                    LabeledContent("지역할증", value: "\(trip.fareBreakdown.regionSurcharge.formatted())원")
                 }
                 if trip.fareBreakdown.nightSurcharge > 0 {
-                    LabeledContent("야간할증", value: "\(trip.fareBreakdown.nightSurcharge)원")
+                    LabeledContent("야간할증", value: "\(trip.fareBreakdown.nightSurcharge.formatted())원")
                 }
-                LabeledContent("총 요금", value: "\(trip.fareBreakdown.totalFare)원")
+                LabeledContent("총 요금", value: "\(trip.fareBreakdown.totalFare.formatted())원")
                     .bold()
             }
 

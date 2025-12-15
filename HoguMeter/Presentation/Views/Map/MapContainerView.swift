@@ -23,61 +23,61 @@ struct MapContainerView: View {
 
     // MARK: - Body
     var body: some View {
-        ZStack {
-            // 지도 뷰
-            MapViewRepresentable(viewModel: mapViewModel)
-                .ignoresSafeArea(edges: .top)
-
-            VStack(spacing: 0) {
-                // 상단 네비게이션 바
+        MapViewRepresentable(viewModel: mapViewModel)
+            .ignoresSafeArea()
+            .overlay(alignment: .top) {
                 topNavigationBar
-
-                Spacer()
-
-                // 우측 컨트롤 버튼
-                HStack {
-                    Spacer()
-                    VStack(spacing: 12) {
-                        currentLocationButton
-                    }
-                    .padding(.trailing, 16)
-                }
-                .padding(.bottom, 16)
-
-                // 하단 정보 오버레이
-                bottomInfoOverlay
             }
-        }
-        .onAppear {
-            mapViewModel.initializeMapCenter()
-        }
+            .overlay(alignment: .bottom) {
+                VStack(alignment: .trailing, spacing: 16) {
+                    // 현재위치 버튼
+                    currentLocationButton
+                        .padding(.trailing, 16)
+
+                    // 하단 정보 오버레이
+                    bottomInfoOverlay
+                        .frame(maxWidth: .infinity)
+                }
+            }
+            .onAppear {
+                mapViewModel.initializeMapCenter()
+            }
     }
 
     // MARK: - Top Navigation Bar
     private var topNavigationBar: some View {
-        HStack {
-            // 뒤로가기 버튼
-            Button(action: { isPresented = false }) {
-                HStack(spacing: 4) {
-                    Image(systemName: "chevron.left")
-                    Text("미터기")
+        VStack(spacing: 0) {
+            // Safe area 상단 영역 (status bar)
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .frame(height: 0)
+                .ignoresSafeArea(edges: .top)
+
+            // 실제 네비게이션 바
+            HStack {
+                Button(action: { isPresented = false }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                        Text("미터기")
+                    }
+                    .foregroundColor(.primary)
                 }
-                .foregroundColor(.primary)
+
+                Spacer()
+
+                Text("지도보기")
+                    .font(.headline)
+
+                Spacer()
+
+                Color.clear
+                    .frame(width: 70)
             }
-
-            Spacer()
-
-            Text("지도보기")
-                .font(.headline)
-
-            Spacer()
-
-            // 균형을 위한 빈 공간
-            Color.clear
-                .frame(width: 70)
+            .padding(.horizontal)
+            .padding(.vertical, 12)
+            .background(.ultraThinMaterial)
         }
-        .padding()
-        .background(.ultraThinMaterial)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     // MARK: - Current Location Button
