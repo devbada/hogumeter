@@ -45,13 +45,20 @@ class TaxiHorseAnnotationView: MKAnnotationView {
     }
 
     func updateSpeed(_ speed: Double) {
-        // 속도에 따라 이모지 변경
-        if speed > 80 {
-            emojiLabel.text = "🏎️"  // 초고속
-        } else if speed > 60 {
-            emojiLabel.text = "🚗"  // 빠른 속도
-        } else {
-            emojiLabel.text = "🚕"  // 일반 속도
+        // HorseSpeed 기준에 맞춰 이모지 변경
+        switch speed {
+        case 0:
+            emojiLabel.text = "💤"   // 숨 돌리기 (정지)
+        case 0..<5:
+            emojiLabel.text = "🐴"   // 걷기
+        case 5..<10:
+            emojiLabel.text = "🐎"   // 빠른 걸음
+        case 10..<30:
+            emojiLabel.text = "🏇"   // 달리기
+        case 30..<100:
+            emojiLabel.text = "🔥"   // 질주본능 발휘
+        default:
+            emojiLabel.text = "🚀"   // 로켓포 발사 (100km/h+)
         }
     }
 }
