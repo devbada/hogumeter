@@ -36,12 +36,30 @@ struct MapViewRepresentable: UIViewRepresentable {
     }
 
     func updateUIView(_ mapView: MKMapView, context: Context) {
-        // 지도 중심 업데이트
+        // 추적 모드 변경 처리
+        if viewModel.shouldUpdateTrackingMode {
+            updateTrackingMode(mapView, context: context)
+            DispatchQueue.main.async {
+                viewModel.shouldUpdateTrackingMode = false
+            }
+        }
+
+        // 지도 중심 업데이트 (heading 모드가 아닐 때만 region 사용)
         if viewModel.shouldUpdateRegion {
-            mapView.setRegion(viewModel.region, animated: true)
+            if viewModel.trackingMode == .followWithHeading {
+                // Heading 모드: 카메라로 위치와 방향 동시 업데이트
+                updateCameraWithHeading(mapView)
+            } else {
+                mapView.setRegion(viewModel.region, animated: true)
+            }
             DispatchQueue.main.async {
                 viewModel.shouldUpdateRegion = false
             }
+        }
+
+        // Heading 모드에서 방향 업데이트 (region 업데이트 없이도)
+        if viewModel.trackingMode == .followWithHeading {
+            updateCameraHeadingOnly(mapView, context: context)
         }
 
         // 커스텀 마커 업데이트
@@ -52,6 +70,58 @@ struct MapViewRepresentable: UIViewRepresentable {
 
         // 출발 마커 업데이트
         updateStartMarker(mapView)
+    }
+
+    private func updateTrackingMode(_ mapView: MKMapView, context: Context) {
+        switch viewModel.trackingMode {
+        case .none:
+            // 추적 해제 - 지도 회전 초기화
+            if mapView.camera.heading != 0 {
+                let camera = mapView.camera.copy() as! MKMapCamera
+                camera.heading = 0
+                mapView.setCamera(camera, animated: true)
+            }
+        case .follow:
+            // 일반 추적 - 지도 회전 초기화
+            if mapView.camera.heading != 0 {
+                let camera = mapView.camera.copy() as! MKMapCamera
+                camera.heading = 0
+                mapView.setCamera(camera, animated: true)
+            }
+        case .followWithHeading:
+            // 방향 추적 - 현재 heading으로 카메라 설정
+            updateCameraWithHeading(mapView)
+        }
+        context.coordinator.lastTrackingMode = viewModel.trackingMode
+    }
+
+    private func updateCameraWithHeading(_ mapView: MKMapView) {
+        guard let location = viewModel.currentLocation else { return }
+
+        let camera = MKMapCamera(
+            lookingAtCenter: location,
+            fromDistance: mapView.camera.centerCoordinateDistance,
+            pitch: 0,
+            heading: viewModel.currentHeading
+        )
+        mapView.setCamera(camera, animated: true)
+    }
+
+    private func updateCameraHeadingOnly(_ mapView: MKMapView, context: Context) {
+        // heading이 변경되었을 때만 업데이트
+        let currentHeading = viewModel.currentHeading
+        guard abs(currentHeading - context.coordinator.lastHeading) > 1.0 else { return }
+        context.coordinator.lastHeading = currentHeading
+
+        guard let location = viewModel.currentLocation else { return }
+
+        let camera = MKMapCamera(
+            lookingAtCenter: location,
+            fromDistance: mapView.camera.centerCoordinateDistance,
+            pitch: 0,
+            heading: currentHeading
+        )
+        mapView.setCamera(camera, animated: true)
     }
 
     private func updateTaxiHorseAnnotation(_ mapView: MKMapView) {
@@ -123,6 +193,8 @@ struct MapViewRepresentable: UIViewRepresentable {
     class Coordinator: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
         var parent: MapViewRepresentable
         fileprivate let mapState = MapState()
+        var lastHeading: Double = 0
+        var lastTrackingMode: MapTrackingMode = .follow
 
         init(_ parent: MapViewRepresentable) {
             self.parent = parent

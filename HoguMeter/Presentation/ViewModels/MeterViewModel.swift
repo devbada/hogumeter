@@ -28,6 +28,9 @@ final class MeterViewModel {
     // MARK: - Horse Animation State
     private(set) var horseSpeed: HorseSpeed = .walk
 
+    // MARK: - Driver Quote State
+    private(set) var currentDriverQuote: String = ""
+
     // MARK: - Dependencies
     private let _locationService: LocationServiceProtocol
     private let fareCalculator: FareCalculator
@@ -80,6 +83,9 @@ final class MeterViewModel {
         startTimer()
         soundManager.play(.meterStart)
 
+        // 택시기사 한마디: 시간대별 멘트 또는 랜덤 멘트
+        currentDriverQuote = DriverQuotes.forTimeOfDay() ?? DriverQuotes.random()
+
         // 이스터에그: 주행 시작 (신데렐라 모드 체크 포함)
         _easterEggManager.onTripStart(at: tripStartTime ?? Date())
     }
@@ -109,6 +115,7 @@ final class MeterViewModel {
         horseSpeed = .walk
         completedTrip = nil
         lastLocationUpdateTime = nil
+        currentDriverQuote = ""
         _routeManager.clearRoute()
     }
 
@@ -249,7 +256,9 @@ final class MeterViewModel {
             endRegion: currentRegion.isEmpty ? "알 수 없음" : currentRegion,
             regionChanges: regionDetector.regionChangeCount,
             isNightTrip: isNightTime,
-            fareBreakdown: breakdown
+            fareBreakdown: breakdown,
+            routePoints: _routeManager.routePoints,
+            driverQuote: currentDriverQuote.isEmpty ? nil : currentDriverQuote
         )
 
         tripRepository.save(trip)

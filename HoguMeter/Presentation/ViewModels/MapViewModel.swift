@@ -9,6 +9,13 @@ import Foundation
 import MapKit
 import Combine
 
+/// 지도 추적 모드
+enum MapTrackingMode {
+    case none              // 추적 없음 (자유 이동)
+    case follow            // 현재 위치 추적
+    case followWithHeading // 현재 위치 + 방향 추적 (지도 회전)
+}
+
 @MainActor
 class MapViewModel: ObservableObject {
 
@@ -18,7 +25,12 @@ class MapViewModel: ObservableObject {
     @Published var currentLocation: CLLocationCoordinate2D?
     @Published var currentHeading: Double = 0
     @Published var currentSpeed: Double = 0
-    @Published var isTrackingEnabled = true
+    @Published var trackingMode: MapTrackingMode = .follow
+    @Published var shouldUpdateTrackingMode = false
+
+    var isTrackingEnabled: Bool {
+        trackingMode != .none
+    }
 
     // MARK: - Auto Zoom
     private let autoZoomManager = AutoZoomManager()
@@ -100,6 +112,8 @@ class MapViewModel: ObservableObject {
     }
 
     // MARK: - Public Methods
+
+    /// 한 번 탭: 현재 위치로 이동 + follow 모드
     func centerOnCurrentLocation() {
         // 우선순위: 현재 위치 > 경로의 마지막 좌표 > 시작 위치
         let targetLocation: CLLocationCoordinate2D? = currentLocation
@@ -114,8 +128,28 @@ class MapViewModel: ObservableObject {
 
         region = MKCoordinateRegion(center: location, span: defaultSpan)
         shouldUpdateRegion = true
-        isTrackingEnabled = true
+        trackingMode = .follow
+        shouldUpdateTrackingMode = true
         HapticManager.light()
+    }
+
+    /// 두 번 탭: 방향 추적 모드 활성화 (지도 회전)
+    func enableHeadingTracking() {
+        // 우선순위: 현재 위치 > 경로의 마지막 좌표 > 시작 위치
+        let targetLocation: CLLocationCoordinate2D? = currentLocation
+            ?? routeCoordinates.last
+            ?? startLocation
+
+        guard let location = targetLocation else {
+            HapticManager.warning()
+            return
+        }
+
+        region = MKCoordinateRegion(center: location, span: defaultSpan)
+        shouldUpdateRegion = true
+        trackingMode = .followWithHeading
+        shouldUpdateTrackingMode = true
+        HapticManager.medium()
     }
 
     func initializeMapCenter() {
@@ -131,7 +165,8 @@ class MapViewModel: ObservableObject {
     }
 
     func disableTracking() {
-        isTrackingEnabled = false
+        trackingMode = .none
+        shouldUpdateTrackingMode = true
     }
 
     /// 사용자가 지도를 직접 조작했음을 알림
