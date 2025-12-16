@@ -10,9 +10,7 @@ import MapKit
 class TaxiHorseAnnotationView: MKAnnotationView {
     static let reuseIdentifier = "TaxiHorseAnnotation"
 
-    private let containerView = UIView()
-    private let horseLabel = UILabel()
-    private let taxiLabel = UILabel()
+    private let emojiLabel = UILabel()
 
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -24,42 +22,36 @@ class TaxiHorseAnnotationView: MKAnnotationView {
     }
 
     private func setupView() {
-        frame = CGRect(x: 0, y: 0, width: 60, height: 70)
-        centerOffset = CGPoint(x: 0, y: -35)
+        let size: CGFloat = 44
+        frame = CGRect(x: 0, y: 0, width: size, height: size)
+        centerOffset = .zero  // 정확히 좌표 위치에 표시
         backgroundColor = .clear
 
-        // 말 이모지
-        horseLabel.text = "🐴"
-        horseLabel.font = .systemFont(ofSize: 30)
-        horseLabel.textAlignment = .center
-        horseLabel.frame = CGRect(x: 10, y: 0, width: 40, height: 35)
-
-        // 택시 이모지
-        taxiLabel.text = "🚕"
-        taxiLabel.font = .systemFont(ofSize: 30)
-        taxiLabel.textAlignment = .center
-        taxiLabel.frame = CGRect(x: 10, y: 25, width: 40, height: 35)
-
-        containerView.frame = bounds
-        containerView.addSubview(horseLabel)
-        containerView.addSubview(taxiLabel)
-        addSubview(containerView)
+        // 택시 이모지 (heading 방향으로 회전)
+        emojiLabel.text = "🚕"
+        emojiLabel.font = .systemFont(ofSize: 32)
+        emojiLabel.textAlignment = .center
+        emojiLabel.frame = bounds
+        addSubview(emojiLabel)
     }
 
     func updateHeading(_ heading: Double) {
-        // 진행 방향으로 회전 (북쪽 = 0도)
-        let radians = heading * .pi / 180
-        containerView.transform = CGAffineTransform(rotationAngle: radians)
+        // 이모지가 heading 방향을 바라보도록 회전
+        // 🚕 이모지는 기본적으로 왼쪽(서쪽, 270도)을 바라봄
+        // heading 0도 = 북쪽이므로, 이모지가 북쪽을 바라보려면 +90도 보정 필요
+        let adjustedHeading = heading + 90
+        let radians = adjustedHeading * .pi / 180
+        emojiLabel.transform = CGAffineTransform(rotationAngle: radians)
     }
 
     func updateSpeed(_ speed: Double) {
-        // 속도에 따라 말 이모지 변경
-        if speed > 60 {
-            horseLabel.text = "🏇" // 빠른 속도
-        } else if speed > 30 {
-            horseLabel.text = "🐎" // 중간 속도
+        // 속도에 따라 이모지 변경
+        if speed > 80 {
+            emojiLabel.text = "🏎️"  // 초고속
+        } else if speed > 60 {
+            emojiLabel.text = "🚗"  // 빠른 속도
         } else {
-            horseLabel.text = "🐴" // 느린 속도/정지
+            emojiLabel.text = "🚕"  // 일반 속도
         }
     }
 }
