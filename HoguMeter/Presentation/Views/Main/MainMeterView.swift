@@ -30,6 +30,13 @@ struct MainMeterView: View {
                     HorseAnimationView(speed: viewModel.horseSpeed)
                         .frame(height: 200)
 
+                    // 택시기사 한마디 (미터기 작동 중에만 표시)
+                    if viewModel.state == .running, !viewModel.currentDriverQuote.isEmpty {
+                        DriverQuoteBubbleView(quote: viewModel.currentDriverQuote)
+                            .padding(.horizontal)
+                            .transition(.opacity.combined(with: .scale))
+                    }
+
                     Spacer()
 
                     // 주행 정보
@@ -50,6 +57,12 @@ struct MainMeterView: View {
                     )
                     .padding(.bottom, 20)
                 }
+
+                // 이스터에그 오버레이
+                EasterEggOverlayView(
+                    easterEgg: viewModel.easterEggManager.triggeredEasterEgg,
+                    onDismiss: { viewModel.easterEggManager.dismissEasterEgg() }
+                )
             }
             .navigationTitle("🐴 호구미터")
             .toolbar {

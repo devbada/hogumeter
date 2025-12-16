@@ -73,6 +73,11 @@
 		AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */; };
 		AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZMG00001234567890ABCDEF /* AutoZoomManager.swift */; };
 		MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MRQT00001234567890ABCDEF /* MarqueeTextView.swift */; };
+		ESTR00012345678901234567 /* EasterEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTR00001234567890ABCDEF /* EasterEgg.swift */; };
+		ESTM00012345678901234567 /* EasterEggManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTM00001234567890ABCDEF /* EasterEggManager.swift */; };
+		ESTO00012345678901234567 /* EasterEggOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */; };
+		8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1001DRIVERQUOTES /* DriverQuotes.swift */; };
+		8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,7 +161,12 @@
 		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 		AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
 		AZMG00001234567890ABCDEF /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
+		ESTR00001234567890ABCDEF /* EasterEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEgg.swift; sourceTree = "<group>"; };
+		ESTM00001234567890ABCDEF /* EasterEggManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggManager.swift; sourceTree = "<group>"; };
+		ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggOverlayView.swift; sourceTree = "<group>"; };
 		MRQT00001234567890ABCDEF /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
+		8D0A1001DRIVERQUOTES /* DriverQuotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuotes.swift; sourceTree = "<group>"; };
+		8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuoteBubbleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -293,7 +303,9 @@
 		VCMP00001234567890ABCDEF /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */,
 				MRQT00001234567890ABCDEF /* MarqueeTextView.swift */,
+				8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -405,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */,
+				ESTR00001234567890ABCDEF /* EasterEgg.swift */,
 				649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */,
 				9876543210FEDCBA98765432 /* FareTimeZone.swift */,
 				B9E37EDFDB8A450969B082FA /* MeterState.swift */,
@@ -461,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				48D18011FBAB4F219F3EBE7A /* DisclaimerText.swift */,
+				8D0A1001DRIVERQUOTES /* DriverQuotes.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -469,6 +483,7 @@
 			isa = PBXGroup;
 			children = (
 				AZMG00001234567890ABCDEF /* AutoZoomManager.swift */,
+				ESTM00001234567890ABCDEF /* EasterEggManager.swift */,
 				5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */,
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
 				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
@@ -698,6 +713,11 @@
 				AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */,
 				AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */,
 				MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */,
+				ESTR00012345678901234567 /* EasterEgg.swift in Sources */,
+				ESTM00012345678901234567 /* EasterEggManager.swift in Sources */,
+				ESTO00012345678901234567 /* EasterEggOverlayView.swift in Sources */,
+				8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */,
+				8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

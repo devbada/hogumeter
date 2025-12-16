@@ -108,17 +108,42 @@ struct MapContainerView: View {
 
     // MARK: - Current Location Button
     private var currentLocationButton: some View {
-        Button(action: {
-            mapViewModel.centerOnCurrentLocation()
-        }) {
-            Image(systemName: mapViewModel.isTrackingEnabled ? "location.fill" : "location")
-                .font(.system(size: 20))
-                .foregroundColor(mapViewModel.isTrackingEnabled ? .blue : .primary)
-                .frame(width: 44, height: 44)
-                .background(.ultraThinMaterial)
-                .clipShape(Circle())
-                .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
-        }
+        // 추적 모드에 따른 아이콘 결정
+        let iconName: String = {
+            switch mapViewModel.trackingMode {
+            case .none:
+                return "location"
+            case .follow:
+                return "location.fill"
+            case .followWithHeading:
+                return "location.north.line.fill"
+            }
+        }()
+
+        let iconColor: Color = {
+            switch mapViewModel.trackingMode {
+            case .none:
+                return .primary
+            case .follow, .followWithHeading:
+                return .blue
+            }
+        }()
+
+        return Image(systemName: iconName)
+            .font(.system(size: 20))
+            .foregroundColor(iconColor)
+            .frame(width: 44, height: 44)
+            .background(.ultraThinMaterial)
+            .clipShape(Circle())
+            .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+            .onTapGesture(count: 2) {
+                // 두 번 탭: 방향 추적 모드
+                mapViewModel.enableHeadingTracking()
+            }
+            .onTapGesture(count: 1) {
+                // 한 번 탭: 현재 위치로 이동
+                mapViewModel.centerOnCurrentLocation()
+            }
     }
 
     // MARK: - Bottom Info Overlay
