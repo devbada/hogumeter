@@ -197,7 +197,7 @@ struct ReceiptView: View {
                 .font(.title2)
                 .fontWeight(.bold)
             Spacer()
-            Text("\(trip.totalFare)원")
+            Text("\(trip.totalFare.formattedWithComma)원")
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
@@ -211,6 +211,19 @@ struct ReceiptView: View {
     // MARK: - Slogan Section
     private var sloganSection: some View {
         VStack(spacing: 8) {
+            // 택시기사 한마디 (있으면 표시)
+            if let quote = trip.driverQuote, !quote.isEmpty {
+                HStack(spacing: 6) {
+                    Text("🚕")
+                        .font(.title3)
+                    Text("\"\(quote)\"")
+                        .font(.subheadline)
+                        .italic()
+                        .foregroundColor(.secondary)
+                }
+                .padding(.bottom, 8)
+            }
+
             Text("🚖")
                 .font(.title)
 
@@ -237,7 +250,7 @@ struct ReceiptView: View {
                     .foregroundColor(.secondary)
             }
             Spacer()
-            Text("\(value)원")
+            Text("\(value.formattedWithComma)원")
                 .fontWeight(.semibold)
         }
     }
@@ -316,7 +329,11 @@ private enum ReceiptImageGenerator {
 
     static func generate(from trip: Trip) -> UIImage {
         let width: CGFloat = 320
-        let height: CGFloat = 520
+        let hasRoute = !trip.routePoints.isEmpty
+        let hasDriverQuote = trip.driverQuote != nil && !trip.driverQuote!.isEmpty
+        let routeMapHeight: CGFloat = hasRoute ? 140 : 0
+        let driverQuoteHeight: CGFloat = hasDriverQuote ? 25 : 0
+        let height: CGFloat = 520 + routeMapHeight + driverQuoteHeight
         let padding: CGFloat = 20
 
         let format = UIGraphicsImageRendererFormat()
@@ -339,13 +356,20 @@ private enum ReceiptImageGenerator {
 
             y = drawHeader(width: width, y: y)
             y = drawDivider(in: ctx, width: width, padding: padding, y: y)
+
+            // 경로 지도 (있으면 그리기)
+            if hasRoute {
+                y = drawRouteMap(in: ctx, trip: trip, width: width, padding: padding, y: y)
+                y = drawDivider(in: ctx, width: width, padding: padding, y: y)
+            }
+
             y = drawTimeInfo(trip: trip, width: width, padding: padding, y: y)
             y = drawDivider(in: ctx, width: width, padding: padding, y: y)
             y = drawFareBreakdown(in: ctx, trip: trip, width: width, padding: padding, y: y)
             y = drawDivider(in: ctx, width: width, padding: padding, y: y)
             y = drawTotal(in: ctx, trip: trip, width: width, padding: padding, y: y)
             y = drawDivider(in: ctx, width: width, padding: padding, y: y)
-            _ = drawSlogan(width: width, y: y)
+            _ = drawSlogan(trip: trip, width: width, y: y)
         }
     }
 
@@ -381,6 +405,85 @@ private enum ReceiptImageGenerator {
         return y + 20
     }
 
+    private static func drawRouteMap(in ctx: CGContext, trip: Trip, width: CGFloat, padding: CGFloat, y: CGFloat) -> CGFloat {
+        let mapWidth = width - padding * 2
+        let mapHeight: CGFloat = 120
+        let mapRect = CGRect(x: padding, y: y, width: mapWidth, height: mapHeight)
+
+        // 배경 (연한 회색)
+        ctx.setFillColor(UIColor.systemGray6.cgColor)
+        ctx.fill(mapRect)
+
+        // 테두리
+        ctx.setStrokeColor(UIColor.systemGray4.cgColor)
+        ctx.setLineWidth(1)
+        ctx.stroke(mapRect)
+
+        guard trip.routePoints.count >= 2 else {
+            // 포인트가 부족하면 "경로 없음" 표시
+            let noRoute = "경로 정보 없음" as NSString
+            let noRouteAttr: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.gray]
+            let noRouteSize = noRoute.size(withAttributes: noRouteAttr)
+            noRoute.draw(at: CGPoint(x: padding + (mapWidth - noRouteSize.width) / 2, y: y + (mapHeight - noRouteSize.height) / 2), withAttributes: noRouteAttr)
+            return y + mapHeight + 10
+        }
+
+        // 좌표 범위 계산
+        let lats = trip.routePoints.map { $0.latitude }
+        let lons = trip.routePoints.map { $0.longitude }
+        guard let minLat = lats.min(), let maxLat = lats.max(),
+              let minLon = lons.min(), let maxLon = lons.max() else {
+            return y + mapHeight + 10
+        }
+
+        // 여백 추가
+        let latRange = max(maxLat - minLat, 0.001) * 1.2
+        let lonRange = max(maxLon - minLon, 0.001) * 1.2
+        let centerLat = (minLat + maxLat) / 2
+        let centerLon = (minLon + maxLon) / 2
+
+        // 좌표를 화면 좌표로 변환하는 함수
+        func toScreenPoint(lat: Double, lon: Double) -> CGPoint {
+            let x = padding + 10 + ((lon - (centerLon - lonRange / 2)) / lonRange) * (mapWidth - 20)
+            let y_coord = y + mapHeight - 10 - ((lat - (centerLat - latRange / 2)) / latRange) * (mapHeight - 20)
+            return CGPoint(x: x, y: y_coord)
+        }
+
+        // 경로 그리기
+        ctx.setStrokeColor(UIColor.systemBlue.cgColor)
+        ctx.setLineWidth(3)
+        ctx.setLineCap(.round)
+        ctx.setLineJoin(.round)
+
+        let firstPoint = toScreenPoint(lat: trip.routePoints[0].latitude, lon: trip.routePoints[0].longitude)
+        ctx.move(to: firstPoint)
+
+        for i in 1..<trip.routePoints.count {
+            let point = toScreenPoint(lat: trip.routePoints[i].latitude, lon: trip.routePoints[i].longitude)
+            ctx.addLine(to: point)
+        }
+        ctx.strokePath()
+
+        // 출발/도착 마커
+        let startPoint = toScreenPoint(lat: trip.routePoints.first!.latitude, lon: trip.routePoints.first!.longitude)
+        let endPoint = toScreenPoint(lat: trip.routePoints.last!.latitude, lon: trip.routePoints.last!.longitude)
+
+        // 출발 마커 (녹색)
+        ctx.setFillColor(UIColor.systemGreen.cgColor)
+        ctx.fillEllipse(in: CGRect(x: startPoint.x - 5, y: startPoint.y - 5, width: 10, height: 10))
+
+        // 도착 마커 (빨간색)
+        ctx.setFillColor(UIColor.systemRed.cgColor)
+        ctx.fillEllipse(in: CGRect(x: endPoint.x - 5, y: endPoint.y - 5, width: 10, height: 10))
+
+        // "주행 경로" 라벨
+        let routeLabel = "주행 경로" as NSString
+        let routeLabelAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 10), .foregroundColor: UIColor.darkGray]
+        routeLabel.draw(at: CGPoint(x: padding + 5, y: y + 5), withAttributes: routeLabelAttr)
+
+        return y + mapHeight + 10
+    }
+
     private static func drawTimeInfo(trip: Trip, width: CGFloat, padding: CGFloat, y: CGFloat) -> CGFloat {
         var currentY = y
 
@@ -411,18 +514,18 @@ private enum ReceiptImageGenerator {
         sectionTitle.draw(at: CGPoint(x: padding, y: currentY), withAttributes: sectionAttr)
         currentY += 22
 
-        currentY = drawRow(label: "기본요금", value: "\(trip.fareBreakdown.baseFare)원", width: width, padding: padding, y: currentY)
+        currentY = drawRow(label: "기본요금", value: "\(trip.fareBreakdown.baseFare.formattedWithComma)원", width: width, padding: padding, y: currentY)
         if trip.fareBreakdown.distanceFare > 0 {
-            currentY = drawRow(label: "거리요금", value: "\(trip.fareBreakdown.distanceFare)원", width: width, padding: padding, y: currentY)
+            currentY = drawRow(label: "거리요금", value: "\(trip.fareBreakdown.distanceFare.formattedWithComma)원", width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.timeFare > 0 {
-            currentY = drawRow(label: "시간요금", value: "\(trip.fareBreakdown.timeFare)원", width: width, padding: padding, y: currentY)
+            currentY = drawRow(label: "시간요금", value: "\(trip.fareBreakdown.timeFare.formattedWithComma)원", width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.regionSurcharge > 0 {
-            currentY = drawRow(label: "지역할증", value: "\(trip.fareBreakdown.regionSurcharge)원", width: width, padding: padding, y: currentY)
+            currentY = drawRow(label: "지역할증", value: "\(trip.fareBreakdown.regionSurcharge.formattedWithComma)원", width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.nightSurcharge > 0 {
-            currentY = drawRow(label: "야간할증", value: "\(trip.fareBreakdown.nightSurcharge)원", width: width, padding: padding, y: currentY)
+            currentY = drawRow(label: "야간할증", value: "\(trip.fareBreakdown.nightSurcharge.formattedWithComma)원", width: width, padding: padding, y: currentY)
         }
         return currentY
     }
@@ -436,7 +539,7 @@ private enum ReceiptImageGenerator {
         let labelAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.black]
         label.draw(at: CGPoint(x: padding + 12, y: y + 10), withAttributes: labelAttr)
 
-        let value = "\(trip.totalFare)원" as NSString
+        let value = "\(trip.totalFare.formattedWithComma)원" as NSString
         let valueAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 18), .foregroundColor: UIColor.black]
         let valueSize = value.size(withAttributes: valueAttr)
         value.draw(at: CGPoint(x: width - padding - 12 - valueSize.width, y: y + 9), withAttributes: valueAttr)
@@ -444,8 +547,20 @@ private enum ReceiptImageGenerator {
         return y + 50
     }
 
-    private static func drawSlogan(width: CGFloat, y: CGFloat) -> CGFloat {
+    private static func drawSlogan(trip: Trip, width: CGFloat, y: CGFloat) -> CGFloat {
         var currentY = y
+
+        // 택시기사 한마디 (있으면 표시)
+        if let quote = trip.driverQuote, !quote.isEmpty {
+            let quoteText = "🚕 \"\(quote)\"" as NSString
+            let quoteAttr: [NSAttributedString.Key: Any] = [
+                .font: UIFont.italicSystemFont(ofSize: 11),
+                .foregroundColor: UIColor.darkGray
+            ]
+            let quoteSize = quoteText.size(withAttributes: quoteAttr)
+            quoteText.draw(at: CGPoint(x: (width - quoteSize.width) / 2, y: currentY), withAttributes: quoteAttr)
+            currentY += quoteSize.height + 10
+        }
 
         let emoji = "🚖" as NSString
         let emojiAttr: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 24)]

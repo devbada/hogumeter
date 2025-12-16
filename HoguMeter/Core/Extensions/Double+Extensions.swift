@@ -32,3 +32,13 @@ extension Double {
         return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
     }
 }
+
+extension Int {
+
+    /// 천단위 구분자 포함 문자열 (예: 12,345)
+    var formattedWithComma: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+    }
+}

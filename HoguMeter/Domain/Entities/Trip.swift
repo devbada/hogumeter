@@ -19,4 +19,37 @@ struct Trip: Identifiable, Codable, Equatable {
     let regionChanges: Int
     let isNightTrip: Bool
     let fareBreakdown: FareBreakdown
+    let routePoints: [RoutePoint]  // 경로 좌표 (영수증 지도용)
+    let driverQuote: String?       // 택시기사 한마디 (영수증용)
+
+    /// 기존 코드 호환을 위한 이니셜라이저
+    init(
+        id: UUID,
+        startTime: Date,
+        endTime: Date,
+        totalFare: Int,
+        distance: Double,
+        duration: TimeInterval,
+        startRegion: String,
+        endRegion: String,
+        regionChanges: Int,
+        isNightTrip: Bool,
+        fareBreakdown: FareBreakdown,
+        routePoints: [RoutePoint] = [],
+        driverQuote: String? = nil
+    ) {
+        self.id = id
+        self.startTime = startTime
+        self.endTime = endTime
+        self.totalFare = totalFare
+        self.distance = distance
+        self.duration = duration
+        self.startRegion = startRegion
+        self.endRegion = endRegion
+        self.regionChanges = regionChanges
+        self.isNightTrip = isNightTrip
+        self.fareBreakdown = fareBreakdown
+        self.routePoints = routePoints
+        self.driverQuote = driverQuote
+    }
 }
