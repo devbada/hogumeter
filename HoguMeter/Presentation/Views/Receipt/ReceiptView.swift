@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Photos
+import MapKit
 
 /// 주행 완료 후 영수증을 표시하는 뷰
 struct ReceiptView: View {
@@ -27,6 +28,14 @@ struct ReceiptView: View {
 
                     Divider()
                         .padding(.vertical, 20)
+
+                    // 경로 지도 (경로가 있을 때만)
+                    if !trip.routePoints.isEmpty {
+                        routeMapSection
+
+                        Divider()
+                            .padding(.vertical, 20)
+                    }
 
                     // 시간 정보
                     timeSection
@@ -239,6 +248,75 @@ struct ReceiptView: View {
         .padding(.vertical, 20)
     }
 
+    // MARK: - Route Map Section
+    private var routeMapSection: some View {
+        VStack(spacing: 8) {
+            Text("주행 경로")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            // 경로 지도 캔버스
+            Canvas { context, size in
+                let points = trip.routePoints
+                guard points.count >= 2 else { return }
+
+                // 좌표 범위 계산
+                let lats = points.map { $0.latitude }
+                let lons = points.map { $0.longitude }
+                guard let minLat = lats.min(), let maxLat = lats.max(),
+                      let minLon = lons.min(), let maxLon = lons.max() else { return }
+
+                let latRange = max(maxLat - minLat, 0.001)
+                let lonRange = max(maxLon - minLon, 0.001)
+                let centerLat = (minLat + maxLat) / 2
+                let centerLon = (minLon + maxLon) / 2
+
+                // 화면 좌표 변환 함수
+                let padding: CGFloat = 15
+                func toScreen(_ lat: Double, _ lon: Double) -> CGPoint {
+                    let x = padding + ((lon - (centerLon - lonRange / 2)) / lonRange) * (size.width - padding * 2)
+                    let y = size.height - padding - ((lat - (centerLat - latRange / 2)) / latRange) * (size.height - padding * 2)
+                    return CGPoint(x: x, y: y)
+                }
+
+                // 경로 그리기
+                var path = Path()
+                let firstPoint = toScreen(points[0].latitude, points[0].longitude)
+                path.move(to: firstPoint)
+
+                for i in 1..<points.count {
+                    let point = toScreen(points[i].latitude, points[i].longitude)
+                    path.addLine(to: point)
+                }
+
+                context.stroke(path, with: .color(.blue), lineWidth: 3)
+
+                // 출발점 (녹색)
+                let startPoint = toScreen(points.first!.latitude, points.first!.longitude)
+                context.fill(Circle().path(in: CGRect(x: startPoint.x - 6, y: startPoint.y - 6, width: 12, height: 12)), with: .color(.green))
+
+                // 도착점 (빨간색)
+                let endPoint = toScreen(points.last!.latitude, points.last!.longitude)
+                context.fill(Circle().path(in: CGRect(x: endPoint.x - 6, y: endPoint.y - 6, width: 12, height: 12)), with: .color(.red))
+            }
+            .frame(height: 150)
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
+
+            // 범례
+            HStack(spacing: 20) {
+                HStack(spacing: 4) {
+                    Circle().fill(.green).frame(width: 10, height: 10)
+                    Text("출발").font(.caption).foregroundColor(.secondary)
+                }
+                HStack(spacing: 4) {
+                    Circle().fill(.red).frame(width: 10, height: 10)
+                    Text("도착").font(.caption).foregroundColor(.secondary)
+                }
+            }
+        }
+    }
+
     // MARK: - Helper Views
     private func fareRow(title: String, value: Int, detail: String? = nil) -> some View {
         HStack {
@@ -271,30 +349,77 @@ struct ReceiptView: View {
     private func captureReceipt() {
         isSaving = true
 
-        // Core Graphics로 직접 그리기 (가장 빠름)
-        let image = ReceiptImageGenerator.generate(from: trip)
-
-        // 사진첩에 저장
-        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
-            DispatchQueue.main.async {
-                switch status {
-                case .authorized, .limited:
-                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                    saveAlertMessage = "영수증이 사진첩에 저장되었습니다."
-                    showSaveAlert = true
-                case .denied, .restricted:
-                    saveAlertMessage = "사진첩 접근 권한이 없습니다.\n설정에서 권한을 허용해주세요."
-                    showSaveAlert = true
-                case .notDetermined:
-                    saveAlertMessage = "사진첩 접근 권한이 필요합니다."
-                    showSaveAlert = true
-                @unknown default:
-                    saveAlertMessage = "알 수 없는 오류가 발생했습니다."
-                    showSaveAlert = true
-                }
-                isSaving = false
+        Task {
+            // 지도 스냅샷 생성 (경로가 있는 경우)
+            var mapSnapshot: UIImage?
+            if trip.routePoints.count >= 2 {
+                mapSnapshot = await generateMapSnapshot()
             }
+
+            // Core Graphics로 직접 그리기
+            let image = ReceiptImageGenerator.generate(from: trip, mapSnapshot: mapSnapshot)
+
+            // 사진첩에 저장
+            await saveToPhotoLibrary(image: image)
         }
+    }
+
+    private func generateMapSnapshot() async -> UIImage? {
+        guard trip.routePoints.count >= 2 else { return nil }
+
+        let lats = trip.routePoints.map { $0.latitude }
+        let lons = trip.routePoints.map { $0.longitude }
+        guard let minLat = lats.min(), let maxLat = lats.max(),
+              let minLon = lons.min(), let maxLon = lons.max() else { return nil }
+
+        // 여유 공간 추가
+        let latPadding = (maxLat - minLat) * 0.2
+        let lonPadding = (maxLon - minLon) * 0.2
+
+        let region = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(
+                latitude: (minLat + maxLat) / 2,
+                longitude: (minLon + maxLon) / 2
+            ),
+            span: MKCoordinateSpan(
+                latitudeDelta: max(maxLat - minLat + latPadding, 0.005),
+                longitudeDelta: max(maxLon - minLon + lonPadding, 0.005)
+            )
+        )
+
+        let options = MKMapSnapshotter.Options()
+        options.region = region
+        options.size = CGSize(width: 280, height: 120)
+        options.scale = 2.0
+
+        let snapshotter = MKMapSnapshotter(options: options)
+
+        do {
+            let snapshot = try await snapshotter.start()
+            return snapshot.image
+        } catch {
+            return nil
+        }
+    }
+
+    @MainActor
+    private func saveToPhotoLibrary(image: UIImage) async {
+        let status = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
+
+        switch status {
+        case .authorized, .limited:
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            saveAlertMessage = "영수증이 사진첩에 저장되었습니다."
+        case .denied, .restricted:
+            saveAlertMessage = "사진첩 접근 권한이 없습니다.\n설정에서 권한을 허용해주세요."
+        case .notDetermined:
+            saveAlertMessage = "사진첩 접근 권한이 필요합니다."
+        @unknown default:
+            saveAlertMessage = "알 수 없는 오류가 발생했습니다."
+        }
+
+        showSaveAlert = true
+        isSaving = false
     }
 }
 
@@ -327,7 +452,7 @@ struct ReceiptView: View {
 /// Core Graphics로 영수증 이미지를 직접 그리는 생성기
 private enum ReceiptImageGenerator {
 
-    static func generate(from trip: Trip) -> UIImage {
+    static func generate(from trip: Trip, mapSnapshot: UIImage? = nil) -> UIImage {
         let width: CGFloat = 320
         let hasRoute = !trip.routePoints.isEmpty
         let hasDriverQuote = trip.driverQuote != nil && !trip.driverQuote!.isEmpty
@@ -359,7 +484,7 @@ private enum ReceiptImageGenerator {
 
             // 경로 지도 (있으면 그리기)
             if hasRoute {
-                y = drawRouteMap(in: ctx, trip: trip, width: width, padding: padding, y: y)
+                y = drawRouteMap(in: ctx, trip: trip, width: width, padding: padding, y: y, mapSnapshot: mapSnapshot)
                 y = drawDivider(in: ctx, width: width, padding: padding, y: y)
             }
 
@@ -405,14 +530,18 @@ private enum ReceiptImageGenerator {
         return y + 20
     }
 
-    private static func drawRouteMap(in ctx: CGContext, trip: Trip, width: CGFloat, padding: CGFloat, y: CGFloat) -> CGFloat {
+    private static func drawRouteMap(in ctx: CGContext, trip: Trip, width: CGFloat, padding: CGFloat, y: CGFloat, mapSnapshot: UIImage? = nil) -> CGFloat {
         let mapWidth = width - padding * 2
         let mapHeight: CGFloat = 120
         let mapRect = CGRect(x: padding, y: y, width: mapWidth, height: mapHeight)
 
-        // 배경 (연한 회색)
-        ctx.setFillColor(UIColor.systemGray6.cgColor)
-        ctx.fill(mapRect)
+        // 지도 스냅샷이 있으면 그리기, 없으면 회색 배경
+        if let snapshot = mapSnapshot {
+            snapshot.draw(in: mapRect)
+        } else {
+            ctx.setFillColor(UIColor.systemGray6.cgColor)
+            ctx.fill(mapRect)
+        }
 
         // 테두리
         ctx.setStrokeColor(UIColor.systemGray4.cgColor)
