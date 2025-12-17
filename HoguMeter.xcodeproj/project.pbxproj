@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
+A1B2C3D4E5F60001PASS0002 /* PassengerCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60001PASS0001 /* PassengerCountView.swift */; };
 		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
 		07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */; };
 		09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A91BE8BC3716FB99B58A61C /* Assets.xcassets */; };
@@ -117,6 +118,7 @@
 		5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareCalculator.swift; sourceTree = "<group>"; };
 		649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareBreakdown.swift; sourceTree = "<group>"; };
 		6A91BE8BC3716FB99B58A61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+A1B2C3D4E5F60001PASS0001 /* PassengerCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengerCountView.swift; sourceTree = "<group>"; };
 		7199A9922EEBF412008E667F /* HoguMeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoguMeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerField.swift; sourceTree = "<group>"; };
 		7809A80CAB1ED395B10CE483 /* TripInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfoView.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */,
 				D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */,
 				7809A80CAB1ED395B10CE483 /* TripInfoView.swift */,
+				A1B2C3D4E5F60001PASS0001 /* PassengerCountView.swift */,
 				ABCD1234HORSE567890ABCDEF /* Horse */,
 			);
 			path = Components;
@@ -653,6 +656,7 @@
 				E948C93E3EB17349B5472590 /* LoadingAnimationView.swift in Sources */,
 				E291D1B8DFC62EE54846C406 /* CLLocation+Extensions.swift in Sources */,
 				0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */,
+				A1B2C3D4E5F60001PASS0002 /* PassengerCountView.swift in Sources */,
 				723F264FAFB1728602B7CF37 /* ContentView.swift in Sources */,
 				F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */,
 				6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */,

@@ -52,6 +52,14 @@ struct ReceiptView: View {
                     // 총 요금
                     totalFareSection
 
+                    // N빵 정보 (2명 이상일 때만)
+                    if trip.passengerCount > 1 {
+                        Divider()
+                            .padding(.vertical, 20)
+
+                        splitFareSection
+                    }
+
                     Divider()
                         .padding(.vertical, 20)
 
@@ -215,6 +223,33 @@ struct ReceiptView: View {
         .padding(.horizontal, 20)
         .background(Color.blue.opacity(0.1))
         .cornerRadius(12)
+    }
+
+    // MARK: - Split Fare Section (N빵)
+    private var splitFareSection: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Text("👥 N빵 (\(trip.passengerCount)명)")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                Spacer()
+            }
+
+            HStack {
+                Text("1인당 금액")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                Spacer()
+                Text("\(trip.farePerPerson.formattedWithComma)원")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.orange)
+            }
+            .padding(.vertical, 10)
+            .padding(.horizontal, 20)
+            .background(Color.orange.opacity(0.1))
+            .cornerRadius(12)
+        }
     }
 
     // MARK: - Slogan Section
@@ -423,7 +458,7 @@ struct ReceiptView: View {
     }
 }
 
-#Preview {
+#Preview("기본 영수증") {
     let sampleTrip = Trip(
         id: UUID(),
         startTime: Date().addingTimeInterval(-1800),
@@ -447,6 +482,31 @@ struct ReceiptView: View {
     ReceiptView(trip: sampleTrip)
 }
 
+#Preview("N빵 영수증 (3명)") {
+    let sampleTrip = Trip(
+        id: UUID(),
+        startTime: Date().addingTimeInterval(-1800),
+        endTime: Date(),
+        totalFare: 12400,
+        distance: 8.5,
+        duration: 1500,
+        startRegion: "서울",
+        endRegion: "서울",
+        regionChanges: 0,
+        isNightTrip: false,
+        fareBreakdown: FareBreakdown(
+            baseFare: 4800,
+            distanceFare: 6500,
+            timeFare: 1100,
+            regionSurcharge: 0,
+            nightSurcharge: 0
+        ),
+        passengerCount: 3
+    )
+
+    ReceiptView(trip: sampleTrip)
+}
+
 // MARK: - Receipt Image Generator (Core Graphics 기반, 빠름)
 
 /// Core Graphics로 영수증 이미지를 직접 그리는 생성기
@@ -456,9 +516,11 @@ private enum ReceiptImageGenerator {
         let width: CGFloat = 320
         let hasRoute = !trip.routePoints.isEmpty
         let hasDriverQuote = trip.driverQuote != nil && !trip.driverQuote!.isEmpty
+        let hasSplitFare = trip.passengerCount > 1
         let routeMapHeight: CGFloat = hasRoute ? 140 : 0
         let driverQuoteHeight: CGFloat = hasDriverQuote ? 25 : 0
-        let height: CGFloat = 520 + routeMapHeight + driverQuoteHeight
+        let splitFareHeight: CGFloat = hasSplitFare ? 70 : 0
+        let height: CGFloat = 520 + routeMapHeight + driverQuoteHeight + splitFareHeight
         let padding: CGFloat = 20
 
         let format = UIGraphicsImageRendererFormat()
@@ -493,6 +555,13 @@ private enum ReceiptImageGenerator {
             y = drawFareBreakdown(in: ctx, trip: trip, width: width, padding: padding, y: y)
             y = drawDivider(in: ctx, width: width, padding: padding, y: y)
             y = drawTotal(in: ctx, trip: trip, width: width, padding: padding, y: y)
+
+            // N빵 정보 (2명 이상일 때만)
+            if hasSplitFare {
+                y = drawDivider(in: ctx, width: width, padding: padding, y: y)
+                y = drawSplitFare(in: ctx, trip: trip, width: width, padding: padding, y: y)
+            }
+
             y = drawDivider(in: ctx, width: width, padding: padding, y: y)
             _ = drawSlogan(trip: trip, width: width, y: y)
         }
@@ -674,6 +743,32 @@ private enum ReceiptImageGenerator {
         value.draw(at: CGPoint(x: width - padding - 12 - valueSize.width, y: y + 9), withAttributes: valueAttr)
 
         return y + 50
+    }
+
+    private static func drawSplitFare(in ctx: CGContext, trip: Trip, width: CGFloat, padding: CGFloat, y: CGFloat) -> CGFloat {
+        var currentY = y
+
+        // 제목
+        let title = "👥 N빵 (\(trip.passengerCount)명)" as NSString
+        let titleAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 12), .foregroundColor: UIColor.darkGray]
+        title.draw(at: CGPoint(x: padding, y: currentY), withAttributes: titleAttr)
+        currentY += 22
+
+        // 1인당 금액 박스
+        let boxRect = CGRect(x: padding, y: currentY, width: width - padding * 2, height: 36)
+        ctx.setFillColor(UIColor.systemOrange.withAlphaComponent(0.1).cgColor)
+        ctx.fill(boxRect)
+
+        let label = "1인당 금액" as NSString
+        let labelAttr: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .medium), .foregroundColor: UIColor.black]
+        label.draw(at: CGPoint(x: padding + 12, y: currentY + 9), withAttributes: labelAttr)
+
+        let value = "\(trip.farePerPerson.formattedWithComma)원" as NSString
+        let valueAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.systemOrange]
+        let valueSize = value.size(withAttributes: valueAttr)
+        value.draw(at: CGPoint(x: width - padding - 12 - valueSize.width, y: currentY + 8), withAttributes: valueAttr)
+
+        return currentY + 46
     }
 
     private static func drawSlogan(trip: Trip, width: CGFloat, y: CGFloat) -> CGFloat {

@@ -31,6 +31,20 @@ final class MeterViewModel {
     // MARK: - Driver Quote State
     private(set) var currentDriverQuote: String = ""
 
+    // MARK: - Split Fare (N빵)
+    var passengerCount: Int = 1 {
+        didSet {
+            // 1~6명으로 제한
+            passengerCount = max(1, min(6, passengerCount))
+        }
+    }
+
+    /// 1인당 요금 (올림 처리)
+    var farePerPerson: Int {
+        guard passengerCount > 1 else { return currentFare }
+        return Int(ceil(Double(currentFare) / Double(passengerCount)))
+    }
+
     // MARK: - Dependencies
     private let _locationService: LocationServiceProtocol
     private let fareCalculator: FareCalculator
@@ -116,6 +130,7 @@ final class MeterViewModel {
         completedTrip = nil
         lastLocationUpdateTime = nil
         currentDriverQuote = ""
+        passengerCount = 1
         _routeManager.clearRoute()
     }
 
@@ -258,7 +273,8 @@ final class MeterViewModel {
             isNightTrip: isNightTime,
             fareBreakdown: breakdown,
             routePoints: _routeManager.routePoints,
-            driverQuote: currentDriverQuote.isEmpty ? nil : currentDriverQuote
+            driverQuote: currentDriverQuote.isEmpty ? nil : currentDriverQuote,
+            passengerCount: passengerCount
         )
 
         tripRepository.save(trip)

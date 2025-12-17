@@ -42,6 +42,16 @@ struct MainMeterView: View {
                     )
                     .padding(.horizontal)
 
+                    // N빵 계산기 (미터 실행 중일 때만 표시)
+                    if viewModel.state == .running {
+                        PassengerCountView(
+                            count: $viewModel.passengerCount,
+                            totalFare: viewModel.currentFare,
+                            isEnabled: true
+                        )
+                        .padding(.horizontal)
+                    }
+
                     // 컨트롤 버튼
                     ControlButtonsView(
                         state: viewModel.state,
