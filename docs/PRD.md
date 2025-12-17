@@ -3,7 +3,8 @@
 > **BMAD Method v6 | Product Requirements Document**
 > 
 > 문서 버전: 1.0.0  
-> 작성일: 2025-01-15  
+> 작성일: 2025-12-09  
+
 > 상태: Draft  
 > 관련 문서: PROJECT_BRIEF.md
 
