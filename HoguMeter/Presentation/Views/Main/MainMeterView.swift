@@ -62,7 +62,7 @@ struct MainMeterView: View {
                 if showDriverQuote, !viewModel.currentDriverQuote.isEmpty {
                     VStack {
                         Spacer()
-                            .frame(height: 100)
+                            .frame(height: 200)
                         DriverQuoteBubbleView(quote: viewModel.currentDriverQuote)
                         Spacer()
                     }
