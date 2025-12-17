@@ -62,6 +62,17 @@ class AppState: ObservableObject {
     let settingsRepository: SettingsRepository
     let regionFareRepository: RegionFareRepository
 
+    // MARK: - ViewModels (Singleton)
+    lazy var meterViewModel: MeterViewModel = {
+        MeterViewModel(
+            locationService: locationService,
+            fareCalculator: fareCalculator,
+            regionDetector: regionDetector,
+            soundManager: soundManager,
+            tripRepository: tripRepository
+        )
+    }()
+
     init() {
         // Initialize repositories
         self.settingsRepository = SettingsRepository()

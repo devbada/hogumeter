@@ -32,7 +32,8 @@
       "Bash(gh auth status:*)",
       "Bash(gh auth:*)",
       "WebSearch",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(done)"
     ]
   },
   "enableAllProjectMcpServers": true,
