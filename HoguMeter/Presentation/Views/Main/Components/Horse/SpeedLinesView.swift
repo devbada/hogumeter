@@ -23,6 +23,7 @@ struct SpeedLinesView: View {
 
     @State private var lines: [SpeedLine] = []
     @State private var timer: Timer?
+    @State private var viewSize: CGSize = .zero
 
     private let numberOfLines = 8
     private let lineColor = Color.white
@@ -43,13 +44,15 @@ struct SpeedLinesView: View {
                 }
             }
             .onAppear {
+                viewSize = geometry.size
                 if isActive {
-                    startAnimating(in: geometry.size)
+                    startAnimating()
                 }
             }
             .onChange(of: isActive) { oldValue, newValue in
                 if newValue {
-                    startAnimating(in: geometry.size)
+                    viewSize = geometry.size
+                    startAnimating()
                 } else {
                     stopAnimating()
                 }
@@ -60,20 +63,22 @@ struct SpeedLinesView: View {
         }
     }
 
-    private func startAnimating(in size: CGSize) {
+    private func startAnimating() {
+        stopAnimating()
+        guard viewSize.width > 0 else { return }
+
         // 초기 라인 생성
-        lines = (0..<numberOfLines).map { index in
+        lines = (0..<numberOfLines).map { _ in
             SpeedLine(
-                startX: size.width,
-                y: CGFloat.random(in: 0...size.height),
+                startX: viewSize.width,
+                y: CGFloat.random(in: 0...viewSize.height),
                 length: AnimationConstants.speedLineLength * intensity,
                 opacity: Double.random(in: 0.3...0.7) * intensity
             )
         }
 
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
-            updateLines(in: size)
+        timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [self] _ in
+            updateLines()
         }
     }
 
@@ -83,7 +88,8 @@ struct SpeedLinesView: View {
         lines.removeAll()
     }
 
-    private func updateLines(in size: CGSize) {
+    private func updateLines() {
+        guard viewSize.width > 0 else { return }
         let speed: CGFloat = 300 * intensity  // 속도에 비례한 이동 속도
 
         lines = lines.map { line in
@@ -92,8 +98,8 @@ struct SpeedLinesView: View {
 
             // 화면 밖으로 나가면 다시 생성
             if updated.startX < -updated.length {
-                updated.startX = size.width
-                updated.y = CGFloat.random(in: 0...size.height)
+                updated.startX = viewSize.width
+                updated.y = CGFloat.random(in: 0...viewSize.height)
                 updated.length = AnimationConstants.speedLineLength * intensity
                 updated.opacity = Double.random(in: 0.3...0.7) * intensity
             }
