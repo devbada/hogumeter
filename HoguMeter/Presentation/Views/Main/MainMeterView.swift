@@ -11,6 +11,7 @@ struct MainMeterView: View {
     @State var viewModel: MeterViewModel
     @State private var receiptTrip: Trip?   // 영수증에 표시할 Trip
     @State private var showMap = false      // 지도 표시 상태
+    @State private var showDriverQuote = false  // 택시기사 한마디 표시 상태
 
     var body: some View {
         NavigationView {
@@ -29,13 +30,6 @@ struct MainMeterView: View {
                     // 말 애니메이션
                     HorseAnimationView(speed: viewModel.horseSpeed)
                         .frame(height: 200)
-
-                    // 택시기사 한마디 (미터기 작동 중에만 표시)
-                    if viewModel.state == .running, !viewModel.currentDriverQuote.isEmpty {
-                        DriverQuoteBubbleView(quote: viewModel.currentDriverQuote)
-                            .padding(.horizontal)
-                            .transition(.opacity.combined(with: .scale))
-                    }
 
                     Spacer()
 
@@ -63,6 +57,23 @@ struct MainMeterView: View {
                     easterEgg: viewModel.easterEggManager.triggeredEasterEgg,
                     onDismiss: { viewModel.easterEggManager.dismissEasterEgg() }
                 )
+
+                // 택시기사 한마디 (오버레이, 30초 후 자동 사라짐)
+                if showDriverQuote, !viewModel.currentDriverQuote.isEmpty {
+                    VStack {
+                        Spacer()
+                            .frame(height: 200)
+                        DriverQuoteBubbleView(quote: viewModel.currentDriverQuote)
+                        Spacer()
+                    }
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                    .animation(.easeInOut(duration: 0.5), value: showDriverQuote)
+                    .onTapGesture {
+                        withAnimation {
+                            showDriverQuote = false
+                        }
+                    }
+                }
             }
             .navigationTitle("🐴 호구미터")
             .toolbar {
@@ -103,6 +114,22 @@ struct MainMeterView: View {
                 // 지도 화면이 열려있지 않을 때만 영수증 표시
                 if !showMap, let trip = newTrip {
                     receiptTrip = trip
+                }
+            }
+            .onChange(of: viewModel.state) { _, newState in
+                // 미터 시작 시 택시기사 한마디 표시 (30초 후 자동 사라짐)
+                if newState == .running {
+                    withAnimation {
+                        showDriverQuote = true
+                    }
+                    // 30초 후 자동으로 사라짐
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
+                        withAnimation {
+                            showDriverQuote = false
+                        }
+                    }
+                } else {
+                    showDriverQuote = false
                 }
             }
         }

@@ -12,28 +12,29 @@ struct DriverQuoteBubbleView: View {
     let quote: String
 
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 12) {
             // 택시 이모지
             Text("🚕")
-                .font(.title2)
+                .font(.system(size: 36))
 
             // 말풍선
             Text("\"\(quote)\"")
-                .font(.subheadline)
-                .foregroundColor(.primary)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
+                .font(.system(size: 17, weight: .medium))
+                .foregroundColor(.black)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
                 .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color(.systemGray6))
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.yellow.opacity(0.9))
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                 )
                 .overlay(
                     // 말풍선 꼬리
                     Triangle()
-                        .fill(Color(.systemGray6))
-                        .frame(width: 10, height: 8)
+                        .fill(Color.yellow.opacity(0.9))
+                        .frame(width: 12, height: 10)
                         .rotationEffect(.degrees(-90))
-                        .offset(x: -5),
+                        .offset(x: -6),
                     alignment: .leading
                 )
         }
