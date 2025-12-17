@@ -21,6 +21,7 @@ struct Trip: Identifiable, Codable, Equatable {
     let fareBreakdown: FareBreakdown
     let routePoints: [RoutePoint]  // 경로 좌표 (영수증 지도용)
     let driverQuote: String?       // 택시기사 한마디 (영수증용)
+    let mapImageData: Data?        // 지도 스냅샷 이미지 (JPEG)
 
     /// 기존 코드 호환을 위한 이니셜라이저
     init(
@@ -36,7 +37,8 @@ struct Trip: Identifiable, Codable, Equatable {
         isNightTrip: Bool,
         fareBreakdown: FareBreakdown,
         routePoints: [RoutePoint] = [],
-        driverQuote: String? = nil
+        driverQuote: String? = nil,
+        mapImageData: Data? = nil
     ) {
         self.id = id
         self.startTime = startTime
@@ -51,5 +53,6 @@ struct Trip: Identifiable, Codable, Equatable {
         self.fareBreakdown = fareBreakdown
         self.routePoints = routePoints
         self.driverQuote = driverQuote
+        self.mapImageData = mapImageData
     }
 }
