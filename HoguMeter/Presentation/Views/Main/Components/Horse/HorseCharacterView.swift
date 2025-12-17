@@ -37,6 +37,7 @@ struct HorseCharacterView: View {
 
     private var horseSize: CGFloat {
         switch speed {
+        case .idle: return 80
         case .walk: return 80
         case .trot: return 90
         case .run: return 100
@@ -80,6 +81,7 @@ struct HorseCharacterView: View {
 
 #Preview {
     VStack(spacing: 30) {
+        HorseCharacterView(speed: .idle)
         HorseCharacterView(speed: .walk)
         HorseCharacterView(speed: .trot)
         HorseCharacterView(speed: .run)
