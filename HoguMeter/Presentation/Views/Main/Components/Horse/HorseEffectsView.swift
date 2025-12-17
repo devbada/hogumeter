@@ -42,7 +42,7 @@ struct HorseEffectsView: View {
     /// 속도선 강도 (0.0 ~ 1.0)
     private var speedLineIntensity: Double {
         switch speed {
-        case .walk, .trot, .run:
+        case .idle, .walk, .trot, .run:
             return 0.0
         case .gallop:
             return 0.6

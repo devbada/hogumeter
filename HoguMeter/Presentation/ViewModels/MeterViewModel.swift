@@ -26,7 +26,7 @@ final class MeterViewModel {
     private(set) var completedTrip: Trip?           // 완료된 주행 정보
 
     // MARK: - Horse Animation State
-    private(set) var horseSpeed: HorseSpeed = .walk
+    private(set) var horseSpeed: HorseSpeed = .idle
 
     // MARK: - Driver Quote State
     private(set) var currentDriverQuote: String = ""
@@ -112,7 +112,7 @@ final class MeterViewModel {
         currentSpeed = 0
         currentRegion = ""
         fareBreakdown = nil
-        horseSpeed = .walk
+        horseSpeed = .idle
         completedTrip = nil
         lastLocationUpdateTime = nil
         currentDriverQuote = ""
