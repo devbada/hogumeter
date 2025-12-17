@@ -3,7 +3,7 @@
 > **BMAD Method v6 | Architecture Document**
 > 
 > 문서 버전: 1.0.0  
-> 작성일: 2025-01-15  
+> 작성일: 2025-12-09  
 > 상태: Draft  
 > 관련 문서: PROJECT_BRIEF.md, PRD.md
 
@@ -879,7 +879,7 @@ struct FareBreakdown: Codable {
 
 | 버전 | 날짜 | 작성자 | 변경 내용 |
 |-----|------|-------|----------|
-| 1.0.0 | 2025-01-15 | Architect Agent | 초안 작성 |
+| 1.0.0 | 2025-12-09 | Architect Agent | 초안 작성 |
 
 ---
 
