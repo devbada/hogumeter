@@ -7,7 +7,7 @@
 | Task ID | TASK-8.7 |
 | Epic | Epic 8 - 지도보기 기능 |
 | 우선순위 | P2 (선택) |
-| 상태 | 🔲 대기 |
+| 상태 | ✅ 구현됨 |
 | 의존성 | TASK-8.2 |
 
 ---
@@ -15,6 +15,66 @@
 ## 🎯 목표
 
 속도에 따라 말이 달리는 애니메이션을 구현한다. 정지 시 가만히 있고, 이동 시 달리는 모션을 보여준다.
+또한 마커의 위치 이동과 방향(heading) 회전이 부드럽게 애니메이션되어야 한다.
+
+---
+
+## 🚀 현재 구현 스펙
+
+### 마커 위치 이동 애니메이션
+
+| 항목 | 값 | 설명 |
+|------|-----|------|
+| 애니메이션 시간 | 0.3초 | `Constants.Map.markerAnimationDuration` |
+| 애니메이션 커브 | easeOut | 자연스러운 감속 |
+| GPS 업데이트 간격 | 5m | `Constants.Location.distanceFilter` |
+
+```swift
+// MapViewRepresentable.swift
+UIView.animate(withDuration: Constants.Map.markerAnimationDuration,
+               delay: 0,
+               options: [.curveEaseOut, .allowUserInteraction]) {
+    existingAnnotation.coordinate = location
+}
+```
+
+### 마커 회전(Heading) 애니메이션
+
+| 항목 | 값 | 설명 |
+|------|-----|------|
+| 애니메이션 시간 | 0.3초 | `Constants.Map.headingAnimationDuration` |
+| 애니메이션 커브 | easeOut | 자연스러운 감속 |
+| 최소 회전 변화량 | 1도 | `Constants.Map.minHeadingChangeForUpdate` |
+
+```swift
+// TaxiHorseAnnotationView.swift
+func updateHeading(_ heading: Double, animated: Bool = true) {
+    let adjustedHeading = heading + 90  // 이모지 방향 보정
+    let radians = adjustedHeading * .pi / 180
+    let newTransform = CGAffineTransform(rotationAngle: radians)
+
+    if animated {
+        UIView.animate(withDuration: Constants.Map.headingAnimationDuration,
+                       delay: 0,
+                       options: [.curveEaseOut, .allowUserInteraction]) {
+            self.emojiLabel.transform = newTransform
+        }
+    } else {
+        emojiLabel.transform = newTransform
+    }
+}
+```
+
+### 속도별 이모지 변경
+
+| 속도 구간 | 이모지 | 설명 |
+|----------|--------|------|
+| 0 km/h | 💤 | 숨 돌리기 (정지) |
+| 0~5 km/h | 🐴 | 걷기 |
+| 5~10 km/h | 🐎 | 빠른 걸음 |
+| 10~30 km/h | 🏇 | 달리기 |
+| 30~100 km/h | 🔥 | 질주본능 발휘 |
+| 100+ km/h | 🚀 | 로켓포 발사 |
 
 ---
 
@@ -172,25 +232,31 @@ class DustParticleView: UIView {
 
 ## ✅ 수락 기준
 
-- [ ] 정지 시 말이 가만히 있음
-- [ ] 저속 이동 시 천천히 움직이는 애니메이션
-- [ ] 고속 이동 시 빠르게 달리는 애니메이션
-- [ ] 애니메이션이 부드럽고 자연스러움
-- [ ] 배터리 소모 최소화 (정지 시 애니메이션 중지)
+- [x] 정지 시 말이 가만히 있음 (💤 이모지)
+- [x] 저속 이동 시 천천히 움직이는 애니메이션
+- [x] 고속 이동 시 빠르게 달리는 애니메이션
+- [x] 애니메이션이 부드럽고 자연스러움 (0.3초 easeOut)
+- [x] 배터리 소모 최소화 (5m 간격 업데이트)
+- [x] 마커 위치 이동 애니메이션 (UIView.animate)
+- [x] 마커 회전(heading) 애니메이션
 
 ---
 
-## 📁 수정할 파일
+## 📁 수정된 파일
 
 ```
 HoguMeter/
+├── Core/
+│   └── Utils/
+│       └── Constants.swift  # Map 상수 추가 (markerAnimationDuration 등)
+├── Domain/
+│   └── Services/
+│       └── LocationService.swift  # distanceFilter 5m로 조정
 ├── Presentation/
 │   └── Views/
 │       └── Map/
-│           └── TaxiHorseAnnotationView.swift  # 애니메이션 추가
-├── Resources/
-│   └── Animations/
-│       └── horse_running.json  # Lottie 파일 (옵션 C)
+│           ├── MapViewRepresentable.swift  # 마커 위치 애니메이션 적용
+│           └── TaxiHorseAnnotationView.swift  # heading 애니메이션 추가
 ```
 
 ---

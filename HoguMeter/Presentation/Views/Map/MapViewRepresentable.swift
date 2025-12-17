@@ -120,16 +120,16 @@ struct MapViewRepresentable: UIViewRepresentable {
         guard let location = viewModel.currentLocation else { return }
 
         if let existingAnnotation = mapView.annotations.first(where: { $0 is TaxiHorseAnnotation }) as? TaxiHorseAnnotation {
-            // 기존 마커 업데이트 (MKAnnotation coordinate는 KVO로 자동 애니메이션됨)
-            existingAnnotation.update(
-                coordinate: location,
-                heading: viewModel.currentHeading,
-                speed: viewModel.currentSpeed
-            )
+            // 기존 마커 업데이트 - 부드러운 애니메이션 적용
+            UIView.animate(withDuration: Constants.Map.markerAnimationDuration, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                existingAnnotation.coordinate = location
+            }
+            existingAnnotation.heading = viewModel.currentHeading
+            existingAnnotation.speed = viewModel.currentSpeed
 
             // AnnotationView 업데이트
             if let annotationView = mapView.view(for: existingAnnotation) as? TaxiHorseAnnotationView {
-                annotationView.updateHeading(viewModel.currentHeading)
+                annotationView.updateHeading(viewModel.currentHeading, animated: true)
                 annotationView.updateSpeed(viewModel.currentSpeed)
             }
         } else {

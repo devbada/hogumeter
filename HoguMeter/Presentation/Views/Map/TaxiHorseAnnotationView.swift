@@ -35,13 +35,21 @@ class TaxiHorseAnnotationView: MKAnnotationView {
         addSubview(emojiLabel)
     }
 
-    func updateHeading(_ heading: Double) {
+    func updateHeading(_ heading: Double, animated: Bool = true) {
         // 이모지가 heading 방향을 바라보도록 회전
         // 🚕 이모지는 기본적으로 왼쪽(서쪽, 270도)을 바라봄
         // heading 0도 = 북쪽이므로, 이모지가 북쪽을 바라보려면 +90도 보정 필요
         let adjustedHeading = heading + 90
         let radians = adjustedHeading * .pi / 180
-        emojiLabel.transform = CGAffineTransform(rotationAngle: radians)
+        let newTransform = CGAffineTransform(rotationAngle: radians)
+
+        if animated {
+            UIView.animate(withDuration: Constants.Map.headingAnimationDuration, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                self.emojiLabel.transform = newTransform
+            }
+        } else {
+            emojiLabel.transform = newTransform
+        }
     }
 
     func updateSpeed(_ speed: Double) {

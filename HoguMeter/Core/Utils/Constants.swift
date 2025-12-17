@@ -20,7 +20,14 @@ enum Constants {
     enum Location {
         static let lowSpeedThreshold: Double = 15.0  // km/h
         static let gpsUpdateInterval: TimeInterval = 1.0  // seconds
-        static let distanceFilter: Double = 10.0  // meters
+        static let distanceFilter: Double = 5.0  // meters (부드러운 마커 이동을 위해 5m)
+    }
+
+    // MARK: - Map
+    enum Map {
+        static let markerAnimationDuration: Double = 0.3  // seconds
+        static let headingAnimationDuration: Double = 0.3  // seconds
+        static let minHeadingChangeForUpdate: Double = 1.0  // degrees
     }
 
     // MARK: - Fare

@@ -53,7 +53,7 @@ final class LocationService: NSObject, LocationServiceProtocol {
     private func setupLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 10
+        locationManager.distanceFilter = Constants.Location.distanceFilter
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
     }
