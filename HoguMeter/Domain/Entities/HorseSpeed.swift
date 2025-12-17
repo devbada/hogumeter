@@ -7,9 +7,10 @@
 
 import Foundation
 
-/// 속도 구간별 말의 상태를 정의하는 Enum (5단계)
+/// 속도 구간별 말의 상태를 정의하는 Enum (6단계)
 enum HorseSpeed: String, CaseIterable {
-    case walk = "walk"           // 0 ~ 5 km/h
+    case idle = "idle"           // 0 ~ 1 km/h (정지/숨쉬기)
+    case walk = "walk"           // 1 ~ 5 km/h
     case trot = "trot"           // 5 ~ 10 km/h
     case run = "run"             // 10 ~ 30 km/h
     case gallop = "gallop"       // 30 ~ 100 km/h
@@ -18,6 +19,7 @@ enum HorseSpeed: String, CaseIterable {
     /// 한글 표시명
     var displayName: String {
         switch self {
+        case .idle: return "숨쉬기"
         case .walk: return "걷기"
         case .trot: return "빠른 걸음"
         case .run: return "달리기"
@@ -29,6 +31,7 @@ enum HorseSpeed: String, CaseIterable {
     /// 이모지 아이콘
     var emoji: String {
         switch self {
+        case .idle: return "🐴💤"
         case .walk: return "🐴"
         case .trot: return "🐎"
         case .run: return "🏃‍♂️🐴"
@@ -40,7 +43,8 @@ enum HorseSpeed: String, CaseIterable {
     /// 속도로부터 HorseSpeed 결정
     static func from(speed: Double) -> HorseSpeed {
         switch speed {
-        case 0..<5: return .walk
+        case 0..<1: return .idle
+        case 1..<5: return .walk
         case 5..<10: return .trot
         case 10..<30: return .run
         case 30..<100: return .gallop
@@ -51,6 +55,7 @@ enum HorseSpeed: String, CaseIterable {
     /// 애니메이션 속도 (초당 발걸음 수)
     var animationSpeed: Double {
         switch self {
+        case .idle: return 0.5      // 숨쉬기 (느린 펄스)
         case .walk: return 1.0      // 1초에 1걸음
         case .trot: return 2.0      // 1초에 2걸음
         case .run: return 4.0       // 1초에 4걸음
@@ -62,7 +67,7 @@ enum HorseSpeed: String, CaseIterable {
     /// 특수 효과 필요 여부
     var needsSpecialEffects: Bool {
         switch self {
-        case .walk, .trot, .run:
+        case .idle, .walk, .trot, .run:
             return false
         case .gallop, .rocket:
             return true
