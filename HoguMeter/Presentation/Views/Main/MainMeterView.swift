@@ -132,6 +132,20 @@ struct MainMeterView: View {
                     showDriverQuote = false
                 }
             }
+            // 무이동 감지 알림
+            .alert("이동이 감지되지 않습니다", isPresented: Binding(
+                get: { viewModel.showIdleAlert },
+                set: { _ in }
+            )) {
+                Button("계속", role: .cancel) {
+                    viewModel.continueFromIdleAlert()
+                }
+                Button("종료", role: .destructive) {
+                    viewModel.stopFromIdleAlert()
+                }
+            } message: {
+                Text("10분 동안 이동이 없습니다.\n미터기를 계속 실행하시겠습니까?")
+            }
         }
     }
 }
