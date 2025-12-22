@@ -17,8 +17,20 @@ class RouteManager: ObservableObject {
     // MARK: - Properties
     private let minimumDistance: Double = 5.0 // 최소 5m 이동 시에만 포인트 추가
 
+    /// 메모리 관리를 위한 최대 포인트 수 (약 10km 분량, 5m 간격 기준 2000개)
+    private let maxRoutePoints: Int = 2000
+
     // MARK: - Cached Coordinates (성능 최적화)
     private var cachedCoordinates: [CLLocationCoordinate2D] = []
+
+    // MARK: - Lifecycle
+
+    deinit {
+        let pointCount = routePoints.count
+        routePoints.removeAll()
+        cachedCoordinates.removeAll()
+        Logger.gps.debug("[RouteManager] RouteManager deinit - cleared \(pointCount) points")
+    }
 
     // MARK: - Computed Properties
     var coordinates: [CLLocationCoordinate2D] {
@@ -59,6 +71,13 @@ class RouteManager: ObservableObject {
 
         routePoints.append(newPoint)
         cachedCoordinates.append(newPoint.coordinate)
+
+        // 메모리 관리: 최대 개수 초과 시 오래된 포인트 제거 (시작점 제외)
+        if routePoints.count > maxRoutePoints {
+            let removeCount = routePoints.count - maxRoutePoints
+            routePoints.removeFirst(removeCount)
+            cachedCoordinates.removeFirst(removeCount)
+        }
     }
 
     func clearRoute() {

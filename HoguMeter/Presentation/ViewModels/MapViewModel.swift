@@ -68,6 +68,12 @@ class MapViewModel: ObservableObject {
         setupBindings()
     }
 
+    // Note: Cancellables are auto-cleaned when Set is deallocated
+    // deinit just logs for verification
+    nonisolated deinit {
+        Logger.gps.debug("[MapVM] MapViewModel deinit")
+    }
+
     // MARK: - Setup
     private func setupBindings() {
         locationService.locationPublisher
