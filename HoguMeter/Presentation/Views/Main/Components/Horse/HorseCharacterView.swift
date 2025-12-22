@@ -13,6 +13,7 @@ struct HorseCharacterView: View {
 
     @State private var isAnimating = false
     @State private var rocketShakeOffset: CGFloat = 0
+    @State private var shakeTimer: Timer?
 
     var body: some View {
         ZStack {
@@ -32,6 +33,9 @@ struct HorseCharacterView: View {
         }
         .onChange(of: speed) { oldValue, newValue in
             startAnimation()
+        }
+        .onDisappear {
+            stopShakeTimer()
         }
     }
 
@@ -64,7 +68,8 @@ struct HorseCharacterView: View {
     }
 
     private func startRocketShake() {
-        Timer.scheduledTimer(withTimeInterval: AnimationConstants.shakeDuration, repeats: true) { timer in
+        stopShakeTimer()
+        shakeTimer = Timer.scheduledTimer(withTimeInterval: AnimationConstants.shakeDuration, repeats: true) { [self] timer in
             if speed.isRocketMode {
                 withAnimation(.linear(duration: AnimationConstants.shakeDuration)) {
                     rocketShakeOffset = CGFloat.random(
@@ -72,10 +77,15 @@ struct HorseCharacterView: View {
                     )
                 }
             } else {
-                timer.invalidate()
-                rocketShakeOffset = 0
+                stopShakeTimer()
             }
         }
+    }
+
+    private func stopShakeTimer() {
+        shakeTimer?.invalidate()
+        shakeTimer = nil
+        rocketShakeOffset = 0
     }
 }
 

@@ -60,6 +60,7 @@ struct ContentView: View {
         MeterViewModel(
             locationService: appState.locationService,
             fareCalculator: appState.fareCalculator,
+            settingsRepository: appState.settingsRepository,
             regionDetector: appState.regionDetector,
             soundManager: appState.soundManager,
             tripRepository: appState.tripRepository

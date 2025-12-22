@@ -59,6 +59,7 @@ struct ParticleSystemView: View {
 
     @State private var particles: [Particle] = []
     @State private var timer: Timer?
+    @State private var viewSize: CGSize = .zero
 
     var body: some View {
         GeometryReader { geometry in
@@ -69,13 +70,15 @@ struct ParticleSystemView: View {
                 }
             }
             .onAppear {
+                viewSize = geometry.size
                 if isActive {
-                    startEmitting(in: geometry.size)
+                    startEmitting()
                 }
             }
             .onChange(of: isActive) { oldValue, newValue in
                 if newValue {
-                    startEmitting(in: geometry.size)
+                    viewSize = geometry.size
+                    startEmitting()
                 } else {
                     stopEmitting()
                 }
@@ -86,11 +89,12 @@ struct ParticleSystemView: View {
         }
     }
 
-    private func startEmitting(in size: CGSize) {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: AnimationConstants.particleSpawnInterval, repeats: true) { _ in
+    private func startEmitting() {
+        stopEmitting()
+        particles.reserveCapacity(AnimationConstants.maxParticles)
+        timer = Timer.scheduledTimer(withTimeInterval: AnimationConstants.particleSpawnInterval, repeats: true) { [self] _ in
             if particles.count < AnimationConstants.maxParticles {
-                spawnParticle(in: size)
+                spawnParticle()
             }
             updateParticles()
         }
@@ -99,15 +103,17 @@ struct ParticleSystemView: View {
     private func stopEmitting() {
         timer?.invalidate()
         timer = nil
-        particles.removeAll()
+        particles.removeAll(keepingCapacity: false)
     }
 
-    private func spawnParticle(in size: CGSize) {
+    private func spawnParticle() {
+        guard viewSize.width > 0 else { return }
+
         let randomSize = CGFloat.random(in: AnimationConstants.particleSizeRange)
 
         // 말 뒤쪽에서 생성 (중앙 우측)
-        let startX = size.width * 0.6
-        let startY = size.height * 0.5 + CGFloat.random(in: -20...20)
+        let startX = viewSize.width * 0.6
+        let startY = viewSize.height * 0.5 + CGFloat.random(in: -20...20)
 
         let particle = Particle(
             type: type,
