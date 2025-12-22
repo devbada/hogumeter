@@ -25,7 +25,6 @@ struct MainMeterView: View {
                 VStack(spacing: 20) {
                     // 요금 표시
                     FareDisplayView(fare: viewModel.currentFare)
-                        .padding(.top, 10)
 
                     // 말 애니메이션
                     HorseAnimationView(speed: viewModel.horseSpeed)
@@ -76,6 +75,7 @@ struct MainMeterView: View {
                 }
             }
             .navigationTitle("🐴 호구미터")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 // 지도 버튼 (미터 실행 중일 때만 표시)
                 if viewModel.state == .running {
