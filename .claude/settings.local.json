@@ -35,7 +35,8 @@
       "Bash(git pull:*)",
       "Bash(ruby -e \"require ''xcodeproj''\")",
       "Bash(git fetch:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter branch -a)"
     ]
   },
   "enableAllProjectMcpServers": true,
