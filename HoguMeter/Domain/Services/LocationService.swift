@@ -18,6 +18,11 @@ protocol LocationServiceProtocol {
     var gpsSignalState: GPSSignalState { get }
     var lastKnownLocationInfo: LastKnownLocationInfo? { get }
 
+    // Dead Reckoning
+    var isEstimatedDistance: Bool { get }
+    var deadReckoningState: DeadReckoningState { get }
+    var estimatedDistance: Double { get }
+
     func startTracking()
     func stopTracking()
 }
@@ -53,6 +58,7 @@ final class LocationService: NSObject, LocationServiceProtocol {
             if oldValue != gpsSignalState {
                 gpsSignalStateSubject.send(gpsSignalState)
                 logGPSStateChange(from: oldValue, to: gpsSignalState)
+                handleGPSStateTransition(from: oldValue, to: gpsSignalState)
             }
         }
     }
@@ -73,6 +79,29 @@ final class LocationService: NSObject, LocationServiceProtocol {
     /// 신호 손실로 판단하는 시간 (초)
     private let signalLossTimeout: TimeInterval = 5.0
 
+    // MARK: - Dead Reckoning
+
+    /// Dead Reckoning 서비스
+    private let deadReckoningService = DeadReckoningService()
+
+    /// 현재 Dead Reckoning 상태
+    var deadReckoningState: DeadReckoningState {
+        return deadReckoningService.state
+    }
+
+    /// Dead Reckoning 추정 거리
+    var estimatedDistance: Double {
+        return deadReckoningService.estimatedDistance
+    }
+
+    /// 현재 거리가 추정치인지 여부
+    var isEstimatedDistance: Bool {
+        return deadReckoningService.isEstimating
+    }
+
+    /// Dead Reckoning으로 추정된 총 거리 (GPS 복구 전까지의 누적)
+    private var accumulatedEstimatedDistance: Double = 0
+
     // MARK: - Dependencies
     private let settingsRepository: SettingsRepository
 
@@ -81,6 +110,7 @@ final class LocationService: NSObject, LocationServiceProtocol {
         self.settingsRepository = settingsRepository
         super.init()
         setupLocationManager()
+        setupDeadReckoningBindings()
     }
 
     deinit {
@@ -94,6 +124,11 @@ final class LocationService: NSObject, LocationServiceProtocol {
         locationManager.distanceFilter = 10
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
+    }
+
+    private func setupDeadReckoningBindings() {
+        // Dead Reckoning 추정 거리 업데이트 시 totalDistance에 반영
+        // (실시간 업데이트는 estimatedDistance 프로퍼티로 접근)
     }
 
     // MARK: - Public Methods
@@ -110,6 +145,10 @@ final class LocationService: NSObject, LocationServiceProtocol {
         lastValidLocation = nil
         lastValidSpeed = 0
         lastLocationUpdateTimestamp = nil
+
+        // Dead Reckoning 초기화
+        deadReckoningService.reset()
+        accumulatedEstimatedDistance = 0
 
         // 현재 지역 요금의 저속 기준 속도 적용
         let currentFare = settingsRepository.currentRegionFare
@@ -128,6 +167,11 @@ final class LocationService: NSObject, LocationServiceProtocol {
         locationManager.stopUpdatingLocation()
         signalLossCheckTimer?.invalidate()
         signalLossCheckTimer = nil
+
+        // Dead Reckoning 중지 및 최종 거리 반영
+        if let result = deadReckoningService.stop() {
+            finalizeDeadReckoningDistance(result)
+        }
 
         Logger.gps.info("[GPS] 위치 추적 중지")
     }
@@ -173,7 +217,9 @@ final class LocationService: NSObject, LocationServiceProtocol {
     }
 
     private func handleSignalRestored(with location: CLLocation) {
-        if gpsSignalState != .normal {
+        let wasNotNormal = gpsSignalState != .normal
+
+        if wasNotNormal {
             Logger.gps.info("[GPS] 신호 복구됨 - 정확도: \(Int(location.horizontalAccuracy))m")
         }
 
@@ -222,6 +268,69 @@ final class LocationService: NSObject, LocationServiceProtocol {
         }
 
         gpsSignalState = .lost
+    }
+
+    // MARK: - GPS State Transition Handler
+
+    private func handleGPSStateTransition(from oldState: GPSSignalState, to newState: GPSSignalState) {
+        // 정상 → 손실: Dead Reckoning 시작
+        if oldState == .normal && (newState == .weak || newState == .lost) {
+            startDeadReckoning()
+        }
+        // 약함 → 손실: Dead Reckoning이 아직 시작 안 됐으면 시작
+        else if oldState == .weak && newState == .lost {
+            if deadReckoningService.state == .inactive {
+                startDeadReckoning()
+            }
+        }
+        // 손실/약함 → 정상: Dead Reckoning 중지 및 거리 반영
+        else if newState == .normal && (oldState == .weak || oldState == .lost) {
+            stopDeadReckoningAndApply()
+        }
+    }
+
+    // MARK: - Dead Reckoning Control
+
+    private func startDeadReckoning() {
+        guard let locationInfo = lastKnownLocationInfo else {
+            Logger.gps.warning("[DR] Dead Reckoning 시작 불가 - 마지막 위치 정보 없음")
+            return
+        }
+
+        deadReckoningService.start(with: locationInfo)
+    }
+
+    private func stopDeadReckoningAndApply() {
+        guard let result = deadReckoningService.stop() else {
+            return
+        }
+
+        finalizeDeadReckoningDistance(result)
+    }
+
+    private func finalizeDeadReckoningDistance(_ result: DeadReckoningResult) {
+        let estimatedDist = result.estimatedDistance
+
+        if estimatedDist > 0 {
+            // 추정 거리를 총 거리에 반영
+            totalDistance += estimatedDist
+
+            // 마지막 속도가 고속 기준 이상이었다면 고속 거리에도 반영
+            if result.lastKnownSpeed >= lowSpeedThreshold {
+                highSpeedDistance += estimatedDist
+                Logger.gps.info("[DR] 추정 거리 반영 (고속): \(String(format: "%.0f", estimatedDist))m")
+            } else {
+                // 저속이었다면 시간 요금으로 계산
+                lowSpeedDuration += result.elapsedTime
+                Logger.gps.info("[DR] 추정 시간 반영 (저속): \(String(format: "%.0f", result.elapsedTime))초")
+            }
+
+            accumulatedEstimatedDistance += estimatedDist
+
+            if result.isExpired {
+                Logger.gps.warning("[DR] Dead Reckoning 만료로 인한 최종 반영 - 총 추정 거리: \(String(format: "%.0f", accumulatedEstimatedDistance))m")
+            }
+        }
     }
 
     // MARK: - Logging

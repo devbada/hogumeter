@@ -79,6 +79,7 @@
 		8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1001DRIVERQUOTES /* DriverQuotes.swift */; };
 		8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */; };
 		GPS0001234567890123456 /* GPSSignalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = GPS0001234567890ABCDEF /* GPSSignalState.swift */; };
+		DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEADRECK00123456789ABCD /* DeadReckoningService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +153,7 @@
 		F257388E6B23451CA58E4005 /* HorseSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseSpeed.swift; sourceTree = "<group>"; };
 		F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareEditView.swift; sourceTree = "<group>"; };
 		FBCE942707AFEC7295EEB5A7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		DEADRECK00123456789ABCD /* DeadReckoningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadReckoningService.swift; sourceTree = "<group>"; };
 		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		MAPVM00001234567890ABCDEF /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		MAPCV00001234567890ABCDEF /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 			isa = PBXGroup;
 			children = (
 				AZMG00001234567890ABCDEF /* AutoZoomManager.swift */,
+				DEADRECK00123456789ABCD /* DeadReckoningService.swift */,
 				ESTM00001234567890ABCDEF /* EasterEggManager.swift */,
 				5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */,
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
@@ -675,6 +678,7 @@
 				916013FA7FE9C1775BE66E0A /* HorseAnimationView.swift in Sources */,
 				AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */,
 				64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */,
+				DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */,
 				8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */,
 				06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */,
 				B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */,
