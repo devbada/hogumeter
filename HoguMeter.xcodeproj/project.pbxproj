@@ -40,6 +40,8 @@
 		82DAF46AFF2A4F5383E25D5D /* DisclaimerDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FFF7C0C0104936A761FA16 /* DisclaimerDialogView.swift */; };
 		8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */; };
 		88F236D2B3954CB399E8DFFE /* HorseEffectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3CC32C34F34AA99A8B2061 /* HorseEffectsView.swift */; };
+		8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1001DRIVERQUOTES /* DriverQuotes.swift */; };
+		8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */; };
 		916013FA7FE9C1775BE66E0A /* HorseAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */; };
 		94C37E103BDF4E589E95F538 /* FareValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C213CAB5415840C487A7EC9C /* FareValidation.swift */; };
 		97164F4FCB224FC481743D46 /* RegionFareAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4B71F5BFB242D5B2184BFF /* RegionFareAddView.swift */; };
@@ -49,6 +51,8 @@
 		AA87CBB77ABC72A0CF61881B /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */; };
 		AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CFE822AFFAAB528579537 /* HapticManager.swift */; };
 		AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE942707AFEC7295EEB5A7 /* LocationService.swift */; };
+		AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */; };
+		AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZMG00001234567890ABCDEF /* AutoZoomManager.swift */; };
 		B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E37EDFDB8A450969B082FA /* MeterState.swift */; };
 		BE533C9F82EEE83AF0295CEC /* TripHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012E8AD839291A60E4A925E9 /* TripHistoryView.swift */; };
 		C4EBE25BEA214013BDA1AC8D /* RegionFareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */; };
@@ -56,30 +60,26 @@
 		C6DFA678059E468D912CF781 /* FareInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB716A0A1F84630A677B9E8 /* FareInputField.swift */; };
 		D5110194A1CE4A459F535A64 /* DisclaimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */; };
 		D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA4C0038D41AA6701D2A28 /* HoguMeterApp.swift */; };
+		DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEADRECK00123456789ABCD /* DeadReckoningService.swift */; };
 		E291D1B8DFC62EE54846C406 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152CB7C1DA299F19E4785383 /* CLLocation+Extensions.swift */; };
 		E3312FD1B24A4309978FBB0F /* ParticleSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813333B822BA437DB21D8BBD /* ParticleSystem.swift */; };
 		E77AC84402B576C792D4D24C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2CFB92DAEA79D831F37AC8 /* Trip.swift */; };
 		E948C93E3EB17349B5472590 /* LoadingAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */; };
-		F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254E8830A8239D9335AEC8AA /* TripRepository.swift */; };
-		F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0593C144C4AF38D18F326822 /* ControlButtonsView.swift */; };
-		MAPVM00012345678901234567 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVM00001234567890ABCDEF /* MapViewModel.swift */; };
-		MAPCV00012345678901234567 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPCV00001234567890ABCDEF /* MapContainerView.swift */; };
-		MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */; };
-		TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */; };
-		TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */; };
-		RTPT00012345678901234567 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPT00001234567890ABCDEF /* RoutePoint.swift */; };
-		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
-		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
-		AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */; };
-		AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZMG00001234567890ABCDEF /* AutoZoomManager.swift */; };
-		MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MRQT00001234567890ABCDEF /* MarqueeTextView.swift */; };
-		ESTR00012345678901234567 /* EasterEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTR00001234567890ABCDEF /* EasterEgg.swift */; };
 		ESTM00012345678901234567 /* EasterEggManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTM00001234567890ABCDEF /* EasterEggManager.swift */; };
 		ESTO00012345678901234567 /* EasterEggOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */; };
-		8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1001DRIVERQUOTES /* DriverQuotes.swift */; };
-		8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */; };
+		ESTR00012345678901234567 /* EasterEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTR00001234567890ABCDEF /* EasterEgg.swift */; };
+		F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254E8830A8239D9335AEC8AA /* TripRepository.swift */; };
+		F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0593C144C4AF38D18F326822 /* ControlButtonsView.swift */; };
 		GPS0001234567890123456 /* GPSSignalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = GPS0001234567890ABCDEF /* GPSSignalState.swift */; };
-		DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEADRECK00123456789ABCD /* DeadReckoningService.swift */; };
+		MAPCV00012345678901234567 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPCV00001234567890ABCDEF /* MapContainerView.swift */; };
+		MAPVM00012345678901234567 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVM00001234567890ABCDEF /* MapViewModel.swift */; };
+		MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */; };
+		MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MRQT00001234567890ABCDEF /* MarqueeTextView.swift */; };
+		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
+		RTPT00012345678901234567 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPT00001234567890ABCDEF /* RoutePoint.swift */; };
+		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
+		TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */; };
+		TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,14 +127,17 @@
 		813333B822BA437DB21D8BBD /* ParticleSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleSystem.swift; sourceTree = "<group>"; };
 		895243FBB3FAFDFB307CA6DC /* RegionFareSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareSettingsView.swift; sourceTree = "<group>"; };
 		8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimationView.swift; sourceTree = "<group>"; };
+		8D0A1001DRIVERQUOTES /* DriverQuotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuotes.swift; sourceTree = "<group>"; };
+		8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuoteBubbleView.swift; sourceTree = "<group>"; };
 		8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		9876543210FEDCBA98765432 /* FareTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareTimeZone.swift; sourceTree = "<group>"; };
-		GPS0001234567890ABCDEF /* GPSSignalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSSignalState.swift; sourceTree = "<group>"; };
 		98978790385627A731AB8C4A /* LocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceProtocol.swift; sourceTree = "<group>"; };
 		9B1B90C5922AF2379FA3A78C /* HoguMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoguMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B06023C3A46ACB19895E34 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		AAA662AE9396E99BC52CF0B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ADB716A0A1F84630A677B9E8 /* FareInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareInputField.swift; sourceTree = "<group>"; };
+		AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
+		AZMG00001234567890ABCDEF /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
 		B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
 		B8EC38389F60836626B89AF5 /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
 		B9E37EDFDB8A450969B082FA /* MeterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterState.swift; sourceTree = "<group>"; };
@@ -146,31 +149,28 @@
 		D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseAnimationView.swift; sourceTree = "<group>"; };
 		D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewModel.swift; sourceTree = "<group>"; };
 		D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFare.swift; sourceTree = "<group>"; };
+		DEADRECK00123456789ABCD /* DeadReckoningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadReckoningService.swift; sourceTree = "<group>"; };
 		E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareDisplayView.swift; sourceTree = "<group>"; };
 		EC510627A49A4C7F9ECD7004 /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		EE7619D8DDA1429BB0AA76BB /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
+		ESTM00001234567890ABCDEF /* EasterEggManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggManager.swift; sourceTree = "<group>"; };
+		ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggOverlayView.swift; sourceTree = "<group>"; };
+		ESTR00001234567890ABCDEF /* EasterEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEgg.swift; sourceTree = "<group>"; };
 		F029931CE359423C7030D6A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F257388E6B23451CA58E4005 /* HorseSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseSpeed.swift; sourceTree = "<group>"; };
 		F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareEditView.swift; sourceTree = "<group>"; };
 		FBCE942707AFEC7295EEB5A7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		DEADRECK00123456789ABCD /* DeadReckoningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadReckoningService.swift; sourceTree = "<group>"; };
 		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
-		MAPVM00001234567890ABCDEF /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		GPS0001234567890ABCDEF /* GPSSignalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSSignalState.swift; sourceTree = "<group>"; };
 		MAPCV00001234567890ABCDEF /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
+		MAPVM00001234567890ABCDEF /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
-		TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotation.swift; sourceTree = "<group>"; };
-		TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotationView.swift; sourceTree = "<group>"; };
+		MRQT00001234567890ABCDEF /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
+		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 		RTPT00001234567890ABCDEF /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
 		STPT00001234567890ABCDEF /* StartPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPointAnnotation.swift; sourceTree = "<group>"; };
-		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
-		AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
-		AZMG00001234567890ABCDEF /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
-		ESTR00001234567890ABCDEF /* EasterEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEgg.swift; sourceTree = "<group>"; };
-		ESTM00001234567890ABCDEF /* EasterEggManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggManager.swift; sourceTree = "<group>"; };
-		ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggOverlayView.swift; sourceTree = "<group>"; };
-		MRQT00001234567890ABCDEF /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
-		8D0A1001DRIVERQUOTES /* DriverQuotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuotes.swift; sourceTree = "<group>"; };
-		8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuoteBubbleView.swift; sourceTree = "<group>"; };
+		TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotation.swift; sourceTree = "<group>"; };
+		TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -302,26 +302,6 @@
 				3500C9519EFBE8E7CF847E29 /* Settings */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		VCMP00001234567890ABCDEF /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */,
-				MRQT00001234567890ABCDEF /* MarqueeTextView.swift */,
-				8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		MAPGRP0001234567890ABCDEF /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				MAPCV00001234567890ABCDEF /* MapContainerView.swift */,
-				MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */,
-				TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */,
-			);
-			path = Map;
 			sourceTree = "<group>";
 		};
 		690ECCCDFBA9FC6404A4FC15 /* Presentation */ = {
@@ -543,6 +523,26 @@
 				98978790385627A731AB8C4A /* LocationServiceProtocol.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		MAPGRP0001234567890ABCDEF /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				MAPCV00001234567890ABCDEF /* MapContainerView.swift */,
+				MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */,
+				TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		VCMP00001234567890ABCDEF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */,
+				MRQT00001234567890ABCDEF /* MarqueeTextView.swift */,
+				8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -33,7 +33,9 @@
       "Bash(gh auth:*)",
       "WebSearch",
       "Bash(git pull:*)",
-      "Bash(ruby -e \"require ''xcodeproj''\")"
+      "Bash(ruby -e \"require ''xcodeproj''\")",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
