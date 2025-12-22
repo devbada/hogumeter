@@ -34,6 +34,7 @@ final class MeterViewModel {
     // MARK: - Dependencies
     private let _locationService: LocationServiceProtocol
     private let fareCalculator: FareCalculator
+    private let settingsRepository: SettingsRepositoryProtocol
     private let _routeManager: RouteManager
     private let _easterEggManager: EasterEggManager
 
@@ -57,6 +58,7 @@ final class MeterViewModel {
     init(
         locationService: LocationServiceProtocol,
         fareCalculator: FareCalculator,
+        settingsRepository: SettingsRepositoryProtocol,
         regionDetector: RegionDetector,
         soundManager: SoundManager,
         tripRepository: TripRepository,
@@ -65,6 +67,7 @@ final class MeterViewModel {
     ) {
         self._locationService = locationService
         self.fareCalculator = fareCalculator
+        self.settingsRepository = settingsRepository
         self._routeManager = routeManager
         self._easterEggManager = easterEggManager
         self.regionDetector = regionDetector
@@ -72,6 +75,18 @@ final class MeterViewModel {
         self.tripRepository = tripRepository
 
         setupBindings()
+
+        // 초기 기본요금 설정
+        currentFare = getBaseFare()
+    }
+
+    // MARK: - Base Fare Helper
+
+    /// 현재 시간대에 맞는 기본요금 반환
+    private func getBaseFare() -> Int {
+        let fare = settingsRepository.currentRegionFare
+        let timeZone = FareTimeZone.current()
+        return fare.getFare(for: timeZone).baseFare
     }
 
     // MARK: - Actions
@@ -106,7 +121,7 @@ final class MeterViewModel {
 
     func resetMeter() {
         state = .idle
-        currentFare = 0
+        currentFare = getBaseFare()  // 0이 아닌 기본요금으로 리셋
         distance = 0
         duration = 0
         currentSpeed = 0
@@ -135,6 +150,10 @@ final class MeterViewModel {
     }
 
     private func handleLocationUpdate(_ location: CLLocation) {
+        // 미터기가 실행 중이 아니면 요금 계산 및 관련 로직 실행하지 않음
+        // 위치 업데이트는 GPS 준비 상태 유지를 위해 계속 수신
+        guard state == .running else { return }
+
         // Update distance
         distance = _locationService.totalDistance / 1000  // m to km
 
@@ -146,14 +165,12 @@ final class MeterViewModel {
         updateHorseAnimation()
 
         // Update route (경로 기록)
-        if state == .running {
-            if _routeManager.startLocation == nil {
-                // 첫 위치 - 새 경로 시작
-                _routeManager.startNewRoute(at: location)
-            } else {
-                // 경로에 포인트 추가
-                _routeManager.addPoint(location)
-            }
+        if _routeManager.startLocation == nil {
+            // 첫 위치 - 새 경로 시작
+            _routeManager.startNewRoute(at: location)
+        } else {
+            // 경로에 포인트 추가
+            _routeManager.addPoint(location)
         }
 
         // Calculate fare (병산제: 고속거리 + 저속시간)

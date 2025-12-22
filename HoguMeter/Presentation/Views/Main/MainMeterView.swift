@@ -142,6 +142,7 @@ struct MainMeterView: View {
         viewModel: MeterViewModel(
             locationService: LocationService(settingsRepository: settingsRepo),
             fareCalculator: FareCalculator(settingsRepository: settingsRepo),
+            settingsRepository: settingsRepo,
             regionDetector: RegionDetector(),
             soundManager: SoundManager(),
             tripRepository: TripRepository()
