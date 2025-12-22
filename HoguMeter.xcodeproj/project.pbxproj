@@ -78,6 +78,7 @@
 		ESTO00012345678901234567 /* EasterEggOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */; };
 		8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1001DRIVERQUOTES /* DriverQuotes.swift */; };
 		8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */; };
+		GPS0001234567890123456 /* GPSSignalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = GPS0001234567890ABCDEF /* GPSSignalState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimationView.swift; sourceTree = "<group>"; };
 		8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		9876543210FEDCBA98765432 /* FareTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareTimeZone.swift; sourceTree = "<group>"; };
+		GPS0001234567890ABCDEF /* GPSSignalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSSignalState.swift; sourceTree = "<group>"; };
 		98978790385627A731AB8C4A /* LocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceProtocol.swift; sourceTree = "<group>"; };
 		9B1B90C5922AF2379FA3A78C /* HoguMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoguMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B06023C3A46ACB19895E34 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 				ESTR00001234567890ABCDEF /* EasterEgg.swift */,
 				649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */,
 				9876543210FEDCBA98765432 /* FareTimeZone.swift */,
+				GPS0001234567890ABCDEF /* GPSSignalState.swift */,
 				B9E37EDFDB8A450969B082FA /* MeterState.swift */,
 				D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */,
 				CE2CFB92DAEA79D831F37AC8 /* Trip.swift */,
@@ -675,6 +678,7 @@
 				8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */,
 				06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */,
 				B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */,
+				GPS0001234567890123456 /* GPSSignalState.swift in Sources */,
 				76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */,
 				AA87CBB77ABC72A0CF61881B /* Notification+Extensions.swift in Sources */,
 				07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */,
