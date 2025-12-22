@@ -88,6 +88,13 @@ final class DeadReckoningService {
     private var lastLogTime: Date?
     private var totalEstimatedDistance: Double = 0  // 최종 누적 거리
 
+    // MARK: - Lifecycle
+
+    deinit {
+        stopUpdateTimer()
+        Logger.gps.debug("[DR] DeadReckoningService deinit")
+    }
+
     // MARK: - Public Methods
 
     /// Dead Reckoning 시작

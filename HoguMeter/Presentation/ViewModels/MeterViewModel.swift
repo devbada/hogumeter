@@ -80,6 +80,12 @@ final class MeterViewModel {
         currentFare = getBaseFare()
     }
 
+    // Note: Timer is invalidated in stopTimer() which is called before deallocation
+    // deinit just logs for verification - cleanup already handled by stopMeter()/resetMeter()
+    nonisolated deinit {
+        Logger.meter.debug("[MeterVM] MeterViewModel deinit")
+    }
+
     // MARK: - Base Fare Helper
 
     /// 현재 시간대에 맞는 기본요금 반환

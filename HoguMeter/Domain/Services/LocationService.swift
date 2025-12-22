@@ -115,6 +115,10 @@ final class LocationService: NSObject, LocationServiceProtocol {
 
     deinit {
         signalLossCheckTimer?.invalidate()
+        signalLossCheckTimer = nil
+        deadReckoningService.reset()
+        locationManager.delegate = nil
+        Logger.gps.debug("[GPS] LocationService deinit")
     }
 
     // MARK: - Setup
