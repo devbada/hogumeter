@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
+		IDLE00012345678901234567 /* IdleDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IDLE00001234567890ABCDEF /* IdleDetectionService.swift */; };
 		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
 		07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */; };
 		09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A91BE8BC3716FB99B58A61C /* Assets.xcassets */; };
@@ -98,6 +99,7 @@
 		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
 		06FFF7C0C0104936A761FA16 /* DisclaimerDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerDialogView.swift; sourceTree = "<group>"; };
 		0F9CFE822AFFAAB528579537 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		IDLE00001234567890ABCDEF /* IdleDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleDetectionService.swift; sourceTree = "<group>"; };
 		0FF411F9647966C3705693A1 /* RegionFareRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareRepository.swift; sourceTree = "<group>"; };
 		107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareListView.swift; sourceTree = "<group>"; };
 		152CB7C1DA299F19E4785383 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 				DEADRECK00123456789ABCD /* DeadReckoningService.swift */,
 				ESTM00001234567890ABCDEF /* EasterEggManager.swift */,
 				5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */,
+				IDLE00001234567890ABCDEF /* IdleDetectionService.swift */,
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
 				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
 				FE10E81350094D7AFCFDBA7D /* SoundManager.swift */,
@@ -679,6 +682,7 @@
 				AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */,
 				64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */,
 				DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */,
+				IDLE00012345678901234567 /* IdleDetectionService.swift in Sources */,
 				8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */,
 				06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */,
 				B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */,

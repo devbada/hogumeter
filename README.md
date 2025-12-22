@@ -96,7 +96,7 @@
 - 30가지 다양한 재미있는 멘트
 - 영수증에 택시기사 한마디 저장
 
-### 13. GPS 신호 손실 감지 & Dead Reckoning (NEW)
+### 13. GPS 신호 손실 감지 & Dead Reckoning
 터널 등 GPS 신호가 약하거나 손실된 상황에서도 정확한 거리 측정:
 
 | 기능 | 설명 |
@@ -106,6 +106,19 @@
 | **최대 지속 시간** | 180초 (3분) 후 자동 만료 |
 | **속도 제한** | 최소 5km/h, 최대 200km/h |
 | **상태 표시** | UI에 GPS 신호 상태 아이콘 표시 |
+
+### 14. 무이동 감지 (Idle Detection) (NEW)
+미터기 실행 중 장시간 이동이 없을 경우 알림:
+
+| 설정 | 값 | 설명 |
+|------|-----|------|
+| **무이동 기준 시간** | 10분 | 이동 없이 10분 경과 시 알림 |
+| **이동 판단 거리** | 50m | 50m 이상 이동 시 타이머 리셋 |
+| **체크 간격** | 30초 | 30초마다 무이동 상태 확인 |
+| **Dead Reckoning 연동** | GPS 손실 중 일시 중지 | GPS 신호 손실 시 무이동 감지 비활성화 |
+
+- 알림 시 "계속" 또는 "종료" 선택 가능
+- "계속" 선택 시 모니터링 재개, "종료" 선택 시 미터기 정지
 
 ---
 
@@ -140,7 +153,7 @@ HoguMeter/
 │   │   └── Repositories/       # Repository 구현
 │   ├── Domain/                 # 도메인 레이어
 │   │   ├── Entities/           # 도메인 엔티티 (GPSSignalState, DeadReckoningState 등)
-│   │   └── Services/           # 도메인 서비스 (LocationService, DeadReckoningService 등)
+│   │   └── Services/           # 도메인 서비스 (LocationService, DeadReckoningService, IdleDetectionService 등)
 │   ├── Presentation/           # 프레젠테이션 레이어
 │   │   ├── ViewModels/         # ViewModel
 │   │   └── Views/              # SwiftUI View
@@ -151,7 +164,9 @@ HoguMeter/
 │   │   ├── FareTimeZoneTests.swift
 │   │   ├── GPSSignalStateTests.swift
 │   │   ├── DeadReckoningServiceTests.swift
-│   │   └── LocationServiceTests.swift
+│   │   ├── LocationServiceTests.swift
+│   │   ├── RouteManagerTests.swift
+│   │   └── IdleDetectionServiceTests.swift
 │   └── Mocks/                  # Mock 클래스
 │       ├── MockDeadReckoningService.swift
 │       └── MockCLLocationManager.swift
@@ -237,7 +252,14 @@ claude
 
 ## 🔧 최근 업데이트 (2025-12-22)
 
-### 📡 TASK-10.3: GPS 신호 손실 감지 & Dead Reckoning (NEW)
+### ⏱️ 무이동 감지 (Idle Detection) (NEW)
+미터기 실행 중 장시간 이동이 없을 경우 알림:
+- **IdleDetectionService**: 10분간 50m 이상 이동 없으면 알림 표시
+- **Dead Reckoning 연동**: GPS 손실 중에는 무이동 감지 일시 중지
+- **알림 UI**: "계속" 또는 "종료" 선택 가능
+- 30초 간격으로 무이동 상태 확인
+
+### 📡 GPS 신호 손실 감지 & Dead Reckoning
 터널 등 GPS 신호가 약하거나 손실된 상황에서도 정확한 거리 측정:
 - **GPSSignalState**: 정확도 기반 신호 상태 판별 (정상/약함/손실)
 - **DeadReckoningService**: GPS 손실 시 마지막 속도 기반 거리 추정
@@ -245,16 +267,17 @@ claude
 - 최대 180초 동안 추정, 이후 자동 만료
 - 속도 범위: 최소 5km/h ~ 최대 200km/h
 
-### 🗺️ 영수증 지도 표시 버그 수정 (NEW)
+### 🗺️ 영수증 지도 표시 버그 수정
 - 영수증 뷰에서 지도가 빈 화면으로 표시되던 문제 수정
 - MKMapSnapshotter를 사용한 실시간 지도 타일 로딩
 - 경로 폴리라인 및 출발/도착 마커 오버레이
 
-### 🧪 테스트 커버리지 확대 (NEW)
+### 🧪 테스트 커버리지 확대
 GPS 관련 기능에 대한 포괄적인 단위 테스트 추가:
 - `GPSSignalStateTests`: 신호 상태 판별 및 경계값 테스트
 - `DeadReckoningServiceTests`: 거리 추정 로직 테스트
 - `LocationServiceTests`: GPS 시나리오 통합 테스트
+- `IdleDetectionServiceTests`: 무이동 감지 로직 테스트
 - Mock 클래스: `MockDeadReckoningService`, `MockLocationServiceForGPS`, `MockCLLocationManager`
 
 ---
