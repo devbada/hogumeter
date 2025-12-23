@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import CoreLocation
 import Observation
+import UIKit
 
 @MainActor
 @Observable
@@ -31,12 +32,16 @@ final class MeterViewModel {
     // MARK: - Driver Quote State
     private(set) var currentDriverQuote: String = ""
 
+    // MARK: - Idle Detection State
+    private(set) var showIdleAlert: Bool = false
+
     // MARK: - Dependencies
     private let _locationService: LocationServiceProtocol
     private let fareCalculator: FareCalculator
     private let settingsRepository: SettingsRepositoryProtocol
     private let _routeManager: RouteManager
     private let _easterEggManager: EasterEggManager
+    private let idleDetectionService: IdleDetectionServiceProtocol
 
     // 지도 화면에서 사용하기 위한 접근자
     var locationService: LocationServiceProtocol { _locationService }
@@ -63,21 +68,30 @@ final class MeterViewModel {
         soundManager: SoundManager,
         tripRepository: TripRepository,
         routeManager: RouteManager = RouteManager(),
-        easterEggManager: EasterEggManager = EasterEggManager()
+        easterEggManager: EasterEggManager = EasterEggManager(),
+        idleDetectionService: IdleDetectionServiceProtocol = IdleDetectionService()
     ) {
         self._locationService = locationService
         self.fareCalculator = fareCalculator
         self.settingsRepository = settingsRepository
         self._routeManager = routeManager
         self._easterEggManager = easterEggManager
+        self.idleDetectionService = idleDetectionService
         self.regionDetector = regionDetector
         self.soundManager = soundManager
         self.tripRepository = tripRepository
 
         setupBindings()
+        setupAppLifecycleBindings()
 
         // 초기 기본요금 설정
         currentFare = getBaseFare()
+    }
+
+    // Note: Timer is invalidated in stopTimer() which is called before deallocation
+    // deinit just logs for verification - cleanup already handled by stopMeter()/resetMeter()
+    nonisolated deinit {
+        Logger.meter.debug("[MeterVM] MeterViewModel deinit")
     }
 
     // MARK: - Base Fare Helper
@@ -98,11 +112,18 @@ final class MeterViewModel {
         startTimer()
         soundManager.play(.meterStart)
 
+        // 화면 항상 켜짐 활성화
+        setScreenAlwaysOn(true)
+
         // 택시기사 한마디: 시간대별 멘트 또는 랜덤 멘트
         currentDriverQuote = DriverQuotes.forTimeOfDay() ?? DriverQuotes.random()
 
         // 이스터에그: 주행 시작 (신데렐라 모드 체크 포함)
         _easterEggManager.onTripStart(at: tripStartTime ?? Date())
+
+        // 무이동 감지 시작 및 알림 권한 요청
+        idleDetectionService.requestNotificationPermission()
+        idleDetectionService.startMonitoring()
     }
 
     func stopMeter() {
@@ -112,8 +133,14 @@ final class MeterViewModel {
         calculateFinalFare()
         soundManager.play(.meterStop)
 
+        // 화면 항상 켜짐 비활성화
+        setScreenAlwaysOn(false)
+
         // 이스터에그: 주행 종료
         _easterEggManager.onTripEnd()
+
+        // 무이동 감지 중지
+        idleDetectionService.stopMonitoring()
 
         // Trip 생성 및 저장
         saveTrip()
@@ -131,11 +158,30 @@ final class MeterViewModel {
         completedTrip = nil
         lastLocationUpdateTime = nil
         currentDriverQuote = ""
+        showIdleAlert = false
         _routeManager.clearRoute()
+        idleDetectionService.reset()
+
+        // 화면 항상 켜짐 비활성화
+        setScreenAlwaysOn(false)
     }
 
     func clearCompletedTrip() {
         completedTrip = nil
+    }
+
+    // MARK: - Idle Detection Actions
+
+    /// 무이동 알림에서 "계속" 선택
+    func continueFromIdleAlert() {
+        showIdleAlert = false
+        idleDetectionService.dismissAlert()
+    }
+
+    /// 무이동 알림에서 "종료" 선택
+    func stopFromIdleAlert() {
+        showIdleAlert = false
+        stopMeter()
     }
 
     // MARK: - Private Methods
@@ -147,12 +193,88 @@ final class MeterViewModel {
                 self?.handleLocationUpdate(location)
             }
             .store(in: &cancellables)
+
+        // Idle detection state changes
+        idleDetectionService.statePublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.handleIdleDetectionState(state)
+            }
+            .store(in: &cancellables)
+
+        // GPS signal state changes (for Dead Reckoning)
+        _locationService.gpsSignalStatePublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] signalState in
+                // Dead Reckoning 활성화 시 무이동 감지 일시 중지
+                let isDeadReckoning = signalState == .lost
+                self?.idleDetectionService.setDeadReckoningActive(isDeadReckoning)
+            }
+            .store(in: &cancellables)
+    }
+
+    /// 앱 생명주기 이벤트 구독 (백그라운드/포그라운드 전환)
+    private func setupAppLifecycleBindings() {
+        // 앱이 활성화되었을 때 (포그라운드 진입)
+        NotificationCenter.default.publisher(for: .appBecameActive)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.handleAppBecameActive()
+            }
+            .store(in: &cancellables)
+
+        // 앱이 백그라운드로 진입했을 때
+        NotificationCenter.default.publisher(for: .appEnteredBackground)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.idleDetectionService.handleAppEnteredBackground()
+            }
+            .store(in: &cancellables)
+
+        // 무이동 알림에서 "계속" 선택 시
+        NotificationCenter.default.publisher(for: .idleDetectionContinue)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.continueFromIdleAlert()
+            }
+            .store(in: &cancellables)
+
+        // 무이동 알림에서 "종료" 선택 시
+        NotificationCenter.default.publisher(for: .idleDetectionStop)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.stopFromIdleAlert()
+            }
+            .store(in: &cancellables)
+    }
+
+    /// 앱이 포그라운드로 돌아왔을 때 처리
+    private func handleAppBecameActive() {
+        // 무이동 감지 서비스에 알림
+        idleDetectionService.handleAppBecameActive()
+
+        // 미터기가 실행 중이면 화면 항상 켜짐 다시 활성화
+        if state == .running {
+            setScreenAlwaysOn(true)
+        }
+    }
+
+    private func handleIdleDetectionState(_ state: IdleDetectionState) {
+        switch state {
+        case .idle:
+            showIdleAlert = true
+        case .monitoring, .dismissed, .inactive, .alerted:
+            showIdleAlert = false
+        }
     }
 
     private func handleLocationUpdate(_ location: CLLocation) {
         // 미터기가 실행 중이 아니면 요금 계산 및 관련 로직 실행하지 않음
         // 위치 업데이트는 GPS 준비 상태 유지를 위해 계속 수신
         guard state == .running else { return }
+
+        // 무이동 감지 업데이트
+        idleDetectionService.updateLocation(location)
 
         // Update distance
         distance = _locationService.totalDistance / 1000  // m to km
@@ -280,5 +402,14 @@ final class MeterViewModel {
 
         tripRepository.save(trip)
         completedTrip = trip  // 영수증 표시용
+    }
+
+    // MARK: - Screen Always-On
+
+    /// 화면 항상 켜짐 설정
+    /// - Parameter enabled: true면 화면이 자동으로 꺼지지 않음
+    private func setScreenAlwaysOn(_ enabled: Bool) {
+        UIApplication.shared.isIdleTimerDisabled = enabled
+        Logger.debug("[Screen] 화면 항상 켜짐: \(enabled ? "활성화" : "비활성화")", log: Logger.ui)
     }
 }
