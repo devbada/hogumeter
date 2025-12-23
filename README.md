@@ -90,11 +90,35 @@
 | 100km/h 이상 | 🚀 "광속 호구!" |
 | 요금 10,000원 | 💰 "만원의 행복" |
 
-### 12. 택시기사 한마디 (NEW)
+### 12. 택시기사 한마디
 - 주행 시작 시 랜덤 택시기사 멘트 표시
 - 시간대별 특별 멘트 (새벽, 출근길, 퇴근길 등)
 - 30가지 다양한 재미있는 멘트
 - 영수증에 택시기사 한마디 저장
+
+### 13. GPS 신호 손실 감지 & Dead Reckoning
+터널 등 GPS 신호가 약하거나 손실된 상황에서도 정확한 거리 측정:
+
+| 기능 | 설명 |
+|------|------|
+| **GPS 신호 상태 감지** | 정상(< 30m) / 약함(30~100m) / 손실(> 100m) |
+| **Dead Reckoning** | GPS 손실 시 마지막 속도 기반 거리 추정 |
+| **최대 지속 시간** | 180초 (3분) 후 자동 만료 |
+| **속도 제한** | 최소 5km/h, 최대 200km/h |
+| **상태 표시** | UI에 GPS 신호 상태 아이콘 표시 |
+
+### 14. 무이동 감지 (Idle Detection) (NEW)
+미터기 실행 중 장시간 이동이 없을 경우 알림:
+
+| 설정 | 값 | 설명 |
+|------|-----|------|
+| **무이동 기준 시간** | 10분 | 이동 없이 10분 경과 시 알림 |
+| **이동 판단 거리** | 50m | 50m 이상 이동 시 타이머 리셋 |
+| **체크 간격** | 30초 | 30초마다 무이동 상태 확인 |
+| **Dead Reckoning 연동** | GPS 손실 중 일시 중지 | GPS 신호 손실 시 무이동 감지 비활성화 |
+
+- 알림 시 "계속" 또는 "종료" 선택 가능
+- "계속" 선택 시 모니터링 재개, "종료" 선택 시 미터기 정지
 
 ---
 
@@ -128,16 +152,26 @@ HoguMeter/
 │   ├── Data/                   # 데이터 레이어
 │   │   └── Repositories/       # Repository 구현
 │   ├── Domain/                 # 도메인 레이어
-│   │   ├── Entities/           # 도메인 엔티티
-│   │   └── Services/           # 도메인 서비스
+│   │   ├── Entities/           # 도메인 엔티티 (GPSSignalState, DeadReckoningState 등)
+│   │   └── Services/           # 도메인 서비스 (LocationService, DeadReckoningService, IdleDetectionService 등)
 │   ├── Presentation/           # 프레젠테이션 레이어
 │   │   ├── ViewModels/         # ViewModel
 │   │   └── Views/              # SwiftUI View
 │   └── Resources/              # 리소스 파일
 ├── HoguMeterTests/             # 단위 테스트
-│   ├── FareCalculatorTests.swift
-│   └── FareTimeZoneTests.swift
+│   ├── Unit/                   # 단위 테스트
+│   │   ├── FareCalculatorTests.swift
+│   │   ├── FareTimeZoneTests.swift
+│   │   ├── GPSSignalStateTests.swift
+│   │   ├── DeadReckoningServiceTests.swift
+│   │   ├── LocationServiceTests.swift
+│   │   ├── RouteManagerTests.swift
+│   │   └── IdleDetectionServiceTests.swift
+│   └── Mocks/                  # Mock 클래스
+│       ├── MockDeadReckoningService.swift
+│       └── MockCLLocationManager.swift
 ├── docs/                       # 프로젝트 문서
+│   └── QA_TEST_CASES.md        # QA 테스트 케이스
 └── tasks/                      # Epic별 개발 태스크
 ```
 
@@ -154,6 +188,7 @@ HoguMeter/
 | [DEVELOPMENT_GUIDE-FOR-AI.md](./docs/DEVELOPMENT_GUIDE-FOR-AI.md) | AI 개발 가이드 |
 | [PRIVACY_POLICY.md](./docs/PRIVACY_POLICY.md) | 개인정보 처리방침 (한글) |
 | [PRIVACY_POLICY_EN.md](./docs/PRIVACY_POLICY_EN.md) | Privacy Policy (English) |
+| [QA_TEST_CASES.md](./docs/QA_TEST_CASES.md) | GPS 기능 QA 테스트 케이스 |
 | [tasks/README.md](./tasks/README.md) | 태스크 관리 |
 
 ---
@@ -215,9 +250,41 @@ claude
 
 ---
 
-## 🔧 최근 업데이트 (2025-12-16)
+## 🔧 최근 업데이트 (2025-12-22)
 
-### 🚕 TASK-10.2: 택시기사 한마디 (NEW)
+### ⏱️ 무이동 감지 (Idle Detection) (NEW)
+미터기 실행 중 장시간 이동이 없을 경우 알림:
+- **IdleDetectionService**: 10분간 50m 이상 이동 없으면 알림 표시
+- **Dead Reckoning 연동**: GPS 손실 중에는 무이동 감지 일시 중지
+- **알림 UI**: "계속" 또는 "종료" 선택 가능
+- 30초 간격으로 무이동 상태 확인
+
+### 📡 GPS 신호 손실 감지 & Dead Reckoning
+터널 등 GPS 신호가 약하거나 손실된 상황에서도 정확한 거리 측정:
+- **GPSSignalState**: 정확도 기반 신호 상태 판별 (정상/약함/손실)
+- **DeadReckoningService**: GPS 손실 시 마지막 속도 기반 거리 추정
+- **LocationService 통합**: GPS 상태 변화 감지 및 Dead Reckoning 자동 시작/중지
+- 최대 180초 동안 추정, 이후 자동 만료
+- 속도 범위: 최소 5km/h ~ 최대 200km/h
+
+### 🗺️ 영수증 지도 표시 버그 수정
+- 영수증 뷰에서 지도가 빈 화면으로 표시되던 문제 수정
+- MKMapSnapshotter를 사용한 실시간 지도 타일 로딩
+- 경로 폴리라인 및 출발/도착 마커 오버레이
+
+### 🧪 테스트 커버리지 확대
+GPS 관련 기능에 대한 포괄적인 단위 테스트 추가:
+- `GPSSignalStateTests`: 신호 상태 판별 및 경계값 테스트
+- `DeadReckoningServiceTests`: 거리 추정 로직 테스트
+- `LocationServiceTests`: GPS 시나리오 통합 테스트
+- `IdleDetectionServiceTests`: 무이동 감지 로직 테스트
+- Mock 클래스: `MockDeadReckoningService`, `MockLocationServiceForGPS`, `MockCLLocationManager`
+
+---
+
+## 🔧 이전 업데이트 (2025-12-16)
+
+### 🚕 TASK-10.2: 택시기사 한마디
 - 주행 시작 시 랜덤 택시기사 멘트 표시
 - 시간대별 특별 멘트 지원
   - 새벽 (00:00~05:00): "이 시간에 어디 가세요?"
@@ -227,7 +294,7 @@ claude
 - 30가지 다양한 재미있는 멘트
 - 영수증에 택시기사 한마디 저장
 
-### 🗺️ 지도 기능 개선 (NEW)
+### 🗺️ 지도 기능 개선
 - **방향 추적 모드**: 현재위치 버튼 더블탭 시 지도가 단말기 방향에 따라 회전
 - **마커 위치 개선**: 마커가 정확한 좌표 위치에 표시
 - **마커 회전**: 이동 방향(heading)을 바라보며 회전

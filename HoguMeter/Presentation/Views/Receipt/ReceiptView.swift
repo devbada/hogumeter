@@ -18,6 +18,8 @@ struct ReceiptView: View {
     @State private var showSaveAlert = false
     @State private var saveAlertMessage = ""
     @State private var isSaving = false
+    @State private var mapSnapshotImage: UIImage?
+    @State private var isLoadingMap = true
 
     var body: some View {
         NavigationView {
@@ -88,6 +90,13 @@ struct ReceiptView: View {
                 Button("확인", role: .cancel) { }
             } message: {
                 Text(saveAlertMessage)
+            }
+            .task {
+                // 뷰가 나타날 때 지도 스냅샷 로드
+                if trip.routePoints.count >= 2 {
+                    mapSnapshotImage = await generateMapSnapshotWithRoute()
+                }
+                isLoadingMap = false
             }
         }
     }
@@ -255,53 +264,29 @@ struct ReceiptView: View {
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            // 경로 지도 캔버스
-            Canvas { context, size in
-                let points = trip.routePoints
-                guard points.count >= 2 else { return }
-
-                // 좌표 범위 계산
-                let lats = points.map { $0.latitude }
-                let lons = points.map { $0.longitude }
-                guard let minLat = lats.min(), let maxLat = lats.max(),
-                      let minLon = lons.min(), let maxLon = lons.max() else { return }
-
-                let latRange = max(maxLat - minLat, 0.001)
-                let lonRange = max(maxLon - minLon, 0.001)
-                let centerLat = (minLat + maxLat) / 2
-                let centerLon = (minLon + maxLon) / 2
-
-                // 화면 좌표 변환 함수
-                let padding: CGFloat = 15
-                func toScreen(_ lat: Double, _ lon: Double) -> CGPoint {
-                    let x = padding + ((lon - (centerLon - lonRange / 2)) / lonRange) * (size.width - padding * 2)
-                    let y = size.height - padding - ((lat - (centerLat - latRange / 2)) / latRange) * (size.height - padding * 2)
-                    return CGPoint(x: x, y: y)
+            // 지도 스냅샷 이미지 표시
+            ZStack {
+                if isLoadingMap {
+                    // 로딩 중
+                    Color(.systemGray6)
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                } else if let mapImage = mapSnapshotImage {
+                    // 지도 스냅샷 표시
+                    Image(uiImage: mapImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } else {
+                    // 지도 로드 실패 또는 경로 없음 - 기존 Canvas 폴백
+                    routeMapCanvas
                 }
-
-                // 경로 그리기
-                var path = Path()
-                let firstPoint = toScreen(points[0].latitude, points[0].longitude)
-                path.move(to: firstPoint)
-
-                for i in 1..<points.count {
-                    let point = toScreen(points[i].latitude, points[i].longitude)
-                    path.addLine(to: point)
-                }
-
-                context.stroke(path, with: .color(.blue), lineWidth: 3)
-
-                // 출발점 (녹색)
-                let startPoint = toScreen(points.first!.latitude, points.first!.longitude)
-                context.fill(Circle().path(in: CGRect(x: startPoint.x - 6, y: startPoint.y - 6, width: 12, height: 12)), with: .color(.green))
-
-                // 도착점 (빨간색)
-                let endPoint = toScreen(points.last!.latitude, points.last!.longitude)
-                context.fill(Circle().path(in: CGRect(x: endPoint.x - 6, y: endPoint.y - 6, width: 12, height: 12)), with: .color(.red))
             }
             .frame(height: 150)
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color(.systemGray4), lineWidth: 0.5)
+            )
 
             // 범례
             HStack(spacing: 20) {
@@ -315,6 +300,54 @@ struct ReceiptView: View {
                 }
             }
         }
+    }
+
+    // MARK: - Route Map Canvas (폴백용)
+    private var routeMapCanvas: some View {
+        Canvas { context, size in
+            let points = trip.routePoints
+            guard points.count >= 2 else { return }
+
+            // 좌표 범위 계산
+            let lats = points.map { $0.latitude }
+            let lons = points.map { $0.longitude }
+            guard let minLat = lats.min(), let maxLat = lats.max(),
+                  let minLon = lons.min(), let maxLon = lons.max() else { return }
+
+            let latRange = max(maxLat - minLat, 0.001)
+            let lonRange = max(maxLon - minLon, 0.001)
+            let centerLat = (minLat + maxLat) / 2
+            let centerLon = (minLon + maxLon) / 2
+
+            // 화면 좌표 변환 함수
+            let padding: CGFloat = 15
+            func toScreen(_ lat: Double, _ lon: Double) -> CGPoint {
+                let x = padding + ((lon - (centerLon - lonRange / 2)) / lonRange) * (size.width - padding * 2)
+                let y = size.height - padding - ((lat - (centerLat - latRange / 2)) / latRange) * (size.height - padding * 2)
+                return CGPoint(x: x, y: y)
+            }
+
+            // 경로 그리기
+            var path = Path()
+            let firstPoint = toScreen(points[0].latitude, points[0].longitude)
+            path.move(to: firstPoint)
+
+            for i in 1..<points.count {
+                let point = toScreen(points[i].latitude, points[i].longitude)
+                path.addLine(to: point)
+            }
+
+            context.stroke(path, with: .color(.blue), lineWidth: 3)
+
+            // 출발점 (녹색)
+            let startPoint = toScreen(points.first!.latitude, points.first!.longitude)
+            context.fill(Circle().path(in: CGRect(x: startPoint.x - 6, y: startPoint.y - 6, width: 12, height: 12)), with: .color(.green))
+
+            // 도착점 (빨간색)
+            let endPoint = toScreen(points.last!.latitude, points.last!.longitude)
+            context.fill(Circle().path(in: CGRect(x: endPoint.x - 6, y: endPoint.y - 6, width: 12, height: 12)), with: .color(.red))
+        }
+        .background(Color(.systemGray6))
     }
 
     // MARK: - Helper Views
@@ -399,6 +432,112 @@ struct ReceiptView: View {
             return snapshot.image
         } catch {
             return nil
+        }
+    }
+
+    /// 지도 스냅샷 + 경로 + 마커를 포함한 이미지 생성 (라이브 뷰용)
+    private func generateMapSnapshotWithRoute() async -> UIImage? {
+        guard trip.routePoints.count >= 2 else { return nil }
+
+        let lats = trip.routePoints.map { $0.latitude }
+        let lons = trip.routePoints.map { $0.longitude }
+        guard let minLat = lats.min(), let maxLat = lats.max(),
+              let minLon = lons.min(), let maxLon = lons.max() else { return nil }
+
+        // 여유 공간 추가
+        let latPadding = max((maxLat - minLat) * 0.3, 0.002)
+        let lonPadding = max((maxLon - minLon) * 0.3, 0.002)
+
+        let region = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(
+                latitude: (minLat + maxLat) / 2,
+                longitude: (minLon + maxLon) / 2
+            ),
+            span: MKCoordinateSpan(
+                latitudeDelta: max(maxLat - minLat + latPadding, 0.005),
+                longitudeDelta: max(maxLon - minLon + lonPadding, 0.005)
+            )
+        )
+
+        // 라이브 뷰용으로 더 큰 사이즈
+        let options = MKMapSnapshotter.Options()
+        options.region = region
+        options.size = CGSize(width: 400, height: 200)
+        options.scale = UIScreen.main.scale
+
+        let snapshotter = MKMapSnapshotter(options: options)
+
+        do {
+            let snapshot = try await snapshotter.start()
+            return drawRouteOnSnapshot(snapshot)
+        } catch {
+            return nil
+        }
+    }
+
+    /// 스냅샷 위에 경로와 마커를 그림
+    private func drawRouteOnSnapshot(_ snapshot: MKMapSnapshotter.Snapshot) -> UIImage {
+        let image = snapshot.image
+        let size = image.size
+
+        let renderer = UIGraphicsImageRenderer(size: size)
+
+        return renderer.image { context in
+            // 기본 지도 이미지 그리기
+            image.draw(at: .zero)
+
+            let ctx = context.cgContext
+
+            // 경로 그리기
+            guard trip.routePoints.count >= 2 else { return }
+
+            ctx.setStrokeColor(UIColor.systemBlue.cgColor)
+            ctx.setLineWidth(4)
+            ctx.setLineCap(.round)
+            ctx.setLineJoin(.round)
+
+            let firstCoord = CLLocationCoordinate2D(
+                latitude: trip.routePoints[0].latitude,
+                longitude: trip.routePoints[0].longitude
+            )
+            let firstPoint = snapshot.point(for: firstCoord)
+            ctx.move(to: firstPoint)
+
+            for i in 1..<trip.routePoints.count {
+                let coord = CLLocationCoordinate2D(
+                    latitude: trip.routePoints[i].latitude,
+                    longitude: trip.routePoints[i].longitude
+                )
+                let point = snapshot.point(for: coord)
+                ctx.addLine(to: point)
+            }
+            ctx.strokePath()
+
+            // 출발 마커 (녹색)
+            let startCoord = CLLocationCoordinate2D(
+                latitude: trip.routePoints.first!.latitude,
+                longitude: trip.routePoints.first!.longitude
+            )
+            let startPoint = snapshot.point(for: startCoord)
+            ctx.setFillColor(UIColor.systemGreen.cgColor)
+            ctx.fillEllipse(in: CGRect(x: startPoint.x - 8, y: startPoint.y - 8, width: 16, height: 16))
+            // 흰색 테두리
+            ctx.setStrokeColor(UIColor.white.cgColor)
+            ctx.setLineWidth(2)
+            ctx.strokeEllipse(in: CGRect(x: startPoint.x - 8, y: startPoint.y - 8, width: 16, height: 16))
+
+            // 도착 마커 (빨간색)
+            let endCoord = CLLocationCoordinate2D(
+                latitude: trip.routePoints.last!.latitude,
+                longitude: trip.routePoints.last!.longitude
+            )
+            let endPoint = snapshot.point(for: endCoord)
+            ctx.setFillColor(UIColor.systemRed.cgColor)
+            ctx.fillEllipse(in: CGRect(x: endPoint.x - 8, y: endPoint.y - 8, width: 16, height: 16))
+            // 흰색 테두리
+            ctx.setStrokeColor(UIColor.white.cgColor)
+            ctx.setLineWidth(2)
+            ctx.strokeEllipse(in: CGRect(x: endPoint.x - 8, y: endPoint.y - 8, width: 16, height: 16))
         }
     }
 
