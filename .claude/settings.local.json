@@ -32,7 +32,9 @@
       "Bash(gh auth status:*)",
       "Bash(gh auth:*)",
       "WebSearch",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter fetch origin)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter merge origin/develop)"
     ]
   },
   "enableAllProjectMcpServers": true,
