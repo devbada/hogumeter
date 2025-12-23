@@ -81,6 +81,7 @@ final class MeterViewModel {
         self.tripRepository = tripRepository
 
         setupBindings()
+        setupAppLifecycleBindings()
 
         // 초기 기본요금 설정
         currentFare = getBaseFare()
@@ -116,7 +117,8 @@ final class MeterViewModel {
         // 이스터에그: 주행 시작 (신데렐라 모드 체크 포함)
         _easterEggManager.onTripStart(at: tripStartTime ?? Date())
 
-        // 무이동 감지 시작
+        // 무이동 감지 시작 및 알림 권한 요청
+        idleDetectionService.requestNotificationPermission()
         idleDetectionService.startMonitoring()
     }
 
@@ -197,6 +199,41 @@ final class MeterViewModel {
                 // Dead Reckoning 활성화 시 무이동 감지 일시 중지
                 let isDeadReckoning = signalState == .lost
                 self?.idleDetectionService.setDeadReckoningActive(isDeadReckoning)
+            }
+            .store(in: &cancellables)
+    }
+
+    /// 앱 생명주기 이벤트 구독 (백그라운드/포그라운드 전환)
+    private func setupAppLifecycleBindings() {
+        // 앱이 활성화되었을 때 (포그라운드 진입)
+        NotificationCenter.default.publisher(for: .appBecameActive)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.idleDetectionService.handleAppBecameActive()
+            }
+            .store(in: &cancellables)
+
+        // 앱이 백그라운드로 진입했을 때
+        NotificationCenter.default.publisher(for: .appEnteredBackground)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.idleDetectionService.handleAppEnteredBackground()
+            }
+            .store(in: &cancellables)
+
+        // 무이동 알림에서 "계속" 선택 시
+        NotificationCenter.default.publisher(for: .idleDetectionContinue)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.continueFromIdleAlert()
+            }
+            .store(in: &cancellables)
+
+        // 무이동 알림에서 "종료" 선택 시
+        NotificationCenter.default.publisher(for: .idleDetectionStop)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.stopFromIdleAlert()
             }
             .store(in: &cancellables)
     }
