@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import CoreLocation
 import Observation
+import UIKit
 
 @MainActor
 @Observable
@@ -98,6 +99,9 @@ final class MeterViewModel {
         startTimer()
         soundManager.play(.meterStart)
 
+        // 화면 항상 켜짐 활성화
+        setScreenAlwaysOn(true)
+
         // 택시기사 한마디: 시간대별 멘트 또는 랜덤 멘트
         currentDriverQuote = DriverQuotes.forTimeOfDay() ?? DriverQuotes.random()
 
@@ -111,6 +115,9 @@ final class MeterViewModel {
         stopTimer()
         calculateFinalFare()
         soundManager.play(.meterStop)
+
+        // 화면 항상 켜짐 비활성화
+        setScreenAlwaysOn(false)
 
         // 이스터에그: 주행 종료
         _easterEggManager.onTripEnd()
@@ -132,6 +139,9 @@ final class MeterViewModel {
         lastLocationUpdateTime = nil
         currentDriverQuote = ""
         _routeManager.clearRoute()
+
+        // 화면 항상 켜짐 비활성화
+        setScreenAlwaysOn(false)
     }
 
     func clearCompletedTrip() {
@@ -147,6 +157,22 @@ final class MeterViewModel {
                 self?.handleLocationUpdate(location)
             }
             .store(in: &cancellables)
+
+        // 앱이 활성화되었을 때 (포그라운드 진입) - 화면 항상 켜짐 재설정
+        NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.handleAppBecameActive()
+            }
+            .store(in: &cancellables)
+    }
+
+    /// 앱이 포그라운드로 돌아왔을 때 화면 항상 켜짐 상태 복원
+    private func handleAppBecameActive() {
+        // 미터기가 실행 중이면 화면 항상 켜짐 다시 활성화
+        if state == .running {
+            setScreenAlwaysOn(true)
+        }
     }
 
     private func handleLocationUpdate(_ location: CLLocation) {
@@ -280,5 +306,14 @@ final class MeterViewModel {
 
         tripRepository.save(trip)
         completedTrip = trip  // 영수증 표시용
+    }
+
+    // MARK: - Screen Always-On
+
+    /// 화면 항상 켜짐 설정
+    /// - Parameter enabled: true면 화면이 자동으로 꺼지지 않음
+    private func setScreenAlwaysOn(_ enabled: Bool) {
+        UIApplication.shared.isIdleTimerDisabled = enabled
+        Logger.debug("[Screen] 화면 항상 켜짐: \(enabled ? "활성화" : "비활성화")", log: Logger.ui)
     }
 }
