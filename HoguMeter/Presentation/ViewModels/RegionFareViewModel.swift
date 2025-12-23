@@ -57,10 +57,18 @@ final class RegionFareViewModel {
         }
 
         // 기준 지역 가져오기
+        // 기본 제공 지역은 DefaultFares.json에서, 사용자 지역은 저장된 데이터에서 가져옴
         let baseFare: RegionFare
-        if let baseCode = baseCode,
-           let fare = repository.getFare(byCode: baseCode) {
-            baseFare = fare
+        if let baseCode = baseCode {
+            // 기본 제공 지역 코드인 경우 DefaultFares.json에서 가져옴
+            if let defaultFare = repository.getDefaultFare(code: baseCode) {
+                baseFare = defaultFare
+            } else if let userFare = repository.getFare(byCode: baseCode) {
+                // 사용자가 추가한 지역인 경우
+                baseFare = userFare
+            } else {
+                baseFare = repository.getSelectedFare()
+            }
         } else {
             baseFare = repository.getSelectedFare()
         }
@@ -125,16 +133,19 @@ final class RegionFareViewModel {
 
     /// 기본 제공 지역 목록
     func getDefaultRegionCodes() -> [String] {
-        ["seoul", "gyeonggi", "incheon", "busan"]
+        ["seoul", "busan", "daegu", "incheon", "gwangju", "daejeon", "gyeonggi"]
     }
 
     /// 기본 제공 지역 이름 가져오기
     func getDefaultRegionName(code: String) -> String {
         switch code {
         case "seoul": return "서울"
-        case "gyeonggi": return "경기"
-        case "incheon": return "인천"
         case "busan": return "부산"
+        case "daegu": return "대구"
+        case "incheon": return "인천"
+        case "gwangju": return "광주"
+        case "daejeon": return "대전"
+        case "gyeonggi": return "경기"
         default: return code
         }
     }
