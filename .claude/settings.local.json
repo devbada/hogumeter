@@ -36,7 +36,9 @@
       "Bash(git fetch:*)",
       "Bash(git merge:*)",
       "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter add .claude/settings.local.json HoguMeter/Presentation/ViewModels/MeterViewModel.swift)",
-      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter commit -m \"$\\(cat <<''EOF''\nmerge: feature/screen-always-on into develop \\(resolved conflicts\\)\n\nMerged screen always-on feature with idle detection background fix:\n- setScreenAlwaysOn\\(\\) in startMeter\\(\\), stopMeter\\(\\), resetMeter\\(\\)\n- Screen restore on app foreground in handleAppBecameActive\\(\\)\n- Combined with idle detection lifecycle handling\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter commit -m \"$\\(cat <<''EOF''\nmerge: feature/screen-always-on into develop \\(resolved conflicts\\)\n\nMerged screen always-on feature with idle detection background fix:\n- setScreenAlwaysOn\\(\\) in startMeter\\(\\), stopMeter\\(\\), resetMeter\\(\\)\n- Screen restore on app foreground in handleAppBecameActive\\(\\)\n- Combined with idle detection lifecycle handling\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter status)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter log --oneline -3)"
     ]
   },
   "enableAllProjectMcpServers": true,
