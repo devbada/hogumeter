@@ -33,15 +33,12 @@
       "Bash(gh auth:*)",
       "WebSearch",
       "Bash(git pull:*)",
-      "Bash(ruby -e \"require ''xcodeproj''\")",
       "Bash(git fetch:*)",
       "Bash(git merge:*)",
-      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter branch -a)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter add .claude/settings.local.json HoguMeter/Presentation/ViewModels/MeterViewModel.swift)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter commit -m \"$\\(cat <<''EOF''\nmerge: feature/screen-always-on into develop \\(resolved conflicts\\)\n\nMerged screen always-on feature with idle detection background fix:\n- setScreenAlwaysOn\\(\\) in startMeter\\(\\), stopMeter\\(\\), resetMeter\\(\\)\n- Screen restore on app foreground in handleAppBecameActive\\(\\)\n- Combined with idle detection lifecycle handling\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter status)",
-      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter diff --stat)",
-      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter log --oneline -5)",
-      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter add HoguMeter/App/HoguMeterApp.swift HoguMeter/Domain/Services/IdleDetectionService.swift HoguMeter/Presentation/ViewModels/MeterViewModel.swift tasks/idle-detection-background-fix.md)",
-      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter commit -m \"$\\(cat <<''EOF''\nfix: 백그라운드에서 무이동 감지 기능 개선\n\n- 화면 꺼짐/백그라운드 상태에서도 무이동 감지 동작\n- 로컬 알림으로 \"계속\"/\"종료\" 선택 가능\n- 앱 포그라운드 복귀 시 무이동 시간 재계산\n- AppDelegate 추가하여 알림 응답 처리\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter log --oneline -3)"
     ]
   },
   "enableAllProjectMcpServers": true,
