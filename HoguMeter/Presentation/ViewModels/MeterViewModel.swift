@@ -86,6 +86,10 @@ final class MeterViewModel {
 
         // 초기 기본요금 설정
         currentFare = getBaseFare()
+
+        // 화면 항상 켜짐 비활성화 (앱 시작 시 기본값)
+        // 이전 세션에서 미터기 실행 중 앱이 종료된 경우를 대비
+        setScreenAlwaysOn(false)
     }
 
     // Note: Timer is invalidated in stopTimer() which is called before deallocation
