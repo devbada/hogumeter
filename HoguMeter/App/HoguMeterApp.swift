@@ -22,6 +22,13 @@ struct HoguMeterApp: App {
     init() {
         // 앱 시작 시 알림 카테고리 설정
         IdleDetectionService.setupNotificationCategories()
+
+        // 디버깅: 앱 시작 시 화면 상태 확인 및 초기화
+        Logger.debug("[Screen] App init - isIdleTimerDisabled: \(UIApplication.shared.isIdleTimerDisabled)", log: Logger.ui)
+
+        // 앱 시작 시 항상 화면 항상 켜짐 비활성화
+        UIApplication.shared.isIdleTimerDisabled = false
+        Logger.debug("[Screen] App init - forced isIdleTimerDisabled to false", log: Logger.ui)
     }
 
     var body: some Scene {
@@ -58,8 +65,11 @@ struct HoguMeterApp: App {
     }
 
     private func handleScenePhaseChange(_ phase: ScenePhase) {
+        Logger.debug("[Screen] scenePhase changed to: \(phase), isIdleTimerDisabled: \(UIApplication.shared.isIdleTimerDisabled)", log: Logger.ui)
+
         switch phase {
         case .active:
+            Logger.debug("[Screen] posting .appBecameActive notification", log: Logger.ui)
             NotificationCenter.default.post(name: .appBecameActive, object: nil)
         case .background:
             NotificationCenter.default.post(name: .appEnteredBackground, object: nil)

@@ -81,6 +81,8 @@ final class MeterViewModel {
         self.soundManager = soundManager
         self.tripRepository = tripRepository
 
+        Logger.debug("[Screen] MeterViewModel init started, current isIdleTimerDisabled: \(UIApplication.shared.isIdleTimerDisabled)", log: Logger.ui)
+
         setupBindings()
         setupAppLifecycleBindings()
 
@@ -90,6 +92,8 @@ final class MeterViewModel {
         // 화면 항상 켜짐 비활성화 (앱 시작 시 기본값)
         // 이전 세션에서 미터기 실행 중 앱이 종료된 경우를 대비
         setScreenAlwaysOn(false)
+
+        Logger.debug("[Screen] MeterViewModel init completed", log: Logger.ui)
     }
 
     // Note: Timer is invalidated in stopTimer() which is called before deallocation
@@ -254,6 +258,8 @@ final class MeterViewModel {
 
     /// 앱이 포그라운드로 돌아왔을 때 처리
     private func handleAppBecameActive() {
+        Logger.debug("[Screen] handleAppBecameActive called, state: \(state)", log: Logger.ui)
+
         // 무이동 감지 서비스에 알림
         idleDetectionService.handleAppBecameActive()
 
@@ -413,7 +419,9 @@ final class MeterViewModel {
     /// 화면 항상 켜짐 설정
     /// - Parameter enabled: true면 화면이 자동으로 꺼지지 않음
     private func setScreenAlwaysOn(_ enabled: Bool) {
+        let before = UIApplication.shared.isIdleTimerDisabled
         UIApplication.shared.isIdleTimerDisabled = enabled
-        Logger.debug("[Screen] 화면 항상 켜짐: \(enabled ? "활성화" : "비활성화")", log: Logger.ui)
+        let after = UIApplication.shared.isIdleTimerDisabled
+        Logger.debug("[Screen] setScreenAlwaysOn(\(enabled)) - before: \(before), after: \(after), state: \(state)", log: Logger.ui)
     }
 }
