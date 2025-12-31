@@ -29,7 +29,25 @@ struct HoguMeterApp: App {
         // 앱 시작 시 항상 화면 항상 켜짐 비활성화
         UIApplication.shared.isIdleTimerDisabled = false
         Logger.debug("[Screen] App init - forced isIdleTimerDisabled to false", log: Logger.ui)
+
+        // ⚠️ DEBUG: 5초마다 화면 상태 체크 (누가 true로 바꾸는지 추적)
+        #if DEBUG
+        startScreenDebugTimer()
+        #endif
     }
+
+    #if DEBUG
+    private func startScreenDebugTimer() {
+        Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
+            let value = UIApplication.shared.isIdleTimerDisabled
+            if value {
+                Logger.debug("[Screen] ⚠️ ALERT: isIdleTimerDisabled is TRUE! Something set it!", log: Logger.ui)
+            } else {
+                Logger.debug("[Screen] ✓ isIdleTimerDisabled is false (correct)", log: Logger.ui)
+            }
+        }
+    }
+    #endif
 
     var body: some Scene {
         WindowGroup {

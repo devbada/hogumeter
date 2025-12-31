@@ -419,9 +419,17 @@ final class MeterViewModel {
     /// 화면 항상 켜짐 설정
     /// - Parameter enabled: true면 화면이 자동으로 꺼지지 않음
     private func setScreenAlwaysOn(_ enabled: Bool) {
+        // ⚠️ DEBUG: 핵 옵션 - 문제가 우리 코드인지 확인하기 위해 항상 false 설정
+        // 이 상태에서도 화면이 켜져있으면 문제는 외부(iOS 설정, 시뮬레이터 등)
+        #if DEBUG
         let before = UIApplication.shared.isIdleTimerDisabled
-        UIApplication.shared.isIdleTimerDisabled = enabled
+        // NUCLEAR OPTION: Force false to test if problem is in our code
+        // UIApplication.shared.isIdleTimerDisabled = enabled  // 원본
+        UIApplication.shared.isIdleTimerDisabled = false  // 테스트용: 항상 false
         let after = UIApplication.shared.isIdleTimerDisabled
-        Logger.debug("[Screen] setScreenAlwaysOn(\(enabled)) - before: \(before), after: \(after), state: \(state)", log: Logger.ui)
+        Logger.debug("[Screen] ⚠️ NUCLEAR: setScreenAlwaysOn(\(enabled)) FORCED TO FALSE - before: \(before), after: \(after), state: \(state)", log: Logger.ui)
+        #else
+        UIApplication.shared.isIdleTimerDisabled = enabled
+        #endif
     }
 }
