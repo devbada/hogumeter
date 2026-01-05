@@ -86,6 +86,9 @@ final class MeterViewModel {
 
         // 초기 기본요금 설정
         currentFare = getBaseFare()
+
+        // 화면 항상 켜짐 비활성화 (앱 시작 시 기본값)
+        setScreenAlwaysOn(false)
     }
 
     // Note: Timer is invalidated in stopTimer() which is called before deallocation
@@ -410,6 +413,5 @@ final class MeterViewModel {
     /// - Parameter enabled: true면 화면이 자동으로 꺼지지 않음
     private func setScreenAlwaysOn(_ enabled: Bool) {
         UIApplication.shared.isIdleTimerDisabled = enabled
-        Logger.debug("[Screen] 화면 항상 켜짐: \(enabled ? "활성화" : "비활성화")", log: Logger.ui)
     }
 }

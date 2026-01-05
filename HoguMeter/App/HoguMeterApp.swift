@@ -22,6 +22,9 @@ struct HoguMeterApp: App {
     init() {
         // 앱 시작 시 알림 카테고리 설정
         IdleDetectionService.setupNotificationCategories()
+
+        // 앱 시작 시 화면 항상 켜짐 비활성화
+        UIApplication.shared.isIdleTimerDisabled = false
     }
 
     var body: some Scene {

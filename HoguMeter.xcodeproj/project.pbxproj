@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
-		IDLE00012345678901234567 /* IdleDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IDLE00001234567890ABCDEF /* IdleDetectionService.swift */; };
 		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
 		07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */; };
 		09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A91BE8BC3716FB99B58A61C /* Assets.xcassets */; };
@@ -72,6 +71,7 @@
 		F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254E8830A8239D9335AEC8AA /* TripRepository.swift */; };
 		F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0593C144C4AF38D18F326822 /* ControlButtonsView.swift */; };
 		GPS0001234567890123456 /* GPSSignalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = GPS0001234567890ABCDEF /* GPSSignalState.swift */; };
+		IDLE00012345678901234567 /* IdleDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IDLE00001234567890ABCDEF /* IdleDetectionService.swift */; };
 		MAPCV00012345678901234567 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPCV00001234567890ABCDEF /* MapContainerView.swift */; };
 		MAPVM00012345678901234567 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVM00001234567890ABCDEF /* MapViewModel.swift */; };
 		MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */; };
@@ -99,7 +99,6 @@
 		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
 		06FFF7C0C0104936A761FA16 /* DisclaimerDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerDialogView.swift; sourceTree = "<group>"; };
 		0F9CFE822AFFAAB528579537 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
-		IDLE00001234567890ABCDEF /* IdleDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleDetectionService.swift; sourceTree = "<group>"; };
 		0FF411F9647966C3705693A1 /* RegionFareRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareRepository.swift; sourceTree = "<group>"; };
 		107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareListView.swift; sourceTree = "<group>"; };
 		152CB7C1DA299F19E4785383 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
@@ -164,6 +163,7 @@
 		FBCE942707AFEC7295EEB5A7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		GPS0001234567890ABCDEF /* GPSSignalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSSignalState.swift; sourceTree = "<group>"; };
+		IDLE00001234567890ABCDEF /* IdleDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleDetectionService.swift; sourceTree = "<group>"; };
 		MAPCV00001234567890ABCDEF /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
 		MAPVM00001234567890ABCDEF /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
@@ -750,7 +750,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = U6BW42PX5S;
+				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
@@ -910,7 +910,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U6BW42PX5S;
+				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -945,7 +945,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U6BW42PX5S;
+				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -974,7 +974,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = U6BW42PX5S;
+				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
