@@ -206,7 +206,9 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         // 이동 거리 계산
         let distance = location.distance(from: lastLoc)
 
-        // 최소 이동 거리 이상 이동한 경우
+        // 최소 이동 거리 이상 이동한 경우에만 이동으로 인정
+        // 중요: lastLocation은 이동이 인정될 때만 업데이트해야 함
+        // 그래야 작은 이동들이 누적되어 threshold를 초과할 수 있음
         if distance >= IdleDetectionConfig.movementThreshold {
             lastMovementTime = Date()
             lastLocation = location
@@ -219,10 +221,11 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
                 stateSubject.send(.monitoring)
                 Logger.gps.info("[IdleDetection] 이동 감지 - 모니터링 재개")
             }
-        } else {
-            // 위치는 업데이트하되 이동 시간은 갱신하지 않음
-            lastLocation = location
+
+            Logger.gps.debug("[IdleDetection] 이동 감지 (거리: \(String(format: "%.0f", distance))m) - 타이머 리셋")
         }
+        // else: 이동 거리가 threshold 미만이면 lastLocation을 업데이트하지 않음
+        // 이렇게 해야 작은 이동들이 누적되어 threshold를 초과할 수 있음
     }
 
     func dismissAlert() {
@@ -361,6 +364,13 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         // 무이동 시간 계산
         idleDuration = Date().timeIntervalSince(lastMovement)
 
+        // 디버그 로그 (5분마다)
+        let minutes = Int(idleDuration / 60)
+        let seconds = Int(idleDuration) % 60
+        if seconds == 0 && minutes > 0 && minutes % 5 == 0 {
+            Logger.gps.debug("[IdleDetection] 무이동 경과: \(minutes)분 (임계값: \(Int(IdleDetectionConfig.idleThreshold / 60))분)")
+        }
+
         // 임계값 초과 시 무이동 상태로 전환
         if idleDuration >= IdleDetectionConfig.idleThreshold {
             stateSubject.send(.idle)
@@ -370,7 +380,7 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
                 sendIdleNotification()
             }
 
-            Logger.gps.info("[IdleDetection] 무이동 감지 - \(Int(idleDuration / 60))분 경과")
+            Logger.gps.info("[IdleDetection] 무이동 감지 - \(minutes)분 경과")
         }
     }
 
