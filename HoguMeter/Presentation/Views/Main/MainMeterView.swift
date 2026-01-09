@@ -57,16 +57,16 @@ struct MainMeterView: View {
                     onDismiss: { viewModel.easterEggManager.dismissEasterEgg() }
                 )
 
-                // 택시기사 한마디 (오버레이, 30초 후 자동 사라짐)
+                // 택시기사 한마디 (말 애니메이션 아래, 메시지 길이에 따라 자동 사라짐)
                 if showDriverQuote, !viewModel.currentDriverQuote.isEmpty {
                     VStack {
                         Spacer()
-                            .frame(height: 200)
+                            .frame(height: 320)  // 말 애니메이션 아래로 위치
                         DriverQuoteBubbleView(quote: viewModel.currentDriverQuote)
                         Spacer()
                     }
-                    .transition(.opacity.combined(with: .move(edge: .top)))
-                    .animation(.easeInOut(duration: 0.5), value: showDriverQuote)
+                    .transition(.opacity.combined(with: .scale(scale: 0.9)))
+                    .animation(.easeInOut(duration: 0.3), value: showDriverQuote)
                     .onTapGesture {
                         withAnimation {
                             showDriverQuote = false
@@ -117,13 +117,16 @@ struct MainMeterView: View {
                 }
             }
             .onChange(of: viewModel.state) { _, newState in
-                // 미터 시작 시 택시기사 한마디 표시 (30초 후 자동 사라짐)
+                // 미터 시작 시 택시기사 한마디 표시 (메시지 길이에 따라 자동 사라짐)
                 if newState == .running {
                     withAnimation {
                         showDriverQuote = true
                     }
-                    // 30초 후 자동으로 사라짐
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
+                    // 메시지 길이에 따라 표시 시간 계산 (최소 5초, 글자당 0.15초 추가, 최대 10초)
+                    let messageLength = viewModel.currentDriverQuote.count
+                    let displayDuration = min(max(5.0, 5.0 + Double(messageLength) * 0.15), 10.0)
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + displayDuration) {
                         withAnimation {
                             showDriverQuote = false
                         }
