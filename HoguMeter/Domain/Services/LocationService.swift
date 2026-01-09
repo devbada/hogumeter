@@ -158,7 +158,8 @@ final class LocationService: NSObject, LocationServiceProtocol {
         let currentFare = settingsRepository.currentRegionFare
         lowSpeedThreshold = currentFare.lowSpeedThreshold / 3.6  // km/h → m/s
 
-        locationManager.requestWhenInUseAuthorization()
+        // 백그라운드 위치 추적을 위해 Always 권한 요청
+        locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
 
         // 신호 손실 감지 타이머 시작
@@ -419,13 +420,18 @@ extension LocationService: CLLocationManagerDelegate {
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
+        case .authorizedAlways:
             manager.startUpdatingLocation()
-            Logger.gps.info("[GPS] 위치 권한 승인됨")
+            Logger.gps.info("[GPS] 위치 권한 승인됨 (Always)")
+        case .authorizedWhenInUse:
+            // When In Use 권한만 있으면 Always로 업그레이드 요청
+            manager.requestAlwaysAuthorization()
+            manager.startUpdatingLocation()
+            Logger.gps.info("[GPS] 위치 권한 승인됨 (When In Use) - Always 권한 요청 중")
         case .denied, .restricted:
             Logger.gps.warning("[GPS] 위치 권한 거부/제한됨")
         case .notDetermined:
-            manager.requestWhenInUseAuthorization()
+            manager.requestAlwaysAuthorization()
         @unknown default:
             break
         }
