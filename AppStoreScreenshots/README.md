@@ -9,6 +9,12 @@ App Store 제출용 스크린샷 생성 가이드입니다.
 - **개수**: 최소 3개, 최대 10개
 - **형식**: PNG 또는 JPEG (투명도 불가)
 
+### iPad (필수 - 유니버설 앱)
+- **크기**: 2048 x 2732 픽셀 (iPad Pro 12.9인치)
+- **개수**: 최소 3개, 최대 10개
+- **형식**: PNG 또는 JPEG (투명도 불가)
+- **방향**: 세로/가로 모두 지원
+
 ### 권장 스크린샷 구성 (6개)
 1. **메인 화면 (대기)** - 기본요금 표시, 시작 버튼
 2. **주행 중** - 요금 계산 중, 말 애니메이션
@@ -131,13 +137,17 @@ clear_previous_screenshots(true)
 AppStoreScreenshots/
 ├── README.md              # 이 파일
 ├── capture_screenshots.sh # 캡처 스크립트
-└── iPhone/
-    ├── 01_main_idle.png
-    ├── 02_main_running.png
-    ├── 03_receipt.png
-    ├── 04_settings.png
-    ├── 05_region_fares.png
-    └── 06_history.png
+├── iPhone/
+│   ├── 01_main_idle.png
+│   ├── 02_running.png
+│   ├── 03_receipt.png
+│   ├── 04_settings.png
+│   ├── 05_region_fares.png
+│   ├── 06_history.png
+│   └── 07_map.png
+└── iPad/
+    ├── 1.png                    # 메인 화면
+    └── 13/                      # 프로모션 버전
 ```
 
 ---

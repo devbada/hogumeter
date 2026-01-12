@@ -78,14 +78,22 @@
 | 카테고리 | 기술 | 버전 | 용도 |
 |---------|-----|------|-----|
 | Language | Swift | 5.9+ | 메인 개발 언어 |
-| UI Framework | SwiftUI | iOS 15+ | 선언적 UI |
+| UI Framework | SwiftUI | iOS 17+ | 선언적 UI (반응형 레이아웃) |
 | IDE | Xcode | 15+ | 개발 환경 |
 | 위치 서비스 | Core Location | - | GPS 추적 |
 | 지도 서비스 | MapKit | - | Reverse Geocoding |
 | 로컬 저장소 | Core Data | - | 주행 기록 저장 |
 | 오디오 | AVFoundation | - | 효과음 재생 |
 
-### 2.2 개발 도구
+### 2.2 지원 플랫폼
+| 플랫폼 | 최소 버전 | 비고 |
+|--------|----------|------|
+| iPhone | iOS 17.0+ | 모든 iPhone 모델 지원 |
+| iPad | iPadOS 17.0+ | iPad Air, iPad Pro 등 전 모델 지원 |
+| 화면 방향 | - | iPhone: Portrait only / iPad: 모든 방향 |
+| 멀티태스킹 | - | iPad Split View, Slide Over 지원 |
+
+### 2.3 개발 도구
 | 도구 | 용도 |
 |-----|------|
 | Xcode Instruments | 성능 프로파일링 |
@@ -93,7 +101,7 @@
 | Git | 버전 관리 |
 | TestFlight | 베타 테스트 배포 |
 
-### 2.3 외부 라이브러리 (선택)
+### 2.4 외부 라이브러리 (선택)
 | 라이브러리 | 용도 | 필수 여부 |
 |-----------|-----|----------|
 | Lottie | 복잡한 애니메이션 | 선택 |
