@@ -15,41 +15,56 @@ struct MainMeterView: View {
 
     var body: some View {
         NavigationView {
-            ZStack {
-                // 배경 마키 텍스트 (미터기 작동 중에만 표시)
-                MarqueeBackgroundView(
-                    texts: DisclaimerText.marqueeTexts,
-                    isVisible: viewModel.state == .running
-                )
+            GeometryReader { geometry in
+                let screenHeight = geometry.size.height
+                let isCompactHeight = screenHeight < 600  // 작은 화면 감지
+                let horseHeight = min(max(screenHeight * 0.25, 120), 200)  // 화면의 25%, 최소 120, 최대 200
 
-                VStack(spacing: 20) {
-                    // 요금 표시
-                    FareDisplayView(fare: viewModel.currentFare)
+                ZStack {
+                    // 상단 요금 + 중앙 말 + 하단 정보/버튼
+                    VStack(spacing: 0) {
+                        // 요금 표시 (상단)
+                        FareDisplayView(fare: viewModel.currentFare)
+                            .padding(.top, isCompactHeight ? 8 : 20)
 
-                    // 말 애니메이션
-                    HorseAnimationView(speed: viewModel.horseSpeed)
-                        .frame(height: 200)
+                        Spacer()
 
-                    Spacer()
+                        // 말 애니메이션 (중앙, 마키 텍스트는 이 영역에만)
+                        ZStack {
+                            MarqueeBackgroundView(
+                                texts: DisclaimerText.marqueeTexts,
+                                isVisible: viewModel.state == .running
+                            )
+                            .frame(height: horseHeight)
+                            .clipShape(Rectangle())
 
-                    // 주행 정보
-                    TripInfoView(
-                        distance: viewModel.distance,
-                        duration: viewModel.duration,
-                        speed: viewModel.currentSpeed,
-                        region: viewModel.currentRegion
-                    )
-                    .padding(.horizontal)
+                            HorseAnimationView(speed: viewModel.horseSpeed)
+                        }
+                        .frame(height: horseHeight)
 
-                    // 컨트롤 버튼
-                    ControlButtonsView(
-                        state: viewModel.state,
-                        onStart: { viewModel.startMeter() },
-                        onStop: { viewModel.stopMeter() },
-                        onReset: { viewModel.resetMeter() }
-                    )
-                    .padding(.bottom, 20)
-                }
+                        Spacer()
+
+                        // 주행 정보
+                        TripInfoView(
+                            distance: viewModel.distance,
+                            duration: viewModel.duration,
+                            speed: viewModel.currentSpeed,
+                            region: viewModel.currentRegion
+                        )
+                        .padding(.horizontal)
+                        .padding(.bottom, isCompactHeight ? 12 : 20)
+
+                        // 컨트롤 버튼
+                        ControlButtonsView(
+                            state: viewModel.state,
+                            onStart: { viewModel.startMeter() },
+                            onStop: { viewModel.stopMeter() },
+                            onReset: { viewModel.resetMeter() }
+                        )
+                        .padding(.bottom, isCompactHeight ? 12 : 20)
+                    }
+                    .frame(maxWidth: 600)
+                    .frame(maxWidth: .infinity)
 
                 // 이스터에그 오버레이
                 EasterEggOverlayView(
@@ -57,21 +72,21 @@ struct MainMeterView: View {
                     onDismiss: { viewModel.easterEggManager.dismissEasterEgg() }
                 )
 
-                // 택시기사 한마디 (말 애니메이션 아래, 메시지 길이에 따라 자동 사라짐)
-                if showDriverQuote, !viewModel.currentDriverQuote.isEmpty {
+                    // 택시기사 한마디 (상단 알림 형태로 내려왔다가 올라감)
                     VStack {
-                        Spacer()
-                            .frame(height: 320)  // 말 애니메이션 아래로 위치
-                        DriverQuoteBubbleView(quote: viewModel.currentDriverQuote)
-                        Spacer()
-                    }
-                    .transition(.opacity.combined(with: .scale(scale: 0.9)))
-                    .animation(.easeInOut(duration: 0.3), value: showDriverQuote)
-                    .onTapGesture {
-                        withAnimation {
-                            showDriverQuote = false
+                        if showDriverQuote, !viewModel.currentDriverQuote.isEmpty {
+                            DriverQuoteBubbleView(quote: viewModel.currentDriverQuote)
+                                .padding(.top, 60)  // 네비게이션 바 아래 위치
+                                .transition(.move(edge: .top).combined(with: .opacity))
+                                .onTapGesture {
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        showDriverQuote = false
+                                    }
+                                }
                         }
+                        Spacer()
                     }
+                    .animation(.easeInOut(duration: 0.4), value: showDriverQuote)
                 }
             }
             .navigationTitle("🐴 호구미터")
@@ -150,6 +165,7 @@ struct MainMeterView: View {
                 Text("10분 동안 이동이 없습니다.\n미터기를 계속 실행하시겠습니까?")
             }
         }
+        .navigationViewStyle(.stack)  // iPad에서도 단일 컬럼으로 표시
     }
 }
 
