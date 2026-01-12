@@ -35,12 +35,11 @@ struct MainMeterView: View {
                                 texts: DisclaimerText.marqueeTexts,
                                 isVisible: viewModel.state == .running
                             )
-                            .frame(height: horseHeight)
-                            .clipShape(Rectangle())
 
                             HorseAnimationView(speed: viewModel.horseSpeed)
                         }
                         .frame(height: horseHeight)
+                        .clipped()
 
                         Spacer()
 
