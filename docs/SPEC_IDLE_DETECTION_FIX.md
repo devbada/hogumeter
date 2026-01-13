@@ -147,6 +147,55 @@ private func shouldRecordMovement(from lastLocation: CLLocation, to newLocation:
 
 **Verification Needed**: Ensure background notification logic is properly triggered.
 
+### Issue 5: Dead Reckoning Blocking Idle Detection (Critical)
+**Location**: `IdleDetectionService.swift:453-455`
+
+**Problem**: When GPS signal is lost, the Dead Reckoning feature activates and completely blocks idle detection:
+```swift
+private func checkIdleState() {
+    // Dead Reckoning 중이면 체크하지 않음
+    guard !isDeadReckoningActive else { return }  // <-- THIS BLOCKS IDLE DETECTION!
+    // ...
+}
+```
+
+**Flow that causes the bug (Simulator scenario)**:
+1. Start meter on simulator with "None" or no GPS location
+2. After 5 seconds of no GPS updates, `LocationService.checkForSignalLoss()` triggers
+3. `gpsSignalState = .lost`
+4. `MeterViewModel` receives this and calls `idleDetectionService.setDeadReckoningActive(true)`
+5. `checkIdleState()` returns early due to Dead Reckoning guard
+6. **Idle alert NEVER appears**, even after 10+ minutes
+
+**Why the original guard was added**: The intention was to pause idle detection during temporary GPS outages (like tunnels) where the user is still moving.
+
+**Why it's wrong**: If the user is genuinely stationary (no GPS because they're indoors and not moving), idle detection should still work. The idle timer continues counting based on `lastMovementTime`, regardless of GPS signal state.
+
+**Fix**: Remove the Dead Reckoning guard from `checkIdleState()`:
+```swift
+private func checkIdleState() {
+    // 모니터링 중일 때만 체크
+    // Note: Dead Reckoning 중에도 idle 체크 수행
+    // GPS 신호가 없어도 사용자가 정지해 있으면 알림 필요
+    guard state == .monitoring else { return }
+    // ...
+}
+```
+
+Also updated `setDeadReckoningActive()` to not reset `lastMovementTime` when Dead Reckoning is deactivated:
+```swift
+func setDeadReckoningActive(_ active: Bool) {
+    isDeadReckoningActive = active
+    if active {
+        Logger.gps.debug("[IdleDetection] Dead Reckoning 활성화 - 무이동 감지는 계속됨")
+    } else {
+        // Dead Reckoning 해제 시에도 타이머 리셋 안 함
+        // GPS 복구 후 실제 이동이 감지되면 updateLocation()에서 리셋됨
+        Logger.gps.debug("[IdleDetection] Dead Reckoning 해제")
+    }
+}
+```
+
 ## Implementation Details
 
 ### Files Modified
@@ -157,6 +206,9 @@ private func shouldRecordMovement(from lastLocation: CLLocation, to newLocation:
    - Add `isAccuracyGoodForMovement()` helper method
    - Add `isLikelyGPSJump()` helper method
    - Update `updateLocation()` to use new validation methods
+   - Remove Dead Reckoning guard from `checkIdleState()` (Issue 5)
+   - Update `setDeadReckoningActive()` to not reset timer on deactivation
+   - Remove Dead Reckoning guard from `handleAppBecameActive()`
 
 2. **MeterViewModel.swift**
    - Add `showIdleAlertBinding` computed property for proper SwiftUI binding
@@ -203,6 +255,8 @@ private func shouldRecordMovement(from lastLocation: CLLocation, to newLocation:
 7. **Indoor GPS jumping**: Stationary indoors with GPS jumping -> GPS jumps ignored -> Alert appears after 10 min
 8. **Poor GPS accuracy**: Location updates with accuracy > 30m -> Movement not recorded
 9. **GPS jump detection**: Unrealistic speed (> 200 km/h) -> Movement ignored as GPS jump
+10. **Simulator (No GPS)**: Start meter with no GPS location -> Dead Reckoning activates -> Alert should still appear after 10 min
+11. **GPS signal loss while stationary**: Start meter -> GPS signal lost -> Alert should still appear after 10 min
 
 ## Risks and Considerations
 - The fix maintains backward compatibility with existing saved trips

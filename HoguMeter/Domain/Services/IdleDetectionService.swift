@@ -356,14 +356,11 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         isDeadReckoningActive = active
 
         if active {
-            // Dead Reckoning 중에는 무이동 타이머 일시 정지
-            Logger.gps.debug("[IdleDetection] Dead Reckoning 활성화 - 무이동 감지 일시 중지")
+            Logger.gps.debug("[IdleDetection] Dead Reckoning 활성화 - 무이동 감지는 계속됨")
         } else {
-            // Dead Reckoning 해제 시 타이머 재시작
-            if state == .monitoring {
-                lastMovementTime = Date()
-                Logger.gps.debug("[IdleDetection] Dead Reckoning 해제 - 무이동 감지 재개")
-            }
+            // Dead Reckoning 해제 시에도 타이머 리셋 안 함
+            // GPS 복구 후 실제 이동이 감지되면 updateLocation()에서 리셋됨
+            Logger.gps.debug("[IdleDetection] Dead Reckoning 해제")
         }
     }
 
@@ -375,8 +372,8 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         // 모니터링 중이 아니면 무시
         guard state == .monitoring || state == .alerted else { return }
 
-        // Dead Reckoning 중이면 무시
-        guard !isDeadReckoningActive else { return }
+        // Note: Dead Reckoning 중에도 처리 수행
+        // GPS 신호가 없어도 무이동 체크 필요
 
         // 마지막 이동 시간이 없으면 무시
         guard let lastMovement = lastMovementTime else { return }
@@ -451,10 +448,9 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
     }
 
     private func checkIdleState() {
-        // Dead Reckoning 중이면 체크하지 않음
-        guard !isDeadReckoningActive else { return }
-
         // 모니터링 중일 때만 체크
+        // Note: Dead Reckoning 중에도 idle 체크 수행
+        // GPS 신호가 없어도 사용자가 정지해 있으면 알림 필요
         guard state == .monitoring else { return }
 
         guard let lastMovement = lastMovementTime else { return }
