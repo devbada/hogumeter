@@ -481,10 +481,7 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
     // MARK: - Notification Methods
 
     private func scheduleBackgroundNotification() {
-        guard let lastMovement = lastMovementTime else {
-            Logger.gps.debug("[IdleDetection] lastMovementTime 없음 - 백그라운드 알림 스킵")
-            return
-        }
+        guard let lastMovement = lastMovementTime else { return }
 
         // 남은 시간 계산
         let elapsed = Date().timeIntervalSince(lastMovement)
@@ -496,14 +493,10 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
             return
         }
 
-        // 알림 권한을 직접 확인 후 예약 (캐시된 값 대신 실시간 확인)
+        // 알림 권한을 직접 확인 후 예약
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
             guard let self = self else { return }
-
-            guard settings.authorizationStatus == .authorized else {
-                Logger.gps.debug("[IdleDetection] 알림 권한 없음 - 백그라운드 알림 스킵 (status: \(settings.authorizationStatus.rawValue))")
-                return
-            }
+            guard settings.authorizationStatus == .authorized else { return }
 
             // 남은 시간 후 알림 예약
             let content = self.createNotificationContent()
