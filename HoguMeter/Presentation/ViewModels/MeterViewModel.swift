@@ -10,6 +10,7 @@ import Combine
 import CoreLocation
 import Observation
 import UIKit
+import SwiftUI
 
 @MainActor
 @Observable
@@ -34,6 +35,20 @@ final class MeterViewModel {
 
     // MARK: - Idle Detection State
     private(set) var showIdleAlert: Bool = false
+
+    /// SwiftUI alert binding을 위한 접근자
+    var showIdleAlertBinding: Binding<Bool> {
+        Binding(
+            get: { self.showIdleAlert },
+            set: { newValue in
+                if !newValue && self.showIdleAlert {
+                    // Alert이 외부에서 닫힐 때 (예: 버튼 탭)
+                    // 명시적으로 dismiss 처리
+                    self.showIdleAlert = false
+                }
+            }
+        )
+    }
 
     // MARK: - Dependencies
     private let _locationService: LocationServiceProtocol
@@ -266,7 +281,12 @@ final class MeterViewModel {
         switch state {
         case .idle:
             showIdleAlert = true
-        case .monitoring, .dismissed, .inactive, .alerted:
+            // 알림 표시 상태로 전환 (상태 추적용)
+            idleDetectionService.markAlerted()
+        case .alerted:
+            // 알림이 표시 중인 상태 - showIdleAlert 유지
+            showIdleAlert = true
+        case .monitoring, .dismissed, .inactive:
             showIdleAlert = false
         }
     }

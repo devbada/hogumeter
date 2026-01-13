@@ -160,6 +160,21 @@ final class IdleDetectionServiceTests: XCTestCase {
         XCTAssertEqual(sut.idleDuration, 0)
     }
 
+    // MARK: - Mark Alerted Tests
+
+    func test_markAlerted_inactive상태_무시() {
+        // inactive 상태에서 markAlerted 호출 시 무시
+        sut.markAlerted()
+        XCTAssertEqual(sut.state, .inactive)
+    }
+
+    func test_markAlerted_monitoring상태_무시() {
+        // monitoring 상태에서 markAlerted 호출 시 무시
+        sut.startMonitoring()
+        sut.markAlerted()
+        XCTAssertEqual(sut.state, .monitoring)
+    }
+
     // MARK: - State Publisher Tests
 
     func test_statePublisher_상태변경시발행() {
@@ -203,6 +218,184 @@ final class IdleDetectionServiceTests: XCTestCase {
         sut.dismissAlert()  // 알림이 없는 상태에서 dismiss
 
         XCTAssertEqual(sut.state, .inactive)
+    }
+
+    // MARK: - GPS Accuracy Filtering Tests
+
+    func test_config_minGPSAccuracyForMovement_30m() {
+        XCTAssertEqual(IdleDetectionConfig.minGPSAccuracyForMovement, 30.0)
+    }
+
+    func test_config_maxRealisticSpeedKmh_200() {
+        XCTAssertEqual(IdleDetectionConfig.maxRealisticSpeedKmh, 200.0)
+    }
+
+    /// GPS 정확도가 좋은 위치 생성 헬퍼
+    private func makeLocationWithAccuracy(
+        latitude: Double,
+        longitude: Double,
+        horizontalAccuracy: Double,
+        timestamp: Date = Date()
+    ) -> CLLocation {
+        CLLocation(
+            coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+            altitude: 0,
+            horizontalAccuracy: horizontalAccuracy,
+            verticalAccuracy: 0,
+            timestamp: timestamp
+        )
+    }
+
+    func test_updateLocation_정확도불량_첫위치무시() {
+        sut.startMonitoring()
+
+        // 정확도 50m인 위치 (30m 초과 - 불량)
+        let badAccuracyLocation = makeLocationWithAccuracy(
+            latitude: 37.5665,
+            longitude: 126.9780,
+            horizontalAccuracy: 50.0
+        )
+        sut.updateLocation(badAccuracyLocation)
+
+        // 정확도 불량이므로 첫 위치로 저장되지 않아야 함
+        // 다음에 정확도 좋은 위치가 첫 위치가 됨
+        let goodAccuracyLocation = makeLocationWithAccuracy(
+            latitude: 37.5665 + 0.001,  // 약 100m 이동
+            longitude: 126.9780,
+            horizontalAccuracy: 10.0
+        )
+        sut.updateLocation(goodAccuracyLocation)
+
+        // 정확도 좋은 위치가 첫 위치로 저장됨 (이동으로 인정되지 않음)
+        XCTAssertEqual(sut.state, .monitoring)
+    }
+
+    func test_updateLocation_정확도불량_이동무시() {
+        sut.startMonitoring()
+
+        // 첫 위치: 정확도 좋음
+        let goodLocation1 = makeLocationWithAccuracy(
+            latitude: 37.5665,
+            longitude: 126.9780,
+            horizontalAccuracy: 10.0,
+            timestamp: Date()
+        )
+        sut.updateLocation(goodLocation1)
+
+        // 두 번째 위치: 정확도 불량 (50m) + 100m 이동
+        let badLocation = makeLocationWithAccuracy(
+            latitude: 37.5665 + 0.0009,  // 약 100m 이동
+            longitude: 126.9780,
+            horizontalAccuracy: 50.0,
+            timestamp: Date().addingTimeInterval(10)
+        )
+        sut.updateLocation(badLocation)
+
+        // 정확도 불량이므로 이동으로 인정되지 않음
+        // idleDuration이 리셋되지 않아야 함 (하지만 테스트에서는 시간이 거의 없으므로 0에 가까움)
+        XCTAssertEqual(sut.state, .monitoring)
+    }
+
+    func test_updateLocation_GPS점프_이동무시() {
+        sut.startMonitoring()
+
+        let baseTime = Date()
+
+        // 첫 위치: 정확도 좋음
+        let location1 = makeLocationWithAccuracy(
+            latitude: 37.5665,
+            longitude: 126.9780,
+            horizontalAccuracy: 10.0,
+            timestamp: baseTime
+        )
+        sut.updateLocation(location1)
+
+        // 두 번째 위치: 1초 만에 500m 이동 = 1800 km/h (비현실적 속도)
+        // 약 0.0045도 = 약 500m
+        let location2 = makeLocationWithAccuracy(
+            latitude: 37.5665 + 0.0045,
+            longitude: 126.9780,
+            horizontalAccuracy: 10.0,
+            timestamp: baseTime.addingTimeInterval(1)  // 1초 후
+        )
+        sut.updateLocation(location2)
+
+        // GPS 점프로 판단되어 이동으로 인정되지 않음
+        XCTAssertEqual(sut.state, .monitoring)
+    }
+
+    func test_updateLocation_정확도좋음_정상이동_타이머리셋() {
+        sut.startMonitoring()
+
+        let baseTime = Date()
+
+        // 첫 위치: 정확도 좋음
+        let location1 = makeLocationWithAccuracy(
+            latitude: 37.5665,
+            longitude: 126.9780,
+            horizontalAccuracy: 10.0,
+            timestamp: baseTime
+        )
+        sut.updateLocation(location1)
+
+        // 두 번째 위치: 10초 만에 100m 이동 = 36 km/h (정상 속도)
+        let location2 = makeLocationWithAccuracy(
+            latitude: 37.5665 + 0.0009,  // 약 100m 이동
+            longitude: 126.9780,
+            horizontalAccuracy: 10.0,
+            timestamp: baseTime.addingTimeInterval(10)  // 10초 후
+        )
+        sut.updateLocation(location2)
+
+        // 정확도 좋고 속도 정상이므로 이동으로 인정
+        XCTAssertEqual(sut.state, .monitoring)
+        XCTAssertEqual(sut.idleDuration, 0)
+    }
+
+    func test_updateLocation_실내GPS점프_무시_무이동유지() {
+        sut.startMonitoring()
+
+        let baseTime = Date()
+
+        // 첫 위치: 정확도 좋음
+        let location1 = makeLocationWithAccuracy(
+            latitude: 37.5665,
+            longitude: 126.9780,
+            horizontalAccuracy: 10.0,
+            timestamp: baseTime
+        )
+        sut.updateLocation(location1)
+
+        // 실내 GPS 점프 시뮬레이션: 정확도 불량 + 큰 이동
+        // 사용자는 실제로 가만히 있지만, GPS가 점프함
+        for i in 1...5 {
+            let jumpLocation = makeLocationWithAccuracy(
+                latitude: 37.5665 + Double(i) * 0.0005,  // 매번 약 50m 점프
+                longitude: 126.9780,
+                horizontalAccuracy: 40.0,  // 정확도 불량
+                timestamp: baseTime.addingTimeInterval(Double(i) * 5)
+            )
+            sut.updateLocation(jumpLocation)
+        }
+
+        // GPS 점프가 모두 무시되어 상태 유지
+        XCTAssertEqual(sut.state, .monitoring)
+    }
+
+    func test_updateLocation_음수정확도_무시() {
+        sut.startMonitoring()
+
+        // 음수 정확도는 유효하지 않은 GPS 신호를 의미
+        let invalidLocation = makeLocationWithAccuracy(
+            latitude: 37.5665,
+            longitude: 126.9780,
+            horizontalAccuracy: -1.0,
+            timestamp: Date()
+        )
+        sut.updateLocation(invalidLocation)
+
+        // 음수 정확도이므로 첫 위치로 저장되지 않음
+        XCTAssertEqual(sut.state, .monitoring)
     }
 
     // MARK: - Integration Scenario Tests

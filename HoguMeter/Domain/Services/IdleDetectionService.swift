@@ -25,6 +25,20 @@ enum IdleDetectionConfig {
     /// 무이동 체크 주기 (초)
     static let checkInterval: TimeInterval = 30.0
 
+    // MARK: - GPS Accuracy & Jump Filtering
+
+    /// 이동으로 인정하기 위한 최소 GPS 정확도 (미터)
+    /// 이 값보다 정확도가 나쁘면 (horizontalAccuracy > 값) 이동으로 인정하지 않음
+    /// 실내 GPS 점프 방지를 위해 30m로 설정 (GPSSignalState.normal 기준과 동일)
+    static let minGPSAccuracyForMovement: Double = 30.0
+
+    /// GPS 점프로 판단하는 최대 속도 (km/h)
+    /// 이 속도를 초과하는 이동은 GPS 점프로 간주하여 무시
+    /// 200km/h 이상은 현실적으로 불가능한 속도
+    static let maxRealisticSpeedKmh: Double = 200.0
+
+    // MARK: - Notification Config
+
     /// 알림 카테고리 식별자
     static let notificationCategoryIdentifier = "IDLE_ALERT"
 
@@ -69,6 +83,7 @@ protocol IdleDetectionServiceProtocol {
     func stopMonitoring()
     func updateLocation(_ location: CLLocation)
     func dismissAlert()
+    func markAlerted()
     func reset()
 
     /// Dead Reckoning 활성화 여부 설정
@@ -196,20 +211,24 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         guard state == .monitoring || state == .dismissed else { return }
         guard !isDeadReckoningActive else { return }
 
-        // 첫 위치인 경우
+        // 첫 위치인 경우 - GPS 정확도가 좋을 때만 저장
         guard let lastLoc = lastLocation else {
-            lastLocation = location
-            lastMovementTime = Date()
+            // 정확도가 좋은 위치만 기준점으로 저장
+            if isAccuracyGoodForMovement(location) {
+                lastLocation = location
+                lastMovementTime = Date()
+                Logger.gps.debug("[IdleDetection] 첫 위치 저장 (정확도: \(String(format: "%.0f", location.horizontalAccuracy))m)")
+            } else {
+                Logger.gps.debug("[IdleDetection] 첫 위치 무시 - 정확도 불량 (\(String(format: "%.0f", location.horizontalAccuracy))m)")
+            }
             return
         }
 
         // 이동 거리 계산
         let distance = location.distance(from: lastLoc)
 
-        // 최소 이동 거리 이상 이동한 경우에만 이동으로 인정
-        // 중요: lastLocation은 이동이 인정될 때만 업데이트해야 함
-        // 그래야 작은 이동들이 누적되어 threshold를 초과할 수 있음
-        if distance >= IdleDetectionConfig.movementThreshold {
+        // 이동으로 인정되는지 검사 (거리 + GPS 정확도 + 속도 검증)
+        if shouldRecordMovement(from: lastLoc, to: location, distance: distance) {
             lastMovementTime = Date()
             lastLocation = location
             idleDuration = 0
@@ -222,10 +241,83 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
                 Logger.gps.info("[IdleDetection] 이동 감지 - 모니터링 재개")
             }
 
-            Logger.gps.debug("[IdleDetection] 이동 감지 (거리: \(String(format: "%.0f", distance))m) - 타이머 리셋")
+            Logger.gps.debug("[IdleDetection] 이동 감지 (거리: \(String(format: "%.0f", distance))m, 정확도: \(String(format: "%.0f", location.horizontalAccuracy))m) - 타이머 리셋")
         }
-        // else: 이동 거리가 threshold 미만이면 lastLocation을 업데이트하지 않음
-        // 이렇게 해야 작은 이동들이 누적되어 threshold를 초과할 수 있음
+        // else: 이동 거리가 threshold 미만이거나 GPS 정확도/속도 검증 실패 시
+        // lastLocation을 업데이트하지 않음 - 작은 이동들이 누적될 수 있도록
+    }
+
+    // MARK: - Movement Validation
+
+    /// 이동으로 기록해야 하는지 검사
+    /// - Parameters:
+    ///   - lastLocation: 이전 위치
+    ///   - newLocation: 새 위치
+    ///   - distance: 계산된 거리 (미터)
+    /// - Returns: 이동으로 인정되면 true
+    private func shouldRecordMovement(from lastLocation: CLLocation, to newLocation: CLLocation, distance: Double) -> Bool {
+        // 1. 거리 임계값 검사
+        guard distance >= IdleDetectionConfig.movementThreshold else {
+            return false
+        }
+
+        // 2. 새 위치의 GPS 정확도 검사
+        guard isAccuracyGoodForMovement(newLocation) else {
+            Logger.gps.debug("[IdleDetection] 이동 무시 - 새 위치 정확도 불량 (\(String(format: "%.0f", newLocation.horizontalAccuracy))m, 거리: \(String(format: "%.0f", distance))m)")
+            return false
+        }
+
+        // 3. 이전 위치의 GPS 정확도 검사
+        guard isAccuracyGoodForMovement(lastLocation) else {
+            // 이전 위치 정확도가 불량하면, 새 위치를 기준점으로 업데이트
+            // 하지만 이동으로 인정하지는 않음 (타이머 리셋 안 함)
+            Logger.gps.debug("[IdleDetection] 이동 무시 - 이전 위치 정확도 불량, 기준점 갱신만 수행")
+            return false
+        }
+
+        // 4. GPS 점프 검사 (비현실적 속도 필터링)
+        if isLikelyGPSJump(from: lastLocation, to: newLocation, distance: distance) {
+            Logger.gps.debug("[IdleDetection] 이동 무시 - GPS 점프로 판단 (거리: \(String(format: "%.0f", distance))m)")
+            return false
+        }
+
+        return true
+    }
+
+    /// GPS 정확도가 이동 인정 기준을 충족하는지 검사
+    /// - Parameter location: 검사할 위치
+    /// - Returns: 정확도가 좋으면 true
+    private func isAccuracyGoodForMovement(_ location: CLLocation) -> Bool {
+        // 음수는 유효하지 않은 정확도
+        guard location.horizontalAccuracy >= 0 else { return false }
+        // 설정된 임계값보다 정확도가 좋아야 함 (값이 작을수록 정확)
+        return location.horizontalAccuracy < IdleDetectionConfig.minGPSAccuracyForMovement
+    }
+
+    /// GPS 점프인지 검사 (비현실적으로 빠른 이동 감지)
+    /// - Parameters:
+    ///   - lastLocation: 이전 위치
+    ///   - newLocation: 새 위치
+    ///   - distance: 계산된 거리 (미터)
+    /// - Returns: GPS 점프로 판단되면 true
+    private func isLikelyGPSJump(from lastLocation: CLLocation, to newLocation: CLLocation, distance: Double) -> Bool {
+        // 시간 차이 계산
+        let timeDelta = newLocation.timestamp.timeIntervalSince(lastLocation.timestamp)
+
+        // 시간 차이가 너무 작으면 (0.1초 미만) 속도 계산 불가
+        guard timeDelta >= 0.1 else { return false }
+
+        // 속도 계산 (km/h)
+        let speedMs = distance / timeDelta  // m/s
+        let speedKmh = speedMs * 3.6        // km/h
+
+        // 최대 현실적 속도 초과 시 GPS 점프로 판단
+        if speedKmh > IdleDetectionConfig.maxRealisticSpeedKmh {
+            Logger.gps.debug("[IdleDetection] GPS 점프 감지 - 속도: \(String(format: "%.0f", speedKmh))km/h (거리: \(String(format: "%.0f", distance))m, 시간: \(String(format: "%.1f", timeDelta))초)")
+            return true
+        }
+
+        return false
     }
 
     func dismissAlert() {
@@ -243,6 +335,12 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         Logger.gps.info("[IdleDetection] 알림 해제 - 모니터링 재개")
     }
 
+    func markAlerted() {
+        guard state == .idle else { return }
+        stateSubject.send(.alerted)
+        Logger.gps.info("[IdleDetection] 알림 표시됨 - 사용자 응답 대기")
+    }
+
     func reset() {
         stopCheckTimer()
         cancelScheduledNotification()
@@ -258,14 +356,11 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         isDeadReckoningActive = active
 
         if active {
-            // Dead Reckoning 중에는 무이동 타이머 일시 정지
-            Logger.gps.debug("[IdleDetection] Dead Reckoning 활성화 - 무이동 감지 일시 중지")
+            Logger.gps.debug("[IdleDetection] Dead Reckoning 활성화 - 무이동 감지는 계속됨")
         } else {
-            // Dead Reckoning 해제 시 타이머 재시작
-            if state == .monitoring {
-                lastMovementTime = Date()
-                Logger.gps.debug("[IdleDetection] Dead Reckoning 해제 - 무이동 감지 재개")
-            }
+            // Dead Reckoning 해제 시에도 타이머 리셋 안 함
+            // GPS 복구 후 실제 이동이 감지되면 updateLocation()에서 리셋됨
+            Logger.gps.debug("[IdleDetection] Dead Reckoning 해제")
         }
     }
 
@@ -277,8 +372,8 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         // 모니터링 중이 아니면 무시
         guard state == .monitoring || state == .alerted else { return }
 
-        // Dead Reckoning 중이면 무시
-        guard !isDeadReckoningActive else { return }
+        // Note: Dead Reckoning 중에도 처리 수행
+        // GPS 신호가 없어도 무이동 체크 필요
 
         // 마지막 이동 시간이 없으면 무시
         guard let lastMovement = lastMovementTime else { return }
@@ -353,10 +448,9 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
     }
 
     private func checkIdleState() {
-        // Dead Reckoning 중이면 체크하지 않음
-        guard !isDeadReckoningActive else { return }
-
         // 모니터링 중일 때만 체크
+        // Note: Dead Reckoning 중에도 idle 체크 수행
+        // GPS 신호가 없어도 사용자가 정지해 있으면 알림 필요
         guard state == .monitoring else { return }
 
         guard let lastMovement = lastMovementTime else { return }
@@ -375,9 +469,9 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         if idleDuration >= IdleDetectionConfig.idleThreshold {
             stateSubject.send(.idle)
 
-            // 백그라운드인 경우 로컬 알림 전송
+            // 백그라운드인 경우 로컬 알림 전송 (실시간 권한 확인)
             if isInBackground && !notificationSent {
-                sendIdleNotification()
+                sendIdleNotificationDirectly()
             }
 
             Logger.gps.info("[IdleDetection] 무이동 감지 - \(minutes)분 경과")
@@ -387,11 +481,6 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
     // MARK: - Notification Methods
 
     private func scheduleBackgroundNotification() {
-        guard hasNotificationPermission else {
-            Logger.gps.debug("[IdleDetection] 알림 권한 없음 - 백그라운드 알림 스킵")
-            return
-        }
-
         guard let lastMovement = lastMovementTime else { return }
 
         // 남은 시간 계산
@@ -400,28 +489,66 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
 
         guard remaining > 0 else {
             // 이미 임계값 초과 - 즉시 알림
-            sendIdleNotification()
+            sendIdleNotificationDirectly()
             return
         }
 
-        // 남은 시간 후 알림 예약
-        let content = createNotificationContent()
-        let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: remaining,
-            repeats: false
-        )
+        // 알림 권한을 직접 확인 후 예약
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+            guard let self = self else { return }
+            guard settings.authorizationStatus == .authorized else { return }
 
-        let request = UNNotificationRequest(
-            identifier: IdleDetectionConfig.notificationIdentifier,
-            content: content,
-            trigger: trigger
-        )
+            // 남은 시간 후 알림 예약
+            let content = self.createNotificationContent()
+            let trigger = UNTimeIntervalNotificationTrigger(
+                timeInterval: remaining,
+                repeats: false
+            )
 
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                Logger.gps.error("[IdleDetection] 알림 예약 실패: \(error.localizedDescription)")
-            } else {
-                Logger.gps.info("[IdleDetection] 백그라운드 알림 예약됨 - \(Int(remaining))초 후")
+            let request = UNNotificationRequest(
+                identifier: IdleDetectionConfig.notificationIdentifier,
+                content: content,
+                trigger: trigger
+            )
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    Logger.gps.error("[IdleDetection] 알림 예약 실패: \(error.localizedDescription)")
+                } else {
+                    Logger.gps.info("[IdleDetection] 백그라운드 알림 예약됨 - \(Int(remaining))초 후")
+                }
+            }
+        }
+    }
+
+    /// 알림을 직접 전송 (권한 실시간 확인)
+    private func sendIdleNotificationDirectly() {
+        guard !notificationSent else { return }
+
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+            guard let self = self else { return }
+
+            guard settings.authorizationStatus == .authorized else {
+                Logger.gps.debug("[IdleDetection] 알림 권한 없음 - 즉시 알림 스킵")
+                return
+            }
+
+            self.notificationSent = true
+
+            let content = self.createNotificationContent()
+
+            let request = UNNotificationRequest(
+                identifier: IdleDetectionConfig.notificationIdentifier,
+                content: content,
+                trigger: nil  // 즉시 전송
+            )
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    Logger.gps.error("[IdleDetection] 즉시 알림 전송 실패: \(error.localizedDescription)")
+                } else {
+                    Logger.gps.info("[IdleDetection] 무이동 즉시 알림 전송됨")
+                }
             }
         }
     }

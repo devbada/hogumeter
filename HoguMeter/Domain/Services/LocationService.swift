@@ -421,12 +421,11 @@ extension LocationService: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedAlways:
-            manager.startUpdatingLocation()
+            // 권한만 확인하고, 실제 추적은 startTracking()에서 시작
             Logger.gps.info("[GPS] 위치 권한 승인됨 (Always)")
         case .authorizedWhenInUse:
             // When In Use 권한만 있으면 Always로 업그레이드 요청
             manager.requestAlwaysAuthorization()
-            manager.startUpdatingLocation()
             Logger.gps.info("[GPS] 위치 권한 승인됨 (When In Use) - Always 권한 요청 중")
         case .denied, .restricted:
             Logger.gps.warning("[GPS] 위치 권한 거부/제한됨")
