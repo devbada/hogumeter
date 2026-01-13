@@ -469,9 +469,9 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         if idleDuration >= IdleDetectionConfig.idleThreshold {
             stateSubject.send(.idle)
 
-            // 백그라운드인 경우 로컬 알림 전송
+            // 백그라운드인 경우 로컬 알림 전송 (실시간 권한 확인)
             if isInBackground && !notificationSent {
-                sendIdleNotification()
+                sendIdleNotificationDirectly()
             }
 
             Logger.gps.info("[IdleDetection] 무이동 감지 - \(minutes)분 경과")
@@ -481,12 +481,10 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
     // MARK: - Notification Methods
 
     private func scheduleBackgroundNotification() {
-        guard hasNotificationPermission else {
-            Logger.gps.debug("[IdleDetection] 알림 권한 없음 - 백그라운드 알림 스킵")
+        guard let lastMovement = lastMovementTime else {
+            Logger.gps.debug("[IdleDetection] lastMovementTime 없음 - 백그라운드 알림 스킵")
             return
         }
-
-        guard let lastMovement = lastMovementTime else { return }
 
         // 남은 시간 계산
         let elapsed = Date().timeIntervalSince(lastMovement)
@@ -494,28 +492,70 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
 
         guard remaining > 0 else {
             // 이미 임계값 초과 - 즉시 알림
-            sendIdleNotification()
+            sendIdleNotificationDirectly()
             return
         }
 
-        // 남은 시간 후 알림 예약
-        let content = createNotificationContent()
-        let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: remaining,
-            repeats: false
-        )
+        // 알림 권한을 직접 확인 후 예약 (캐시된 값 대신 실시간 확인)
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+            guard let self = self else { return }
 
-        let request = UNNotificationRequest(
-            identifier: IdleDetectionConfig.notificationIdentifier,
-            content: content,
-            trigger: trigger
-        )
+            guard settings.authorizationStatus == .authorized else {
+                Logger.gps.debug("[IdleDetection] 알림 권한 없음 - 백그라운드 알림 스킵 (status: \(settings.authorizationStatus.rawValue))")
+                return
+            }
 
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                Logger.gps.error("[IdleDetection] 알림 예약 실패: \(error.localizedDescription)")
-            } else {
-                Logger.gps.info("[IdleDetection] 백그라운드 알림 예약됨 - \(Int(remaining))초 후")
+            // 남은 시간 후 알림 예약
+            let content = self.createNotificationContent()
+            let trigger = UNTimeIntervalNotificationTrigger(
+                timeInterval: remaining,
+                repeats: false
+            )
+
+            let request = UNNotificationRequest(
+                identifier: IdleDetectionConfig.notificationIdentifier,
+                content: content,
+                trigger: trigger
+            )
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    Logger.gps.error("[IdleDetection] 알림 예약 실패: \(error.localizedDescription)")
+                } else {
+                    Logger.gps.info("[IdleDetection] 백그라운드 알림 예약됨 - \(Int(remaining))초 후")
+                }
+            }
+        }
+    }
+
+    /// 알림을 직접 전송 (권한 실시간 확인)
+    private func sendIdleNotificationDirectly() {
+        guard !notificationSent else { return }
+
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+            guard let self = self else { return }
+
+            guard settings.authorizationStatus == .authorized else {
+                Logger.gps.debug("[IdleDetection] 알림 권한 없음 - 즉시 알림 스킵")
+                return
+            }
+
+            self.notificationSent = true
+
+            let content = self.createNotificationContent()
+
+            let request = UNNotificationRequest(
+                identifier: IdleDetectionConfig.notificationIdentifier,
+                content: content,
+                trigger: nil  // 즉시 전송
+            )
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    Logger.gps.error("[IdleDetection] 즉시 알림 전송 실패: \(error.localizedDescription)")
+                } else {
+                    Logger.gps.info("[IdleDetection] 무이동 즉시 알림 전송됨")
+                }
             }
         }
     }
