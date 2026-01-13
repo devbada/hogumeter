@@ -150,10 +150,7 @@ struct MainMeterView: View {
                 }
             }
             // 무이동 감지 알림
-            .alert("이동이 감지되지 않습니다", isPresented: Binding(
-                get: { viewModel.showIdleAlert },
-                set: { _ in }
-            )) {
+            .alert("이동이 감지되지 않습니다", isPresented: viewModel.showIdleAlertBinding) {
                 Button("계속", role: .cancel) {
                     viewModel.continueFromIdleAlert()
                 }
