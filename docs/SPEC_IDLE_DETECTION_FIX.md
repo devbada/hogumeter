@@ -196,6 +196,85 @@ func setDeadReckoningActive(_ active: Bool) {
 }
 ```
 
+### Issue 6: Background Notification Permission Check (Critical)
+**Location**: `IdleDetectionService.swift:scheduleBackgroundNotification()`
+
+**Problem**: Background notifications were not appearing because the `hasNotificationPermission` flag was checked synchronously but set asynchronously:
+```swift
+private func scheduleBackgroundNotification() {
+    guard hasNotificationPermission else {  // <-- May be false even if permission granted!
+        return
+    }
+    // ...
+}
+```
+
+**Flow that causes the bug**:
+1. User grants notification permission when starting meter
+2. `requestNotificationPermission()` is called, callback updates `hasNotificationPermission` asynchronously
+3. User backgrounds the app before callback completes
+4. `scheduleBackgroundNotification()` checks `hasNotificationPermission` which is still `false`
+5. **Notification never scheduled**
+
+**Fix**: Check notification permission in real-time instead of using cached value:
+```swift
+private func scheduleBackgroundNotification() {
+    guard let lastMovement = lastMovementTime else { return }
+
+    let elapsed = Date().timeIntervalSince(lastMovement)
+    let remaining = IdleDetectionConfig.idleThreshold - elapsed
+
+    guard remaining > 0 else {
+        sendIdleNotificationDirectly()
+        return
+    }
+
+    // Check permission in real-time
+    UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+        guard let self = self else { return }
+        guard settings.authorizationStatus == .authorized else { return }
+
+        // Schedule notification...
+    }
+}
+```
+
+### Issue 7: GPS Auto-Start on App Launch
+**Location**: `LocationService.swift:locationManagerDidChangeAuthorization()`
+
+**Problem**: GPS was automatically activated when the app launched, even without starting the meter:
+```swift
+func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    switch manager.authorizationStatus {
+    case .authorizedAlways:
+        manager.startUpdatingLocation()  // <-- STARTS GPS IMMEDIATELY!
+    case .authorizedWhenInUse:
+        manager.requestAlwaysAuthorization()
+        manager.startUpdatingLocation()  // <-- STARTS GPS IMMEDIATELY!
+    // ...
+    }
+}
+```
+
+**Why it's wrong**: GPS should only be active when the meter is running to conserve battery.
+
+**Fix**: Remove `startUpdatingLocation()` from authorization callback:
+```swift
+func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    switch manager.authorizationStatus {
+    case .authorizedAlways:
+        // Only check permission, don't start tracking
+        Logger.gps.info("[GPS] 위치 권한 승인됨 (Always)")
+    case .authorizedWhenInUse:
+        manager.requestAlwaysAuthorization()
+        Logger.gps.info("[GPS] 위치 권한 승인됨 (When In Use)")
+    // ...
+    }
+}
+```
+
+GPS is now only started when `startTracking()` is explicitly called (when user taps "Start").
+
 ## Implementation Details
 
 ### Files Modified
@@ -209,6 +288,8 @@ func setDeadReckoningActive(_ active: Bool) {
    - Remove Dead Reckoning guard from `checkIdleState()` (Issue 5)
    - Update `setDeadReckoningActive()` to not reset timer on deactivation
    - Remove Dead Reckoning guard from `handleAppBecameActive()`
+   - Add `sendIdleNotificationDirectly()` method with real-time permission check (Issue 6)
+   - Update `scheduleBackgroundNotification()` to check permission in real-time (Issue 6)
 
 2. **MeterViewModel.swift**
    - Add `showIdleAlertBinding` computed property for proper SwiftUI binding
@@ -217,7 +298,11 @@ func setDeadReckoningActive(_ active: Bool) {
 3. **MainMeterView.swift**
    - Use `viewModel.showIdleAlertBinding` instead of manual Binding
 
-4. **IdleDetectionServiceTests.swift**
+4. **LocationService.swift**
+   - Remove `startUpdatingLocation()` from `locationManagerDidChangeAuthorization()` (Issue 7)
+   - GPS now only starts when `startTracking()` is explicitly called
+
+5. **IdleDetectionServiceTests.swift**
    - Add tests for `minGPSAccuracyForMovement` config
    - Add tests for `maxRealisticSpeedKmh` config
    - Add tests for GPS accuracy filtering
