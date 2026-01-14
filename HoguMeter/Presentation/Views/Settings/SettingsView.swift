@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @State private var isSoundEnabled = true
     @State private var isNightSurchargeEnabled = true
-    @State private var isRegionSurchargeEnabled = true
+    @State private var regionalSurchargeMode: RegionalSurchargeMode = .realistic
     @State private var regionSurchargeAmount = 2000
     @State private var colorSchemePreference: SettingsRepository.ColorSchemePreference = .system
 
@@ -36,17 +36,22 @@ struct SettingsView: View {
                         repository.isNightSurchargeEnabled = newValue
                     }
 
-                    Toggle(isOn: $isRegionSurchargeEnabled) {
-                        Label("지역 할증", systemImage: "location")
-                    }
-                    .onChange(of: isRegionSurchargeEnabled) { _, newValue in
-                        repository.isRegionSurchargeEnabled = newValue
+                    NavigationLink {
+                        RegionalSurchargeModeView()
+                    } label: {
+                        HStack {
+                            Label("지역 할증", systemImage: "location")
+                            Spacer()
+                            Text(regionalSurchargeMode.displayName)
+                                .foregroundColor(.secondary)
+                        }
                     }
 
-                    if isRegionSurchargeEnabled {
+                    // 재미 모드일 때만 할증 금액 설정 표시
+                    if regionalSurchargeMode == .fun {
                         Stepper(value: $regionSurchargeAmount, in: 1000...5000, step: 500) {
                             HStack {
-                                Text("지역 할증 금액")
+                                Text("동 변경 시 할증 금액")
                                 Spacer()
                                 Text("\(regionSurchargeAmount)원")
                                     .foregroundColor(.secondary)
@@ -87,7 +92,7 @@ struct SettingsView: View {
                     HStack {
                         Text("버전")
                         Spacer()
-                        Text("1.0.0")
+                        Text("1.1.0")
                             .foregroundColor(.secondary)
                     }
 
@@ -111,7 +116,7 @@ struct SettingsView: View {
     private func loadSettings() {
         isSoundEnabled = repository.isSoundEnabled
         isNightSurchargeEnabled = repository.isNightSurchargeEnabled
-        isRegionSurchargeEnabled = repository.isRegionSurchargeEnabled
+        regionalSurchargeMode = repository.regionalSurchargeMode
         regionSurchargeAmount = repository.regionSurchargeAmount
         colorSchemePreference = repository.colorSchemePreference
     }
