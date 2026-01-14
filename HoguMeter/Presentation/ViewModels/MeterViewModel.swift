@@ -332,8 +332,9 @@ final class MeterViewModel {
         _easterEggManager.checkFare(currentFare)
 
         // Check region change
-        regionDetector.detect(location: location) { [weak self] newRegion in
-            if let newRegion = newRegion, newRegion != self?.currentRegion {
+        regionDetector.detect(location: location) { [weak self] addressInfo in
+            // addressInfo가 반환되면 지역이 변경된 것
+            if addressInfo != nil, let newRegion = self?.regionDetector.currentRegion {
                 self?.handleRegionChange(to: newRegion)
             }
         }
