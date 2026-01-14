@@ -93,20 +93,22 @@ struct MarqueeBackgroundView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: geometry.size.height * 0.15) {
-                ForEach(Array(texts.enumerated()), id: \.offset) { index, text in
-                    MarqueeTextView(
-                        text: text,
-                        font: .system(size: 13, weight: .medium),
-                        textColor: .primary.opacity(0.12),
-                        speed: speeds[index % speeds.count]
-                    )
-                    .frame(height: 20)
+            if isVisible {
+                VStack(spacing: geometry.size.height * 0.15) {
+                    ForEach(Array(texts.enumerated()), id: \.offset) { index, text in
+                        MarqueeTextView(
+                            text: text,
+                            font: .system(size: 13, weight: .medium),
+                            textColor: .primary.opacity(0.12),
+                            speed: speeds[index % speeds.count]
+                        )
+                        .frame(height: 20)
+                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .transition(.opacity)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .opacity(isVisible ? 1 : 0)
         .animation(.easeInOut(duration: 0.3), value: isVisible)
         .allowsHitTesting(false)
     }

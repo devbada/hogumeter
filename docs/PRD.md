@@ -440,16 +440,29 @@ NFR-ACC-002:
 ### 3.4 호환성 (Compatibility)
 ```yaml
 NFR-COMP-001:
-  항목: iOS 버전
-  요구사항: iOS 15.0 이상
-  
+  항목: iOS/iPadOS 버전
+  요구사항: iOS 17.0 이상, iPadOS 17.0 이상
+
 NFR-COMP-002:
   항목: 디바이스
-  요구사항: iPhone 전 모델 (SE ~ 16 Pro Max)
-  
+  요구사항: |
+    - iPhone 전 모델 (SE ~ 16 Pro Max)
+    - iPad 전 모델 (iPad Air, iPad Pro 등)
+
 NFR-COMP-003:
   항목: 화면 사이즈
-  요구사항: 모든 iPhone 화면 사이즈 대응
+  요구사항: |
+    - 모든 iPhone 화면 사이즈 대응
+    - 모든 iPad 화면 사이즈 대응 (반응형 레이아웃)
+    - iPad 멀티태스킹 (Split View, Slide Over) 지원
+
+NFR-COMP-004:
+  항목: iPad 화면 방향
+  요구사항: |
+    - Portrait (세로)
+    - Portrait Upside Down (세로 뒤집기)
+    - Landscape Left (가로 왼쪽)
+    - Landscape Right (가로 오른쪽)
 ```
 
 ### 3.5 오프라인 (Offline)

@@ -397,6 +397,7 @@ struct ReceiptView: View {
         }
     }
 
+    /// 지도 스냅샷 + 경로 + 마커를 포함한 이미지 생성 (캡처/저장용)
     private func generateMapSnapshot() async -> UIImage? {
         guard trip.routePoints.count >= 2 else { return nil }
 
@@ -406,8 +407,8 @@ struct ReceiptView: View {
               let minLon = lons.min(), let maxLon = lons.max() else { return nil }
 
         // 여유 공간 추가
-        let latPadding = (maxLat - minLat) * 0.2
-        let lonPadding = (maxLon - minLon) * 0.2
+        let latPadding = max((maxLat - minLat) * 0.3, 0.002)
+        let lonPadding = max((maxLon - minLon) * 0.3, 0.002)
 
         let region = MKCoordinateRegion(
             center: CLLocationCoordinate2D(
@@ -429,7 +430,8 @@ struct ReceiptView: View {
 
         do {
             let snapshot = try await snapshotter.start()
-            return snapshot.image
+            // 경로와 마커를 스냅샷에 그려서 반환 (snapshot.point(for:) 사용)
+            return drawRouteOnSnapshot(snapshot)
         } catch {
             return nil
         }
@@ -674,13 +676,26 @@ private enum ReceiptImageGenerator {
         let mapHeight: CGFloat = 120
         let mapRect = CGRect(x: padding, y: y, width: mapWidth, height: mapHeight)
 
-        // 지도 스냅샷이 있으면 그리기, 없으면 회색 배경
+        // 지도 스냅샷이 있으면 그리기 (스냅샷에 이미 경로가 포함됨)
         if let snapshot = mapSnapshot {
             snapshot.draw(in: mapRect)
-        } else {
-            ctx.setFillColor(UIColor.systemGray6.cgColor)
-            ctx.fill(mapRect)
+
+            // 테두리
+            ctx.setStrokeColor(UIColor.systemGray4.cgColor)
+            ctx.setLineWidth(1)
+            ctx.stroke(mapRect)
+
+            // "주행 경로" 라벨
+            let routeLabel = "주행 경로" as NSString
+            let routeLabelAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 10), .foregroundColor: UIColor.darkGray]
+            routeLabel.draw(at: CGPoint(x: padding + 5, y: y + 5), withAttributes: routeLabelAttr)
+
+            return y + mapHeight + 10
         }
+
+        // 스냅샷이 없으면 회색 배경에 수동으로 경로 그리기 (폴백)
+        ctx.setFillColor(UIColor.systemGray6.cgColor)
+        ctx.fill(mapRect)
 
         // 테두리
         ctx.setStrokeColor(UIColor.systemGray4.cgColor)
@@ -710,7 +725,7 @@ private enum ReceiptImageGenerator {
         let centerLat = (minLat + maxLat) / 2
         let centerLon = (minLon + maxLon) / 2
 
-        // 좌표를 화면 좌표로 변환하는 함수
+        // 좌표를 화면 좌표로 변환하는 함수 (폴백용)
         func toScreenPoint(lat: Double, lon: Double) -> CGPoint {
             let x = padding + 10 + ((lon - (centerLon - lonRange / 2)) / lonRange) * (mapWidth - 20)
             let y_coord = y + mapHeight - 10 - ((lat - (centerLat - latRange / 2)) / latRange) * (mapHeight - 20)
