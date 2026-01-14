@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ADDI00012345678901234567 /* AddressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDI00001234567890ABCDEF /* AddressInfo.swift */; };
-		LOCF00012345678901234567 /* LocationFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = LOCF00001234567890ABCDEF /* LocationFormatter.swift */; };
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
 		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
 		07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */; };
@@ -53,6 +51,7 @@
 		AA87CBB77ABC72A0CF61881B /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */; };
 		AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CFE822AFFAAB528579537 /* HapticManager.swift */; };
 		AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE942707AFEC7295EEB5A7 /* LocationService.swift */; };
+		ADDI00012345678901234567 /* AddressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDI00001234567890ABCDEF /* AddressInfo.swift */; };
 		AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */; };
 		AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZMG00001234567890ABCDEF /* AutoZoomManager.swift */; };
 		B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E37EDFDB8A450969B082FA /* MeterState.swift */; };
@@ -74,10 +73,14 @@
 		F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0593C144C4AF38D18F326822 /* ControlButtonsView.swift */; };
 		GPS0001234567890123456 /* GPSSignalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = GPS0001234567890ABCDEF /* GPSSignalState.swift */; };
 		IDLE00012345678901234567 /* IdleDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IDLE00001234567890ABCDEF /* IdleDetectionService.swift */; };
+		LOCF00012345678901234567 /* LocationFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = LOCF00001234567890ABCDEF /* LocationFormatter.swift */; };
 		MAPCV00012345678901234567 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPCV00001234567890ABCDEF /* MapContainerView.swift */; };
 		MAPVM00012345678901234567 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVM00001234567890ABCDEF /* MapViewModel.swift */; };
 		MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */; };
 		MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MRQT00001234567890ABCDEF /* MarqueeTextView.swift */; };
+		RGSM00012345678901234567 /* RegionalSurchargeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */; };
+		RGSMV0012345678901234567 /* RegionalSurchargeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */; };
+		RGSS00012345678901234567 /* RegionalSurchargeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */; };
 		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
 		RTPT00012345678901234567 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPT00001234567890ABCDEF /* RoutePoint.swift */; };
 		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
@@ -96,8 +99,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		ADDI00001234567890ABCDEF /* AddressInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfo.swift; sourceTree = "<group>"; };
-		LOCF00001234567890ABCDEF /* LocationFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFormatter.swift; sourceTree = "<group>"; };
 		012E8AD839291A60E4A925E9 /* TripHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripHistoryView.swift; sourceTree = "<group>"; };
 		031F919C8DBB322D01DE8748 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
@@ -141,6 +142,7 @@
 		A1B06023C3A46ACB19895E34 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		AAA662AE9396E99BC52CF0B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ADB716A0A1F84630A677B9E8 /* FareInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareInputField.swift; sourceTree = "<group>"; };
+		ADDI00001234567890ABCDEF /* AddressInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfo.swift; sourceTree = "<group>"; };
 		AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
 		AZMG00001234567890ABCDEF /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
 		B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
@@ -168,10 +170,14 @@
 		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		GPS0001234567890ABCDEF /* GPSSignalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSSignalState.swift; sourceTree = "<group>"; };
 		IDLE00001234567890ABCDEF /* IdleDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleDetectionService.swift; sourceTree = "<group>"; };
+		LOCF00001234567890ABCDEF /* LocationFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFormatter.swift; sourceTree = "<group>"; };
 		MAPCV00001234567890ABCDEF /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
 		MAPVM00001234567890ABCDEF /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
 		MRQT00001234567890ABCDEF /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
+		RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeMode.swift; sourceTree = "<group>"; };
+		RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeModeView.swift; sourceTree = "<group>"; };
+		RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeService.swift; sourceTree = "<group>"; };
 		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 		RTPT00001234567890ABCDEF /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
 		STPT00001234567890ABCDEF /* StartPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPointAnnotation.swift; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 				9968EA9EC9574DD69DB08194 /* AppInfo */,
 				A764A5FB348A4CF08B97CE65 /* RegionFare */,
 				895243FBB3FAFDFB307CA6DC /* RegionFareSettingsView.swift */,
+				RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */,
 				51672B1F5C485688668A33B9 /* SettingsView.swift */,
 			);
 			path = Settings;
@@ -415,6 +422,7 @@
 				GPS0001234567890ABCDEF /* GPSSignalState.swift */,
 				B9E37EDFDB8A450969B082FA /* MeterState.swift */,
 				D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */,
+				RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */,
 				CE2CFB92DAEA79D831F37AC8 /* Trip.swift */,
 				F257388E6B23451CA58E4005 /* HorseSpeed.swift */,
 				TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */,
@@ -482,6 +490,7 @@
 				IDLE00001234567890ABCDEF /* IdleDetectionService.swift */,
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
 				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
+				RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */,
 				FE10E81350094D7AFCFDBA7D /* SoundManager.swift */,
 				RTMG00001234567890ABCDEF /* RouteManager.swift */,
 			);
@@ -703,6 +712,9 @@
 				216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */,
 				C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */,
 				2CBC303524E539077FA5A84E /* SettingsView.swift in Sources */,
+				RGSM00012345678901234567 /* RegionalSurchargeMode.swift in Sources */,
+				RGSS00012345678901234567 /* RegionalSurchargeService.swift in Sources */,
+				RGSMV0012345678901234567 /* RegionalSurchargeModeView.swift in Sources */,
 				6CCDFEA2F0197F4AFEA9C4C4 /* SoundManager.swift in Sources */,
 				E77AC84402B576C792D4D24C /* Trip.swift in Sources */,
 				BE533C9F82EEE83AF0295CEC /* TripHistoryView.swift in Sources */,
@@ -833,7 +845,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -898,7 +910,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hogumeter.app;
@@ -931,7 +943,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.devbada.HoguMeterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -961,7 +973,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.devbada.HoguMeterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
