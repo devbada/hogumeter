@@ -12,8 +12,20 @@ import MapKit
 final class RegionDetector {
 
     // MARK: - Properties
+
+    /// 현재 주소 정보 (상세)
+    private(set) var currentAddressInfo: AddressInfo?
+
+    /// 현재 지역 (포맷팅된 문자열)
     private(set) var currentRegion: String?
+
+    /// 시작 지역 (포맷팅된 문자열)
     private(set) var startRegion: String?
+
+    /// 시작 주소 정보 (상세)
+    private(set) var startAddressInfo: AddressInfo?
+
+    /// 지역 변경 횟수
     private(set) var regionChangeCount: Int = 0
 
     private let geocoder = CLGeocoder()
@@ -22,7 +34,12 @@ final class RegionDetector {
     private let geocodingInterval: TimeInterval = 10
 
     // MARK: - Public Methods
-    func detect(location: CLLocation, completion: @escaping (String?) -> Void) {
+
+    /// 위치 기반 주소 감지
+    /// - Parameters:
+    ///   - location: CLLocation 객체
+    ///   - completion: 새로운 주소 정보가 감지되면 호출 (변경 없으면 nil)
+    func detect(location: CLLocation, completion: @escaping (AddressInfo?) -> Void) {
         if let lastTime = lastGeocodingTime,
            Date().timeIntervalSince(lastTime) < geocodingInterval {
             completion(nil)
@@ -45,47 +62,39 @@ final class RegionDetector {
                 return
             }
 
-            // 상세 주소 구성: "서울특별시 영등포구" 형식
-            let adminArea = placemark.administrativeArea ?? ""
-            let subLocality = placemark.subLocality ?? ""
-            let locality = placemark.locality ?? ""
+            // AddressInfo 생성
+            let addressInfo = AddressInfo(placemark: placemark)
 
-            var components: [String] = []
+            // 포맷팅된 지역 문자열
+            let formattedRegion = LocationFormatter.format(addressInfo)
 
-            // 시/도 추가
-            if !adminArea.isEmpty {
-                components.append(adminArea)
-            }
-
-            // 구/군 단위 추가 (subLocality 우선, 없으면 locality)
-            if !subLocality.isEmpty {
-                components.append(subLocality)
-            } else if !locality.isEmpty && locality != adminArea {
-                components.append(locality)
-            }
-
-            let region = components.joined(separator: " ")
-
-            if !region.isEmpty && region != self?.currentRegion {
+            // 지역이 변경되었는지 확인
+            if !formattedRegion.isEmpty && formattedRegion != self?.currentRegion {
                 // 시작 지역 저장 (첫 번째 지역)
                 if self?.startRegion == nil {
-                    self?.startRegion = region
+                    self?.startRegion = formattedRegion
+                    self?.startAddressInfo = addressInfo
                 }
 
                 if self?.currentRegion != nil {
                     self?.regionChangeCount += 1
                 }
-                self?.currentRegion = region
-                completion(region)
+
+                self?.currentRegion = formattedRegion
+                self?.currentAddressInfo = addressInfo
+                completion(addressInfo)
             } else {
                 completion(nil)
             }
         }
     }
 
+    /// 상태 초기화
     func reset() {
         currentRegion = nil
+        currentAddressInfo = nil
         startRegion = nil
+        startAddressInfo = nil
         regionChangeCount = 0
         lastGeocodingTime = nil
     }
