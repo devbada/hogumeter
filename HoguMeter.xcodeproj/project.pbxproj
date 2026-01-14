@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ADDI00012345678901234567 /* AddressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDI00001234567890ABCDEF /* AddressInfo.swift */; };
+		LOCF00012345678901234567 /* LocationFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = LOCF00001234567890ABCDEF /* LocationFormatter.swift */; };
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
 		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
 		07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */; };
@@ -94,6 +96,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ADDI00001234567890ABCDEF /* AddressInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfo.swift; sourceTree = "<group>"; };
+		LOCF00001234567890ABCDEF /* LocationFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFormatter.swift; sourceTree = "<group>"; };
 		012E8AD839291A60E4A925E9 /* TripHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripHistoryView.swift; sourceTree = "<group>"; };
 		031F919C8DBB322D01DE8748 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
@@ -356,6 +360,7 @@
 			children = (
 				BD31455AFE19E38549BE98AC /* Constants.swift */,
 				0F9CFE822AFFAAB528579537 /* HapticManager.swift */,
+				LOCF00001234567890ABCDEF /* LocationFormatter.swift */,
 				7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */,
 				4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */,
 			);
@@ -402,6 +407,7 @@
 		9C4B629BDD618D73E4A44EBE /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				ADDI00001234567890ABCDEF /* AddressInfo.swift */,
 				AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */,
 				ESTR00001234567890ABCDEF /* EasterEgg.swift */,
 				649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */,
@@ -659,6 +665,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADDI00012345678901234567 /* AddressInfo.swift in Sources */,
+				LOCF00012345678901234567 /* LocationFormatter.swift in Sources */,
 				E948C93E3EB17349B5472590 /* LoadingAnimationView.swift in Sources */,
 				E291D1B8DFC62EE54846C406 /* CLLocation+Extensions.swift in Sources */,
 				0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */,
@@ -759,7 +767,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.1.0;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -985,7 +993,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.1.0;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
