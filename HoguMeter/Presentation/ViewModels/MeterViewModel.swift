@@ -440,7 +440,8 @@ final class MeterViewModel {
             highSpeedDistance: locationService.highSpeedDistance,
             lowSpeedDuration: locationService.lowSpeedDuration,
             regionChanges: regionDetector.regionChangeCount,
-            isNightTime: isNightTime
+            isNightTime: isNightTime,
+            surchargeStatus: surchargeStatus
         )
     }
 
