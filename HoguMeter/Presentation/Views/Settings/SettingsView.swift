@@ -92,7 +92,7 @@ struct SettingsView: View {
                     HStack {
                         Text("버전")
                         Spacer()
-                        Text("1.1.0")
+                        Text("\(Constants.App.version) (\(Constants.App.build))")
                             .foregroundColor(.secondary)
                     }
 
