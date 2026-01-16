@@ -21,6 +21,18 @@ struct Trip: Identifiable, Codable, Equatable {
     let fareBreakdown: FareBreakdown
     let routePoints: [RoutePoint]  // 경로 좌표 (영수증 지도용)
     let driverQuote: String?       // 택시기사 한마디 (영수증용)
+    let surchargeMode: RegionalSurchargeMode  // 지역 할증 모드 (v1.1 추가)
+    let surchargeRate: Double     // 할증률 (리얼 모드: 0.20 = 20%, 재미 모드: 0)
+
+    /// 리얼 모드인지 확인
+    var isRealisticMode: Bool {
+        return surchargeMode == .realistic
+    }
+
+    /// 할증률 퍼센트 표시 (예: "20%")
+    var surchargeRateDisplay: String {
+        return "\(Int(surchargeRate * 100))%"
+    }
 
     /// 기존 코드 호환을 위한 이니셜라이저
     init(
@@ -36,7 +48,9 @@ struct Trip: Identifiable, Codable, Equatable {
         isNightTrip: Bool,
         fareBreakdown: FareBreakdown,
         routePoints: [RoutePoint] = [],
-        driverQuote: String? = nil
+        driverQuote: String? = nil,
+        surchargeMode: RegionalSurchargeMode = .realistic,
+        surchargeRate: Double = 0
     ) {
         self.id = id
         self.startTime = startTime
@@ -51,5 +65,7 @@ struct Trip: Identifiable, Codable, Equatable {
         self.fareBreakdown = fareBreakdown
         self.routePoints = routePoints
         self.driverQuote = driverQuote
+        self.surchargeMode = surchargeMode
+        self.surchargeRate = surchargeRate
     }
 }

@@ -12,7 +12,12 @@ enum Constants {
     // MARK: - App
     enum App {
         static let name = "호구미터"
-        static let version = "1.0.0"
+        static var version: String {
+            Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+        }
+        static var build: String {
+            Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        }
         static let slogan = "내 차 탔으면 내놔"
     }
 

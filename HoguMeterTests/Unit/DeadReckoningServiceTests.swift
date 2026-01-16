@@ -257,8 +257,9 @@ final class DeadReckoningServiceTests: XCTestCase {
 
     // MARK: - DeadReckoningConfig 상수 테스트
 
-    func test_config_maxDuration_180초() {
-        XCTAssertEqual(DeadReckoningConfig.maxDuration, 180.0)
+    func test_config_maxDuration_300초() {
+        // v1.1 변경: 180초 → 300초 (긴 터널 대응)
+        XCTAssertEqual(DeadReckoningConfig.maxDuration, 300.0)
     }
 
     func test_config_minSpeedThreshold_5kmh() {
@@ -311,12 +312,13 @@ final class DeadReckoningServiceTests: XCTestCase {
 
 final class DeadReckoningExpirationTests: XCTestCase {
 
-    // Note: 실제 180초 테스트는 CI/CD에서 수행하기에 너무 오래 걸림
+    // Note: 실제 300초 테스트는 CI/CD에서 수행하기에 너무 오래 걸림
     // 단위 테스트에서는 설정값만 확인
 
     func test_maxDuration설정값확인() {
-        XCTAssertEqual(DeadReckoningConfig.maxDuration, 180.0,
-                       "Dead Reckoning 최대 지속 시간은 180초여야 합니다")
+        // v1.1 변경: 180초 → 300초 (긴 터널 대응)
+        XCTAssertEqual(DeadReckoningConfig.maxDuration, 300.0,
+                       "Dead Reckoning 최대 지속 시간은 300초(5분)여야 합니다")
     }
 
     func test_expired상태존재확인() {

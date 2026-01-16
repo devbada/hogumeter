@@ -449,6 +449,26 @@ final class MeterViewModel {
         guard let startTime = tripStartTime,
               let breakdown = fareBreakdown else { return }
 
+        // 모드에 따라 적절한 할증 횟수 사용
+        let surchargeMode = settingsRepository.regionalSurchargeMode
+        let regionChangesForTrip: Int
+        let surchargeRateForTrip: Double
+
+        switch surchargeMode {
+        case .realistic:
+            // 리얼 모드: 사업구역 경계 통과 횟수 사용
+            regionChangesForTrip = regionalSurchargeService.boundaryCrossCount
+            surchargeRateForTrip = regionalSurchargeService.lastSurchargeRate
+        case .fun:
+            // 재미 모드: 동 변경 횟수 사용
+            regionChangesForTrip = regionDetector.regionChangeCount
+            surchargeRateForTrip = 0
+        case .off:
+            // 끄기: 0
+            regionChangesForTrip = 0
+            surchargeRateForTrip = 0
+        }
+
         let trip = Trip(
             id: UUID(),
             startTime: startTime,
@@ -458,11 +478,13 @@ final class MeterViewModel {
             duration: duration,
             startRegion: regionDetector.startRegion ?? "알 수 없음",
             endRegion: currentRegion.isEmpty ? "알 수 없음" : currentRegion,
-            regionChanges: regionDetector.regionChangeCount,
+            regionChanges: regionChangesForTrip,
             isNightTrip: isNightTime,
             fareBreakdown: breakdown,
             routePoints: _routeManager.routePoints,
-            driverQuote: currentDriverQuote.isEmpty ? nil : currentDriverQuote
+            driverQuote: currentDriverQuote.isEmpty ? nil : currentDriverQuote,
+            surchargeMode: surchargeMode,
+            surchargeRate: surchargeRateForTrip
         )
 
         tripRepository.save(trip)
