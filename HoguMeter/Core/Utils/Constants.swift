@@ -12,7 +12,7 @@ enum Constants {
     // MARK: - App
     enum App {
         static let name = "호구미터"
-        static let version = "1.0.0"
+        static let version = "1.1.1"
         static let slogan = "내 차 탔으면 내놔"
     }
 
