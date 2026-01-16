@@ -15,7 +15,7 @@ struct RegionFareSettingsView: View {
 
     var body: some View {
         List {
-            ForEach(fareRepository.defaultFares, id: \.code) { fare in
+            ForEach(fareRepository.allFares, id: \.code) { fare in
                 Button {
                     selectedRegionCode = fare.code
                     repository.setCurrentRegion(code: fare.code)
@@ -26,7 +26,7 @@ struct RegionFareSettingsView: View {
                                 .font(.headline)
                                 .foregroundColor(.primary)
 
-                            Text("기본 \(fare.baseFare)원 | 거리 \(fare.distanceUnit)m당 \(fare.distanceFare)원")
+                            Text("기본 \(fare.dayBaseFare)원 | 거리 \(fare.dayDistanceUnit)m당 \(fare.dayDistanceFare)원")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
