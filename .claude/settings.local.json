@@ -42,7 +42,8 @@
       "Bash(mkdir:*)",
       "Bash(/usr/libexec/PlistBuddy:*)",
       "mcp__my-mcp-server__browser_snapshot",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(xcodegen)"
     ]
   },
   "enableAllProjectMcpServers": true,

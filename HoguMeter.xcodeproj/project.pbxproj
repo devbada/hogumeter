@@ -46,7 +46,6 @@
 		723F264FAFB1728602B7CF37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA662AE9396E99BC52CF0B2 /* ContentView.swift */; };
 		73D1DF43BAF75B9F2A66F3B4 /* RegionFareRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F0F949EDCC9BE665A2D7B8 /* RegionFareRowView.swift */; };
 		76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D2FE06B925922F511B24A /* MeterViewModel.swift */; };
-		7D8A9B94D6CE8A2AFD1DC60C /* DefaultFares.json in Resources */ = {isa = PBXBuildFile; fileRef = B8EC38389F60836626B89AF5 /* DefaultFares.json */; };
 		7EDFCC04DF08AB51595F7994 /* IdleDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E2BE745ACCF8D17EF62FC /* IdleDetectionService.swift */; };
 		80D2079E4ECA6795F5F1081E /* GPSSignalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D9C0C363EE6D7BA5A3BB1F /* GPSSignalState.swift */; };
 		8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */; };
@@ -88,7 +87,6 @@
 		F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254E8830A8239D9335AEC8AA /* TripRepository.swift */; };
 		F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0593C144C4AF38D18F326822 /* ControlButtonsView.swift */; };
 		F9091284E96411DE30B3A369 /* ParticleSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FBB57E89FB28A74F2B014F /* ParticleSystem.swift */; };
-		FB9E342D94FF77C28DACE2E4 /* FareValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0231163A576B6D37FBFBFC /* FareValidation.swift */; };
 		FD565CD2FA703FF27AF0D051 /* HorseSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FDCEDA66D45C65C0934A1 /* HorseSpeed.swift */; };
 /* End PBXBuildFile section */
 
@@ -132,7 +130,6 @@
 		649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareBreakdown.swift; sourceTree = "<group>"; };
 		67B6193F6F1A18FF1A313B03 /* DriverQuotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuotes.swift; sourceTree = "<group>"; };
 		6A91BE8BC3716FB99B58A61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6B0231163A576B6D37FBFBFC /* FareValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareValidation.swift; sourceTree = "<group>"; };
 		74D5344B04F0D1566F4EAC22 /* DisclaimerText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerText.swift; sourceTree = "<group>"; };
 		7626FEA56E46D69530D98D5C /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 		7809A80CAB1ED395B10CE483 /* TripInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfoView.swift; sourceTree = "<group>"; };
@@ -155,7 +152,6 @@
 		B26C33E040D40580119202A3 /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
 		B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
 		B79777E658A738A98A916216 /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
-		B8EC38389F60836626B89AF5 /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
 		B9E37EDFDB8A450969B082FA /* MeterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterState.swift; sourceTree = "<group>"; };
 		BCD4857D5A02A463A519206D /* MainMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMeterView.swift; sourceTree = "<group>"; };
 		BD31455AFE19E38549BE98AC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -254,14 +250,6 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
-		47B4BB3DE8A01CAB7657603B /* Static */ = {
-			isa = PBXGroup;
-			children = (
-				B8EC38389F60836626B89AF5 /* DefaultFares.json */,
-			);
-			path = Static;
-			sourceTree = "<group>";
-		};
 		481C0CC3B8E7D8E57D8398E2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -298,7 +286,6 @@
 				9C4B629BDD618D73E4A44EBE /* Entities */,
 				C3862C5704EB7489B0E90722 /* Services */,
 				2E1908E308A7F2E1C89D1F3E /* UseCases */,
-				5EAD6A1EE7F04C40934021EB /* Validation */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -328,14 +315,6 @@
 				3500C9519EFBE8E7CF847E29 /* Settings */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		5EAD6A1EE7F04C40934021EB /* Validation */ = {
-			isa = PBXGroup;
-			children = (
-				6B0231163A576B6D37FBFBFC /* FareValidation.swift */,
-			);
-			path = Validation;
 			sourceTree = "<group>";
 		};
 		66382D4899822697579628B3 /* Map */ = {
@@ -520,7 +499,6 @@
 		D8768EE5A84FEB1568D354B0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				F1FD66FB96CDB9875A7520D9 /* DataSources */,
 				9BC997CF63D53AC1696C50B8 /* Repositories */,
 				48634D714E081BC2848C89FC /* Resources */,
 			);
@@ -534,14 +512,6 @@
 				36A75CED60F87F7288ACF1B8 /* LoadingAnimationView.swift */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		F1FD66FB96CDB9875A7520D9 /* DataSources */ = {
-			isa = PBXGroup;
-			children = (
-				47B4BB3DE8A01CAB7657603B /* Static */,
-			);
-			path = DataSources;
 			sourceTree = "<group>";
 		};
 		F8D4513B92F4225487A3F83E /* Products */ = {
@@ -560,11 +530,18 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		"TEMP_C05819BA-3DE4-4946-B573-A6112C364DAC" /* Tests */ = {
+		"TEMP_1634B64C-2580-4574-B983-7948FC090781" /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		"TEMP_92DFE951-4AAB-482E-94A2-3A1D94EBDD69" /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataSources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -627,7 +604,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */,
-				7D8A9B94D6CE8A2AFD1DC60C /* DefaultFares.json in Resources */,
 				2D909408ADCB912DA948CBE8 /* DefaultFares.json in Resources */,
 				20F9799FCF166280752BF18A /* README.md in Resources */,
 			);
@@ -668,7 +644,6 @@
 				0E95337F5EB362DD0FE6938C /* FareInputField.swift in Sources */,
 				938CFF482C5E3077FD4E380A /* FareTimeZone.swift in Sources */,
 				5BB980F137FA8093FC70165B /* FareValidation.swift in Sources */,
-				FB9E342D94FF77C28DACE2E4 /* FareValidation.swift in Sources */,
 				80D2079E4ECA6795F5F1081E /* GPSSignalState.swift in Sources */,
 				AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */,
 				D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */,
