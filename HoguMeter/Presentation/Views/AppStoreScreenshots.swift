@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 // MARK: - Mock Data for Screenshots
 
@@ -31,11 +32,11 @@ private enum ScreenshotMockData {
             nightSurcharge: 0
         ),
         routePoints: [
-            RoutePoint(latitude: 37.5665, longitude: 126.9780),
-            RoutePoint(latitude: 37.5700, longitude: 126.9850),
-            RoutePoint(latitude: 37.5750, longitude: 126.9920),
-            RoutePoint(latitude: 37.5800, longitude: 127.0000),
-            RoutePoint(latitude: 37.5850, longitude: 127.0100)
+            RoutePoint(location: CLLocation(latitude: 37.5665, longitude: 126.9780)),
+            RoutePoint(location: CLLocation(latitude: 37.5700, longitude: 126.9850)),
+            RoutePoint(location: CLLocation(latitude: 37.5750, longitude: 126.9920)),
+            RoutePoint(location: CLLocation(latitude: 37.5800, longitude: 127.0000)),
+            RoutePoint(location: CLLocation(latitude: 37.5850, longitude: 127.0100))
         ],
         driverQuote: "오늘도 안전 운행!"
     )
