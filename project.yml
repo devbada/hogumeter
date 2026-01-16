@@ -40,6 +40,11 @@ targets:
           UIImageName: LaunchImage
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
         UIBackgroundModes:
           - location
         NSLocationWhenInUseUsageDescription: "호구미터가 주행 거리를 측정하기 위해 위치 정보가 필요합니다."

@@ -530,18 +530,18 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		"TEMP_1634B64C-2580-4574-B983-7948FC090781" /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		"TEMP_92DFE951-4AAB-482E-94A2-3A1D94EBDD69" /* DataSources */ = {
+		"TEMP_6FC45870-F640-435A-A9A8-AB046591F01D" /* DataSources */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = DataSources;
+			sourceTree = "<group>";
+		};
+		"TEMP_BB3405C9-E0EE-40B5-BC87-3260E7B38EB0" /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
