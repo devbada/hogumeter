@@ -159,7 +159,7 @@ class AppState: ObservableObject {
         // Initialize services
         self.locationService = LocationService(settingsRepository: settingsRepository)
         self.regionDetector = RegionDetector()
-        self.soundManager = SoundManager()
+        self.soundManager = SoundManager(settingsRepository: settingsRepository)
         self.fareCalculator = FareCalculator(settingsRepository: settingsRepository)
     }
 }

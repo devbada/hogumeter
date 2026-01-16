@@ -22,6 +22,7 @@ enum Logger {
     static let gps = CategoryLogger(category: "GPS")
     static let meter = CategoryLogger(category: "Meter")
     static let network = CategoryLogger(category: "Network")
+    static let surcharge = CategoryLogger(category: "Surcharge")  // v1.1: 지역 할증 로깅 추가
 
     // MARK: - Legacy Methods (Backward Compatibility)
     static func log(_ message: String, log: OSLog = Logger.general, type: OSLogType = .default) {
