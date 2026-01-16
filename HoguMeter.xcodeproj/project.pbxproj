@@ -3,201 +3,182 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		009A0BF7BB4203A1CF785A85 /* RegionFareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0020D556078E4C5D93FFD6F4 /* RegionFareListView.swift */; };
+		054E38EE56A75FB2FF6B0E27 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44006FA5E2A7E6BF75AF3C6 /* AppInfoView.swift */; };
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
 		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
 		07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */; };
 		09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A91BE8BC3716FB99B58A61C /* Assets.xcassets */; };
-		0FD6CBE88E6843FFB0A2F09D /* RegionFareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413DBFD55E4145B8A85EA505 /* RegionFareViewModel.swift */; };
+		0AE03F70981B89FF8C6ECCE5 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D14E15902C9AE16AC551E4 /* TaxiHorseAnnotationView.swift */; };
+		0E95337F5EB362DD0FE6938C /* FareInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBED755873BF6023E8A00170 /* FareInputField.swift */; };
+		1C009835DD07F50CD2D55F8B /* DriverQuotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B6193F6F1A18FF1A313B03 /* DriverQuotes.swift */; };
 		20A7E95CA73016A397471852 /* FareDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */; };
 		20F9799FCF166280752BF18A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F029931CE359423C7030D6A1 /* README.md */; };
 		216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF411F9647966C3705693A1 /* RegionFareRepository.swift */; };
-		23063A960662438D8FA54AE7 /* DisclaimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D9EAE6C7194FEF8C43AA2B /* DisclaimerManager.swift */; };
-		25BD52C65BB8493BBAF7216B /* HorseCharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EBB6ECF04B4BE7A920DB67 /* HorseCharacterView.swift */; };
-		26D53FAAAD8E4CF0BDD1FFA9 /* RegionFareRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81A295E43547E1BF7D23A3 /* RegionFareRowView.swift */; };
+		21B11F4BE1070E4915EEB729 /* LocationFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AB03943B65B41C22FD299D /* LocationFormatter.swift */; };
+		21E3CFEEFB59F05F8C1CAF86 /* RegionalSurchargeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAAB731C5FB6CC07EA4DEDE /* RegionalSurchargeMode.swift */; };
+		221097DC8FB3E51773767400 /* RegionFareEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2AA03AA9EA226793D4187C /* RegionFareEditView.swift */; };
+		260AF54A7DDAC89C14377685 /* RegionFareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B719DDA7869F69DA8D196EA /* RegionFareViewModel.swift */; };
 		2A96109F69FA8FC26692FE5A /* FareCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */; };
 		2CBC303524E539077FA5A84E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51672B1F5C485688668A33B9 /* SettingsView.swift */; };
+		2D909408ADCB912DA948CBE8 /* DefaultFares.json in Resources */ = {isa = PBXBuildFile; fileRef = 88091DC6DE6D621CFFCABC51 /* DefaultFares.json */; };
+		2E2930C739F171FAA1E382C1 /* RegionFareSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895243FBB3FAFDFB307CA6DC /* RegionFareSettingsView.swift */; };
+		2E52AC60EFAC7F52ACCF880D /* DisclaimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B00EFF98AC9A14D62E3218 /* DisclaimerViewModel.swift */; };
 		3246DC6DA52DD4ECD93C6986 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */; };
-		39E7411EB97940CFBF058548 /* RegionFareEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */; };
-		3A5F7A7DC3994498BFF8C586 /* HorseSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F257388E6B23451CA58E4005 /* HorseSpeed.swift */; };
-		4050BD823E8E4CF499EB32BA /* SpeedLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4891CE60DD42328C732683 /* SpeedLinesView.swift */; };
-		4BCD857079344F7A9122AA57 /* AnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */; };
-		4EC0DE37CCBA4B308899167C /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC510627A49A4C7F9ECD7004 /* AppInfoView.swift */; };
+		331D36A9C4C254FDA5550A94 /* EasterEggManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA89423D691EEB5C16C4BE7 /* EasterEggManager.swift */; };
+		390C5BB9124756DB1BECD68B /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2CBC9DCCC195598BAA15DE /* MarqueeTextView.swift */; };
+		460D8028A4EFA997150D0C23 /* HorseEffectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D263F3A6ED8D846060074F81 /* HorseEffectsView.swift */; };
+		4859FB726215A0C6FA29EFD1 /* DisclaimerDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE60928EAE0FF64580A8433 /* DisclaimerDialogView.swift */; };
 		50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */; };
-		51EAE60FB133460EA8997108 /* TimePickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */; };
+		50CA354DAB873F685DB23064 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119D05553440B43D29E60 /* TaxiHorseAnnotation.swift */; };
 		5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */; };
+		5A5EBD4366C5BBACB60B462D /* EasterEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202D37D46B2F17DCB2DBA303 /* EasterEgg.swift */; };
+		5BB980F137FA8093FC70165B /* FareValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E4441663816D664B71569 /* FareValidation.swift */; };
+		5C20DC9A928A639886A91CA2 /* AutoZoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5FDFC51534D8D783955CBC /* AutoZoomManager.swift */; };
 		6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031F919C8DBB322D01DE8748 /* Date+Extensions.swift */; };
 		617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */; };
 		64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98978790385627A731AB8C4A /* LocationServiceProtocol.swift */; };
 		6CCDFEA2F0197F4AFEA9C4C4 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE10E81350094D7AFCFDBA7D /* SoundManager.swift */; };
-		6DB8F13A893848838C96CDC9 /* DisclaimerText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D18011FBAB4F219F3EBE7A /* DisclaimerText.swift */; };
 		723F264FAFB1728602B7CF37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA662AE9396E99BC52CF0B2 /* ContentView.swift */; };
+		73D1DF43BAF75B9F2A66F3B4 /* RegionFareRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F0F949EDCC9BE665A2D7B8 /* RegionFareRowView.swift */; };
 		76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D2FE06B925922F511B24A /* MeterViewModel.swift */; };
 		7D8A9B94D6CE8A2AFD1DC60C /* DefaultFares.json in Resources */ = {isa = PBXBuildFile; fileRef = B8EC38389F60836626B89AF5 /* DefaultFares.json */; };
-		82DAF46AFF2A4F5383E25D5D /* DisclaimerDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FFF7C0C0104936A761FA16 /* DisclaimerDialogView.swift */; };
+		7EDFCC04DF08AB51595F7994 /* IdleDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E2BE745ACCF8D17EF62FC /* IdleDetectionService.swift */; };
+		80D2079E4ECA6795F5F1081E /* GPSSignalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D9C0C363EE6D7BA5A3BB1F /* GPSSignalState.swift */; };
 		8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */; };
-		88F236D2B3954CB399E8DFFE /* HorseEffectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3CC32C34F34AA99A8B2061 /* HorseEffectsView.swift */; };
-		8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1001DRIVERQUOTES /* DriverQuotes.swift */; };
-		8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */; };
+		89901E707967DBEE0A643434 /* DisclaimerText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5344B04F0D1566F4EAC22 /* DisclaimerText.swift */; };
 		916013FA7FE9C1775BE66E0A /* HorseAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */; };
-		94C37E103BDF4E589E95F538 /* FareValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C213CAB5415840C487A7EC9C /* FareValidation.swift */; };
-		97164F4FCB224FC481743D46 /* RegionFareAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4B71F5BFB242D5B2184BFF /* RegionFareAddView.swift */; };
+		938CFF482C5E3077FD4E380A /* FareTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4DB1A38B5156B4CCD9B378 /* FareTimeZone.swift */; };
+		942F2920E1A54A1FDB1B9DAE /* TimePickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53492DE70511F2B4BF20D9EC /* TimePickerField.swift */; };
+		998C50ED7299AED8B1FF526C /* SpeedLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF25A5E34FBA1B2CFD6470AB /* SpeedLinesView.swift */; };
 		9AECD22DC3BA877835DB39AE /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B06023C3A46ACB19895E34 /* View+Extensions.swift */; };
-		A1B2C3D4E5F6789012345678 /* FareTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876543210FEDCBA98765432 /* FareTimeZone.swift */; };
+		9E9C9C5E32DD84624146D8D7 /* RegionFareAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249A3D34B54529253D2385C2 /* RegionFareAddView.swift */; };
+		9F906CEDA0ED3B2057B83CE7 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8429E5EF6A9607E4AF835CF2 /* StartPointAnnotation.swift */; };
+		A0334E385340B567F01DEC46 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79777E658A738A98A916216 /* RoutePoint.swift */; };
 		A8CEF1D349D1FDAFED3F62C6 /* TripInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7809A80CAB1ED395B10CE483 /* TripInfoView.swift */; };
+		A919A01188086FA7542A219B /* DeadReckoningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584383FC00E6AB6B3ED74E71 /* DeadReckoningService.swift */; };
+		A9A8E87B41F5D3D7715C7782 /* LoadingAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A75CED60F87F7288ACF1B8 /* LoadingAnimationView.swift */; };
+		A9F3DD12B265C108DDA68245 /* RegionalSurchargeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981EC570E0C3AF2774D78066 /* RegionalSurchargeModeView.swift */; };
 		AA87CBB77ABC72A0CF61881B /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */; };
 		AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CFE822AFFAAB528579537 /* HapticManager.swift */; };
 		AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE942707AFEC7295EEB5A7 /* LocationService.swift */; };
-		ADDI00012345678901234567 /* AddressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDI00001234567890ABCDEF /* AddressInfo.swift */; };
-		AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */; };
-		AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AZMG00001234567890ABCDEF /* AutoZoomManager.swift */; };
+		B16C7ED5B88E9781B5D51D2D /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25344B198C63F69EDCE8FCA7 /* MapContainerView.swift */; };
+		B28EA68A5E7C533D27A23333 /* EasterEggOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DBB71118C6A02D689809A5 /* EasterEggOverlayView.swift */; };
+		B44E0D360572D3E1F1840325 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C708C91FC0D1D92DBD14783 /* MapViewModel.swift */; };
 		B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E37EDFDB8A450969B082FA /* MeterState.swift */; };
+		B556E0BF8F1FEACDD76A0C94 /* AppStoreScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5690BA323B4853836C065C5D /* AppStoreScreenshots.swift */; };
+		B6CE18718AE84A97DD33DB27 /* DriverQuoteBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CFD418404EB6D5252F3A /* DriverQuoteBubbleView.swift */; };
 		BE533C9F82EEE83AF0295CEC /* TripHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012E8AD839291A60E4A925E9 /* TripHistoryView.swift */; };
-		C4EBE25BEA214013BDA1AC8D /* RegionFareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */; };
 		C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */; };
-		C6DFA678059E468D912CF781 /* FareInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB716A0A1F84630A677B9E8 /* FareInputField.swift */; };
-		D5110194A1CE4A459F535A64 /* DisclaimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */; };
+		C5BCD9B43FE7C35FE975F6B8 /* DisclaimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639E83C5DD7F874ED718BD8F /* DisclaimerManager.swift */; };
+		CA0E289B218A31E520846421 /* RegionalSurchargeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CD8BD91617D0C702BB8267 /* RegionalSurchargeService.swift */; };
+		CA162A1F3A7FE1F85780B311 /* HorseCharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C3272051CC063F89210E5F /* HorseCharacterView.swift */; };
+		CAEAA13A59315C72064605A5 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C33E040D40580119202A3 /* MapViewRepresentable.swift */; };
 		D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA4C0038D41AA6701D2A28 /* HoguMeterApp.swift */; };
-		DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEADRECK00123456789ABCD /* DeadReckoningService.swift */; };
+		DB7372DBA62FE975C3DCBA10 /* AnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063D7E7E756278616B0AA594 /* AnimationConstants.swift */; };
 		E291D1B8DFC62EE54846C406 /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152CB7C1DA299F19E4785383 /* CLLocation+Extensions.swift */; };
-		E3312FD1B24A4309978FBB0F /* ParticleSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813333B822BA437DB21D8BBD /* ParticleSystem.swift */; };
+		E5C846EDD1166E13FCBDFBBA /* AutoZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EDC317817B9D2CB18E0C57 /* AutoZoomLevel.swift */; };
 		E77AC84402B576C792D4D24C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2CFB92DAEA79D831F37AC8 /* Trip.swift */; };
-		E948C93E3EB17349B5472590 /* LoadingAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */; };
-		ESTM00012345678901234567 /* EasterEggManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTM00001234567890ABCDEF /* EasterEggManager.swift */; };
-		ESTO00012345678901234567 /* EasterEggOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */; };
-		ESTR00012345678901234567 /* EasterEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = ESTR00001234567890ABCDEF /* EasterEgg.swift */; };
+		F1D4096E1A44ABD8F86F6FE0 /* AddressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D7483EA90694AA541FB510 /* AddressInfo.swift */; };
+		F3D22A2DDC498922E41C4B02 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7626FEA56E46D69530D98D5C /* RouteManager.swift */; };
 		F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254E8830A8239D9335AEC8AA /* TripRepository.swift */; };
 		F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0593C144C4AF38D18F326822 /* ControlButtonsView.swift */; };
-		GPS0001234567890123456 /* GPSSignalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = GPS0001234567890ABCDEF /* GPSSignalState.swift */; };
-		IDLE00012345678901234567 /* IdleDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IDLE00001234567890ABCDEF /* IdleDetectionService.swift */; };
-		LOCF00012345678901234567 /* LocationFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = LOCF00001234567890ABCDEF /* LocationFormatter.swift */; };
-		MAPCV00012345678901234567 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPCV00001234567890ABCDEF /* MapContainerView.swift */; };
-		MAPVM00012345678901234567 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVM00001234567890ABCDEF /* MapViewModel.swift */; };
-		MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */; };
-		MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MRQT00001234567890ABCDEF /* MarqueeTextView.swift */; };
-		RGSM00012345678901234567 /* RegionalSurchargeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */; };
-		RGSMV0012345678901234567 /* RegionalSurchargeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */; };
-		RGSS00012345678901234567 /* RegionalSurchargeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */; };
-		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
-		RTPT00012345678901234567 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPT00001234567890ABCDEF /* RoutePoint.swift */; };
-		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
-		TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */; };
-		TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */; };
+		F9091284E96411DE30B3A369 /* ParticleSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FBB57E89FB28A74F2B014F /* ParticleSystem.swift */; };
+		FB9E342D94FF77C28DACE2E4 /* FareValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0231163A576B6D37FBFBFC /* FareValidation.swift */; };
+		FD565CD2FA703FF27AF0D051 /* HorseSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FDCEDA66D45C65C0934A1 /* HorseSpeed.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		7199A9962EEBF412008E667F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7A98E770A27106E985427625 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7AD9A8CC48597472928707A5;
-			remoteInfo = HoguMeter;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		0020D556078E4C5D93FFD6F4 /* RegionFareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareListView.swift; sourceTree = "<group>"; };
 		012E8AD839291A60E4A925E9 /* TripHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripHistoryView.swift; sourceTree = "<group>"; };
 		031F919C8DBB322D01DE8748 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		03D7483EA90694AA541FB510 /* AddressInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfo.swift; sourceTree = "<group>"; };
 		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
-		06FFF7C0C0104936A761FA16 /* DisclaimerDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerDialogView.swift; sourceTree = "<group>"; };
+		063D7E7E756278616B0AA594 /* AnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationConstants.swift; sourceTree = "<group>"; };
 		0F9CFE822AFFAAB528579537 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		0FF411F9647966C3705693A1 /* RegionFareRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareRepository.swift; sourceTree = "<group>"; };
-		107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareListView.swift; sourceTree = "<group>"; };
 		152CB7C1DA299F19E4785383 /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
+		1C708C91FC0D1D92DBD14783 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		1CC119D05553440B43D29E60 /* TaxiHorseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotation.swift; sourceTree = "<group>"; };
 		1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionDetector.swift; sourceTree = "<group>"; };
-		1F4891CE60DD42328C732683 /* SpeedLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedLinesView.swift; sourceTree = "<group>"; };
+		202D37D46B2F17DCB2DBA303 /* EasterEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEgg.swift; sourceTree = "<group>"; };
+		249A3D34B54529253D2385C2 /* RegionFareAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareAddView.swift; sourceTree = "<group>"; };
+		25344B198C63F69EDCE8FCA7 /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
 		254E8830A8239D9335AEC8AA /* TripRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRepository.swift; sourceTree = "<group>"; };
+		26C3272051CC063F89210E5F /* HorseCharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseCharacterView.swift; sourceTree = "<group>"; };
+		2B4DB1A38B5156B4CCD9B378 /* FareTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareTimeZone.swift; sourceTree = "<group>"; };
 		323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
-		3E4B71F5BFB242D5B2184BFF /* RegionFareAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareAddView.swift; sourceTree = "<group>"; };
-		413DBFD55E4145B8A85EA505 /* RegionFareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareViewModel.swift; sourceTree = "<group>"; };
-		48D18011FBAB4F219F3EBE7A /* DisclaimerText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerText.swift; sourceTree = "<group>"; };
-		4C81A295E43547E1BF7D23A3 /* RegionFareRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareRowView.swift; sourceTree = "<group>"; };
-		4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationConstants.swift; sourceTree = "<group>"; };
+		36A75CED60F87F7288ACF1B8 /* LoadingAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimationView.swift; sourceTree = "<group>"; };
+		3D2CBC9DCCC195598BAA15DE /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
+		43AB03943B65B41C22FD299D /* LocationFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFormatter.swift; sourceTree = "<group>"; };
 		4F6D2FE06B925922F511B24A /* MeterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterViewModel.swift; sourceTree = "<group>"; };
 		50BA4C0038D41AA6701D2A28 /* HoguMeterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoguMeterApp.swift; sourceTree = "<group>"; };
 		51672B1F5C485688668A33B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		51D9EAE6C7194FEF8C43AA2B /* DisclaimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerManager.swift; sourceTree = "<group>"; };
+		53492DE70511F2B4BF20D9EC /* TimePickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerField.swift; sourceTree = "<group>"; };
 		53E2A7D965B9A5338EF11727 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
-		58EBB6ECF04B4BE7A920DB67 /* HorseCharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseCharacterView.swift; sourceTree = "<group>"; };
+		54DBB71118C6A02D689809A5 /* EasterEggOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggOverlayView.swift; sourceTree = "<group>"; };
+		559E4441663816D664B71569 /* FareValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareValidation.swift; sourceTree = "<group>"; };
+		5690BA323B4853836C065C5D /* AppStoreScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshots.swift; sourceTree = "<group>"; };
+		584383FC00E6AB6B3ED74E71 /* DeadReckoningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadReckoningService.swift; sourceTree = "<group>"; };
+		5AAAB731C5FB6CC07EA4DEDE /* RegionalSurchargeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeMode.swift; sourceTree = "<group>"; };
+		5B719DDA7869F69DA8D196EA /* RegionFareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareViewModel.swift; sourceTree = "<group>"; };
 		5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareCalculator.swift; sourceTree = "<group>"; };
+		600FDCEDA66D45C65C0934A1 /* HorseSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseSpeed.swift; sourceTree = "<group>"; };
+		639E83C5DD7F874ED718BD8F /* DisclaimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerManager.swift; sourceTree = "<group>"; };
 		649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareBreakdown.swift; sourceTree = "<group>"; };
+		67B6193F6F1A18FF1A313B03 /* DriverQuotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuotes.swift; sourceTree = "<group>"; };
 		6A91BE8BC3716FB99B58A61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7199A9922EEBF412008E667F /* HoguMeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoguMeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerField.swift; sourceTree = "<group>"; };
+		6B0231163A576B6D37FBFBFC /* FareValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareValidation.swift; sourceTree = "<group>"; };
+		74D5344B04F0D1566F4EAC22 /* DisclaimerText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerText.swift; sourceTree = "<group>"; };
+		7626FEA56E46D69530D98D5C /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 		7809A80CAB1ED395B10CE483 /* TripInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfoView.swift; sourceTree = "<group>"; };
 		7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		7D3CC32C34F34AA99A8B2061 /* HorseEffectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseEffectsView.swift; sourceTree = "<group>"; };
-		813333B822BA437DB21D8BBD /* ParticleSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleSystem.swift; sourceTree = "<group>"; };
+		81B00EFF98AC9A14D62E3218 /* DisclaimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewModel.swift; sourceTree = "<group>"; };
+		81EDC317817B9D2CB18E0C57 /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
+		8429E5EF6A9607E4AF835CF2 /* StartPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPointAnnotation.swift; sourceTree = "<group>"; };
+		88091DC6DE6D621CFFCABC51 /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
 		895243FBB3FAFDFB307CA6DC /* RegionFareSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareSettingsView.swift; sourceTree = "<group>"; };
-		8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimationView.swift; sourceTree = "<group>"; };
-		8D0A1001DRIVERQUOTES /* DriverQuotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuotes.swift; sourceTree = "<group>"; };
-		8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuoteBubbleView.swift; sourceTree = "<group>"; };
 		8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
-		9876543210FEDCBA98765432 /* FareTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareTimeZone.swift; sourceTree = "<group>"; };
+		981EC570E0C3AF2774D78066 /* RegionalSurchargeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeModeView.swift; sourceTree = "<group>"; };
 		98978790385627A731AB8C4A /* LocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceProtocol.swift; sourceTree = "<group>"; };
-		9B1B90C5922AF2379FA3A78C /* HoguMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoguMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B1B90C5922AF2379FA3A78C /* HoguMeter.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HoguMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B06023C3A46ACB19895E34 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		A34E2BE745ACCF8D17EF62FC /* IdleDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleDetectionService.swift; sourceTree = "<group>"; };
+		A8F0F949EDCC9BE665A2D7B8 /* RegionFareRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareRowView.swift; sourceTree = "<group>"; };
 		AAA662AE9396E99BC52CF0B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		ADB716A0A1F84630A677B9E8 /* FareInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareInputField.swift; sourceTree = "<group>"; };
-		ADDI00001234567890ABCDEF /* AddressInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfo.swift; sourceTree = "<group>"; };
-		AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
-		AZMG00001234567890ABCDEF /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
+		AF25A5E34FBA1B2CFD6470AB /* SpeedLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedLinesView.swift; sourceTree = "<group>"; };
+		AFE60928EAE0FF64580A8433 /* DisclaimerDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerDialogView.swift; sourceTree = "<group>"; };
+		B26C33E040D40580119202A3 /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
 		B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
+		B79777E658A738A98A916216 /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
 		B8EC38389F60836626B89AF5 /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
 		B9E37EDFDB8A450969B082FA /* MeterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterState.swift; sourceTree = "<group>"; };
 		BCD4857D5A02A463A519206D /* MainMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMeterView.swift; sourceTree = "<group>"; };
 		BD31455AFE19E38549BE98AC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		C213CAB5415840C487A7EC9C /* FareValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareValidation.swift; sourceTree = "<group>"; };
+		BE2AA03AA9EA226793D4187C /* RegionFareEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareEditView.swift; sourceTree = "<group>"; };
 		C3D3C2AE8CD8E3FF17E5FACF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C5D9C0C363EE6D7BA5A3BB1F /* GPSSignalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSSignalState.swift; sourceTree = "<group>"; };
+		C7D14E15902C9AE16AC551E4 /* TaxiHorseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotationView.swift; sourceTree = "<group>"; };
 		CE2CFB92DAEA79D831F37AC8 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseAnimationView.swift; sourceTree = "<group>"; };
-		D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewModel.swift; sourceTree = "<group>"; };
+		D263F3A6ED8D846060074F81 /* HorseEffectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseEffectsView.swift; sourceTree = "<group>"; };
+		D2FBB57E89FB28A74F2B014F /* ParticleSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleSystem.swift; sourceTree = "<group>"; };
 		D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFare.swift; sourceTree = "<group>"; };
-		DEADRECK00123456789ABCD /* DeadReckoningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadReckoningService.swift; sourceTree = "<group>"; };
+		DBED755873BF6023E8A00170 /* FareInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareInputField.swift; sourceTree = "<group>"; };
 		E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareDisplayView.swift; sourceTree = "<group>"; };
-		EC510627A49A4C7F9ECD7004 /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
-		EE7619D8DDA1429BB0AA76BB /* DefaultFares.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultFares.json; sourceTree = "<group>"; };
-		ESTM00001234567890ABCDEF /* EasterEggManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggManager.swift; sourceTree = "<group>"; };
-		ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggOverlayView.swift; sourceTree = "<group>"; };
-		ESTR00001234567890ABCDEF /* EasterEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEgg.swift; sourceTree = "<group>"; };
 		F029931CE359423C7030D6A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		F257388E6B23451CA58E4005 /* HorseSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseSpeed.swift; sourceTree = "<group>"; };
-		F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareEditView.swift; sourceTree = "<group>"; };
+		F3A7CFD418404EB6D5252F3A /* DriverQuoteBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverQuoteBubbleView.swift; sourceTree = "<group>"; };
+		F44006FA5E2A7E6BF75AF3C6 /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
+		F9CD8BD91617D0C702BB8267 /* RegionalSurchargeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeService.swift; sourceTree = "<group>"; };
 		FBCE942707AFEC7295EEB5A7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		FDA89423D691EEB5C16C4BE7 /* EasterEggManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggManager.swift; sourceTree = "<group>"; };
 		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
-		GPS0001234567890ABCDEF /* GPSSignalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSSignalState.swift; sourceTree = "<group>"; };
-		IDLE00001234567890ABCDEF /* IdleDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleDetectionService.swift; sourceTree = "<group>"; };
-		LOCF00001234567890ABCDEF /* LocationFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFormatter.swift; sourceTree = "<group>"; };
-		MAPCV00001234567890ABCDEF /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
-		MAPVM00001234567890ABCDEF /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
-		MRQT00001234567890ABCDEF /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
-		RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeMode.swift; sourceTree = "<group>"; };
-		RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeModeView.swift; sourceTree = "<group>"; };
-		RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeService.swift; sourceTree = "<group>"; };
-		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
-		RTPT00001234567890ABCDEF /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
-		STPT00001234567890ABCDEF /* StartPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPointAnnotation.swift; sourceTree = "<group>"; };
-		TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotation.swift; sourceTree = "<group>"; };
-		TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotationView.swift; sourceTree = "<group>"; };
+		FE5FDFC51534D8D783955CBC /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		7199A9932EEBF412008E667F /* HoguMeterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HoguMeterTests; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		7199A98F2EEBF412008E667F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		1C4CD31A0C689B4A3E299F35 /* HoguMeter */ = {
@@ -214,43 +195,55 @@
 			path = HoguMeter;
 			sourceTree = "<group>";
 		};
-		1C646C24B5FB4F85AC084635 /* Components */ = {
+		209CEEF2CF2431F4EC96A948 /* RegionFare */ = {
 			isa = PBXGroup;
 			children = (
-				ADB716A0A1F84630A677B9E8 /* FareInputField.swift */,
-				73F39646ECAC42FCB08E64F9 /* TimePickerField.swift */,
-				4C81A295E43547E1BF7D23A3 /* RegionFareRowView.swift */,
+				249A3D34B54529253D2385C2 /* RegionFareAddView.swift */,
+				BE2AA03AA9EA226793D4187C /* RegionFareEditView.swift */,
+				0020D556078E4C5D93FFD6F4 /* RegionFareListView.swift */,
+				70D0CDFCAE56872FCB22A748 /* Components */,
 			);
-			path = Components;
+			path = RegionFare;
 			sourceTree = "<group>";
 		};
-		1C6E9DFC1E9547F7BA33E60C /* Onboarding */ = {
+		2D74CBD16508CD89912FBE18 /* Horse */ = {
 			isa = PBXGroup;
 			children = (
-				8B5502258FC0AF589052DCAF /* LoadingAnimationView.swift */,
-				06FFF7C0C0104936A761FA16 /* DisclaimerDialogView.swift */,
+				26C3272051CC063F89210E5F /* HorseCharacterView.swift */,
+				D263F3A6ED8D846060074F81 /* HorseEffectsView.swift */,
+				D2FBB57E89FB28A74F2B014F /* ParticleSystem.swift */,
+				AF25A5E34FBA1B2CFD6470AB /* SpeedLinesView.swift */,
 			);
-			path = Onboarding;
+			path = Horse;
+			sourceTree = "<group>";
+		};
+		2E1908E308A7F2E1C89D1F3E /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				559E4441663816D664B71569 /* FareValidation.swift */,
+			);
+			path = UseCases;
 			sourceTree = "<group>";
 		};
 		3500C9519EFBE8E7CF847E29 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				9968EA9EC9574DD69DB08194 /* AppInfo */,
-				A764A5FB348A4CF08B97CE65 /* RegionFare */,
+				981EC570E0C3AF2774D78066 /* RegionalSurchargeModeView.swift */,
 				895243FBB3FAFDFB307CA6DC /* RegionFareSettingsView.swift */,
-				RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */,
 				51672B1F5C485688668A33B9 /* SettingsView.swift */,
+				D1F6A0C0D22BF0628DBFA46B /* AppInfo */,
+				209CEEF2CF2431F4EC96A948 /* RegionFare */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		3F45D1B954D74F139A323FF0 /* UseCases */ = {
+		430BAAB4A9A3D833D866E1BA /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				C213CAB5415840C487A7EC9C /* FareValidation.swift */,
+				74D5344B04F0D1566F4EAC22 /* DisclaimerText.swift */,
+				67B6193F6F1A18FF1A313B03 /* DriverQuotes.swift */,
 			);
-			path = UseCases;
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		472E66C7809099294A67AF59 /* Sounds */ = {
@@ -269,6 +262,24 @@
 			path = Static;
 			sourceTree = "<group>";
 		};
+		481C0CC3B8E7D8E57D8398E2 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F3A7CFD418404EB6D5252F3A /* DriverQuoteBubbleView.swift */,
+				54DBB71118C6A02D689809A5 /* EasterEggOverlayView.swift */,
+				3D2CBC9DCCC195598BAA15DE /* MarqueeTextView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		48634D714E081BC2848C89FC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				88091DC6DE6D621CFFCABC51 /* DefaultFares.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		4D7A588F46822B6EE0C4C4CE /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,7 +287,7 @@
 				E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */,
 				D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */,
 				7809A80CAB1ED395B10CE483 /* TripInfoView.swift */,
-				ABCD1234HORSE567890ABCDEF /* Horse */,
+				2D74CBD16508CD89912FBE18 /* Horse */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -284,9 +295,10 @@
 		513BA7EC6CCA7959C4002F6D /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				3F45D1B954D74F139A323FF0 /* UseCases */,
 				9C4B629BDD618D73E4A44EBE /* Entities */,
 				C3862C5704EB7489B0E90722 /* Services */,
+				2E1908E308A7F2E1C89D1F3E /* UseCases */,
+				5EAD6A1EE7F04C40934021EB /* Validation */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -294,10 +306,10 @@
 		5ACC0127E6A551F449192FBE /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				81B00EFF98AC9A14D62E3218 /* DisclaimerViewModel.swift */,
+				1C708C91FC0D1D92DBD14783 /* MapViewModel.swift */,
 				4F6D2FE06B925922F511B24A /* MeterViewModel.swift */,
-				413DBFD55E4145B8A85EA505 /* RegionFareViewModel.swift */,
-				D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */,
-				MAPVM00001234567890ABCDEF /* MapViewModel.swift */,
+				5B719DDA7869F69DA8D196EA /* RegionFareViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -305,16 +317,35 @@
 		5E2DEB05780C5F0FE5E36E09 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				VCMP00001234567890ABCDEF /* Components */,
-				1C6E9DFC1E9547F7BA33E60C /* Onboarding */,
+				5690BA323B4853836C065C5D /* AppStoreScreenshots.swift */,
 				AAA662AE9396E99BC52CF0B2 /* ContentView.swift */,
+				481C0CC3B8E7D8E57D8398E2 /* Components */,
 				9D776D339B2D084172464670 /* History */,
 				8DD21EC2B643041F62FE70A6 /* Main */,
-				MAPGRP0001234567890ABCDEF /* Map */,
+				66382D4899822697579628B3 /* Map */,
+				DB0C90BAE077190C3F036CA8 /* Onboarding */,
 				6ED0E973E728D6B6B6FB3A7A /* Receipt */,
 				3500C9519EFBE8E7CF847E29 /* Settings */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		5EAD6A1EE7F04C40934021EB /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				6B0231163A576B6D37FBFBFC /* FareValidation.swift */,
+			);
+			path = Validation;
+			sourceTree = "<group>";
+		};
+		66382D4899822697579628B3 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				25344B198C63F69EDCE8FCA7 /* MapContainerView.swift */,
+				B26C33E040D40580119202A3 /* MapViewRepresentable.swift */,
+				C7D14E15902C9AE16AC551E4 /* TaxiHorseAnnotationView.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		690ECCCDFBA9FC6404A4FC15 /* Presentation */ = {
@@ -326,20 +357,12 @@
 			path = Presentation;
 			sourceTree = "<group>";
 		};
-		69446F11C08C4F81815607A0 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				51D9EAE6C7194FEF8C43AA2B /* DisclaimerManager.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
 		6DFEDA5D62F3D700A0F29910 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				B86C2A8E5B754EA89A984EE6 /* Constants */,
-				69446F11C08C4F81815607A0 /* Managers */,
+				430BAAB4A9A3D833D866E1BA /* Constants */,
 				D011F1E0DB460DFBAB04354A /* Extensions */,
+				A26742003F42E47CF095B2B0 /* Managers */,
 				FAF65945604109D785F4DB73 /* Protocols */,
 				8A364BF6B66BD10D3E354AD9 /* Utils */,
 			);
@@ -354,6 +377,16 @@
 			path = Receipt;
 			sourceTree = "<group>";
 		};
+		70D0CDFCAE56872FCB22A748 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				DBED755873BF6023E8A00170 /* FareInputField.swift */,
+				A8F0F949EDCC9BE665A2D7B8 /* RegionFareRowView.swift */,
+				53492DE70511F2B4BF20D9EC /* TimePickerField.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		870044A3F984EC99272F823B /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,11 +398,11 @@
 		8A364BF6B66BD10D3E354AD9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				063D7E7E756278616B0AA594 /* AnimationConstants.swift */,
 				BD31455AFE19E38549BE98AC /* Constants.swift */,
 				0F9CFE822AFFAAB528579537 /* HapticManager.swift */,
-				LOCF00001234567890ABCDEF /* LocationFormatter.swift */,
+				43AB03943B65B41C22FD299D /* LocationFormatter.swift */,
 				7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */,
-				4EACF8F545E14E3BA5F4460C /* AnimationConstants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -383,20 +416,11 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		9968EA9EC9574DD69DB08194 /* AppInfo */ = {
-			isa = PBXGroup;
-			children = (
-				EC510627A49A4C7F9ECD7004 /* AppInfoView.swift */,
-			);
-			path = AppInfo;
-			sourceTree = "<group>";
-		};
 		99C007C801EC648B57088386 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				6A91BE8BC3716FB99B58A61C /* Assets.xcassets */,
 				472E66C7809099294A67AF59 /* Sounds */,
-				EE7619D8DDA1429BB0AA76BB /* DefaultFares.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -414,20 +438,20 @@
 		9C4B629BDD618D73E4A44EBE /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				ADDI00001234567890ABCDEF /* AddressInfo.swift */,
-				AZLV00001234567890ABCDEF /* AutoZoomLevel.swift */,
-				ESTR00001234567890ABCDEF /* EasterEgg.swift */,
+				03D7483EA90694AA541FB510 /* AddressInfo.swift */,
+				81EDC317817B9D2CB18E0C57 /* AutoZoomLevel.swift */,
+				202D37D46B2F17DCB2DBA303 /* EasterEgg.swift */,
 				649169877ED5B4CF1E4B95AE /* FareBreakdown.swift */,
-				9876543210FEDCBA98765432 /* FareTimeZone.swift */,
-				GPS0001234567890ABCDEF /* GPSSignalState.swift */,
+				2B4DB1A38B5156B4CCD9B378 /* FareTimeZone.swift */,
+				C5D9C0C363EE6D7BA5A3BB1F /* GPSSignalState.swift */,
+				600FDCEDA66D45C65C0934A1 /* HorseSpeed.swift */,
 				B9E37EDFDB8A450969B082FA /* MeterState.swift */,
+				5AAAB731C5FB6CC07EA4DEDE /* RegionalSurchargeMode.swift */,
 				D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */,
-				RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */,
+				B79777E658A738A98A916216 /* RoutePoint.swift */,
+				8429E5EF6A9607E4AF835CF2 /* StartPointAnnotation.swift */,
+				1CC119D05553440B43D29E60 /* TaxiHorseAnnotation.swift */,
 				CE2CFB92DAEA79D831F37AC8 /* Trip.swift */,
-				F257388E6B23451CA58E4005 /* HorseSpeed.swift */,
-				TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */,
-				RTPT00001234567890ABCDEF /* RoutePoint.swift */,
-				STPT00001234567890ABCDEF /* StartPointAnnotation.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -440,59 +464,35 @@
 			path = History;
 			sourceTree = "<group>";
 		};
-		A764A5FB348A4CF08B97CE65 /* RegionFare */ = {
+		A26742003F42E47CF095B2B0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				1C646C24B5FB4F85AC084635 /* Components */,
-				107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */,
-				F7EBF170FCBB4048B1EF5C8F /* RegionFareEditView.swift */,
-				3E4B71F5BFB242D5B2184BFF /* RegionFareAddView.swift */,
+				639E83C5DD7F874ED718BD8F /* DisclaimerManager.swift */,
 			);
-			path = RegionFare;
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		AA0A5A3EAD97BFB5B63AC2C7 = {
 			isa = PBXGroup;
 			children = (
 				1C4CD31A0C689B4A3E299F35 /* HoguMeter */,
-				7199A9932EEBF412008E667F /* HoguMeterTests */,
 				F8D4513B92F4225487A3F83E /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		ABCD1234HORSE567890ABCDEF /* Horse */ = {
-			isa = PBXGroup;
-			children = (
-				58EBB6ECF04B4BE7A920DB67 /* HorseCharacterView.swift */,
-				7D3CC32C34F34AA99A8B2061 /* HorseEffectsView.swift */,
-				813333B822BA437DB21D8BBD /* ParticleSystem.swift */,
-				1F4891CE60DD42328C732683 /* SpeedLinesView.swift */,
-			);
-			path = Horse;
-			sourceTree = "<group>";
-		};
-		B86C2A8E5B754EA89A984EE6 /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				48D18011FBAB4F219F3EBE7A /* DisclaimerText.swift */,
-				8D0A1001DRIVERQUOTES /* DriverQuotes.swift */,
-			);
-			path = Constants;
 			sourceTree = "<group>";
 		};
 		C3862C5704EB7489B0E90722 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				AZMG00001234567890ABCDEF /* AutoZoomManager.swift */,
-				DEADRECK00123456789ABCD /* DeadReckoningService.swift */,
-				ESTM00001234567890ABCDEF /* EasterEggManager.swift */,
+				FE5FDFC51534D8D783955CBC /* AutoZoomManager.swift */,
+				584383FC00E6AB6B3ED74E71 /* DeadReckoningService.swift */,
+				FDA89423D691EEB5C16C4BE7 /* EasterEggManager.swift */,
 				5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */,
-				IDLE00001234567890ABCDEF /* IdleDetectionService.swift */,
+				A34E2BE745ACCF8D17EF62FC /* IdleDetectionService.swift */,
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
+				F9CD8BD91617D0C702BB8267 /* RegionalSurchargeService.swift */,
 				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
-				RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */,
+				7626FEA56E46D69530D98D5C /* RouteManager.swift */,
 				FE10E81350094D7AFCFDBA7D /* SoundManager.swift */,
-				RTMG00001234567890ABCDEF /* RouteManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -509,13 +509,31 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		D1F6A0C0D22BF0628DBFA46B /* AppInfo */ = {
+			isa = PBXGroup;
+			children = (
+				F44006FA5E2A7E6BF75AF3C6 /* AppInfoView.swift */,
+			);
+			path = AppInfo;
+			sourceTree = "<group>";
+		};
 		D8768EE5A84FEB1568D354B0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				F1FD66FB96CDB9875A7520D9 /* DataSources */,
 				9BC997CF63D53AC1696C50B8 /* Repositories */,
+				48634D714E081BC2848C89FC /* Resources */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		DB0C90BAE077190C3F036CA8 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				AFE60928EAE0FF64580A8433 /* DisclaimerDialogView.swift */,
+				36A75CED60F87F7288ACF1B8 /* LoadingAnimationView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		F1FD66FB96CDB9875A7520D9 /* DataSources */ = {
@@ -530,7 +548,6 @@
 			isa = PBXGroup;
 			children = (
 				9B1B90C5922AF2379FA3A78C /* HoguMeter.app */,
-				7199A9922EEBF412008E667F /* HoguMeterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -543,52 +560,16 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		MAPGRP0001234567890ABCDEF /* Map */ = {
+		"TEMP_C05819BA-3DE4-4946-B573-A6112C364DAC" /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				MAPCV00001234567890ABCDEF /* MapContainerView.swift */,
-				MAPVR00001234567890ABCDEF /* MapViewRepresentable.swift */,
-				TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */,
 			);
-			path = Map;
-			sourceTree = "<group>";
-		};
-		VCMP00001234567890ABCDEF /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				ESTO00001234567890ABCDEF /* EasterEggOverlayView.swift */,
-				MRQT00001234567890ABCDEF /* MarqueeTextView.swift */,
-				8D0A1003DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift */,
-			);
-			path = Components;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7199A9912EEBF412008E667F /* HoguMeterTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7199A99A2EEBF412008E667F /* Build configuration list for PBXNativeTarget "HoguMeterTests" */;
-			buildPhases = (
-				7199A98E2EEBF412008E667F /* Sources */,
-				7199A98F2EEBF412008E667F /* Frameworks */,
-				7199A9902EEBF412008E667F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7199A9972EEBF412008E667F /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				7199A9932EEBF412008E667F /* HoguMeterTests */,
-			);
-			name = HoguMeterTests;
-			packageProductDependencies = (
-			);
-			productName = HoguMeterTests;
-			productReference = 7199A9922EEBF412008E667F /* HoguMeterTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		7AD9A8CC48597472928707A5 /* HoguMeter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 068FC9A3FFE624B99713D7B6 /* Build configuration list for PBXNativeTarget "HoguMeter" */;
@@ -614,12 +595,10 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 2610;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					7199A9912EEBF412008E667F = {
-						CreatedOnToolsVersion = 26.1.1;
-						TestTargetID = 7AD9A8CC48597472928707A5;
+					7AD9A8CC48597472928707A5 = {
+						DevelopmentTeam = "";
 					};
 				};
 			};
@@ -633,11 +612,11 @@
 			);
 			mainGroup = AA0A5A3EAD97BFB5B63AC2C7;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				7AD9A8CC48597472928707A5 /* HoguMeter */,
-				7199A9912EEBF412008E667F /* HoguMeterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -649,119 +628,101 @@
 			files = (
 				09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */,
 				7D8A9B94D6CE8A2AFD1DC60C /* DefaultFares.json in Resources */,
+				2D909408ADCB912DA948CBE8 /* DefaultFares.json in Resources */,
 				20F9799FCF166280752BF18A /* README.md in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7199A9902EEBF412008E667F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7199A98E2EEBF412008E667F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D39A0FF20AB3D23D7274C8D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADDI00012345678901234567 /* AddressInfo.swift in Sources */,
-				LOCF00012345678901234567 /* LocationFormatter.swift in Sources */,
-				E948C93E3EB17349B5472590 /* LoadingAnimationView.swift in Sources */,
+				F1D4096E1A44ABD8F86F6FE0 /* AddressInfo.swift in Sources */,
+				DB7372DBA62FE975C3DCBA10 /* AnimationConstants.swift in Sources */,
+				054E38EE56A75FB2FF6B0E27 /* AppInfoView.swift in Sources */,
+				B556E0BF8F1FEACDD76A0C94 /* AppStoreScreenshots.swift in Sources */,
+				E5C846EDD1166E13FCBDFBBA /* AutoZoomLevel.swift in Sources */,
+				5C20DC9A928A639886A91CA2 /* AutoZoomManager.swift in Sources */,
 				E291D1B8DFC62EE54846C406 /* CLLocation+Extensions.swift in Sources */,
 				0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */,
 				723F264FAFB1728602B7CF37 /* ContentView.swift in Sources */,
 				F79AA90583F56CD4F8F849ED /* ControlButtonsView.swift in Sources */,
 				6110A24E0CC7D8A9FC885309 /* Date+Extensions.swift in Sources */,
+				A919A01188086FA7542A219B /* DeadReckoningService.swift in Sources */,
+				4859FB726215A0C6FA29EFD1 /* DisclaimerDialogView.swift in Sources */,
+				C5BCD9B43FE7C35FE975F6B8 /* DisclaimerManager.swift in Sources */,
+				89901E707967DBEE0A643434 /* DisclaimerText.swift in Sources */,
+				2E52AC60EFAC7F52ACCF880D /* DisclaimerViewModel.swift in Sources */,
 				3246DC6DA52DD4ECD93C6986 /* Double+Extensions.swift in Sources */,
+				B6CE18718AE84A97DD33DB27 /* DriverQuoteBubbleView.swift in Sources */,
+				1C009835DD07F50CD2D55F8B /* DriverQuotes.swift in Sources */,
+				5A5EBD4366C5BBACB60B462D /* EasterEgg.swift in Sources */,
+				331D36A9C4C254FDA5550A94 /* EasterEggManager.swift in Sources */,
+				B28EA68A5E7C533D27A23333 /* EasterEggOverlayView.swift in Sources */,
 				5815CD4E0DFA874829A6FE33 /* FareBreakdown.swift in Sources */,
-				A1B2C3D4E5F6789012345678 /* FareTimeZone.swift in Sources */,
 				2A96109F69FA8FC26692FE5A /* FareCalculator.swift in Sources */,
 				20A7E95CA73016A397471852 /* FareDisplayView.swift in Sources */,
+				0E95337F5EB362DD0FE6938C /* FareInputField.swift in Sources */,
+				938CFF482C5E3077FD4E380A /* FareTimeZone.swift in Sources */,
+				5BB980F137FA8093FC70165B /* FareValidation.swift in Sources */,
+				FB9E342D94FF77C28DACE2E4 /* FareValidation.swift in Sources */,
+				80D2079E4ECA6795F5F1081E /* GPSSignalState.swift in Sources */,
 				AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */,
 				D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */,
-				3A5F7A7DC3994498BFF8C586 /* HorseSpeed.swift in Sources */,
-				4BCD857079344F7A9122AA57 /* AnimationConstants.swift in Sources */,
-				E3312FD1B24A4309978FBB0F /* ParticleSystem.swift in Sources */,
-				4050BD823E8E4CF499EB32BA /* SpeedLinesView.swift in Sources */,
-				25BD52C65BB8493BBAF7216B /* HorseCharacterView.swift in Sources */,
-				88F236D2B3954CB399E8DFFE /* HorseEffectsView.swift in Sources */,
 				916013FA7FE9C1775BE66E0A /* HorseAnimationView.swift in Sources */,
+				CA162A1F3A7FE1F85780B311 /* HorseCharacterView.swift in Sources */,
+				460D8028A4EFA997150D0C23 /* HorseEffectsView.swift in Sources */,
+				FD565CD2FA703FF27AF0D051 /* HorseSpeed.swift in Sources */,
+				7EDFCC04DF08AB51595F7994 /* IdleDetectionService.swift in Sources */,
+				A9A8E87B41F5D3D7715C7782 /* LoadingAnimationView.swift in Sources */,
+				21B11F4BE1070E4915EEB729 /* LocationFormatter.swift in Sources */,
 				AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */,
 				64411F440E51F2C8E9708144 /* LocationServiceProtocol.swift in Sources */,
-				DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */,
-				IDLE00012345678901234567 /* IdleDetectionService.swift in Sources */,
 				8765CFE1581007DDCD48BF49 /* Logger.swift in Sources */,
 				06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */,
+				B16C7ED5B88E9781B5D51D2D /* MapContainerView.swift in Sources */,
+				B44E0D360572D3E1F1840325 /* MapViewModel.swift in Sources */,
+				CAEAA13A59315C72064605A5 /* MapViewRepresentable.swift in Sources */,
+				390C5BB9124756DB1BECD68B /* MarqueeTextView.swift in Sources */,
 				B500589951A1FDC59192F9A9 /* MeterState.swift in Sources */,
-				GPS0001234567890123456 /* GPSSignalState.swift in Sources */,
 				76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */,
 				AA87CBB77ABC72A0CF61881B /* Notification+Extensions.swift in Sources */,
+				F9091284E96411DE30B3A369 /* ParticleSystem.swift in Sources */,
 				07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */,
 				617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */,
 				50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */,
+				9E9C9C5E32DD84624146D8D7 /* RegionFareAddView.swift in Sources */,
+				221097DC8FB3E51773767400 /* RegionFareEditView.swift in Sources */,
+				009A0BF7BB4203A1CF785A85 /* RegionFareListView.swift in Sources */,
 				216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */,
+				73D1DF43BAF75B9F2A66F3B4 /* RegionFareRowView.swift in Sources */,
+				2E2930C739F171FAA1E382C1 /* RegionFareSettingsView.swift in Sources */,
+				260AF54A7DDAC89C14377685 /* RegionFareViewModel.swift in Sources */,
+				21E3CFEEFB59F05F8C1CAF86 /* RegionalSurchargeMode.swift in Sources */,
+				A9F3DD12B265C108DDA68245 /* RegionalSurchargeModeView.swift in Sources */,
+				CA0E289B218A31E520846421 /* RegionalSurchargeService.swift in Sources */,
+				F3D22A2DDC498922E41C4B02 /* RouteManager.swift in Sources */,
+				A0334E385340B567F01DEC46 /* RoutePoint.swift in Sources */,
 				C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */,
 				2CBC303524E539077FA5A84E /* SettingsView.swift in Sources */,
-				RGSM00012345678901234567 /* RegionalSurchargeMode.swift in Sources */,
-				RGSS00012345678901234567 /* RegionalSurchargeService.swift in Sources */,
-				RGSMV0012345678901234567 /* RegionalSurchargeModeView.swift in Sources */,
 				6CCDFEA2F0197F4AFEA9C4C4 /* SoundManager.swift in Sources */,
+				998C50ED7299AED8B1FF526C /* SpeedLinesView.swift in Sources */,
+				9F906CEDA0ED3B2057B83CE7 /* StartPointAnnotation.swift in Sources */,
+				50CA354DAB873F685DB23064 /* TaxiHorseAnnotation.swift in Sources */,
+				0AE03F70981B89FF8C6ECCE5 /* TaxiHorseAnnotationView.swift in Sources */,
+				942F2920E1A54A1FDB1B9DAE /* TimePickerField.swift in Sources */,
 				E77AC84402B576C792D4D24C /* Trip.swift in Sources */,
 				BE533C9F82EEE83AF0295CEC /* TripHistoryView.swift in Sources */,
 				A8CEF1D349D1FDAFED3F62C6 /* TripInfoView.swift in Sources */,
 				F644EFE8988B6287F184DA2E /* TripRepository.swift in Sources */,
 				9AECD22DC3BA877835DB39AE /* View+Extensions.swift in Sources */,
-				94C37E103BDF4E589E95F538 /* FareValidation.swift in Sources */,
-				0FD6CBE88E6843FFB0A2F09D /* RegionFareViewModel.swift in Sources */,
-				C6DFA678059E468D912CF781 /* FareInputField.swift in Sources */,
-				51EAE60FB133460EA8997108 /* TimePickerField.swift in Sources */,
-				26D53FAAAD8E4CF0BDD1FFA9 /* RegionFareRowView.swift in Sources */,
-				C4EBE25BEA214013BDA1AC8D /* RegionFareListView.swift in Sources */,
-				39E7411EB97940CFBF058548 /* RegionFareEditView.swift in Sources */,
-				97164F4FCB224FC481743D46 /* RegionFareAddView.swift in Sources */,
-				23063A960662438D8FA54AE7 /* DisclaimerManager.swift in Sources */,
-				6DB8F13A893848838C96CDC9 /* DisclaimerText.swift in Sources */,
-				D5110194A1CE4A459F535A64 /* DisclaimerViewModel.swift in Sources */,
-				82DAF46AFF2A4F5383E25D5D /* DisclaimerDialogView.swift in Sources */,
-				4EC0DE37CCBA4B308899167C /* AppInfoView.swift in Sources */,
-				MAPVM00012345678901234567 /* MapViewModel.swift in Sources */,
-				MAPCV00012345678901234567 /* MapContainerView.swift in Sources */,
-				MAPVR00012345678901234567 /* MapViewRepresentable.swift in Sources */,
-				TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */,
-				TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */,
-				RTPT00012345678901234567 /* RoutePoint.swift in Sources */,
-				STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */,
-				RTMG00012345678901234567 /* RouteManager.swift in Sources */,
-				AZLV00012345678901234567 /* AutoZoomLevel.swift in Sources */,
-				AZMG00012345678901234567 /* AutoZoomManager.swift in Sources */,
-				MRQT00012345678901234567 /* MarqueeTextView.swift in Sources */,
-				ESTR00012345678901234567 /* EasterEgg.swift in Sources */,
-				ESTM00012345678901234567 /* EasterEggManager.swift in Sources */,
-				ESTO00012345678901234567 /* EasterEggOverlayView.swift in Sources */,
-				8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */,
-				8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		7199A9972EEBF412008E667F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7AD9A8CC48597472928707A5 /* HoguMeter */;
-			targetProxy = 7199A9962EEBF412008E667F /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0D5CD377647FD5855B308128 /* Debug */ = {
@@ -770,20 +731,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -825,9 +780,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = W96LW7FRSD;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -845,14 +800,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hogumeter.app;
 				PRODUCT_NAME = HoguMeter;
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -896,9 +850,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = W96LW7FRSD;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -910,13 +864,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hogumeter.app;
 				PRODUCT_NAME = HoguMeter;
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -926,90 +879,20 @@
 			};
 			name = Release;
 		};
-		7199A9982EEBF412008E667F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.devbada.HoguMeterTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HoguMeter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HoguMeter";
-			};
-			name = Debug;
-		};
-		7199A9992EEBF412008E667F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.devbada.HoguMeterTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HoguMeter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HoguMeter";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		831E1B3350FE22D7E63651FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1025,15 +908,6 @@
 			buildConfigurations = (
 				0D5CD377647FD5855B308128 /* Debug */,
 				831E1B3350FE22D7E63651FE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		7199A99A2EEBF412008E667F /* Build configuration list for PBXNativeTarget "HoguMeterTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7199A9982EEBF412008E667F /* Debug */,
-				7199A9992EEBF412008E667F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
