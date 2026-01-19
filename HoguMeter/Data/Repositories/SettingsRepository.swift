@@ -30,6 +30,7 @@ final class SettingsRepository: SettingsRepositoryProtocol {
         static let regionalSurchargeMode = "regionalSurchargeMode"
         static let isSoundEnabled = "isSoundEnabled"
         static let colorSchemePreference = "colorSchemePreference"
+        static let dataManagementSettings = "dataManagementSettings"
     }
 
     enum ColorSchemePreference: String {
@@ -120,6 +121,28 @@ final class SettingsRepository: SettingsRepositoryProtocol {
         }
         set {
             userDefaults.set(newValue.rawValue, forKey: Keys.colorSchemePreference)
+        }
+    }
+
+    // MARK: - Data Management Settings
+    var dataManagementSettings: DataManagementSettings {
+        get {
+            guard let data = userDefaults.data(forKey: Keys.dataManagementSettings) else {
+                return DataManagementSettings.default
+            }
+            do {
+                return try JSONDecoder().decode(DataManagementSettings.self, from: data)
+            } catch {
+                return DataManagementSettings.default
+            }
+        }
+        set {
+            do {
+                let data = try JSONEncoder().encode(newValue)
+                userDefaults.set(data, forKey: Keys.dataManagementSettings)
+            } catch {
+                print("[SettingsRepository] Failed to encode data management settings: \(error)")
+            }
         }
     }
 }

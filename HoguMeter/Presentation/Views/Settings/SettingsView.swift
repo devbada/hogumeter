@@ -80,6 +80,12 @@ struct SettingsView: View {
                         repository.colorSchemePreference = newValue
                         NotificationCenter.default.post(name: .colorSchemeChanged, object: nil)
                     }
+
+                    NavigationLink {
+                        DataManagementView()
+                    } label: {
+                        Label("데이터 관리", systemImage: "externaldrive")
+                    }
                 }
 
                 Section("정보") {
