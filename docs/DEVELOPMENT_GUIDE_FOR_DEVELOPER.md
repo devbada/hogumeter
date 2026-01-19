@@ -85,11 +85,48 @@ footer (optional)
 ---
 
 ## 7. 배포 체크리스트
-- [ ] 빌드 버전 / 마케팅 버전 업데이트  
-- [ ] Release 환경 설정 확인  
-- [ ] API Key 및 환경변수 점검  
-- [ ] Crashlytics / 로그 수집 정상 작동 여부 확인  
-- [ ] App Store 스크린샷 변경 여부 확인  
+- [ ] 빌드 버전 / 마케팅 버전 업데이트
+- [ ] Release 환경 설정 확인
+- [ ] API Key 및 환경변수 점검
+- [ ] Crashlytics / 로그 수집 정상 작동 여부 확인
+- [ ] App Store 스크린샷 변경 여부 확인
+
+### 버전 업데이트 방법
+
+**중요:** 새로운 기능 추가 또는 버그 수정 시 반드시 버전을 업데이트해야 합니다.
+
+#### 버전 번호 규칙 (Semantic Versioning)
+- `MAJOR.MINOR.PATCH` (예: 1.2.0)
+- **MAJOR**: 호환되지 않는 큰 변경
+- **MINOR**: 새로운 기능 추가 (하위 호환)
+- **PATCH**: 버그 수정
+
+#### 버전 변경 위치
+`HoguMeter.xcodeproj/project.pbxproj` 파일에서 다음 항목을 수정:
+
+```
+MARKETING_VERSION = X.Y.Z;      // 마케팅 버전 (App Store에 표시)
+CURRENT_PROJECT_VERSION = N;    // 빌드 번호 (동일 버전 재배포 시 증가)
+```
+
+#### 변경 방법
+1. **Xcode에서 변경** (권장)
+   - Project Navigator → 프로젝트 선택 → General 탭
+   - Identity 섹션에서 Version과 Build 수정
+
+2. **직접 파일 수정**
+   ```bash
+   # project.pbxproj에서 모든 MARKETING_VERSION 변경
+   # 여러 빌드 설정(Debug/Release)에 각각 존재하므로 모두 변경 필요
+   ```
+
+#### 버전 업데이트 시점
+| 변경 유형 | 버전 변경 | 예시 |
+|----------|----------|------|
+| 새로운 기능 추가 | MINOR 증가 | 1.1.1 → 1.2.0 |
+| 버그 수정 | PATCH 증가 | 1.2.0 → 1.2.1 |
+| 대규모 변경 | MAJOR 증가 | 1.2.1 → 2.0.0 |
+| 동일 버전 재배포 | BUILD 증가 | Build 1 → Build 2 |  
 
 ---
 
