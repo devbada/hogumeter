@@ -10,8 +10,9 @@ import Combine
 
 /// Dead Reckoning 설정 상수
 enum DeadReckoningConfig {
-    /// 최대 추정 시간 (초) - 3분
-    static let maxDuration: TimeInterval = 180.0
+    /// 최대 추정 시간 (초) - 5분 (긴 터널 고려)
+    /// 변경 이력: v1.1에서 180초 → 300초로 증가 (서울-대구 터널 테스트 기반)
+    static let maxDuration: TimeInterval = 300.0
 
     /// 최소 속도 임계값 (m/s) - 5 km/h 미만은 정차로 간주
     static let minSpeedThreshold: Double = 5.0 / 3.6  // 1.39 m/s
@@ -220,7 +221,7 @@ final class DeadReckoningService {
     }
 
     private func handleExpiration() {
-        Logger.gps.warning("[DR] Dead Reckoning 만료 (180초 초과) - 추정 거리: \(String(format: "%.0f", estimatedDistance))m")
+        Logger.gps.warning("[DR] Dead Reckoning 만료 (300초 초과) - 추정 거리: \(String(format: "%.0f", estimatedDistance))m")
 
         stopUpdateTimer()
 

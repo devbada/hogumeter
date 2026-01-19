@@ -193,7 +193,9 @@ struct ReceiptView: View {
                 fareRow(
                     title: "지역 할증",
                     value: trip.fareBreakdown.regionSurcharge,
-                    detail: "\(trip.regionChanges)회"
+                    detail: trip.isRealisticMode
+                        ? trip.surchargeRateDisplay  // 리얼 모드: "20%"
+                        : "\(trip.regionChanges)회"  // 재미 모드: "367회"
                 )
             }
 
@@ -368,9 +370,14 @@ struct ReceiptView: View {
 
     // MARK: - Helpers
     private func formatDuration(_ duration: TimeInterval) -> String {
-        let minutes = Int(duration) / 60
-        let seconds = Int(duration) % 60
-        if minutes > 0 {
+        let totalSeconds = Int(duration)
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
+
+        if hours > 0 {
+            return "\(hours)시간 \(minutes)분 \(seconds)초"
+        } else if minutes > 0 {
             return "\(minutes)분 \(seconds)초"
         } else {
             return "\(seconds)초"
@@ -879,8 +886,17 @@ private enum ReceiptImageGenerator {
     }
 
     private static func formatDuration(_ duration: TimeInterval) -> String {
-        let minutes = Int(duration) / 60
-        let seconds = Int(duration) % 60
-        return minutes > 0 ? "\(minutes)분 \(seconds)초" : "\(seconds)초"
+        let totalSeconds = Int(duration)
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
+
+        if hours > 0 {
+            return "\(hours)시간 \(minutes)분 \(seconds)초"
+        } else if minutes > 0 {
+            return "\(minutes)분 \(seconds)초"
+        } else {
+            return "\(seconds)초"
+        }
     }
 }

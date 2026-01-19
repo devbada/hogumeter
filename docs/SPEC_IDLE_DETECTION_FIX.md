@@ -343,10 +343,59 @@ GPS is now only started when `startTracking()` is explicitly called (when user t
 10. **Simulator (No GPS)**: Start meter with no GPS location -> Dead Reckoning activates -> Alert should still appear after 10 min
 11. **GPS signal loss while stationary**: Start meter -> GPS signal lost -> Alert should still appear after 10 min
 
+## v1.1.1 Additional Fix: Background Alert Re-scheduling
+
+### Issue 8: Background Notification Not Re-scheduled After Dismiss
+**Location**: `IdleDetectionService.swift:dismissAlert()`
+
+**Problem**: When user selects "Continue" from idle alert while app is in background, the 10-minute timer restarts but no new background notification is scheduled:
+```
+Scenario:
+1. Start meter
+2. 10 minutes → Idle notification appears
+3. User taps "Continue"
+4. dismissAlert() called
+   - lastMovementTime reset ✅
+   - But no background notification re-scheduled ❌
+5. 10 minutes later (screen off) → No notification ❌
+```
+
+**Root Cause**: `dismissAlert()` resets the idle timer but doesn't check if app is in background to re-schedule the notification.
+
+**Fix**: Add background notification re-scheduling in `dismissAlert()`:
+```swift
+func dismissAlert() {
+    guard state == .idle || state == .alerted else { return }
+
+    cancelScheduledNotification()
+    notificationSent = false
+    stateSubject.send(.dismissed)
+    lastMovementTime = Date()
+    idleDuration = 0
+
+    stateSubject.send(.monitoring)
+
+    // 🆕 Re-schedule notification if in background
+    if isInBackground {
+        scheduleBackgroundNotification()
+        Logger.gps.info("[IdleDetection] 알림 해제 - 백그라운드 알림 재예약됨")
+    }
+
+    Logger.gps.info("[IdleDetection] 알림 해제 - 모니터링 재개")
+}
+```
+
+**Test Scenarios Added**:
+- Foreground: "Continue" → 10 min → Alert reappears ✅
+- Background: "Continue" → 10 min → Notification reappears ✅
+- Indoor (poor GPS): "Continue" → 10 min → Alert/Notification reappears ✅
+
+---
+
 ## Risks and Considerations
 - The fix maintains backward compatibility with existing saved trips
 - No changes to the fare calculation or location tracking logic
-- Background notification functionality is unchanged
+- Background notification functionality now includes re-scheduling after dismiss
 
 ## References
 - Original implementation: `IdleDetectionService.swift`

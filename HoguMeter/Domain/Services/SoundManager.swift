@@ -40,18 +40,27 @@ enum SoundEffect {
 
 final class SoundManager {
 
-    // MARK: - Properties
-    private var isSoundEnabled: Bool = true
+    // MARK: - Dependencies
+    private let settingsRepository: SettingsRepositoryProtocol
+
+    // MARK: - Init
+    init(settingsRepository: SettingsRepositoryProtocol = SettingsRepository()) {
+        self.settingsRepository = settingsRepository
+    }
 
     // MARK: - Public Methods
     func play(_ sound: SoundEffect) {
-        guard isSoundEnabled else { return }
+        // 설정에서 직접 읽어서 확인 (항상 최신 상태 반영)
+        guard settingsRepository.isSoundEnabled else { return }
 
         // iOS 시스템 사운드 재생
         AudioServicesPlaySystemSound(sound.systemSoundID)
     }
 
+    /// Legacy method for backwards compatibility (deprecated)
+    /// 설정은 SettingsRepository에서 직접 읽으므로 이 메서드는 더 이상 필요 없음
+    @available(*, deprecated, message: "Sound state is now read directly from SettingsRepository")
     func setEnabled(_ enabled: Bool) {
-        isSoundEnabled = enabled
+        // No-op: 설정은 SettingsRepository에서 관리
     }
 }

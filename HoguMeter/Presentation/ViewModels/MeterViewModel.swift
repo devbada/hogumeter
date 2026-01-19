@@ -26,6 +26,7 @@ final class MeterViewModel {
     private(set) var isNightTime: Bool = false
     private(set) var fareBreakdown: FareBreakdown?
     private(set) var completedTrip: Trip?           // 완료된 주행 정보
+    private(set) var surchargeStatus: SurchargeStatus = .inactive  // 할증 상태
 
     // MARK: - Horse Animation State
     private(set) var horseSpeed: HorseSpeed = .idle
@@ -66,6 +67,7 @@ final class MeterViewModel {
     private let regionDetector: RegionDetector
     private let soundManager: SoundManager
     private let tripRepository: TripRepository
+    private let regionalSurchargeService: RegionalSurchargeService
 
     // MARK: - Private
     private var cancellables = Set<AnyCancellable>()
@@ -73,6 +75,7 @@ final class MeterViewModel {
     private var timer: Timer?
     private var lastLocationUpdateTime: Date?
     private let speedTimeoutInterval: TimeInterval = 3.0  // 3초간 업데이트 없으면 속도 0
+    private var hasSurchargeTrackingStarted: Bool = false  // 할증 추적 시작 여부
 
     // MARK: - Init
     init(
@@ -84,7 +87,8 @@ final class MeterViewModel {
         tripRepository: TripRepository,
         routeManager: RouteManager = RouteManager(),
         easterEggManager: EasterEggManager = EasterEggManager(),
-        idleDetectionService: IdleDetectionServiceProtocol = IdleDetectionService()
+        idleDetectionService: IdleDetectionServiceProtocol = IdleDetectionService(),
+        regionalSurchargeService: RegionalSurchargeService = RegionalSurchargeService()
     ) {
         self._locationService = locationService
         self.fareCalculator = fareCalculator
@@ -95,6 +99,10 @@ final class MeterViewModel {
         self.regionDetector = regionDetector
         self.soundManager = soundManager
         self.tripRepository = tripRepository
+        self.regionalSurchargeService = regionalSurchargeService
+
+        // 지역 할증 모드 동기화
+        self.regionalSurchargeService.mode = settingsRepository.regionalSurchargeMode
 
         setupBindings()
         setupAppLifecycleBindings()
@@ -142,6 +150,11 @@ final class MeterViewModel {
         // 무이동 감지 시작 및 알림 권한 요청
         idleDetectionService.requestNotificationPermission()
         idleDetectionService.startMonitoring()
+
+        // 지역 할증: 모드 동기화 및 추적 준비
+        regionalSurchargeService.mode = settingsRepository.regionalSurchargeMode
+        hasSurchargeTrackingStarted = false
+        surchargeStatus = .inactive
     }
 
     func stopMeter() {
@@ -159,6 +172,9 @@ final class MeterViewModel {
 
         // 무이동 감지 중지
         idleDetectionService.stopMonitoring()
+
+        // 지역 할증 추적 종료
+        regionalSurchargeService.stopTracking()
 
         // Trip 생성 및 저장
         saveTrip()
@@ -179,6 +195,11 @@ final class MeterViewModel {
         showIdleAlert = false
         _routeManager.clearRoute()
         idleDetectionService.reset()
+
+        // 지역 할증 초기화
+        regionalSurchargeService.reset()
+        hasSurchargeTrackingStarted = false
+        surchargeStatus = .inactive
 
         // 화면 항상 켜짐 비활성화
         setScreenAlwaysOn(false)
@@ -318,12 +339,31 @@ final class MeterViewModel {
             _routeManager.addPoint(location)
         }
 
+        // 지역 할증 업데이트 (리얼 모드)
+        if let currentAddressInfo = regionDetector.currentAddressInfo {
+            // 첫 위치에서 할증 추적 시작
+            if !hasSurchargeTrackingStarted {
+                regionalSurchargeService.startTracking(addressInfo: currentAddressInfo)
+                hasSurchargeTrackingStarted = true
+            }
+
+            // 할증 상태 업데이트
+            surchargeStatus = regionalSurchargeService.updateLocation(
+                addressInfo: currentAddressInfo,
+                distanceDelta: _routeManager.routePoints.count > 1 ? location.distance(from: CLLocation(
+                    latitude: _routeManager.routePoints[_routeManager.routePoints.count - 2].latitude,
+                    longitude: _routeManager.routePoints[_routeManager.routePoints.count - 2].longitude
+                )) : 0
+            )
+        }
+
         // Calculate fare (병산제: 고속거리 + 저속시간)
         currentFare = fareCalculator.calculate(
             highSpeedDistance: locationService.highSpeedDistance,
             lowSpeedDuration: locationService.lowSpeedDuration,
             regionChanges: regionDetector.regionChangeCount,
-            isNightTime: isNightTime
+            at: Date(),
+            surchargeStatus: surchargeStatus
         )
 
         // 이스터에그 체크
@@ -332,8 +372,9 @@ final class MeterViewModel {
         _easterEggManager.checkFare(currentFare)
 
         // Check region change
-        regionDetector.detect(location: location) { [weak self] newRegion in
-            if let newRegion = newRegion, newRegion != self?.currentRegion {
+        regionDetector.detect(location: location) { [weak self] addressInfo in
+            // addressInfo가 반환되면 지역이 변경된 것
+            if addressInfo != nil, let newRegion = self?.regionDetector.currentRegion {
                 self?.handleRegionChange(to: newRegion)
             }
         }
@@ -399,13 +440,34 @@ final class MeterViewModel {
             highSpeedDistance: locationService.highSpeedDistance,
             lowSpeedDuration: locationService.lowSpeedDuration,
             regionChanges: regionDetector.regionChangeCount,
-            isNightTime: isNightTime
+            isNightTime: isNightTime,
+            surchargeStatus: surchargeStatus
         )
     }
 
     private func saveTrip() {
         guard let startTime = tripStartTime,
               let breakdown = fareBreakdown else { return }
+
+        // 모드에 따라 적절한 할증 횟수 사용
+        let surchargeMode = settingsRepository.regionalSurchargeMode
+        let regionChangesForTrip: Int
+        let surchargeRateForTrip: Double
+
+        switch surchargeMode {
+        case .realistic:
+            // 리얼 모드: 사업구역 경계 통과 횟수 사용
+            regionChangesForTrip = regionalSurchargeService.boundaryCrossCount
+            surchargeRateForTrip = regionalSurchargeService.lastSurchargeRate
+        case .fun:
+            // 재미 모드: 동 변경 횟수 사용
+            regionChangesForTrip = regionDetector.regionChangeCount
+            surchargeRateForTrip = 0
+        case .off:
+            // 끄기: 0
+            regionChangesForTrip = 0
+            surchargeRateForTrip = 0
+        }
 
         let trip = Trip(
             id: UUID(),
@@ -416,11 +478,13 @@ final class MeterViewModel {
             duration: duration,
             startRegion: regionDetector.startRegion ?? "알 수 없음",
             endRegion: currentRegion.isEmpty ? "알 수 없음" : currentRegion,
-            regionChanges: regionDetector.regionChangeCount,
+            regionChanges: regionChangesForTrip,
             isNightTrip: isNightTime,
             fareBreakdown: breakdown,
             routePoints: _routeManager.routePoints,
-            driverQuote: currentDriverQuote.isEmpty ? nil : currentDriverQuote
+            driverQuote: currentDriverQuote.isEmpty ? nil : currentDriverQuote,
+            surchargeMode: surchargeMode,
+            surchargeRate: surchargeRateForTrip
         )
 
         tripRepository.save(trip)

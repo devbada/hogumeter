@@ -41,11 +41,14 @@ final class FareCalculator {
     /// - Parameters:
     ///   - highSpeedDistance: 고속 구간 이동 거리 (meters)
     ///   - lowSpeedDuration: 저속/정차 시간 (seconds)
+    ///   - regionChanges: 지역 변경 횟수 (재미 모드용)
+    ///   - surchargeStatus: 할증 상태 (리얼 모드용, nil이면 재미 모드로 동작)
     func calculate(
         highSpeedDistance: Double,       // meters (고속 구간만)
         lowSpeedDuration: TimeInterval,  // seconds (저속 구간만)
         regionChanges: Int,
-        at date: Date
+        at date: Date,
+        surchargeStatus: SurchargeStatus? = nil
     ) -> Int {
         let fare = settingsRepository.currentRegionFare
         let timeZone = FareTimeZone.current(from: date)
@@ -68,11 +71,27 @@ final class FareCalculator {
         let extraUnits = Int(max(0, totalUnits - baseUnits))
         totalFare += extraUnits * fareComponents.distanceFare
 
-        // 지역 할증 (시계외)
-        if settingsRepository.isRegionSurchargeEnabled {
-            let extraFare = extraUnits * fareComponents.distanceFare
-            let surcharge = Double(extraFare) * fare.outsideCitySurcharge
-            totalFare += Int(surcharge) * regionChanges
+        // 지역 할증 (모드에 따라 다르게 처리)
+        let surchargeMode = settingsRepository.regionalSurchargeMode
+        switch surchargeMode {
+        case .realistic:
+            // 리얼 모드: 할증 구간에서 발생한 요금에 할증률 적용
+            if let status = surchargeStatus, status.isActive {
+                let extraFare = extraUnits * fareComponents.distanceFare
+                let surcharge = Double(extraFare) * status.rate
+                totalFare += Int(surcharge)
+            }
+
+        case .fun:
+            // 재미 모드: 동 변경 횟수 × 고정 금액
+            if regionChanges > 0 {
+                let surchargeAmount = settingsRepository.regionSurchargeAmount
+                totalFare += surchargeAmount * regionChanges
+            }
+
+        case .off:
+            // 끄기: 할증 없음
+            break
         }
 
         // 반올림
@@ -117,17 +136,22 @@ final class FareCalculator {
     /// - Parameters:
     ///   - highSpeedDistance: 고속 구간 이동 거리 (meters)
     ///   - lowSpeedDuration: 저속/정차 시간 (seconds)
+    ///   - regionChanges: 지역 변경 횟수 (재미 모드용)
+    ///   - isNightTime: 야간 시간대 여부 (Deprecated)
+    ///   - surchargeStatus: 할증 상태 (리얼 모드용)
     func breakdown(
         highSpeedDistance: Double,
         lowSpeedDuration: TimeInterval,
         regionChanges: Int,
-        isNightTime: Bool = false
+        isNightTime: Bool = false,
+        surchargeStatus: SurchargeStatus? = nil
     ) -> FareBreakdown {
         return breakdown(
             highSpeedDistance: highSpeedDistance,
             lowSpeedDuration: lowSpeedDuration,
             regionChanges: regionChanges,
-            at: Date()
+            at: Date(),
+            surchargeStatus: surchargeStatus
         )
     }
 
@@ -136,7 +160,8 @@ final class FareCalculator {
         highSpeedDistance: Double,
         lowSpeedDuration: TimeInterval,
         regionChanges: Int,
-        at date: Date
+        at date: Date,
+        surchargeStatus: SurchargeStatus? = nil
     ) -> FareBreakdown {
         let fare = settingsRepository.currentRegionFare
         let timeZone = FareTimeZone.current(from: date)
@@ -171,11 +196,27 @@ final class FareCalculator {
             timeFare = extraFare - distanceFare  // 나머지는 시간요금으로
         }
 
-        // 지역 할증
+        // 지역 할증 (모드에 따라 다르게 처리 - calculate()와 동일한 로직)
         var regionSurcharge = 0
-        if settingsRepository.isRegionSurchargeEnabled {
-            let surcharge = Double(distanceFare + timeFare) * fare.outsideCitySurcharge
-            regionSurcharge = Int(surcharge) * regionChanges
+        let surchargeMode = settingsRepository.regionalSurchargeMode
+        switch surchargeMode {
+        case .realistic:
+            // 리얼 모드: 할증 구간에서 발생한 요금에 할증률 적용
+            if let status = surchargeStatus, status.isActive {
+                let extraFare = distanceFare + timeFare
+                regionSurcharge = Int(Double(extraFare) * status.rate)
+            }
+
+        case .fun:
+            // 재미 모드: 동 변경 횟수 × 고정 금액
+            if regionChanges > 0 {
+                let surchargeAmount = settingsRepository.regionSurchargeAmount
+                regionSurcharge = surchargeAmount * regionChanges
+            }
+
+        case .off:
+            // 끄기: 할증 없음
+            break
         }
 
         // 심야 할증 (시간대별 요금에 이미 반영되어 있으므로, 별도 할증은 0)

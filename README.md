@@ -174,7 +174,9 @@ HoguMeter/
 │   │   ├── DeadReckoningServiceTests.swift
 │   │   ├── LocationServiceTests.swift
 │   │   ├── RouteManagerTests.swift
-│   │   └── IdleDetectionServiceTests.swift
+│   │   ├── IdleDetectionServiceTests.swift
+│   │   ├── RegionalSurchargeServiceTests.swift
+│   │   └── LocationFormatterTests.swift
 │   └── Mocks/                  # Mock 클래스
 │       ├── MockDeadReckoningService.swift
 │       └── MockCLLocationManager.swift
@@ -197,6 +199,8 @@ HoguMeter/
 | [PRIVACY_POLICY.md](./docs/PRIVACY_POLICY.md) | 개인정보 처리방침 (한글) |
 | [PRIVACY_POLICY_EN.md](./docs/PRIVACY_POLICY_EN.md) | Privacy Policy (English) |
 | [QA_TEST_CASES.md](./docs/QA_TEST_CASES.md) | GPS 기능 QA 테스트 케이스 |
+| [SPEC_IDLE_DETECTION_FIX.md](./docs/SPEC_IDLE_DETECTION_FIX.md) | 무이동 감지 기능 수정 사양 |
+| [RELEASE_v1.1.1_BUGFIXES.md](./docs/RELEASE_v1.1.1_BUGFIXES.md) | v1.1.1 버그 수정 작업 지시서 |
 | [tasks/README.md](./tasks/README.md) | 태스크 관리 |
 
 ---
@@ -259,7 +263,74 @@ claude
 
 ---
 
-## 🔧 최근 업데이트 (2026-01-13)
+## 🔧 최근 업데이트 (2026-01-15) - v1.1.1
+
+### 🐛 버그 수정
+v1.1.0 릴리즈 후 발견된 버그들을 수정했습니다.
+
+| 이슈 | 설명 | 해결 |
+|------|------|------|
+| **다크 모드 마키 텍스트** | 면책 문구가 다크 모드에서 거의 보이지 않음 | `Color.secondary.opacity(0.4)` 적응형 색상으로 변경 |
+| **무이동 알림 재발생** | "계속" 선택 후 백그라운드에서 재알림이 안 감 | `dismissAlert()`에서 백그라운드 알림 재예약 추가 |
+| **미터기/영수증 요금 불일치** | 미터기와 영수증 요금이 다름 (리얼 모드 할증 누락) | `breakdown()`에 `surchargeStatus` 파라미터 추가 |
+
+#### 상세 수정 내용
+
+##### 1. 다크 모드 마키 텍스트 가시성
+- **파일**: `MarqueeTextView.swift`
+- **수정**: `.gray.opacity(0.35)` → `Color.secondary.opacity(0.4)`
+- **효과**: 라이트/다크 모드 모두에서 적절한 대비율 유지
+
+##### 2. 무이동 감지 백그라운드 알림 재예약
+- **파일**: `IdleDetectionService.swift`
+- **수정**: `dismissAlert()`에서 백그라운드 상태일 때 10분 후 알림 재예약
+- **효과**: 사용자가 "계속"을 선택해도 10분 후 다시 알림 발생
+
+##### 3. 미터기/영수증 요금 일치
+- **파일**: `FareCalculator.swift`, `MeterViewModel.swift`
+- **수정**: `breakdown()`에 `surchargeStatus` 파라미터 추가, `calculate()`와 동일한 할증 로직 적용
+- **효과**: 리얼 모드 할증이 영수증에도 정확히 반영
+
+---
+
+## 🔧 이전 업데이트 (2026-01-14) - v1.1.0
+
+### 🚕 지역 할증 모드 (Regional Surcharge Mode)
+실제 택시의 시계외 할증 기준을 반영한 '리얼 모드' 추가:
+
+| 모드 | 설명 |
+|------|------|
+| **리얼 모드** 🚕 | 실제 택시처럼 사업구역(시/도) 경계를 벗어날 때만 할증 |
+| **재미 모드** 🎮 | 동네(동/읍/면)가 바뀔 때마다 할증 (기존 방식) |
+| **끄기** | 지역 할증 미적용 |
+
+#### 도시별 할증률
+
+| 도시 | 할증률 |
+|------|--------|
+| 서울 | 20% |
+| 부산, 인천, 대전 | 30% |
+| 경기, 대구, 광주, 울산 | 20% |
+
+#### 서울 특수 구역 (할증 미적용)
+- **통합사업구역**: 광명시
+- **공동사업구역**: 위례신도시 (송파구/성남시/하남시 위례동)
+
+### 📍 지역 표시 방식 개선
+현재 위치를 더 직관적이고 간결하게 표시:
+
+| 상황 | 표시 형식 | 예시 |
+|------|-----------|------|
+| 고속도로 | 도로명 · 시/군 | 경부고속도로 · 천안시 |
+| 대로 | 도로명 · 구 | 올림픽대로 · 강서구 |
+| 대교 | 도로명만 | 한강대교 |
+| 서울/광역시 | 구 + 동 | 강서구 화곡동 |
+| 도 + 시 | 시 + (구) + 동 | 천안시 동남구 신부동 |
+| 도 + 군 | 군 + 읍/면 | 고령군 개진면 |
+
+---
+
+## 🔧 이전 업데이트 (2026-01-13)
 
 ### 🔔 무이동 감지 기능 대폭 개선
 미터기 실행 중 장시간 이동이 없을 경우 알림 기능을 전면 개선했습니다.

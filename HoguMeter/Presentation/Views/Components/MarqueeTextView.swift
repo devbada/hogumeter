@@ -22,7 +22,7 @@ struct MarqueeTextView: View {
     init(
         text: String,
         font: Font = .system(size: 14),
-        textColor: Color = .gray.opacity(0.35),
+        textColor: Color = Color.secondary.opacity(0.4),
         speed: Double = 50
     ) {
         self.text = text
@@ -99,7 +99,7 @@ struct MarqueeBackgroundView: View {
                         MarqueeTextView(
                             text: text,
                             font: .system(size: 13, weight: .medium),
-                            textColor: .primary.opacity(0.12),
+                            textColor: Color.secondary.opacity(0.4),
                             speed: speeds[index % speeds.count]
                         )
                         .frame(height: 20)

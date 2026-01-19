@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>호구미터 - 친구들과 함께하는 장난스러운 택시미터기 앱</title>
-    <meta name="description" content="내 차 탔으면 내놔! 친구들과 함께하는 드라이브를 더 재미있게 만들어주는 엔터테인먼트 택시미터기 앱">
-    <meta name="keywords" content="호구미터, HoguMeter, 택시미터기, iOS앱, 드라이브, 친구">
-    <meta property="og:title" content="호구미터 - 장난스러운 택시미터기 앱">
-    <meta property="og:description" content="내 차 탔으면 내놔! 친구들과 함께하는 드라이브를 더 재미있게">
+    <title>호구미터 - 친구들과 드라이브할 때 재미로 즐기는 택시미터기 앱</title>
+    <meta name="description" content="내 차 탔으면 내놔! 친구들과 함께하는 드라이브를 더 재미있게 만들어주는 엔터테인먼트 택시미터기 앱. 재미용으로만 사용하세요!">
+    <meta name="keywords" content="호구미터, HoguMeter, 택시미터기, iOS앱, 드라이브, 친구, 재미, 엔터테인먼트">
+    <meta property="og:title" content="호구미터 - 친구들과 재미로 즐기는 택시미터기">
+    <meta property="og:description" content="야, 너 지금 택시비 15,000원이야 😂 친구들과 드라이브할 때 재미로 켜보세요!">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://devbada.github.io/hogumeter/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #FFD700;
+            --primary-dark: #E6C200;
+            --secondary: #1a1a1a;
+            --accent: #FF6B35;
+            --bg: #FFFEF5;
+            --text: #333;
+            --warning-bg: #FFF3CD;
+            --warning-border: #FFD700;
+            --warning-text: #856404;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -22,15 +35,15 @@
         body {
             font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: #1d1d1f;
-            background-color: #ffffff;
+            color: var(--text);
+            background-color: var(--bg);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #FF9500 0%, #FF6B00 50%, #FF3B30 100%);
-            color: white;
-            padding: 80px 20px 60px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+            color: var(--secondary);
+            padding: 60px 20px 50px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -43,7 +56,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             opacity: 0.3;
         }
 
@@ -56,68 +69,182 @@
 
         .app-icon {
             font-size: 80px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-8px); }
         }
 
         .hero h1 {
             font-size: 3em;
             font-weight: 900;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.3);
         }
 
         .hero .tagline {
-            font-size: 1.5em;
-            font-weight: 500;
-            margin-bottom: 20px;
-            opacity: 0.95;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
-        .hero .description {
-            font-size: 1.1em;
+        .hero .sub-tagline {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 20px;
             opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto 30px;
+        }
+
+        .launch-badge {
+            display: inline-block;
+            background: #FF3B30;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1em;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .disclaimer-box {
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 3px solid #FF3B30;
+            border-radius: 12px;
+            padding: 15px 25px;
+            margin: 20px auto;
+            max-width: 450px;
+            font-size: 15px;
+            color: #c0392b;
+            font-weight: 600;
+        }
+
+        .disclaimer-box strong {
+            color: #e74c3c;
         }
 
         .app-store-badge {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .app-store-badge img {
-            height: 50px;
+            height: 55px;
+            transition: transform 0.2s;
         }
 
-        .coming-soon {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
+        .app-store-badge:hover img {
+            transform: scale(1.05);
         }
 
-        /* Screenshots Section */
-        .screenshots {
-            padding: 80px 20px;
-            background: #f5f5f7;
+        /* Use Case Section */
+        .use-case {
+            padding: 70px 20px;
+            background: white;
         }
 
         .section-title {
             text-align: center;
-            font-size: 2.5em;
+            font-size: 2.2em;
             font-weight: 700;
-            margin-bottom: 50px;
-            color: #1d1d1f;
+            margin-bottom: 40px;
+            color: var(--secondary);
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .use-case-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .use-case-card.main-card {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF5 100%);
+            border: 3px solid var(--primary);
+            grid-column: 1 / -1;
+        }
+
+        .use-case-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .use-case-card p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .use-case-card .emoji-large {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        /* Fun Scenarios Section */
+        .scenarios {
+            padding: 70px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .scenarios .section-title {
+            color: white;
+        }
+
+        .scenario-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .scenario-item {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .scenario-item p {
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+
+        .scenario-item .action {
+            color: #FFD700;
+            font-style: italic;
+        }
+
+        .scenario-item .reaction {
+            font-size: 1.3em;
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 70px 20px;
+            background: #f5f5f7;
         }
 
         .screenshot-gallery {
@@ -134,40 +261,40 @@
         }
 
         .screenshot-item img {
-            width: 220px;
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            width: 200px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             transition: transform 0.3s ease;
         }
 
         .screenshot-item img:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
         }
 
         .screenshot-item p {
-            margin-top: 15px;
+            margin-top: 12px;
             font-weight: 500;
             color: #666;
         }
 
         /* Features Section */
         .features {
-            padding: 80px 20px;
-            max-width: 1200px;
+            padding: 70px 20px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
 
         .feature-card {
             background: white;
             padding: 30px;
-            border-radius: 20px;
+            border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -178,85 +305,71 @@
         }
 
         .feature-icon {
-            font-size: 50px;
-            margin-bottom: 20px;
+            font-size: 45px;
+            margin-bottom: 15px;
         }
 
         .feature-card h3 {
-            font-size: 1.3em;
+            font-size: 1.2em;
             font-weight: 700;
             margin-bottom: 10px;
-            color: #1d1d1f;
+            color: var(--secondary);
         }
 
         .feature-card p {
             color: #666;
-            line-height: 1.8;
+            line-height: 1.7;
         }
 
-        /* Fare Info Section */
-        .fare-info {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        /* How to Use Section */
+        .how-to-use {
+            padding: 70px 20px;
+            background: white;
         }
 
-        .fare-info .section-title {
-            color: white;
-        }
-
-        .fare-cards {
+        .steps {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
-            max-width: 900px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin: 40px auto 0;
         }
 
-        .fare-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
+        .step {
             text-align: center;
-            min-width: 250px;
-            border: 1px solid rgba(255,255,255,0.2);
+            padding: 25px;
+            background: var(--bg);
+            border-radius: 16px;
+            min-width: 200px;
+            flex: 1;
         }
 
-        .fare-card h4 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        .fare-card .time {
-            font-size: 0.9em;
-            opacity: 0.8;
+        .step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.5em;
+            font-weight: 700;
             margin-bottom: 15px;
         }
 
-        .fare-card .price {
-            font-size: 2.5em;
-            font-weight: 900;
+        .step p {
+            color: #555;
+            font-size: 1em;
         }
 
-        .fare-card .surcharge {
-            font-size: 0.9em;
-            margin-top: 10px;
-            padding: 5px 15px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 20px;
-            display: inline-block;
-        }
-
-        /* Privacy Section */
-        .privacy {
+        /* Notice Section */
+        .notice {
             padding: 60px 20px;
-            background: #f5f5f7;
-            text-align: center;
+            background: #f0f4f8;
         }
 
-        .privacy-highlight {
+        .notice-content {
             max-width: 800px;
             margin: 0 auto;
             background: white;
@@ -265,39 +378,111 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
+        .notice-content h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--secondary);
+        }
+
+        .notice-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notice-content li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notice-content li:last-child {
+            border-bottom: none;
+        }
+
+        .notice-content li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Disclaimer Section */
+        .disclaimer-section {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .disclaimer-section h2 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            color: #FFD700;
+        }
+
+        .disclaimer-section p {
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 2;
+            font-size: 1.05em;
+        }
+
+        .disclaimer-section .no-list {
+            margin: 25px auto;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .disclaimer-section .no-item {
+            padding: 8px 0;
+            font-size: 1.1em;
+        }
+
+        /* Privacy Section */
+        .privacy {
+            padding: 50px 20px;
+            background: #f5f5f7;
+            text-align: center;
+        }
+
+        .privacy-highlight {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
         .privacy-highlight h3 {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            color: #1d1d1f;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: var(--secondary);
         }
 
         .privacy-badges {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
-            margin: 30px 0;
+            margin: 25px 0;
         }
 
         .privacy-badge {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 15px 25px;
+            gap: 8px;
+            padding: 12px 20px;
             background: #e8f5e9;
-            border-radius: 30px;
+            border-radius: 25px;
             color: #2e7d32;
             font-weight: 500;
         }
 
-        .privacy-badge .icon {
-            font-size: 1.5em;
-        }
-
         .privacy-link {
             display: inline-block;
-            margin-top: 20px;
-            color: #FF9500;
+            margin-top: 15px;
+            color: var(--accent);
             text-decoration: none;
             font-weight: 500;
         }
@@ -306,12 +491,41 @@
             text-decoration: underline;
         }
 
+        /* Download CTA */
+        .download-cta {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            text-align: center;
+        }
+
+        .download-cta h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .download-cta p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        .download-cta .app-store-badge img {
+            height: 60px;
+        }
+
         /* Footer */
         footer {
             padding: 40px 20px;
-            background: #1d1d1f;
+            background: var(--secondary);
             color: white;
             text-align: center;
+        }
+
+        footer .tagline {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            opacity: 0.9;
         }
 
         footer .links {
@@ -319,7 +533,7 @@
         }
 
         footer a {
-            color: #FF9500;
+            color: var(--primary);
             text-decoration: none;
             margin: 0 15px;
         }
@@ -336,28 +550,45 @@
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2em;
+                font-size: 2.2em;
             }
 
             .hero .tagline {
                 font-size: 1.2em;
             }
 
+            .hero .sub-tagline {
+                font-size: 1em;
+            }
+
             .section-title {
-                font-size: 1.8em;
+                font-size: 1.7em;
             }
 
             .screenshot-item img {
-                width: 160px;
+                width: 150px;
             }
 
             .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .fare-cards {
+            .steps {
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .step {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .use-case-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notice-content {
+                padding: 25px;
             }
         }
     </style>
@@ -366,26 +597,89 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <div class="app-icon">🐴</div>
+            <div class="app-icon">🚕</div>
             <h1>호구미터</h1>
-            <p class="tagline">"내 차 탔으면 내놔"</p>
-            <p class="description">
-                친구들과 함께하는 드라이브를 더 재미있게 만들어주는<br>
-                장난스러운 택시미터기 시뮬레이션 앱
-            </p>
-            <div class="coming-soon">
-                App Store 출시 예정
+            <p class="tagline">친구들과 드라이브할 때 재미로 켜보세요!</p>
+            <p class="sub-tagline">"야, 지금 택시비 얼마야?" 🤣</p>
+
+            <div class="launch-badge">🎉 App Store 출시!</div>
+
+            <div class="disclaimer-box">
+                ⚠️ <strong>재미로만</strong> 사용하세요!<br>
+                실제 택시 요금 확인용이 아닙니다.
+            </div>
+
+            <a href="https://apps.apple.com/kr/app/%ED%98%B8%EA%B5%AC%EB%AF%B8%ED%84%B0/id6757376286" target="_blank" rel="noopener noreferrer" class="app-store-badge">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/ko-kr?size=250x83" alt="App Store에서 다운로드">
+            </a>
+        </div>
+    </section>
+
+    <!-- Use Case Section -->
+    <section class="use-case">
+        <h2 class="section-title">🚗 이럴 때 써보세요</h2>
+        <div class="use-case-grid">
+            <div class="use-case-card main-card">
+                <div class="emoji-large">👫</div>
+                <h3>친구와 드라이브할 때</h3>
+                <p>
+                    내 차로 친구를 태워줄 때, 장난으로 미터기를 켜보세요!<br><br>
+                    "야, 너 지금 택시비 15,000원이야" 😂<br>
+                    "어? 벌써 2만원 넘었네?" 🤣<br><br>
+                    친구들과 웃으면서 드라이브를 즐겨보세요!
+                </p>
+            </div>
+            <div class="use-case-card">
+                <div class="emoji-large">🛣️</div>
+                <h3>장거리 여행할 때</h3>
+                <p>
+                    "서울에서 부산까지 택시비가 얼마나 나올까?"<br>
+                    여행하면서 재미로 확인해보세요!
+                </p>
+            </div>
+            <div class="use-case-card">
+                <div class="emoji-large">🎮</div>
+                <h3>심심할 때</h3>
+                <p>
+                    택시 탔을 때 내 폰으로 미터기 따라해보기<br>
+                    (실제 요금과 다를 수 있어요!)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fun Scenarios Section -->
+    <section class="scenarios">
+        <h2 class="section-title">😂 이런 재미가 있어요</h2>
+        <div class="scenario-list">
+            <div class="scenario-item">
+                <p>"야, 오늘 집까지 태워다줄게"</p>
+                <p>"고마워~"</p>
+                <p class="action">*호구미터 켜기*</p>
+                <p>"참고로 지금 택시비 12,000원이야"</p>
+                <p class="reaction">"...뭐?" 🤣</p>
+            </div>
+            <div class="scenario-item">
+                <p>친구: "여기서 강남까지 얼마나 나올까?"</p>
+                <p>나: "한번 볼까?" <span class="action">*호구미터 시작*</span></p>
+                <p>도착 후: "23,400원 나왔어"</p>
+                <p>친구: "헐 비싸다"</p>
+                <p class="reaction">나: "밥 한번 사" 😎</p>
             </div>
         </div>
     </section>
 
     <!-- Screenshots Section -->
     <section class="screenshots">
-        <h2 class="section-title">앱 미리보기</h2>
+        <h2 class="section-title">📱 앱 미리보기</h2>
         <div class="screenshot-gallery">
             <div class="screenshot-item">
                 <img src="images/app_screenshot.png" alt="미터기 화면">
                 <p>실시간 미터기</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot_map.png" alt="지도 화면">
+                <p>이동 경로</p>
             </div>
             <div class="screenshot-item">
                 <img src="images/screenshot_settings.png" alt="설정 화면">
@@ -395,73 +689,99 @@
                 <img src="images/screenshot_history.png" alt="기록 화면">
                 <p>주행 기록</p>
             </div>
-            <div class="screenshot-item">
-                <img src="images/screenshot_disclaimer.png" alt="면책 동의 화면">
-                <p>면책 동의</p>
-            </div>
         </div>
     </section>
 
     <!-- Features Section -->
     <section class="features">
-        <h2 class="section-title">주요 기능</h2>
+        <h2 class="section-title">🎮 주요 기능</h2>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">📍</div>
-                <h3>GPS 기반 실시간 요금 계산</h3>
-                <p>실제 택시처럼 이동 거리와 시간을 측정하여 요금을 계산합니다. 병산제를 적용해 정확한 요금을 보여드립니다.</p>
+                <h3>실시간 요금 계산</h3>
+                <p>GPS로 이동 거리를 측정해서 요금이 올라가는 걸 실시간으로 봐요</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🐴</div>
-                <h3>재미있는 말 애니메이션</h3>
-                <p>속도에 따라 변하는 귀여운 말 이모지 애니메이션! 빠르게 달릴수록 더 신나는 효과를 경험하세요.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌙</div>
-                <h3>시간대별 요금 자동 적용</h3>
-                <p>주간, 심야1, 심야2 시간대에 따라 자동으로 할증 요금이 적용됩니다.</p>
+                <div class="feature-icon">🏙️</div>
+                <h3>전국 7개 도시 지원</h3>
+                <p>서울, 부산, 대구, 인천, 광주, 대전, 경기 요금 기준</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🗺️</div>
-                <h3>지역별 요금 설정</h3>
-                <p>서울, 경기 등 지역별로 다른 요금 체계를 설정할 수 있습니다. 지역 이동 시 할증도 자동 적용!</p>
+                <h3>이동 경로 기록</h3>
+                <p>어디로 갔는지 지도에서 확인하고 캡쳐해서 공유하세요</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🧾</div>
-                <h3>영수증 캡쳐</h3>
-                <p>주행 완료 후 상세 요금 내역이 담긴 영수증을 캡쳐하여 사진첩에 저장할 수 있습니다.</p>
+                <h3>영수증 생성</h3>
+                <p>친구한테 "이번 달 택시비 청구서"라고 보내보세요 😂</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>주행 기록 관리</h3>
-                <p>모든 주행 기록이 자동으로 저장됩니다. 언제든지 과거 기록을 확인하고 관리할 수 있어요.</p>
+                <div class="feature-icon">🌙</div>
+                <h3>심야 할증 자동 적용</h3>
+                <p>밤에 드라이브하면 할증도 자동으로!</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚕</div>
+                <h3>지역 할증 모드</h3>
+                <p>리얼하게 즐기고 싶다면 실제 택시처럼 시계외 할증도!</p>
             </div>
         </div>
     </section>
 
-    <!-- Fare Info Section -->
-    <section class="fare-info">
-        <h2 class="section-title">요금 체계 (서울 기준)</h2>
-        <div class="fare-cards">
-            <div class="fare-card">
-                <h4>주간</h4>
-                <p class="time">04:00 ~ 22:00</p>
-                <p class="price">4,800원</p>
-                <span class="surcharge">기본요금</span>
+    <!-- How to Use Section -->
+    <section class="how-to-use">
+        <h2 class="section-title">📱 사용 방법</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <p>차에 타서 앱을 켜세요</p>
             </div>
-            <div class="fare-card">
-                <h4>심야 1</h4>
-                <p class="time">22:00~23:00, 02:00~04:00</p>
-                <p class="price">5,760원</p>
-                <span class="surcharge">+20% 할증</span>
+            <div class="step">
+                <div class="step-number">2</div>
+                <p>'시작' 버튼을 누르세요</p>
             </div>
-            <div class="fare-card">
-                <h4>심야 2</h4>
-                <p class="time">23:00 ~ 02:00</p>
-                <p class="price">6,720원</p>
-                <span class="surcharge">+40% 할증</span>
+            <div class="step">
+                <div class="step-number">3</div>
+                <p>요금이 올라가는 걸 구경하세요 🚕</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <p>도착하면 친구한테 청구(?)하세요 😂</p>
             </div>
         </div>
+    </section>
+
+    <!-- Notice Section -->
+    <section class="notice">
+        <div class="notice-content">
+            <h2>📢 알아두세요</h2>
+            <ul>
+                <li>이 앱은 <strong>친구들과 재미로 즐기는 용도</strong>입니다</li>
+                <li>실제 택시 미터기는 바퀴 회전수로 계산하고, 이 앱은 GPS를 사용합니다</li>
+                <li>그래서 실제 택시 요금과 차이가 있을 수 있어요</li>
+                <li>터널이나 지하에서는 GPS 오차가 발생할 수 있습니다</li>
+                <li>진짜 요금 확인은 택시 미터기를 보세요! 😊</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section class="disclaimer-section">
+        <h2>⚠️ 면책 조항</h2>
+        <p>
+            "호구미터"는 <strong>오락 및 재미 목적</strong>으로만 제작되었습니다.<br>
+            친구들과 드라이브하며 장난으로 즐기는 앱입니다.
+        </p>
+        <div class="no-list">
+            <div class="no-item">❌ 실제 택시 요금을 확인하는 용도가 아닙니다</div>
+            <div class="no-item">❌ 바가지 요금을 검증하는 용도가 아닙니다</div>
+            <div class="no-item">❌ 요금 분쟁 시 근거 자료로 사용할 수 없습니다</div>
+        </div>
+        <p>
+            GPS 기반 측정은 실제 택시 미터기(바퀴 회전 기반)와 다르며,<br>
+            측정 환경에 따라 오차가 발생할 수 있습니다.
+        </p>
     </section>
 
     <!-- Privacy Section -->
@@ -471,31 +791,40 @@
             <p>호구미터는 사용자의 개인정보를 소중히 여깁니다.</p>
             <div class="privacy-badges">
                 <div class="privacy-badge">
-                    <span class="icon">✓</span>
+                    <span>✓</span>
                     <span>서버 전송 없음</span>
                 </div>
                 <div class="privacy-badge">
-                    <span class="icon">✓</span>
+                    <span>✓</span>
                     <span>기기 내 저장</span>
                 </div>
                 <div class="privacy-badge">
-                    <span class="icon">✓</span>
+                    <span>✓</span>
                     <span>광고 없음</span>
                 </div>
             </div>
-            <p>모든 데이터는 사용자의 기기에만 저장되며, 외부로 전송되지 않습니다.</p>
             <a href="privacy.html" class="privacy-link">개인정보 처리방침 보기 →</a>
         </div>
     </section>
 
+    <!-- Download CTA -->
+    <section class="download-cta">
+        <h2>🚕 지금 다운로드하세요!</h2>
+        <p>친구들과 재미있는 드라이브를 즐겨보세요</p>
+        <a href="https://apps.apple.com/kr/app/%ED%98%B8%EA%B5%AC%EB%AF%B8%ED%84%B0/id6757376286" target="_blank" rel="noopener noreferrer" class="app-store-badge">
+            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/ko-kr?size=250x83" alt="App Store에서 다운로드">
+        </a>
+    </section>
+
     <!-- Footer -->
     <footer>
+        <p class="tagline">친구들과 재미있는 드라이브 되세요! 🚗💨</p>
         <div class="links">
             <a href="privacy.html">개인정보처리방침</a>
             <a href="privacy-en.html">Privacy Policy</a>
             <a href="mailto:imdevbada@gmail.com">문의하기</a>
         </div>
-        <p class="copyright">© 2025 HoguMeter. All rights reserved.</p>
+        <p class="copyright">© 2026 HoguMeter. All rights reserved.</p>
     </footer>
 </body>
 </html>

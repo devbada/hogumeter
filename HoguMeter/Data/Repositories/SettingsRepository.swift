@@ -12,6 +12,9 @@ import Foundation
 protocol SettingsRepositoryProtocol {
     var currentRegionFare: RegionFare { get }
     var isRegionSurchargeEnabled: Bool { get set }
+    var regionalSurchargeMode: RegionalSurchargeMode { get set }
+    var regionSurchargeAmount: Int { get set }
+    var isSoundEnabled: Bool { get set }
 }
 
 // MARK: - Implementation
@@ -24,6 +27,7 @@ final class SettingsRepository: SettingsRepositoryProtocol {
         static let isNightSurchargeEnabled = "isNightSurchargeEnabled"
         static let isRegionSurchargeEnabled = "isRegionSurchargeEnabled"
         static let regionSurchargeAmount = "regionSurchargeAmount"
+        static let regionalSurchargeMode = "regionalSurchargeMode"
         static let isSoundEnabled = "isSoundEnabled"
         static let colorSchemePreference = "colorSchemePreference"
     }
@@ -84,6 +88,17 @@ final class SettingsRepository: SettingsRepositoryProtocol {
         }
         set {
             userDefaults.set(newValue, forKey: Keys.regionSurchargeAmount)
+        }
+    }
+
+    /// 지역 할증 모드 (리얼/재미/끄기)
+    var regionalSurchargeMode: RegionalSurchargeMode {
+        get {
+            let rawValue = userDefaults.string(forKey: Keys.regionalSurchargeMode) ?? RegionalSurchargeMode.realistic.rawValue
+            return RegionalSurchargeMode(rawValue: rawValue) ?? .realistic
+        }
+        set {
+            userDefaults.set(newValue.rawValue, forKey: Keys.regionalSurchargeMode)
         }
     }
 
