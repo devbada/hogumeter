@@ -34,6 +34,13 @@ final class RegionalSurchargeService {
     /// 마지막 위치 업데이트 시간 (할증 구간 시간 계산용)
     private var lastUpdateTime: Date?
 
+    /// 사업구역 경계 통과 횟수 (리얼 모드용)
+    /// 출발 구역을 벗어날 때마다 1 증가 (복귀 후 재이탈 시 다시 증가)
+    private(set) var boundaryCrossCount: Int = 0
+
+    /// 마지막 할증률 (리얼 모드에서 영수증 표시용)
+    private(set) var lastSurchargeRate: Double = 0
+
     // MARK: - 서울 특수 구역 (할증 미적용)
 
     /// 서울 통합사업구역
@@ -55,6 +62,10 @@ final class RegionalSurchargeService {
         surchargeDistance = 0
         surchargeDuration = 0
         lastUpdateTime = nil
+        boundaryCrossCount = 0
+        lastSurchargeRate = 0
+
+        Logger.surcharge.info("[SURCHARGE] 출발지 설정: \(departureBusinessZone ?? "알 수 없음")")
     }
 
     /// 위치 업데이트 시 호출 - 할증 상태 확인
@@ -86,11 +97,19 @@ final class RegionalSurchargeService {
         surchargeDistance = 0
         surchargeDuration = 0
         lastUpdateTime = nil
+        // Note: boundaryCrossCount와 lastSurchargeRate는 유지 (영수증 표시용)
     }
 
-    /// 상태 초기화
+    /// 상태 초기화 (새 주행 시작 시)
     func reset() {
-        stopTracking()
+        departureBusinessZone = nil
+        isSurchargeActive = false
+        surchargeStartTime = nil
+        surchargeDistance = 0
+        surchargeDuration = 0
+        lastUpdateTime = nil
+        boundaryCrossCount = 0
+        lastSurchargeRate = 0
     }
 
     // MARK: - Realistic Mode Logic
@@ -108,6 +127,7 @@ final class RegionalSurchargeService {
         if departure == currentZone || currentZone.isEmpty {
             if isSurchargeActive {
                 // 할증 구역에서 복귀
+                Logger.surcharge.info("[SURCHARGE] 사업구역 복귀: \(currentZone.isEmpty ? "알 수 없음" : currentZone) → \(departure), 할증 해제")
                 isSurchargeActive = false
             }
             return .inactive
@@ -125,14 +145,18 @@ final class RegionalSurchargeService {
         let rate = CitySurchargeRate.rate(for: departure)
 
         if !isSurchargeActive {
-            // 할증 시작
+            // 할증 시작 (사업구역 경계 통과)
             isSurchargeActive = true
+            boundaryCrossCount += 1  // 경계 통과 횟수 증가
+            lastSurchargeRate = rate  // 할증률 저장
             surchargeStartTime = Date()
             surchargeDistance = 0
             surchargeDuration = 0
             lastUpdateTime = Date()
+
+            Logger.surcharge.info("[SURCHARGE] 사업구역 벗어남: \(departure) → \(currentZone), 할증률: \(Int(rate * 100))%, 경계 통과 횟수: \(self.boundaryCrossCount)")
         } else {
-            // 할증 구간 거리/시간 누적
+            // 할증 구간 거리/시간 누적 (경계 통과 횟수는 증가하지 않음)
             surchargeDistance += distanceDelta
             if let lastTime = lastUpdateTime {
                 surchargeDuration += Date().timeIntervalSince(lastTime)
