@@ -332,6 +332,12 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
         // 모니터링 상태로 전환
         stateSubject.send(.monitoring)
 
+        // 백그라운드 상태면 다음 알림 예약 (10분 후)
+        if isInBackground {
+            scheduleBackgroundNotification()
+            Logger.gps.info("[IdleDetection] 알림 해제 - 백그라운드 알림 재예약됨")
+        }
+
         Logger.gps.info("[IdleDetection] 알림 해제 - 모니터링 재개")
     }
 
