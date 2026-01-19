@@ -14,6 +14,7 @@ protocol SettingsRepositoryProtocol {
     var isRegionSurchargeEnabled: Bool { get set }
     var regionalSurchargeMode: RegionalSurchargeMode { get set }
     var regionSurchargeAmount: Int { get set }
+    var isSoundEnabled: Bool { get set }
 }
 
 // MARK: - Implementation
