@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -142,7 +142,7 @@
 		8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		981EC570E0C3AF2774D78066 /* RegionalSurchargeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeModeView.swift; sourceTree = "<group>"; };
 		98978790385627A731AB8C4A /* LocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceProtocol.swift; sourceTree = "<group>"; };
-		9B1B90C5922AF2379FA3A78C /* HoguMeter.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HoguMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B1B90C5922AF2379FA3A78C /* HoguMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoguMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B06023C3A46ACB19895E34 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		A34E2BE745ACCF8D17EF62FC /* IdleDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleDetectionService.swift; sourceTree = "<group>"; };
 		A8F0F949EDCC9BE665A2D7B8 /* RegionFareRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFareRowView.swift; sourceTree = "<group>"; };
@@ -530,20 +530,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		"TEMP_6FC45870-F640-435A-A9A8-AB046591F01D" /* DataSources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DataSources;
-			sourceTree = "<group>";
-		};
-		"TEMP_BB3405C9-E0EE-40B5-BC87-3260E7B38EB0" /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -573,11 +559,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-					7AD9A8CC48597472928707A5 = {
-						DevelopmentTeam = "";
-					};
-				};
 			};
 			buildConfigurationList = F3037E717AA8A1BF11E64B37 /* Build configuration list for PBXProject "HoguMeter" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -589,7 +570,6 @@
 			);
 			mainGroup = AA0A5A3EAD97BFB5B63AC2C7;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -706,6 +686,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
@@ -713,7 +695,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1.1;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -860,6 +846,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
@@ -867,7 +855,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1.1;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
