@@ -596,4 +596,5 @@ final class MockSettingsRepository: SettingsRepositoryProtocol {
     var isRegionSurchargeEnabled: Bool = true
     var regionalSurchargeMode: RegionalSurchargeMode = .realistic
     var regionSurchargeAmount: Int = 2000
+    var isSoundEnabled: Bool = true
 }

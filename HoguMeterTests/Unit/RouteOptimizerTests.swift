@@ -21,16 +21,35 @@ final class RouteOptimizerTests: XCTestCase {
         let baseLongitude = 126.9780
 
         for i in 0..<count {
-            let point = RoutePoint(
-                latitude: baseLatitude + Double(i) * 0.0001,
-                longitude: baseLongitude + Double(i) * 0.0001,
-                timestamp: baseTime.addingTimeInterval(TimeInterval(i) * interval),
-                speed: 30.0,
-                accuracy: 10.0
+            let location = CLLocation(
+                coordinate: CLLocationCoordinate2D(
+                    latitude: baseLatitude + Double(i) * 0.0001,
+                    longitude: baseLongitude + Double(i) * 0.0001
+                ),
+                altitude: 0,
+                horizontalAccuracy: 10.0,
+                verticalAccuracy: 10.0,
+                course: 0,
+                speed: 30.0 / 3.6,  // Convert km/h to m/s
+                timestamp: baseTime.addingTimeInterval(TimeInterval(i) * interval)
             )
-            points.append(point)
+            points.append(RoutePoint(location: location))
         }
         return points
+    }
+
+    /// Generate a route point at specific coordinates
+    private func makeRoutePoint(latitude: Double, longitude: Double, timestamp: Date, speed: Double = 30.0) -> RoutePoint {
+        let location = CLLocation(
+            coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+            altitude: 0,
+            horizontalAccuracy: 10.0,
+            verticalAccuracy: 10.0,
+            course: 0,
+            speed: speed / 3.6,  // Convert km/h to m/s
+            timestamp: timestamp
+        )
+        return RoutePoint(location: location)
     }
 
     // MARK: - Downsampling Tests
@@ -96,32 +115,26 @@ final class RouteOptimizerTests: XCTestCase {
 
         // Straight segment
         for i in 0..<10 {
-            points.append(RoutePoint(
+            points.append(makeRoutePoint(
                 latitude: 37.5665,
                 longitude: 126.9780 + Double(i) * 0.001,
-                timestamp: baseTime.addingTimeInterval(TimeInterval(i)),
-                speed: 30.0,
-                accuracy: 10.0
+                timestamp: baseTime.addingTimeInterval(TimeInterval(i))
             ))
         }
 
         // Turn point (corner of L)
-        points.append(RoutePoint(
+        points.append(makeRoutePoint(
             latitude: 37.5665,
             longitude: 126.9880,
-            timestamp: baseTime.addingTimeInterval(10),
-            speed: 30.0,
-            accuracy: 10.0
+            timestamp: baseTime.addingTimeInterval(10)
         ))
 
         // Second segment going north
         for i in 1..<10 {
-            points.append(RoutePoint(
+            points.append(makeRoutePoint(
                 latitude: 37.5665 + Double(i) * 0.001,
                 longitude: 126.9880,
-                timestamp: baseTime.addingTimeInterval(TimeInterval(10 + i)),
-                speed: 30.0,
-                accuracy: 10.0
+                timestamp: baseTime.addingTimeInterval(TimeInterval(10 + i))
             ))
         }
 
@@ -144,12 +157,10 @@ final class RouteOptimizerTests: XCTestCase {
         let baseTime = Date()
 
         for i in 0..<20 {
-            points.append(RoutePoint(
+            points.append(makeRoutePoint(
                 latitude: 37.5665,
                 longitude: 126.9780 + Double(i) * 0.001,
-                timestamp: baseTime.addingTimeInterval(TimeInterval(i)),
-                speed: 30.0,
-                accuracy: 10.0
+                timestamp: baseTime.addingTimeInterval(TimeInterval(i))
             ))
         }
 

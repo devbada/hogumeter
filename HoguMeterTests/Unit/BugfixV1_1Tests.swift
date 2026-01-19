@@ -386,7 +386,7 @@ final class RegionSurchargeCountTests: XCTestCase {
 
 class MockSettingsRepositoryWithSound: SettingsRepositoryProtocol {
     var currentRegionFare: RegionFare {
-        return RegionFare.seoul
+        return RegionFare.seoul()
     }
     var isRegionSurchargeEnabled: Bool = true
     var regionalSurchargeMode: RegionalSurchargeMode = .realistic
