@@ -418,8 +418,9 @@ final class FareCalculatorTests: XCTestCase {
     // MARK: - 지역 할증 테스트
 
     func test_지역할증_1회() {
-        // Given: 지역 변경 1회
-        mockSettings.isRegionSurchargeEnabled = true
+        // Given: 지역 변경 1회 (재미 모드)
+        mockSettings.regionalSurchargeMode = .fun
+        mockSettings.regionSurchargeAmount = 2000
         let date = createDate(hour: 12, minute: 0)
         let distance: Double = 5000  // 5km
         let lowSpeedDuration: TimeInterval = 0
@@ -435,14 +436,14 @@ final class FareCalculatorTests: XCTestCase {
         // Then:
         // 기본요금: 4,800원
         // 거리요금: floor(3,400 / 131) * 100 = 2,500원
-        // 지역할증: (2,500) * 0.2 * 1 = 500원
-        // 총합: 4,800 + 2,500 + 500 = 7,800원
-        XCTAssertEqual(fare, 7800, "지역할증 1회 적용 시 7,800원이어야 합니다")
+        // 지역할증: 2,000 × 1 = 2,000원 (재미 모드: regionChanges × regionSurchargeAmount)
+        // 총합: 4,800 + 2,500 + 2,000 = 9,300원
+        XCTAssertEqual(fare, 9300, "지역할증 1회 적용 시 9,300원이어야 합니다")
     }
 
     func test_지역할증_비활성화() {
-        // Given: 지역할증 비활성화
-        mockSettings.isRegionSurchargeEnabled = false
+        // Given: 지역할증 비활성화 (off 모드)
+        mockSettings.regionalSurchargeMode = .off
         let date = createDate(hour: 12, minute: 0)
         let distance: Double = 5000
 
