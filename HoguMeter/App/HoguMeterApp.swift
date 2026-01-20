@@ -83,6 +83,12 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+
+        // Perform automatic data cleanup in background (if enabled)
+        DispatchQueue.global(qos: .background).async {
+            DataCleanupService.shared.performCleanupIfNeeded()
+        }
+
         return true
     }
 

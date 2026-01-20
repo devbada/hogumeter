@@ -8,17 +8,13 @@
 import SwiftUI
 
 struct TripHistoryView: View {
-    @State private var trips: [Trip] = []
-    @State private var showDeleteAlert = false
-    @State private var tripToDelete: Trip?
+    @StateObject private var viewModel = TripHistoryViewModel()
     @State private var showDeleteAllAlert = false
-
-    private let repository = TripRepository()
 
     var body: some View {
         NavigationView {
             Group {
-                if trips.isEmpty {
+                if viewModel.trips.isEmpty && !viewModel.isLoading {
                     ContentUnavailableView(
                         "주행 기록 없음",
                         systemImage: "clock",
@@ -26,22 +22,38 @@ struct TripHistoryView: View {
                     )
                 } else {
                     List {
-                        ForEach(trips) { trip in
+                        ForEach(viewModel.trips) { trip in
                             NavigationLink {
-                                TripDetailView(trip: trip, onDelete: {
-                                    deleteTrip(trip)
-                                })
+                                TripDetailView(
+                                    tripId: trip.id,
+                                    tripSummary: trip,
+                                    viewModel: viewModel
+                                )
                             } label: {
-                                TripRowView(trip: trip)
+                                TripSummaryRowView(trip: trip)
+                                    .onAppear {
+                                        viewModel.loadNextPageIfNeeded(currentItem: trip)
+                                    }
                             }
                         }
                         .onDelete(perform: onDelete)
+
+                        // Loading indicator for pagination
+                        if viewModel.isLoading {
+                            HStack {
+                                Spacer()
+                                ProgressView()
+                                    .padding()
+                                Spacer()
+                            }
+                            .listRowBackground(Color.clear)
+                        }
                     }
                 }
             }
             .navigationTitle("주행 기록")
             .toolbar {
-                if !trips.isEmpty {
+                if !viewModel.trips.isEmpty {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(role: .destructive) {
                             showDeleteAllAlert = true
@@ -58,42 +70,72 @@ struct TripHistoryView: View {
             .alert("전체 삭제", isPresented: $showDeleteAllAlert) {
                 Button("취소", role: .cancel) { }
                 Button("전체 삭제", role: .destructive) {
-                    deleteAllTrips()
+                    viewModel.deleteAll()
                 }
             } message: {
                 Text("모든 주행 기록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")
             }
             .onAppear {
-                loadTrips()
+                if viewModel.trips.isEmpty {
+                    viewModel.loadInitialPage()
+                }
             }
             .refreshable {
-                loadTrips()
+                await viewModel.refresh()
             }
         }
-    }
-
-    private func loadTrips() {
-        trips = repository.getAll()
-    }
-
-    private func deleteTrip(_ trip: Trip) {
-        repository.delete(trip)
-        loadTrips()
-    }
-
-    private func deleteAllTrips() {
-        repository.deleteAll()
-        loadTrips()
     }
 
     private func onDelete(at offsets: IndexSet) {
         for index in offsets {
-            let trip = trips[index]
-            repository.delete(trip)
+            let trip = viewModel.trips[index]
+            viewModel.delete(trip)
         }
-        loadTrips()
     }
 }
+
+// MARK: - Trip Summary Row View (for list display)
+
+struct TripSummaryRowView: View {
+    let trip: TripSummary
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Text(formattedDate)
+                    .font(.headline)
+                Spacer()
+                Text("\(trip.totalFare.formatted())원")
+                    .font(.headline)
+                    .foregroundColor(.green)
+            }
+
+            HStack {
+                Text("\(String(format: "%.1f", trip.distance)) km")
+                Text("•")
+                Text(formattedDuration)
+                Text("•")
+                Text("\(trip.startRegion) → \(trip.endRegion)")
+            }
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+        .padding(.vertical, 4)
+    }
+
+    private var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        return formatter.string(from: trip.startTime)
+    }
+
+    private var formattedDuration: String {
+        let minutes = Int(trip.duration) / 60
+        return "\(minutes)분"
+    }
+}
+
+// MARK: - Legacy Trip Row View (backward compatibility)
 
 struct TripRowView: View {
     let trip: Trip
@@ -134,10 +176,14 @@ struct TripRowView: View {
     }
 }
 
-struct TripDetailView: View {
-    let trip: Trip
-    var onDelete: (() -> Void)?
+// MARK: - Trip Detail View (lazy loads route data)
 
+struct TripDetailView: View {
+    let tripId: UUID
+    let tripSummary: TripSummary
+    @ObservedObject var viewModel: TripHistoryViewModel
+
+    @State private var fullTrip: Trip?
     @State private var showShareSheet = false
     @State private var showDeleteAlert = false
     @Environment(\.dismiss) private var dismiss
@@ -145,29 +191,29 @@ struct TripDetailView: View {
     var body: some View {
         List {
             Section("기본 정보") {
-                LabeledContent("출발", value: trip.startRegion)
-                LabeledContent("도착", value: trip.endRegion)
-                LabeledContent("거리", value: "\(String(format: "%.1f", trip.distance)) km")
+                LabeledContent("출발", value: tripSummary.startRegion)
+                LabeledContent("도착", value: tripSummary.endRegion)
+                LabeledContent("거리", value: "\(String(format: "%.1f", tripSummary.distance)) km")
                 LabeledContent("시간", value: formattedDuration)
             }
 
             Section("요금 내역") {
-                LabeledContent("기본요금", value: "\(trip.fareBreakdown.baseFare.formatted())원")
-                LabeledContent("거리요금", value: "\(trip.fareBreakdown.distanceFare.formatted())원")
-                LabeledContent("시간요금", value: "\(trip.fareBreakdown.timeFare.formatted())원")
-                if trip.fareBreakdown.regionSurcharge > 0 {
-                    LabeledContent("지역할증", value: "\(trip.fareBreakdown.regionSurcharge.formatted())원")
+                LabeledContent("기본요금", value: "\(tripSummary.fareBreakdown.baseFare.formatted())원")
+                LabeledContent("거리요금", value: "\(tripSummary.fareBreakdown.distanceFare.formatted())원")
+                LabeledContent("시간요금", value: "\(tripSummary.fareBreakdown.timeFare.formatted())원")
+                if tripSummary.fareBreakdown.regionSurcharge > 0 {
+                    LabeledContent("지역할증", value: "\(tripSummary.fareBreakdown.regionSurcharge.formatted())원")
                 }
-                if trip.fareBreakdown.nightSurcharge > 0 {
-                    LabeledContent("야간할증", value: "\(trip.fareBreakdown.nightSurcharge.formatted())원")
+                if tripSummary.fareBreakdown.nightSurcharge > 0 {
+                    LabeledContent("야간할증", value: "\(tripSummary.fareBreakdown.nightSurcharge.formatted())원")
                 }
-                LabeledContent("총 요금", value: "\(trip.fareBreakdown.totalFare.formatted())원")
+                LabeledContent("총 요금", value: "\(tripSummary.fareBreakdown.totalFare.formatted())원")
                     .bold()
             }
 
             Section {
                 Button {
-                    showShareSheet = true
+                    loadFullTripAndShowShare()
                 } label: {
                     HStack {
                         Image(systemName: "square.and.arrow.up")
@@ -187,12 +233,14 @@ struct TripDetailView: View {
         }
         .navigationTitle("주행 상세")
         .sheet(isPresented: $showShareSheet) {
-            ReceiptView(trip: trip)
+            if let trip = fullTrip {
+                ReceiptView(trip: trip)
+            }
         }
         .alert("기록 삭제", isPresented: $showDeleteAlert) {
             Button("취소", role: .cancel) { }
             Button("삭제", role: .destructive) {
-                onDelete?()
+                viewModel.delete(tripSummary)
                 dismiss()
             }
         } message: {
@@ -201,13 +249,21 @@ struct TripDetailView: View {
     }
 
     private var formattedDuration: String {
-        let hours = Int(trip.duration) / 3600
-        let minutes = (Int(trip.duration) % 3600) / 60
+        let hours = Int(tripSummary.duration) / 3600
+        let minutes = (Int(tripSummary.duration) % 3600) / 60
         if hours > 0 {
             return "\(hours)시간 \(minutes)분"
         } else {
             return "\(minutes)분"
         }
+    }
+
+    private func loadFullTripAndShowShare() {
+        // Lazy load full trip with route data only when needed
+        if fullTrip == nil {
+            fullTrip = viewModel.getFullTrip(id: tripId)
+        }
+        showShareSheet = true
     }
 }
 
