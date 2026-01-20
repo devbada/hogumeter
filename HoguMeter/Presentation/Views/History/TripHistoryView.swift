@@ -186,6 +186,7 @@ struct TripDetailView: View {
     @State private var fullTrip: Trip?
     @State private var showShareSheet = false
     @State private var showDeleteAlert = false
+    @State private var isLoadingTrip = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -216,10 +217,16 @@ struct TripDetailView: View {
                     loadFullTripAndShowShare()
                 } label: {
                     HStack {
-                        Image(systemName: "square.and.arrow.up")
+                        if isLoadingTrip {
+                            ProgressView()
+                                .padding(.trailing, 4)
+                        } else {
+                            Image(systemName: "square.and.arrow.up")
+                        }
                         Text("영수증 공유")
                     }
                 }
+                .disabled(isLoadingTrip)
 
                 Button(role: .destructive) {
                     showDeleteAlert = true
@@ -235,6 +242,9 @@ struct TripDetailView: View {
         .sheet(isPresented: $showShareSheet) {
             if let trip = fullTrip {
                 ReceiptView(trip: trip)
+            } else {
+                // Fallback: Create trip from summary if full trip unavailable
+                ReceiptView(trip: tripSummary.toTrip())
             }
         }
         .alert("기록 삭제", isPresented: $showDeleteAlert) {
@@ -259,10 +269,12 @@ struct TripDetailView: View {
     }
 
     private func loadFullTripAndShowShare() {
+        isLoadingTrip = true
         // Lazy load full trip with route data only when needed
         if fullTrip == nil {
             fullTrip = viewModel.getFullTrip(id: tripId)
         }
+        isLoadingTrip = false
         showShareSheet = true
     }
 }

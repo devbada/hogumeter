@@ -24,6 +24,37 @@ struct Trip: Identifiable, Codable, Equatable {
     let surchargeMode: RegionalSurchargeMode  // 지역 할증 모드 (v1.1 추가)
     let surchargeRate: Double     // 할증률 (리얼 모드: 0.20 = 20%, 재미 모드: 0)
 
+    // MARK: - Codable (backward compatibility for legacy data)
+
+    enum CodingKeys: String, CodingKey {
+        case id, startTime, endTime, totalFare, distance, duration
+        case startRegion, endRegion, regionChanges, isNightTrip
+        case fareBreakdown, routePoints, driverQuote
+        case surchargeMode, surchargeRate
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(UUID.self, forKey: .id)
+        startTime = try container.decode(Date.self, forKey: .startTime)
+        endTime = try container.decode(Date.self, forKey: .endTime)
+        totalFare = try container.decode(Int.self, forKey: .totalFare)
+        distance = try container.decode(Double.self, forKey: .distance)
+        duration = try container.decode(TimeInterval.self, forKey: .duration)
+        startRegion = try container.decode(String.self, forKey: .startRegion)
+        endRegion = try container.decode(String.self, forKey: .endRegion)
+        regionChanges = try container.decode(Int.self, forKey: .regionChanges)
+        isNightTrip = try container.decode(Bool.self, forKey: .isNightTrip)
+        fareBreakdown = try container.decode(FareBreakdown.self, forKey: .fareBreakdown)
+        routePoints = try container.decodeIfPresent([RoutePoint].self, forKey: .routePoints) ?? []
+        driverQuote = try container.decodeIfPresent(String.self, forKey: .driverQuote)
+
+        // Backward compatibility: provide defaults for new fields
+        surchargeMode = try container.decodeIfPresent(RegionalSurchargeMode.self, forKey: .surchargeMode) ?? .fun
+        surchargeRate = try container.decodeIfPresent(Double.self, forKey: .surchargeRate) ?? 0
+    }
+
     /// 리얼 모드인지 확인
     var isRealisticMode: Bool {
         return surchargeMode == .realistic
