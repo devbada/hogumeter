@@ -26,6 +26,37 @@ struct TripSummary: Identifiable, Codable, Equatable {
     let surchargeRate: Double
     let hasRouteData: Bool
 
+    // MARK: - Codable (backward compatibility)
+
+    enum CodingKeys: String, CodingKey {
+        case id, startTime, endTime, totalFare, distance, duration
+        case startRegion, endRegion, regionChanges, isNightTrip
+        case fareBreakdown, driverQuote
+        case surchargeMode, surchargeRate, hasRouteData
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(UUID.self, forKey: .id)
+        startTime = try container.decode(Date.self, forKey: .startTime)
+        endTime = try container.decode(Date.self, forKey: .endTime)
+        totalFare = try container.decode(Int.self, forKey: .totalFare)
+        distance = try container.decode(Double.self, forKey: .distance)
+        duration = try container.decode(TimeInterval.self, forKey: .duration)
+        startRegion = try container.decode(String.self, forKey: .startRegion)
+        endRegion = try container.decode(String.self, forKey: .endRegion)
+        regionChanges = try container.decode(Int.self, forKey: .regionChanges)
+        isNightTrip = try container.decode(Bool.self, forKey: .isNightTrip)
+        fareBreakdown = try container.decode(FareBreakdown.self, forKey: .fareBreakdown)
+        driverQuote = try container.decodeIfPresent(String.self, forKey: .driverQuote)
+
+        // Backward compatibility: provide defaults for new fields
+        surchargeMode = try container.decodeIfPresent(RegionalSurchargeMode.self, forKey: .surchargeMode) ?? .fun
+        surchargeRate = try container.decodeIfPresent(Double.self, forKey: .surchargeRate) ?? 0
+        hasRouteData = try container.decodeIfPresent(Bool.self, forKey: .hasRouteData) ?? true
+    }
+
     /// Initialize from Trip summary data
     init(
         id: UUID,
