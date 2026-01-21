@@ -76,9 +76,8 @@ struct TripHistoryView: View {
                 Text("모든 주행 기록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")
             }
             .onAppear {
-                if viewModel.trips.isEmpty {
-                    viewModel.loadInitialPage()
-                }
+                // Always reload to show latest trips (e.g., after completing a new trip)
+                viewModel.loadInitialPage()
             }
             .refreshable {
                 await viewModel.refresh()
