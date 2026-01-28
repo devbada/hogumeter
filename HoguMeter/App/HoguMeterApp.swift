@@ -92,6 +92,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return true
     }
 
+
     // 앱이 포그라운드에 있을 때 알림 수신
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
