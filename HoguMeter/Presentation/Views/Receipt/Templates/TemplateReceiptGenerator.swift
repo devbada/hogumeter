@@ -558,18 +558,19 @@ enum TemplateReceiptGenerator {
         sectionTitle.draw(at: CGPoint(x: padding, y: currentY), withAttributes: sectionAttr)
         currentY += 22
 
-        currentY = drawRow(label: "기본요금", value: "\(trip.fareBreakdown.baseFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
+        currentY = drawRow(label: "기본요금 (2km)", value: "\(trip.fareBreakdown.baseFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         if trip.fareBreakdown.distanceFare > 0 {
-            currentY = drawRow(label: "거리요금", value: "\(trip.fareBreakdown.distanceFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
+            currentY = drawRow(label: "거리요금 (\(String(format: "%.1fkm", trip.distance)))", value: "\(trip.fareBreakdown.distanceFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.timeFare > 0 {
             currentY = drawRow(label: "시간요금", value: "\(trip.fareBreakdown.timeFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.regionSurcharge > 0 {
-            currentY = drawRow(label: "지역할증", value: "\(trip.fareBreakdown.regionSurcharge.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
+            let regionDetail = trip.isRealisticMode ? trip.surchargeRateDisplay : "\(trip.regionChanges)회"
+            currentY = drawRow(label: "지역할증 (\(regionDetail))", value: "\(trip.fareBreakdown.regionSurcharge.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.nightSurcharge > 0 {
-            currentY = drawRow(label: "야간할증", value: "\(trip.fareBreakdown.nightSurcharge.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
+            currentY = drawRow(label: "야간할증 (20%)", value: "\(trip.fareBreakdown.nightSurcharge.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         }
         return currentY
     }
@@ -592,18 +593,19 @@ enum TemplateReceiptGenerator {
         sectionTitle.draw(at: CGPoint(x: padding, y: currentY), withAttributes: sectionAttr)
         currentY += 22
 
-        currentY = drawRow(label: "🚖 기본요금", value: "\(trip.fareBreakdown.baseFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
+        currentY = drawRow(label: "🚖 기본요금 (2km)", value: "\(trip.fareBreakdown.baseFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         if trip.fareBreakdown.distanceFare > 0 {
-            currentY = drawRow(label: "📏 거리요금", value: "\(trip.fareBreakdown.distanceFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
+            currentY = drawRow(label: "📏 거리요금 (\(String(format: "%.1fkm", trip.distance)))", value: "\(trip.fareBreakdown.distanceFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.timeFare > 0 {
             currentY = drawRow(label: "⏰ 시간요금", value: "\(trip.fareBreakdown.timeFare.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.regionSurcharge > 0 {
-            currentY = drawRow(label: "📍 지역할증", value: "\(trip.fareBreakdown.regionSurcharge.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
+            let regionDetail = trip.isRealisticMode ? trip.surchargeRateDisplay : "\(trip.regionChanges)회"
+            currentY = drawRow(label: "📍 지역할증 (\(regionDetail))", value: "\(trip.fareBreakdown.regionSurcharge.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         }
         if trip.fareBreakdown.nightSurcharge > 0 {
-            currentY = drawRow(label: "🌙 야간할증", value: "\(trip.fareBreakdown.nightSurcharge.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
+            currentY = drawRow(label: "🌙 야간할증 (20%)", value: "\(trip.fareBreakdown.nightSurcharge.formattedWithComma)원", colors: colors, width: width, padding: padding, y: currentY)
         }
         return currentY
     }
