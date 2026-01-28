@@ -45,7 +45,14 @@
       "Bash(xargs:*)",
       "Bash(xcrun xcresulttool:*)",
       "Bash(git stash:*)",
-      "Bash(git stash pop:*)"
+      "Bash(git stash pop:*)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter diff --stat)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter add HoguMeter/Presentation/Views/Receipt/ReceiptView.swift)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter commit -m \"$\\(cat <<''EOF''\nfix: Resolve receipt sharing crash with safe array access\n\n- Replace force unwrap \\(!.\\) with safe optional binding \\(if let\\) for\n  routePoints.first and routePoints.last in:\n  - routeMapCanvas \\(Canvas view\\)\n  - drawRouteOnSnapshot \\(MKMapSnapshotter callback\\)\n  - ReceiptImageGenerator.drawRouteMap \\(fallback renderer\\)\n- Fix driverQuote force unwrap using optional map\n- Add duplicate call prevention guard in captureReceipt\\(\\)\n\nThis prevents crashes when trip.routePoints is empty or nil.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter add HoguMeter/Presentation/Views/Receipt/Templates/ HoguMeter/Data/Repositories/SettingsRepository.swift HoguMeter/Presentation/Views/Receipt/ReceiptView.swift HoguMeter.xcodeproj/project.pbxproj)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter commit -m \"$\\(cat <<''EOF''\nfeat: Add receipt template system with 5 visual styles\n\nTemplates:\n- Classic: Default receipt style with horse emoji header\n- Modern: Clean, minimal design with thin fonts\n- Fun: Emoji-rich playful style with dashed dividers\n- Minimal: Focused on total fare with large typography\n- Premium: Dark theme with gold accents\n\nFeatures:\n- TemplateSelectionView for switching templates\n- TemplateReceiptGenerator with per-template rendering\n- Template preference persisted in SettingsRepository\n- Template picker accessible from receipt toolbar\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter add SPEC_RECEIPT_TEMPLATES.md HoguMeter.xcodeproj/project.pbxproj)",
+      "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter commit -m \"$\\(cat <<''EOF''\nchore: Bump version to 1.4.0 and add template spec\n\n- Update MARKETING_VERSION to 1.4.0\n- Add SPEC_RECEIPT_TEMPLATES.md documentation\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   },
   "enableAllProjectMcpServers": true,
