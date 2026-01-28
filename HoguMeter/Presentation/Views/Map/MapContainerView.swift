@@ -14,6 +14,10 @@ struct MapContainerView: View {
     @Binding var isPresented: Bool
     @StateObject private var mapViewModel: MapViewModel
 
+    // Coach Mark
+    @StateObject private var coachMarkManager = CoachMarkManager.shared
+    @State private var coachMarkFrames: [String: CGRect] = [:]
+
     // MARK: - Init
     init(meterViewModel: MeterViewModel, locationService: LocationServiceProtocol, routeManager: RouteManager, isPresented: Binding<Bool>) {
         self.meterViewModel = meterViewModel
@@ -23,27 +27,50 @@ struct MapContainerView: View {
 
     // MARK: - Body
     var body: some View {
-        MapViewRepresentable(viewModel: mapViewModel)
-            .ignoresSafeArea()
-            .overlay(alignment: .top) {
-                topNavigationBar
-            }
-            .overlay(alignment: .bottomTrailing) {
-                // 우측 버튼들 (하단 패널 위에 위치)
-                VStack(spacing: 12) {
-                    autoZoomButton
-                    currentLocationButton
+        ZStack {
+            MapViewRepresentable(viewModel: mapViewModel)
+                .ignoresSafeArea()
+                .coachMarkTarget(id: "routeMap")
+                .overlay(alignment: .top) {
+                    topNavigationBar
                 }
-                .padding(.trailing, 16)
-                .padding(.bottom, 250) // bottomInfoOverlay 높이만큼 위로
+                .overlay(alignment: .bottomTrailing) {
+                    // 우측 버튼들 (하단 패널 위에 위치)
+                    VStack(spacing: 12) {
+                        autoZoomButton
+                        currentLocationButton
+                    }
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 250) // bottomInfoOverlay 높이만큼 위로
+                }
+                .overlay(alignment: .bottom) {
+                    // 하단 정보 오버레이
+                    bottomInfoOverlay
+                }
+
+            // Coach Mark 오버레이
+            if coachMarkManager.isShowingCoachMark,
+               coachMarkManager.currentScreenId == "map",
+               let currentMark = coachMarkManager.currentCoachMark,
+               let frame = coachMarkFrames[currentMark.targetView] {
+                CoachMarkOverlay(
+                    manager: coachMarkManager,
+                    coachMark: currentMark,
+                    targetFrame: frame
+                )
             }
-            .overlay(alignment: .bottom) {
-                // 하단 정보 오버레이
-                bottomInfoOverlay
+        }
+        .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
+            coachMarkFrames = frames
+        }
+        .onAppear {
+            mapViewModel.initializeMapCenter()
+            if coachMarkManager.shouldShowCoachMarks(for: "map") {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    coachMarkManager.startCoachMarks(for: "map")
+                }
             }
-            .onAppear {
-                mapViewModel.initializeMapCenter()
-            }
+        }
     }
 
     // MARK: - Top Navigation Bar
@@ -64,6 +91,7 @@ struct MapContainerView: View {
                     }
                     .foregroundColor(.primary)
                 }
+                .coachMarkTarget(id: "closeButton")
 
                 Spacer()
 
@@ -151,6 +179,7 @@ struct MapContainerView: View {
         VStack(spacing: 16) {
             // 정보 그리드
             infoGrid
+                .coachMarkTarget(id: "mapInfoGrid")
 
             // 정지 버튼
             stopButton
