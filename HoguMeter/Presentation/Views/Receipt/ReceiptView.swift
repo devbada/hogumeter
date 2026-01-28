@@ -341,13 +341,17 @@ struct ReceiptView: View {
 
             context.stroke(path, with: .color(.blue), lineWidth: 3)
 
-            // 출발점 (녹색)
-            let startPoint = toScreen(points.first!.latitude, points.first!.longitude)
-            context.fill(Circle().path(in: CGRect(x: startPoint.x - 6, y: startPoint.y - 6, width: 12, height: 12)), with: .color(.green))
+            // 출발점 (녹색) - 안전한 배열 접근
+            if let firstRoutePoint = points.first {
+                let startPoint = toScreen(firstRoutePoint.latitude, firstRoutePoint.longitude)
+                context.fill(Circle().path(in: CGRect(x: startPoint.x - 6, y: startPoint.y - 6, width: 12, height: 12)), with: .color(.green))
+            }
 
-            // 도착점 (빨간색)
-            let endPoint = toScreen(points.last!.latitude, points.last!.longitude)
-            context.fill(Circle().path(in: CGRect(x: endPoint.x - 6, y: endPoint.y - 6, width: 12, height: 12)), with: .color(.red))
+            // 도착점 (빨간색) - 안전한 배열 접근
+            if let lastRoutePoint = points.last {
+                let endPoint = toScreen(lastRoutePoint.latitude, lastRoutePoint.longitude)
+                context.fill(Circle().path(in: CGRect(x: endPoint.x - 6, y: endPoint.y - 6, width: 12, height: 12)), with: .color(.red))
+            }
         }
         .background(Color(.systemGray6))
     }
@@ -387,9 +391,10 @@ struct ReceiptView: View {
     // MARK: - Capture Action
     @MainActor
     private func captureReceipt() {
+        guard !isSaving else { return } // 중복 호출 방지
         isSaving = true
 
-        Task {
+        Task { @MainActor in
             // 지도 스냅샷 생성 (경로가 있는 경우)
             var mapSnapshot: UIImage?
             if trip.routePoints.count >= 2 {
@@ -401,6 +406,7 @@ struct ReceiptView: View {
 
             // 사진첩에 저장
             await saveToPhotoLibrary(image: image)
+            // Note: isSaving is reset in saveToPhotoLibrary
         }
     }
 
@@ -522,31 +528,35 @@ struct ReceiptView: View {
             }
             ctx.strokePath()
 
-            // 출발 마커 (녹색)
-            let startCoord = CLLocationCoordinate2D(
-                latitude: trip.routePoints.first!.latitude,
-                longitude: trip.routePoints.first!.longitude
-            )
-            let startPoint = snapshot.point(for: startCoord)
-            ctx.setFillColor(UIColor.systemGreen.cgColor)
-            ctx.fillEllipse(in: CGRect(x: startPoint.x - 8, y: startPoint.y - 8, width: 16, height: 16))
-            // 흰색 테두리
-            ctx.setStrokeColor(UIColor.white.cgColor)
-            ctx.setLineWidth(2)
-            ctx.strokeEllipse(in: CGRect(x: startPoint.x - 8, y: startPoint.y - 8, width: 16, height: 16))
+            // 출발 마커 (녹색) - 안전한 배열 접근
+            if let firstPoint = trip.routePoints.first {
+                let startCoord = CLLocationCoordinate2D(
+                    latitude: firstPoint.latitude,
+                    longitude: firstPoint.longitude
+                )
+                let startPoint = snapshot.point(for: startCoord)
+                ctx.setFillColor(UIColor.systemGreen.cgColor)
+                ctx.fillEllipse(in: CGRect(x: startPoint.x - 8, y: startPoint.y - 8, width: 16, height: 16))
+                // 흰색 테두리
+                ctx.setStrokeColor(UIColor.white.cgColor)
+                ctx.setLineWidth(2)
+                ctx.strokeEllipse(in: CGRect(x: startPoint.x - 8, y: startPoint.y - 8, width: 16, height: 16))
+            }
 
-            // 도착 마커 (빨간색)
-            let endCoord = CLLocationCoordinate2D(
-                latitude: trip.routePoints.last!.latitude,
-                longitude: trip.routePoints.last!.longitude
-            )
-            let endPoint = snapshot.point(for: endCoord)
-            ctx.setFillColor(UIColor.systemRed.cgColor)
-            ctx.fillEllipse(in: CGRect(x: endPoint.x - 8, y: endPoint.y - 8, width: 16, height: 16))
-            // 흰색 테두리
-            ctx.setStrokeColor(UIColor.white.cgColor)
-            ctx.setLineWidth(2)
-            ctx.strokeEllipse(in: CGRect(x: endPoint.x - 8, y: endPoint.y - 8, width: 16, height: 16))
+            // 도착 마커 (빨간색) - 안전한 배열 접근
+            if let lastPoint = trip.routePoints.last {
+                let endCoord = CLLocationCoordinate2D(
+                    latitude: lastPoint.latitude,
+                    longitude: lastPoint.longitude
+                )
+                let endPoint = snapshot.point(for: endCoord)
+                ctx.setFillColor(UIColor.systemRed.cgColor)
+                ctx.fillEllipse(in: CGRect(x: endPoint.x - 8, y: endPoint.y - 8, width: 16, height: 16))
+                // 흰색 테두리
+                ctx.setStrokeColor(UIColor.white.cgColor)
+                ctx.setLineWidth(2)
+                ctx.strokeEllipse(in: CGRect(x: endPoint.x - 8, y: endPoint.y - 8, width: 16, height: 16))
+            }
         }
     }
 
@@ -603,7 +613,7 @@ private enum ReceiptImageGenerator {
     static func generate(from trip: Trip, mapSnapshot: UIImage? = nil) -> UIImage {
         let width: CGFloat = 320
         let hasRoute = !trip.routePoints.isEmpty
-        let hasDriverQuote = trip.driverQuote != nil && !trip.driverQuote!.isEmpty
+        let hasDriverQuote = trip.driverQuote.map { !$0.isEmpty } ?? false
         let routeMapHeight: CGFloat = hasRoute ? 140 : 0
         let driverQuoteHeight: CGFloat = hasDriverQuote ? 25 : 0
         let height: CGFloat = 520 + routeMapHeight + driverQuoteHeight
@@ -754,17 +764,20 @@ private enum ReceiptImageGenerator {
         }
         ctx.strokePath()
 
-        // 출발/도착 마커
-        let startPoint = toScreenPoint(lat: trip.routePoints.first!.latitude, lon: trip.routePoints.first!.longitude)
-        let endPoint = toScreenPoint(lat: trip.routePoints.last!.latitude, lon: trip.routePoints.last!.longitude)
+        // 출발/도착 마커 - 안전한 배열 접근
+        if let firstRoutePoint = trip.routePoints.first {
+            let startPoint = toScreenPoint(lat: firstRoutePoint.latitude, lon: firstRoutePoint.longitude)
+            // 출발 마커 (녹색)
+            ctx.setFillColor(UIColor.systemGreen.cgColor)
+            ctx.fillEllipse(in: CGRect(x: startPoint.x - 5, y: startPoint.y - 5, width: 10, height: 10))
+        }
 
-        // 출발 마커 (녹색)
-        ctx.setFillColor(UIColor.systemGreen.cgColor)
-        ctx.fillEllipse(in: CGRect(x: startPoint.x - 5, y: startPoint.y - 5, width: 10, height: 10))
-
-        // 도착 마커 (빨간색)
-        ctx.setFillColor(UIColor.systemRed.cgColor)
-        ctx.fillEllipse(in: CGRect(x: endPoint.x - 5, y: endPoint.y - 5, width: 10, height: 10))
+        if let lastRoutePoint = trip.routePoints.last {
+            let endPoint = toScreenPoint(lat: lastRoutePoint.latitude, lon: lastRoutePoint.longitude)
+            // 도착 마커 (빨간색)
+            ctx.setFillColor(UIColor.systemRed.cgColor)
+            ctx.fillEllipse(in: CGRect(x: endPoint.x - 5, y: endPoint.y - 5, width: 10, height: 10))
+        }
 
         // "주행 경로" 라벨
         let routeLabel = "주행 경로" as NSString
