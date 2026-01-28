@@ -107,9 +107,53 @@ All force unwraps that could cause crashes have been replaced with safe optional
    - Added duplicate call prevention guard
    - Ensured isSaving state always resets
 
+## Direct SNS Sharing (v1.3.1)
+
+### Share Destinations
+
+| Destination | Icon | Description |
+|-------------|------|-------------|
+| 카카오톡 | message.fill | Save to photos + open KakaoTalk |
+| 인스타그램 | camera.fill | Share to Instagram Stories |
+| 메시지 | bubble.left.fill | iMessage with attachment |
+| 저장 | square.and.arrow.down | Save to photo library |
+| 복사 | doc.on.doc | Copy to clipboard |
+| 더보기 | ellipsis | iOS native share sheet |
+
+### Technical Implementation
+
+#### Files
+```
+HoguMeter/
+├── Domain/Services/
+│   └── ReceiptShareService.swift    # Centralized share handling
+└── Presentation/Views/Receipt/
+    └── ShareButtonsView.swift       # Share buttons grid UI
+```
+
+#### Info.plist Configuration
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>kakaolink</string>
+    <string>kakaotalk</string>
+    <string>instagram</string>
+    <string>instagram-stories</string>
+</array>
+```
+
+### Share Flow
+1. Receipt image is auto-generated when view appears
+2. User taps share button (KakaoTalk, Instagram, etc.)
+3. ShareService checks app availability
+4. Executes platform-specific share logic
+5. Shows confirmation or error alert
+
 ## Testing
 
 ### Manual Test Cases
+
+#### Template Tests
 1. [ ] Open receipt with empty routePoints array
 2. [ ] Open receipt with nil driverQuote
 3. [ ] Open receipt with single routePoint
@@ -117,12 +161,25 @@ All force unwraps that could cause crashes have been replaced with safe optional
 5. [ ] Save receipt with each template
 6. [ ] Verify template preference persists after app restart
 
+#### SNS Sharing Tests
+7. [ ] KakaoTalk installed → Opens KakaoTalk after save
+8. [ ] KakaoTalk not installed → Shows alert
+9. [ ] Instagram installed → Opens Instagram Stories
+10. [ ] Instagram not installed → Shows alert
+11. [ ] iMessage → Opens message composer with attachment
+12. [ ] Save to Photos → Saves and shows confirmation
+13. [ ] Copy → Copies to clipboard and shows confirmation
+14. [ ] More → Opens iOS share sheet
+15. [ ] No crash on rapid button taps
+16. [ ] Loading indicator shows during share process
+
 ### Automated Tests
 Unit tests should cover:
 - Template color scheme generation
 - Empty/nil data handling in generators
 - Settings persistence for template preference
+- ShareDestination availability checks
 
 ## Version
-- Feature Version: 1.4.0
+- Feature Version: 1.3.1
 - Build: 1
