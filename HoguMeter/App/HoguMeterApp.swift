@@ -84,12 +84,27 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     ) -> Bool {
         UNUserNotificationCenter.current().delegate = self
 
+        // Initialize Kakao SDK
+        KakaoShareService.initializeSDK()
+
         // Perform automatic data cleanup in background (if enabled)
         DispatchQueue.global(qos: .background).async {
             DataCleanupService.shared.performCleanupIfNeeded()
         }
 
         return true
+    }
+
+    // Handle URL scheme callbacks (for Kakao, etc.)
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    ) -> Bool {
+        if KakaoShareService.handleOpenUrl(url) {
+            return true
+        }
+        return false
     }
 
     // 앱이 포그라운드에 있을 때 알림 수신

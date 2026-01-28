@@ -115,62 +115,38 @@ final class ReceiptShareService: NSObject {
         }
     }
 
-    // MARK: - KakaoTalk Sharing
+    // MARK: - KakaoTalk Sharing (Using Kakao SDK)
 
     private func shareToKakaoTalk(
         image: UIImage,
         from viewController: UIViewController,
         completion: @escaping (Result<Void, ShareError>) -> Void
     ) {
-        guard let kakaoURL = URL(string: "kakaolink://"),
-              UIApplication.shared.canOpenURL(kakaoURL) else {
+        // Use KakaoShareService with native share picker
+        let kakaoService = KakaoShareService.shared
+
+        guard kakaoService.isKakaoTalkAvailable else {
             completion(.failure(.appNotInstalled))
             return
         }
 
-        // Save to photos first, then prompt user to share from KakaoTalk
-        PHPhotoLibrary.requestAuthorization(for: .addOnly) { [weak self] status in
+        // Create trip summary for sharing
+        let summary = "호구미터로 측정한 영수증이에요!"
+
+        kakaoService.shareReceipt(image: image, tripSummary: summary) { result in
             DispatchQueue.main.async {
-                switch status {
-                case .authorized, .limited:
-                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                    self?.showKakaoShareAlert(from: viewController, completion: completion)
-                case .denied, .restricted:
-                    completion(.failure(.permissionDenied))
-                default:
-                    completion(.failure(.failed("사진 저장 권한이 필요해요.")))
-                }
-            }
-        }
-    }
-
-    private func showKakaoShareAlert(
-        from viewController: UIViewController,
-        completion: @escaping (Result<Void, ShareError>) -> Void
-    ) {
-        let alert = UIAlertController(
-            title: "카카오톡으로 공유",
-            message: "영수증이 사진첩에 저장되었어요.\n카카오톡에서 사진을 선택해 공유해 주세요.",
-            preferredStyle: .alert
-        )
-
-        alert.addAction(UIAlertAction(title: "카카오톡 열기", style: .default) { _ in
-            if let url = URL(string: "kakaotalk://") {
-                UIApplication.shared.open(url) { success in
-                    if success {
-                        completion(.success(()))
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    if let kakaoError = error as? KakaoShareError {
+                        completion(.failure(.failed(kakaoError.localizedDescription)))
                     } else {
-                        completion(.failure(.failed("카카오톡 열기 실패")))
+                        completion(.failure(.failed(error.localizedDescription)))
                     }
                 }
             }
-        })
-
-        alert.addAction(UIAlertAction(title: "취소", style: .cancel) { _ in
-            completion(.failure(.cancelled))
-        })
-
-        viewController.present(alert, animated: true)
+        }
     }
 
     // MARK: - Instagram Stories Sharing
