@@ -22,6 +22,8 @@ struct ReceiptView: View {
     @State private var isLoadingMap = true
     @State private var selectedTemplate: ReceiptTemplate
     @State private var showTemplateSheet = false
+    @State private var showShareSheet = false
+    @State private var generatedReceiptImage: UIImage?
 
     private let settingsRepository = SettingsRepository()
 
@@ -71,7 +73,26 @@ struct ReceiptView: View {
                     // 슬로건
                     sloganSection
 
-                    Spacer(minLength: 40)
+                    Spacer(minLength: 20)
+
+                    // 공유 버튼들
+                    if let receiptImage = generatedReceiptImage {
+                        ShareButtonsView(image: receiptImage, onDismiss: { dismiss() })
+                            .padding(.top, 10)
+                    } else {
+                        // 이미지 생성 중 로딩 표시
+                        HStack {
+                            ProgressView()
+                                .padding(.trailing, 8)
+                            Text("영수증 이미지 생성 중...")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 20)
+                    }
+
+                    Spacer(minLength: 20)
                 }
                 .padding(30)
             }
@@ -96,24 +117,16 @@ struct ReceiptView: View {
                         .foregroundColor(.primary)
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        captureReceipt()
-                    } label: {
-                        if isSaving {
-                            ProgressView()
-                        } else {
-                            Image(systemName: "camera")
-                        }
-                    }
-                    .disabled(isSaving)
-                }
             }
             .sheet(isPresented: $showTemplateSheet) {
                 TemplateSelectionView(selectedTemplate: $selectedTemplate)
             }
             .onChange(of: selectedTemplate) { _, newValue in
                 settingsRepository.receiptTemplate = newValue
+                // 템플릿 변경 시 이미지 재생성
+                Task {
+                    await regenerateReceiptImage()
+                }
             }
             .alert("영수증 저장", isPresented: $showSaveAlert) {
                 Button("확인", role: .cancel) { }
@@ -121,13 +134,31 @@ struct ReceiptView: View {
                 Text(saveAlertMessage)
             }
             .task {
-                // 뷰가 나타날 때 지도 스냅샷 로드
+                // 뷰가 나타날 때 지도 스냅샷 로드 및 영수증 이미지 생성
                 if trip.routePoints.count >= 2 {
                     mapSnapshotImage = await generateMapSnapshotWithRoute()
                 }
                 isLoadingMap = false
+                await regenerateReceiptImage()
             }
         }
+    }
+
+    // MARK: - Generate Receipt Image
+    @MainActor
+    private func regenerateReceiptImage() async {
+        // 지도 스냅샷 생성 (경로가 있는 경우, 미니멀 템플릿 제외)
+        var mapSnapshot: UIImage?
+        if trip.routePoints.count >= 2 && selectedTemplate != .minimal {
+            mapSnapshot = await generateMapSnapshot()
+        }
+
+        // 선택된 템플릿으로 영수증 이미지 생성
+        generatedReceiptImage = TemplateReceiptGenerator.generate(
+            from: trip,
+            template: selectedTemplate,
+            mapSnapshot: mapSnapshot
+        )
     }
 
     // MARK: - Header

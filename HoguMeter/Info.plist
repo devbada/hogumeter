@@ -31,6 +31,13 @@
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<true/>
 	</dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaolink</string>
+		<string>kakaotalk</string>
+		<string>instagram</string>
+		<string>instagram-stories</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
