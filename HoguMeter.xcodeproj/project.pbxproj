@@ -7,14 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CCHM00012345678901234567 /* CoachMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCHM00001234567890ABCDEF /* CoachMark.swift */; };
-		CCHS00012345678901234567 /* CoachMarkScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */; };
-		CCMG00012345678901234567 /* CoachMarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCMG00001234567890ABCDEF /* CoachMarkManager.swift */; };
-		CCOV00012345678901234567 /* CoachMarkOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */; };
-		CCSP00012345678901234567 /* SpotlightBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCSP00001234567890ABCDEF /* SpotlightBackground.swift */; };
-		CCTB00012345678901234567 /* TooltipBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCTB00001234567890ABCDEF /* TooltipBubble.swift */; };
-		CCTG00012345678901234567 /* CoachMarkTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */; };
-		CCDT00012345678901234567 /* CoachMarkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDT00001234567890ABCDEF /* CoachMarkData.swift */; };
 		0580B1B8E28707A5DC58C9C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD31455AFE19E38549BE98AC /* Constants.swift */; };
 		06091C0DC30F116A272CDA5C /* MainMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4857D5A02A463A519206D /* MainMeterView.swift */; };
 		07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */; };
@@ -77,6 +69,14 @@
 		C4EBE25BEA214013BDA1AC8D /* RegionFareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */; };
 		C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */; };
 		C6DFA678059E468D912CF781 /* FareInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB716A0A1F84630A677B9E8 /* FareInputField.swift */; };
+		CCDT00012345678901234567 /* CoachMarkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDT00001234567890ABCDEF /* CoachMarkData.swift */; };
+		CCHM00012345678901234567 /* CoachMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCHM00001234567890ABCDEF /* CoachMark.swift */; };
+		CCHS00012345678901234567 /* CoachMarkScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */; };
+		CCMG00012345678901234567 /* CoachMarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCMG00001234567890ABCDEF /* CoachMarkManager.swift */; };
+		CCOV00012345678901234567 /* CoachMarkOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */; };
+		CCSP00012345678901234567 /* SpotlightBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCSP00001234567890ABCDEF /* SpotlightBackground.swift */; };
+		CCTB00012345678901234567 /* TooltipBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCTB00001234567890ABCDEF /* TooltipBubble.swift */; };
+		CCTG00012345678901234567 /* CoachMarkTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */; };
 		D5110194A1CE4A459F535A64 /* DisclaimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */; };
 		D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA4C0038D41AA6701D2A28 /* HoguMeterApp.swift */; };
 		DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEADRECK00123456789ABCD /* DeadReckoningService.swift */; };
@@ -99,17 +99,16 @@
 		RGSM00012345678901234567 /* RegionalSurchargeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */; };
 		RGSMV0012345678901234567 /* RegionalSurchargeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */; };
 		RGSS00012345678901234567 /* RegionalSurchargeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */; };
+		RSHS00012345678901234567 /* ReceiptShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = RSHS00001234567890ABCDEF /* ReceiptShareService.swift */; };
 		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
+		RTPL00012345678901234567 /* ReceiptTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */; };
 		RTPT00012345678901234567 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPT00001234567890ABCDEF /* RoutePoint.swift */; };
+		SHBV00012345678901234567 /* ShareButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SHBV00001234567890ABCDEF /* ShareButtonsView.swift */; };
 		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
 		TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */; };
 		TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */; };
-		RTPL00012345678901234567 /* ReceiptTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */; };
-		TMSV00012345678901234567 /* TemplateSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */; };
 		TMRG00012345678901234567 /* TemplateReceiptGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */; };
-		RSHS00012345678901234567 /* ReceiptShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = RSHS00001234567890ABCDEF /* ReceiptShareService.swift */; };
-		SHBV00012345678901234567 /* ShareButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SHBV00001234567890ABCDEF /* ShareButtonsView.swift */; };
-		KKSS00012345678901234567 /* KakaoShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = KKSS00001234567890ABCDEF /* KakaoShareService.swift */; };
+		TMSV00012345678901234567 /* TemplateSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,22 +122,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		SECRETS001234567890ABCDE /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
-		SECRETS002234567890ABCDE /* Secrets.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig.example; sourceTree = "<group>"; };
-		CCHM00001234567890ABCDEF /* CoachMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMark.swift; sourceTree = "<group>"; };
-		CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkScreen.swift; sourceTree = "<group>"; };
-		CCMG00001234567890ABCDEF /* CoachMarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkManager.swift; sourceTree = "<group>"; };
-		CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkOverlay.swift; sourceTree = "<group>"; };
-		CCSP00001234567890ABCDEF /* SpotlightBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightBackground.swift; sourceTree = "<group>"; };
-		CCTB00001234567890ABCDEF /* TooltipBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipBubble.swift; sourceTree = "<group>"; };
-		CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkTarget.swift; sourceTree = "<group>"; };
-		CCDT00001234567890ABCDEF /* CoachMarkData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkData.swift; sourceTree = "<group>"; };
-		RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptTemplate.swift; sourceTree = "<group>"; };
-		TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSelectionView.swift; sourceTree = "<group>"; };
-		TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateReceiptGenerator.swift; sourceTree = "<group>"; };
-		RSHS00001234567890ABCDEF /* ReceiptShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptShareService.swift; sourceTree = "<group>"; };
-		KKSS00001234567890ABCDEF /* KakaoShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoShareService.swift; sourceTree = "<group>"; };
-		SHBV00001234567890ABCDEF /* ShareButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButtonsView.swift; sourceTree = "<group>"; };
 		012E8AD839291A60E4A925E9 /* TripHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripHistoryView.swift; sourceTree = "<group>"; };
 		031F919C8DBB322D01DE8748 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
@@ -202,6 +185,14 @@
 		BD31455AFE19E38549BE98AC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C213CAB5415840C487A7EC9C /* FareValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareValidation.swift; sourceTree = "<group>"; };
 		C3D3C2AE8CD8E3FF17E5FACF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CCDT00001234567890ABCDEF /* CoachMarkData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkData.swift; sourceTree = "<group>"; };
+		CCHM00001234567890ABCDEF /* CoachMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMark.swift; sourceTree = "<group>"; };
+		CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkScreen.swift; sourceTree = "<group>"; };
+		CCMG00001234567890ABCDEF /* CoachMarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkManager.swift; sourceTree = "<group>"; };
+		CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkOverlay.swift; sourceTree = "<group>"; };
+		CCSP00001234567890ABCDEF /* SpotlightBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightBackground.swift; sourceTree = "<group>"; };
+		CCTB00001234567890ABCDEF /* TooltipBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipBubble.swift; sourceTree = "<group>"; };
+		CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkTarget.swift; sourceTree = "<group>"; };
 		CE2CFB92DAEA79D831F37AC8 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseAnimationView.swift; sourceTree = "<group>"; };
 		D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewModel.swift; sourceTree = "<group>"; };
@@ -228,11 +219,16 @@
 		RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeMode.swift; sourceTree = "<group>"; };
 		RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeModeView.swift; sourceTree = "<group>"; };
 		RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeService.swift; sourceTree = "<group>"; };
+		RSHS00001234567890ABCDEF /* ReceiptShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptShareService.swift; sourceTree = "<group>"; };
 		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
+		RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptTemplate.swift; sourceTree = "<group>"; };
 		RTPT00001234567890ABCDEF /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
+		SHBV00001234567890ABCDEF /* ShareButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButtonsView.swift; sourceTree = "<group>"; };
 		STPT00001234567890ABCDEF /* StartPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPointAnnotation.swift; sourceTree = "<group>"; };
 		TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotation.swift; sourceTree = "<group>"; };
 		TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotationView.swift; sourceTree = "<group>"; };
+		TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateReceiptGenerator.swift; sourceTree = "<group>"; };
+		TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -241,6 +237,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		7199A98F2EEBF412008E667F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		718CCB212F29ED01006DA1C7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -400,61 +403,6 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		CCGR00001234567890ABCDEF /* CoachMark */ = {
-			isa = PBXGroup;
-			children = (
-				CCGRMD001234567890ABCDEF /* Models */,
-				CCGRMG001234567890ABCDEF /* Manager */,
-				CCGRVW001234567890ABCDEF /* Views */,
-				CCGRMO001234567890ABCDEF /* Modifiers */,
-				CCGRDT001234567890ABCDEF /* Data */,
-			);
-			path = CoachMark;
-			sourceTree = "<group>";
-		};
-		CCGRMD001234567890ABCDEF /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				CCHM00001234567890ABCDEF /* CoachMark.swift */,
-				CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		CCGRMG001234567890ABCDEF /* Manager */ = {
-			isa = PBXGroup;
-			children = (
-				CCMG00001234567890ABCDEF /* CoachMarkManager.swift */,
-			);
-			path = Manager;
-			sourceTree = "<group>";
-		};
-		CCGRVW001234567890ABCDEF /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */,
-				CCSP00001234567890ABCDEF /* SpotlightBackground.swift */,
-				CCTB00001234567890ABCDEF /* TooltipBubble.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		CCGRMO001234567890ABCDEF /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-				CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */,
-			);
-			path = Modifiers;
-			sourceTree = "<group>";
-		};
-		CCGRDT001234567890ABCDEF /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				CCDT00001234567890ABCDEF /* CoachMarkData.swift */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		6ED0E973E728D6B6B6FB3A7A /* Receipt */ = {
 			isa = PBXGroup;
 			children = (
@@ -463,16 +411,6 @@
 				RTPL0001234567890ABCDEF0 /* Templates */,
 			);
 			path = Receipt;
-			sourceTree = "<group>";
-		};
-		RTPL0001234567890ABCDEF0 /* Templates */ = {
-			isa = PBXGroup;
-			children = (
-				RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */,
-				TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */,
-				TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */,
-			);
-			path = Templates;
 			sourceTree = "<group>";
 		};
 		870044A3F984EC99272F823B /* App */ = {
@@ -578,20 +516,10 @@
 		AA0A5A3EAD97BFB5B63AC2C7 = {
 			isa = PBXGroup;
 			children = (
-				CONFIG001234567890ABCDEF /* Config */,
 				1C4CD31A0C689B4A3E299F35 /* HoguMeter */,
 				7199A9932EEBF412008E667F /* HoguMeterTests */,
 				F8D4513B92F4225487A3F83E /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		CONFIG001234567890ABCDEF /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				SECRETS001234567890ABCDE /* Secrets.xcconfig */,
-				SECRETS002234567890ABCDE /* Secrets.xcconfig.example */,
-			);
-			path = Config;
 			sourceTree = "<group>";
 		};
 		ABCD1234HORSE567890ABCDEF /* Horse */ = {
@@ -624,7 +552,6 @@
 				5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */,
 				IDLE00001234567890ABCDEF /* IdleDetectionService.swift */,
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
-				KKSS00001234567890ABCDEF /* KakaoShareService.swift */,
 				RSHS00001234567890ABCDEF /* ReceiptShareService.swift */,
 				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
 				RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */,
@@ -635,6 +562,61 @@
 				71C1FC6C2F1DFA08009C08CA /* RouteOptimizer.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		CCGR00001234567890ABCDEF /* CoachMark */ = {
+			isa = PBXGroup;
+			children = (
+				CCGRMD001234567890ABCDEF /* Models */,
+				CCGRMG001234567890ABCDEF /* Manager */,
+				CCGRVW001234567890ABCDEF /* Views */,
+				CCGRMO001234567890ABCDEF /* Modifiers */,
+				CCGRDT001234567890ABCDEF /* Data */,
+			);
+			path = CoachMark;
+			sourceTree = "<group>";
+		};
+		CCGRDT001234567890ABCDEF /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				CCDT00001234567890ABCDEF /* CoachMarkData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		CCGRMD001234567890ABCDEF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CCHM00001234567890ABCDEF /* CoachMark.swift */,
+				CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CCGRMG001234567890ABCDEF /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				CCMG00001234567890ABCDEF /* CoachMarkManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		CCGRMO001234567890ABCDEF /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		CCGRVW001234567890ABCDEF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */,
+				CCSP00001234567890ABCDEF /* SpotlightBackground.swift */,
+				CCTB00001234567890ABCDEF /* TooltipBubble.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		D011F1E0DB460DFBAB04354A /* Extensions */ = {
@@ -693,6 +675,16 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		RTPL0001234567890ABCDEF0 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */,
+				TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */,
+				TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
 		VCMP00001234567890ABCDEF /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -734,6 +726,7 @@
 			buildConfigurationList = 068FC9A3FFE624B99713D7B6 /* Build configuration list for PBXNativeTarget "HoguMeter" */;
 			buildPhases = (
 				D39A0FF20AB3D23D7274C8D9 /* Sources */,
+				718CCB212F29ED01006DA1C7 /* Frameworks */,
 				0F57069CE399B34641E1A077 /* Resources */,
 			);
 			buildRules = (
@@ -773,6 +766,8 @@
 			);
 			mainGroup = AA0A5A3EAD97BFB5B63AC2C7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -930,7 +925,6 @@
 /* Begin XCBuildConfiguration section */
 		0D5CD377647FD5855B308128 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = SECRETS001234567890ABCDE /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1157,7 +1151,6 @@
 		};
 		831E1B3350FE22D7E63651FE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = SECRETS001234567890ABCDE /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1214,6 +1207,7 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
 	};
 	rootObject = 7A98E770A27106E985427625 /* Project object */;
 }

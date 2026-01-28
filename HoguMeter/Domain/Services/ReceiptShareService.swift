@@ -44,8 +44,7 @@ enum ShareDestination: CaseIterable {
     var isAvailable: Bool {
         switch self {
         case .kakaoTalk:
-            guard let url = URL(string: "kakaolink://") else { return false }
-            return UIApplication.shared.canOpenURL(url)
+            return true // 시스템 공유 시트 사용
         case .instagram:
             guard let url = URL(string: "instagram://") else { return false }
             return UIApplication.shared.canOpenURL(url)
@@ -101,7 +100,7 @@ final class ReceiptShareService: NSObject {
 
         switch destination {
         case .kakaoTalk:
-            shareToKakaoTalk(image: image, from: viewController, completion: completion)
+            showShareSheet(image: image, from: viewController, completion: completion)
         case .instagram:
             shareToInstagram(image: image, completion: completion)
         case .iMessage:
@@ -112,40 +111,6 @@ final class ReceiptShareService: NSObject {
             copyToClipboard(image: image, completion: completion)
         case .more:
             showShareSheet(image: image, from: viewController, completion: completion)
-        }
-    }
-
-    // MARK: - KakaoTalk Sharing (Using Kakao SDK)
-
-    private func shareToKakaoTalk(
-        image: UIImage,
-        from viewController: UIViewController,
-        completion: @escaping (Result<Void, ShareError>) -> Void
-    ) {
-        // Use KakaoShareService with native share picker
-        let kakaoService = KakaoShareService.shared
-
-        guard kakaoService.isKakaoTalkAvailable else {
-            completion(.failure(.appNotInstalled))
-            return
-        }
-
-        // Create trip summary for sharing
-        let summary = "호구미터로 측정한 영수증이에요!"
-
-        kakaoService.shareReceipt(image: image, tripSummary: summary) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    if let kakaoError = error as? KakaoShareError {
-                        completion(.failure(.failed(kakaoError.localizedDescription)))
-                    } else {
-                        completion(.failure(.failed(error.localizedDescription)))
-                    }
-                }
-            }
         }
     }
 
