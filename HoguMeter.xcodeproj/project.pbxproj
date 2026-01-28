@@ -104,6 +104,9 @@
 		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
 		TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */; };
 		TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */; };
+		RTPL00012345678901234567 /* ReceiptTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */; };
+		TMSV00012345678901234567 /* TemplateSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */; };
+		TMRG00012345678901234567 /* TemplateReceiptGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +128,9 @@
 		CCTB00001234567890ABCDEF /* TooltipBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipBubble.swift; sourceTree = "<group>"; };
 		CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkTarget.swift; sourceTree = "<group>"; };
 		CCDT00001234567890ABCDEF /* CoachMarkData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkData.swift; sourceTree = "<group>"; };
+		RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptTemplate.swift; sourceTree = "<group>"; };
+		TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSelectionView.swift; sourceTree = "<group>"; };
+		TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateReceiptGenerator.swift; sourceTree = "<group>"; };
 		012E8AD839291A60E4A925E9 /* TripHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripHistoryView.swift; sourceTree = "<group>"; };
 		031F919C8DBB322D01DE8748 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		0593C144C4AF38D18F326822 /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
@@ -445,8 +451,19 @@
 			isa = PBXGroup;
 			children = (
 				323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */,
+				RTPL0001234567890ABCDEF0 /* Templates */,
 			);
 			path = Receipt;
+			sourceTree = "<group>";
+		};
+		RTPL0001234567890ABCDEF0 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */,
+				TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */,
+				TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */,
+			);
+			path = Templates;
 			sourceTree = "<group>";
 		};
 		870044A3F984EC99272F823B /* App */ = {
@@ -809,6 +826,9 @@
 				76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */,
 				AA87CBB77ABC72A0CF61881B /* Notification+Extensions.swift in Sources */,
 				07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */,
+				RTPL00012345678901234567 /* ReceiptTemplate.swift in Sources */,
+				TMSV00012345678901234567 /* TemplateSelectionView.swift in Sources */,
+				TMRG00012345678901234567 /* TemplateReceiptGenerator.swift in Sources */,
 				617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */,
 				50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */,
 				216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */,

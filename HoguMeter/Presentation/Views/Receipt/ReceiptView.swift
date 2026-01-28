@@ -20,6 +20,17 @@ struct ReceiptView: View {
     @State private var isSaving = false
     @State private var mapSnapshotImage: UIImage?
     @State private var isLoadingMap = true
+    @State private var selectedTemplate: ReceiptTemplate
+    @State private var showTemplateSheet = false
+
+    private let settingsRepository = SettingsRepository()
+
+    init(trip: Trip) {
+        self.trip = trip
+        // 저장된 기본 템플릿으로 초기화
+        let repository = SettingsRepository()
+        _selectedTemplate = State(initialValue: repository.receiptTemplate)
+    }
 
     var body: some View {
         NavigationView {
@@ -73,6 +84,18 @@ struct ReceiptView: View {
                         dismiss()
                     }
                 }
+                ToolbarItem(placement: .principal) {
+                    Button {
+                        showTemplateSheet = true
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: selectedTemplate.iconName)
+                            Text(selectedTemplate.displayName)
+                                .font(.subheadline)
+                        }
+                        .foregroundColor(.primary)
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         captureReceipt()
@@ -85,6 +108,12 @@ struct ReceiptView: View {
                     }
                     .disabled(isSaving)
                 }
+            }
+            .sheet(isPresented: $showTemplateSheet) {
+                TemplateSelectionView(selectedTemplate: $selectedTemplate)
+            }
+            .onChange(of: selectedTemplate) { _, newValue in
+                settingsRepository.receiptTemplate = newValue
             }
             .alert("영수증 저장", isPresented: $showSaveAlert) {
                 Button("확인", role: .cancel) { }
@@ -395,14 +424,18 @@ struct ReceiptView: View {
         isSaving = true
 
         Task { @MainActor in
-            // 지도 스냅샷 생성 (경로가 있는 경우)
+            // 지도 스냅샷 생성 (경로가 있는 경우, 미니멀 템플릿 제외)
             var mapSnapshot: UIImage?
-            if trip.routePoints.count >= 2 {
+            if trip.routePoints.count >= 2 && selectedTemplate != .minimal {
                 mapSnapshot = await generateMapSnapshot()
             }
 
-            // Core Graphics로 직접 그리기
-            let image = ReceiptImageGenerator.generate(from: trip, mapSnapshot: mapSnapshot)
+            // 선택된 템플릿으로 영수증 이미지 생성
+            let image = TemplateReceiptGenerator.generate(
+                from: trip,
+                template: selectedTemplate,
+                mapSnapshot: mapSnapshot
+            )
 
             // 사진첩에 저장
             await saveToPhotoLibrary(image: image)
