@@ -13,6 +13,10 @@ struct MainMeterView: View {
     @State private var showMap = false      // 지도 표시 상태
     @State private var showDriverQuote = false  // 택시기사 한마디 표시 상태
 
+    // Coach Mark
+    @StateObject private var coachMarkManager = CoachMarkManager.shared
+    @State private var coachMarkFrames: [String: CGRect] = [:]
+
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
@@ -25,6 +29,7 @@ struct MainMeterView: View {
                     VStack(spacing: 0) {
                         // 요금 표시 (상단)
                         FareDisplayView(fare: viewModel.currentFare)
+                            .coachMarkTarget(id: "fareDisplay")
                             .padding(.top, isCompactHeight ? 8 : 20)
 
                         Spacer()
@@ -40,6 +45,7 @@ struct MainMeterView: View {
                         }
                         .frame(height: horseHeight)
                         .clipped()
+                        .coachMarkTarget(id: "horseAnimation")
 
                         Spacer()
 
@@ -50,6 +56,7 @@ struct MainMeterView: View {
                             speed: viewModel.currentSpeed,
                             region: viewModel.currentRegion
                         )
+                        .coachMarkTarget(id: "statsGrid")
                         .padding(.horizontal)
                         .padding(.bottom, isCompactHeight ? 12 : 20)
 
@@ -60,6 +67,7 @@ struct MainMeterView: View {
                             onStop: { viewModel.stopMeter() },
                             onReset: { viewModel.resetMeter() }
                         )
+                        .coachMarkTarget(id: "startButton")
                         .padding(.bottom, isCompactHeight ? 12 : 20)
                     }
                     .frame(maxWidth: 600)
@@ -70,6 +78,18 @@ struct MainMeterView: View {
                     easterEgg: viewModel.easterEggManager.triggeredEasterEgg,
                     onDismiss: { viewModel.easterEggManager.dismissEasterEgg() }
                 )
+
+                    // Coach Mark 오버레이
+                    if coachMarkManager.isShowingCoachMark,
+                       coachMarkManager.currentScreenId == "main",
+                       let currentMark = coachMarkManager.currentCoachMark,
+                       let frame = coachMarkFrames[currentMark.targetView] {
+                        CoachMarkOverlay(
+                            manager: coachMarkManager,
+                            coachMark: currentMark,
+                            targetFrame: frame
+                        )
+                    }
 
                     // 택시기사 한마디 (상단 알림 형태로 내려왔다가 올라감)
                     VStack {
@@ -159,6 +179,16 @@ struct MainMeterView: View {
                 }
             } message: {
                 Text("10분 동안 이동이 없습니다.\n미터기를 계속 실행하시겠습니까?")
+            }
+            .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
+                coachMarkFrames = frames
+            }
+            .onAppear {
+                if coachMarkManager.shouldShowCoachMarks(for: "main") {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        coachMarkManager.startCoachMarks(for: "main")
+                    }
+                }
             }
         }
         .navigationViewStyle(.stack)  // iPad에서도 단일 컬럼으로 표시

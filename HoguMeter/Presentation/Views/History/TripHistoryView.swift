@@ -11,44 +11,67 @@ struct TripHistoryView: View {
     @StateObject private var viewModel = TripHistoryViewModel()
     @State private var showDeleteAllAlert = false
 
+    // Coach Mark
+    @StateObject private var coachMarkManager = CoachMarkManager.shared
+    @State private var coachMarkFrames: [String: CGRect] = [:]
+
     var body: some View {
         NavigationView {
-            Group {
-                if viewModel.trips.isEmpty && !viewModel.isLoading {
-                    ContentUnavailableView(
-                        "주행 기록 없음",
-                        systemImage: "clock",
-                        description: Text("아직 저장된 주행 기록이 없습니다")
-                    )
-                } else {
-                    List {
-                        ForEach(viewModel.trips) { trip in
-                            NavigationLink {
-                                TripDetailView(
-                                    tripId: trip.id,
-                                    tripSummary: trip,
-                                    viewModel: viewModel
-                                )
-                            } label: {
-                                TripSummaryRowView(trip: trip)
-                                    .onAppear {
-                                        viewModel.loadNextPageIfNeeded(currentItem: trip)
-                                    }
+            ZStack {
+                Group {
+                    if viewModel.trips.isEmpty && !viewModel.isLoading {
+                        ContentUnavailableView(
+                            "주행 기록 없음",
+                            systemImage: "clock",
+                            description: Text("아직 저장된 주행 기록이 없습니다")
+                        )
+                        .coachMarkTarget(id: "tripList")
+                    } else {
+                        List {
+                            ForEach(Array(viewModel.trips.enumerated()), id: \.element.id) { index, trip in
+                                NavigationLink {
+                                    TripDetailView(
+                                        tripId: trip.id,
+                                        tripSummary: trip,
+                                        viewModel: viewModel
+                                    )
+                                } label: {
+                                    TripSummaryRowView(trip: trip)
+                                        .onAppear {
+                                            viewModel.loadNextPageIfNeeded(currentItem: trip)
+                                        }
+                                }
+                                .if(index == 0) { view in
+                                    view.coachMarkTarget(id: "tripItem")
+                                }
                             }
-                        }
-                        .onDelete(perform: onDelete)
+                            .onDelete(perform: onDelete)
 
-                        // Loading indicator for pagination
-                        if viewModel.isLoading {
-                            HStack {
-                                Spacer()
-                                ProgressView()
-                                    .padding()
-                                Spacer()
+                            // Loading indicator for pagination
+                            if viewModel.isLoading {
+                                HStack {
+                                    Spacer()
+                                    ProgressView()
+                                        .padding()
+                                    Spacer()
+                                }
+                                .listRowBackground(Color.clear)
                             }
-                            .listRowBackground(Color.clear)
                         }
+                        .coachMarkTarget(id: "tripList")
                     }
+                }
+
+                // Coach Mark 오버레이
+                if coachMarkManager.isShowingCoachMark,
+                   coachMarkManager.currentScreenId == "history",
+                   let currentMark = coachMarkManager.currentCoachMark,
+                   let frame = coachMarkFrames[currentMark.targetView] {
+                    CoachMarkOverlay(
+                        manager: coachMarkManager,
+                        coachMark: currentMark,
+                        targetFrame: frame
+                    )
                 }
             }
             .navigationTitle("주행 기록")
@@ -75,9 +98,17 @@ struct TripHistoryView: View {
             } message: {
                 Text("모든 주행 기록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")
             }
+            .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
+                coachMarkFrames = frames
+            }
             .onAppear {
                 // Always reload to show latest trips (e.g., after completing a new trip)
                 viewModel.loadInitialPage()
+                if coachMarkManager.shouldShowCoachMarks(for: "history") {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        coachMarkManager.startCoachMarks(for: "history")
+                    }
+                }
             }
             .refreshable {
                 await viewModel.refresh()

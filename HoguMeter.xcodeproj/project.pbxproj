@@ -69,6 +69,14 @@
 		C4EBE25BEA214013BDA1AC8D /* RegionFareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107C1A3E791C481DA0D3CF03 /* RegionFareListView.swift */; };
 		C57028E230272D15677EBCB3 /* SettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B66804D9B52B857430A7B8 /* SettingsRepository.swift */; };
 		C6DFA678059E468D912CF781 /* FareInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB716A0A1F84630A677B9E8 /* FareInputField.swift */; };
+		CCDT00012345678901234567 /* CoachMarkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDT00001234567890ABCDEF /* CoachMarkData.swift */; };
+		CCHM00012345678901234567 /* CoachMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCHM00001234567890ABCDEF /* CoachMark.swift */; };
+		CCHS00012345678901234567 /* CoachMarkScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */; };
+		CCMG00012345678901234567 /* CoachMarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCMG00001234567890ABCDEF /* CoachMarkManager.swift */; };
+		CCOV00012345678901234567 /* CoachMarkOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */; };
+		CCSP00012345678901234567 /* SpotlightBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCSP00001234567890ABCDEF /* SpotlightBackground.swift */; };
+		CCTB00012345678901234567 /* TooltipBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCTB00001234567890ABCDEF /* TooltipBubble.swift */; };
+		CCTG00012345678901234567 /* CoachMarkTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */; };
 		D5110194A1CE4A459F535A64 /* DisclaimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */; };
 		D919BB70C425BFB26462FBFD /* HoguMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA4C0038D41AA6701D2A28 /* HoguMeterApp.swift */; };
 		DEADRECK001234567890123 /* DeadReckoningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEADRECK00123456789ABCD /* DeadReckoningService.swift */; };
@@ -91,11 +99,16 @@
 		RGSM00012345678901234567 /* RegionalSurchargeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */; };
 		RGSMV0012345678901234567 /* RegionalSurchargeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */; };
 		RGSS00012345678901234567 /* RegionalSurchargeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */; };
+		RSHS00012345678901234567 /* ReceiptShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = RSHS00001234567890ABCDEF /* ReceiptShareService.swift */; };
 		RTMG00012345678901234567 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTMG00001234567890ABCDEF /* RouteManager.swift */; };
+		RTPL00012345678901234567 /* ReceiptTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */; };
 		RTPT00012345678901234567 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = RTPT00001234567890ABCDEF /* RoutePoint.swift */; };
+		SHBV00012345678901234567 /* ShareButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SHBV00001234567890ABCDEF /* ShareButtonsView.swift */; };
 		STPT00012345678901234567 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = STPT00001234567890ABCDEF /* StartPointAnnotation.swift */; };
 		TAXH00012345678901234567 /* TaxiHorseAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */; };
 		TAXV00012345678901234567 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */; };
+		TMRG00012345678901234567 /* TemplateReceiptGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */; };
+		TMSV00012345678901234567 /* TemplateSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -172,6 +185,14 @@
 		BD31455AFE19E38549BE98AC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C213CAB5415840C487A7EC9C /* FareValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareValidation.swift; sourceTree = "<group>"; };
 		C3D3C2AE8CD8E3FF17E5FACF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CCDT00001234567890ABCDEF /* CoachMarkData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkData.swift; sourceTree = "<group>"; };
+		CCHM00001234567890ABCDEF /* CoachMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMark.swift; sourceTree = "<group>"; };
+		CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkScreen.swift; sourceTree = "<group>"; };
+		CCMG00001234567890ABCDEF /* CoachMarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkManager.swift; sourceTree = "<group>"; };
+		CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkOverlay.swift; sourceTree = "<group>"; };
+		CCSP00001234567890ABCDEF /* SpotlightBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightBackground.swift; sourceTree = "<group>"; };
+		CCTB00001234567890ABCDEF /* TooltipBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipBubble.swift; sourceTree = "<group>"; };
+		CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkTarget.swift; sourceTree = "<group>"; };
 		CE2CFB92DAEA79D831F37AC8 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		D080D956ADA3E922EF81DF22 /* HorseAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorseAnimationView.swift; sourceTree = "<group>"; };
 		D355338B931248E299AE07B6 /* DisclaimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewModel.swift; sourceTree = "<group>"; };
@@ -198,11 +219,16 @@
 		RGSM00001234567890ABCDEF /* RegionalSurchargeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeMode.swift; sourceTree = "<group>"; };
 		RGSMV0001234567890ABCDE /* RegionalSurchargeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeModeView.swift; sourceTree = "<group>"; };
 		RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeService.swift; sourceTree = "<group>"; };
+		RSHS00001234567890ABCDEF /* ReceiptShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptShareService.swift; sourceTree = "<group>"; };
 		RTMG00001234567890ABCDEF /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
+		RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptTemplate.swift; sourceTree = "<group>"; };
 		RTPT00001234567890ABCDEF /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
+		SHBV00001234567890ABCDEF /* ShareButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButtonsView.swift; sourceTree = "<group>"; };
 		STPT00001234567890ABCDEF /* StartPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPointAnnotation.swift; sourceTree = "<group>"; };
 		TAXH00001234567890ABCDEF /* TaxiHorseAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotation.swift; sourceTree = "<group>"; };
 		TAXV00001234567890ABCDEF /* TaxiHorseAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiHorseAnnotationView.swift; sourceTree = "<group>"; };
+		TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateReceiptGenerator.swift; sourceTree = "<group>"; };
+		TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -211,6 +237,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		7199A98F2EEBF412008E667F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		718CCB212F29ED01006DA1C7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -360,6 +393,7 @@
 		6DFEDA5D62F3D700A0F29910 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				CCGR00001234567890ABCDEF /* CoachMark */,
 				B86C2A8E5B754EA89A984EE6 /* Constants */,
 				69446F11C08C4F81815607A0 /* Managers */,
 				D011F1E0DB460DFBAB04354A /* Extensions */,
@@ -373,6 +407,8 @@
 			isa = PBXGroup;
 			children = (
 				323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */,
+				SHBV00001234567890ABCDEF /* ShareButtonsView.swift */,
+				RTPL0001234567890ABCDEF0 /* Templates */,
 			);
 			path = Receipt;
 			sourceTree = "<group>";
@@ -516,6 +552,7 @@
 				5C77D65A9A8DFD0AA2223FBF /* FareCalculator.swift */,
 				IDLE00001234567890ABCDEF /* IdleDetectionService.swift */,
 				FBCE942707AFEC7295EEB5A7 /* LocationService.swift */,
+				RSHS00001234567890ABCDEF /* ReceiptShareService.swift */,
 				1E63AFBA8F5C70F75D29DE78 /* RegionDetector.swift */,
 				RGSS00001234567890ABCDEF /* RegionalSurchargeService.swift */,
 				FE10E81350094D7AFCFDBA7D /* SoundManager.swift */,
@@ -525,6 +562,61 @@
 				71C1FC6C2F1DFA08009C08CA /* RouteOptimizer.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		CCGR00001234567890ABCDEF /* CoachMark */ = {
+			isa = PBXGroup;
+			children = (
+				CCGRMD001234567890ABCDEF /* Models */,
+				CCGRMG001234567890ABCDEF /* Manager */,
+				CCGRVW001234567890ABCDEF /* Views */,
+				CCGRMO001234567890ABCDEF /* Modifiers */,
+				CCGRDT001234567890ABCDEF /* Data */,
+			);
+			path = CoachMark;
+			sourceTree = "<group>";
+		};
+		CCGRDT001234567890ABCDEF /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				CCDT00001234567890ABCDEF /* CoachMarkData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		CCGRMD001234567890ABCDEF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CCHM00001234567890ABCDEF /* CoachMark.swift */,
+				CCHS00001234567890ABCDEF /* CoachMarkScreen.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CCGRMG001234567890ABCDEF /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				CCMG00001234567890ABCDEF /* CoachMarkManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		CCGRMO001234567890ABCDEF /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				CCTG00001234567890ABCDEF /* CoachMarkTarget.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		CCGRVW001234567890ABCDEF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CCOV00001234567890ABCDEF /* CoachMarkOverlay.swift */,
+				CCSP00001234567890ABCDEF /* SpotlightBackground.swift */,
+				CCTB00001234567890ABCDEF /* TooltipBubble.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		D011F1E0DB460DFBAB04354A /* Extensions */ = {
@@ -583,6 +675,16 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		RTPL0001234567890ABCDEF0 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				RTPL00001234567890ABCDEF /* ReceiptTemplate.swift */,
+				TMSV00001234567890ABCDEF /* TemplateSelectionView.swift */,
+				TMRG00001234567890ABCDEF /* TemplateReceiptGenerator.swift */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
 		VCMP00001234567890ABCDEF /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -624,6 +726,7 @@
 			buildConfigurationList = 068FC9A3FFE624B99713D7B6 /* Build configuration list for PBXNativeTarget "HoguMeter" */;
 			buildPhases = (
 				D39A0FF20AB3D23D7274C8D9 /* Sources */,
+				718CCB212F29ED01006DA1C7 /* Frameworks */,
 				0F57069CE399B34641E1A077 /* Resources */,
 			);
 			buildRules = (
@@ -663,6 +766,8 @@
 			);
 			mainGroup = AA0A5A3EAD97BFB5B63AC2C7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -737,6 +842,12 @@
 				76CA441DE5D25E06A3F23708 /* MeterViewModel.swift in Sources */,
 				AA87CBB77ABC72A0CF61881B /* Notification+Extensions.swift in Sources */,
 				07984B4D8C690B4FCBB785D4 /* ReceiptView.swift in Sources */,
+				RTPL00012345678901234567 /* ReceiptTemplate.swift in Sources */,
+				TMSV00012345678901234567 /* TemplateSelectionView.swift in Sources */,
+				TMRG00012345678901234567 /* TemplateReceiptGenerator.swift in Sources */,
+				RSHS00012345678901234567 /* ReceiptShareService.swift in Sources */,
+				KKSS00012345678901234567 /* KakaoShareService.swift in Sources */,
+				SHBV00012345678901234567 /* ShareButtonsView.swift in Sources */,
 				617CC014F01212B0D8505799 /* RegionDetector.swift in Sources */,
 				50674C9DBD28460EF2738D20 /* RegionFare.swift in Sources */,
 				216EFC3D42AC4E3F0754217B /* RegionFareRepository.swift in Sources */,
@@ -790,6 +901,14 @@
 				ESTO00012345678901234567 /* EasterEggOverlayView.swift in Sources */,
 				8D0A1002DRIVERQUOTES /* DriverQuotes.swift in Sources */,
 				8D0A1004DRIVERQUOTEBUB /* DriverQuoteBubbleView.swift in Sources */,
+				CCHM00012345678901234567 /* CoachMark.swift in Sources */,
+				CCHS00012345678901234567 /* CoachMarkScreen.swift in Sources */,
+				CCMG00012345678901234567 /* CoachMarkManager.swift in Sources */,
+				CCOV00012345678901234567 /* CoachMarkOverlay.swift in Sources */,
+				CCSP00012345678901234567 /* SpotlightBackground.swift in Sources */,
+				CCTB00012345678901234567 /* TooltipBubble.swift in Sources */,
+				CCTG00012345678901234567 /* CoachMarkTarget.swift in Sources */,
+				CCDT00012345678901234567 /* CoachMarkData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,7 +929,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
@@ -819,7 +938,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.1;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -865,7 +984,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -885,7 +1004,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -936,7 +1055,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -950,7 +1069,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hogumeter.app;
@@ -973,7 +1092,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -983,7 +1102,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.devbada.HoguMeterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1007,13 +1126,13 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.devbada.HoguMeterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1036,7 +1155,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
@@ -1045,7 +1164,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.1;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1088,6 +1207,7 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
 	};
 	rootObject = 7A98E770A27106E985427625 /* Project object */;
 }

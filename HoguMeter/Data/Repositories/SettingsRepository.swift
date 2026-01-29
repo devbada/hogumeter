@@ -31,6 +31,7 @@ final class SettingsRepository: SettingsRepositoryProtocol {
         static let isSoundEnabled = "isSoundEnabled"
         static let colorSchemePreference = "colorSchemePreference"
         static let dataManagementSettings = "dataManagementSettings"
+        static let receiptTemplate = "receiptTemplate"
     }
 
     enum ColorSchemePreference: String {
@@ -143,6 +144,17 @@ final class SettingsRepository: SettingsRepositoryProtocol {
             } catch {
                 print("[SettingsRepository] Failed to encode data management settings: \(error)")
             }
+        }
+    }
+
+    // MARK: - Receipt Template
+    var receiptTemplate: ReceiptTemplate {
+        get {
+            let rawValue = userDefaults.string(forKey: Keys.receiptTemplate) ?? ReceiptTemplate.classic.rawValue
+            return ReceiptTemplate(rawValue: rawValue) ?? .classic
+        }
+        set {
+            userDefaults.set(newValue.rawValue, forKey: Keys.receiptTemplate)
         }
     }
 }
