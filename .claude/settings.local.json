@@ -63,7 +63,10 @@
       "Bash(git -C /Users/minam.cho/workspaces/study/_side-projects/hogumeter checkout -b feature/kakao-direct-share)",
       "Bash(git check-ignore:*)",
       "Bash(git status:*)",
-      "Bash(uuidgen:*)"
+      "Bash(uuidgen:*)",
+      "Bash(DEST=\"/Users/minam.cho/workspaces/study/_side-projects/hogumeter/HoguMeter/Resources/Assets.xcassets/AppIcon.appiconset\" ls -la \"$DEST\"/*.png)",
+      "Bash(convert:*)",
+      "Bash(magick:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
