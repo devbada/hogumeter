@@ -95,7 +95,7 @@ enum CoachMarkData {
                 targetView: "tripList",
                 title: "주행 기록",
                 description: "완료된 주행 기록이 여기에 저장됩니다. 아래로 스크롤하면 더 많은 기록을 볼 수 있어요.",
-                position: .bottom,
+                position: .auto,
                 order: 1
             ),
             CoachMark(
@@ -103,7 +103,7 @@ enum CoachMarkData {
                 targetView: "tripItem",
                 title: "상세 보기",
                 description: "기록을 탭하면 영수증과 상세 정보를 다시 볼 수 있어요.",
-                position: .bottom,
+                position: .auto,
                 order: 2
             )
         ]

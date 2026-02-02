@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 /// Tooltip bubble that shows title, description, and navigation buttons
 struct TooltipBubble: View {
@@ -24,6 +25,16 @@ struct TooltipBubble: View {
     private let arrowSize: CGFloat = 10
     private let tooltipPadding: CGFloat = 16
     private let screenPadding: CGFloat = 16
+
+    /// Safe area insets from the key window (accounts for tab bar, notch, etc.)
+    private var windowSafeAreaInsets: UIEdgeInsets {
+        guard let scene = UIApplication.shared.connectedScenes
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let window = scene.keyWindow else {
+            return .zero
+        }
+        return window.safeAreaInsets
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -127,17 +138,22 @@ struct TooltipBubble: View {
             y = targetFrame.midY
 
         case .auto:
-            // Fallback (should not reach here after resolvePosition)
+            // Neither edge has enough space — center in the visible safe area
+            let safeInsets = windowSafeAreaInsets
+            let safeTop = safeInsets.top + screenPadding
+            let safeBottom = screenHeight - safeInsets.bottom - screenPadding
             x = screenWidth / 2
-            y = targetFrame.maxY + tooltipHeight / 2 + tooltipPadding + arrowSize
+            y = (safeTop + safeBottom) / 2
         }
 
-        // Clamp to screen bounds
+        // Clamp to screen bounds (accounting for safe areas like tab bar, notch)
+        let safeInsets = windowSafeAreaInsets
         let halfWidth = tooltipWidth / 2
         x = max(halfWidth + screenPadding, min(screenWidth - halfWidth - screenPadding, x))
 
         let halfHeight = tooltipHeight / 2
-        y = max(halfHeight + screenPadding, min(screenHeight - halfHeight - screenPadding, y))
+        y = max(halfHeight + screenPadding + safeInsets.top,
+                min(screenHeight - halfHeight - screenPadding - safeInsets.bottom, y))
 
         return CGPoint(x: x, y: y)
     }
@@ -148,17 +164,18 @@ struct TooltipBubble: View {
         }
 
         let screenHeight = geometry.size.height
+        let safeInsets = windowSafeAreaInsets
 
-        // Prefer bottom if there's enough space
-        let spaceBelow = screenHeight - targetFrame.maxY
-        let spaceAbove = targetFrame.minY
+        // Prefer bottom if there's enough space (excluding safe areas)
+        let spaceBelow = screenHeight - targetFrame.maxY - safeInsets.bottom
+        let spaceAbove = targetFrame.minY - safeInsets.top
 
         if spaceBelow >= tooltipHeight + tooltipPadding * 2 + arrowSize {
             return .bottom
         } else if spaceAbove >= tooltipHeight + tooltipPadding * 2 + arrowSize {
             return .top
         } else {
-            return .bottom // Default fallback
+            return .auto // Neither edge has space — center in safe area
         }
     }
 }
