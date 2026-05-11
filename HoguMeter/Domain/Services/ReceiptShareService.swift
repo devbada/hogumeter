@@ -90,27 +90,59 @@ final class ReceiptShareService: NSObject {
         super.init()
     }
 
+    /// 영수증 이미지를 지정한 채널로 공유한다.
+    /// - Parameters:
+    ///   - image: 공유할 영수증 이미지
+    ///   - destination: 공유 채널
+    ///   - fare: 공유 본문에 노출할 요금(원). nil이면 본문 텍스트를 첨부하지 않는다.
+    ///   - viewController: present에 사용할 뷰컨트롤러
+    ///   - completion: 결과 콜백
     func share(
         image: UIImage,
         to destination: ShareDestination,
+        fare: Int? = nil,
         from viewController: UIViewController,
         completion: @escaping (Result<Void, ShareError>) -> Void
     ) {
         self.presentingViewController = viewController
 
+        // 채널별로 본문 텍스트 노출 여부가 다르므로 빌더에 위임한다.
+        let shareText = buildShareText(for: destination, fare: fare)
+
         switch destination {
         case .kakaoTalk:
-            showShareSheet(image: image, from: viewController, completion: completion)
+            showShareSheet(image: image, text: shareText, from: viewController, completion: completion)
         case .instagram:
+            // 인스타그램 스토리는 스티커 방식이라 텍스트가 전달되지 않음. 이미지만 공유.
             shareToInstagram(image: image, completion: completion)
         case .iMessage:
-            shareToiMessage(image: image, from: viewController, completion: completion)
+            shareToiMessage(image: image, text: shareText, from: viewController, completion: completion)
         case .saveToPhotos:
             saveToPhotos(image: image, completion: completion)
         case .copyImage:
             copyToClipboard(image: image, completion: completion)
         case .more:
-            showShareSheet(image: image, from: viewController, completion: completion)
+            showShareSheet(image: image, text: shareText, from: viewController, completion: completion)
+        }
+    }
+
+    // MARK: - Share Text Builder
+
+    /// 채널별로 공유 본문 텍스트를 빌드한다.
+    /// - 인스타그램/사진저장/복사 채널은 텍스트가 전달되지 않으므로 nil 반환.
+    /// - fare가 nil인 경우에도 nil 반환(요금 없는 공유는 단순 이미지로 처리).
+    /// internal 가시성: 단위 테스트에서 호출 가능하도록 함.
+    func buildShareText(for destination: ShareDestination, fare: Int?) -> String? {
+        guard let fare = fare else { return nil }
+
+        switch destination {
+        case .instagram, .saveToPhotos, .copyImage:
+            // 텍스트가 전달되지 않거나 의미가 없는 채널
+            return nil
+        case .kakaoTalk, .iMessage, .more:
+            let formattedFare = fare.formattedWithComma
+            return Constants.Share.shareCaptionTemplate
+                .replacingOccurrences(of: "{fare}", with: formattedFare)
         }
     }
 
@@ -161,6 +193,7 @@ final class ReceiptShareService: NSObject {
 
     private func shareToiMessage(
         image: UIImage,
+        text: String?,
         from viewController: UIViewController,
         completion: @escaping (Result<Void, ShareError>) -> Void
     ) {
@@ -179,7 +212,9 @@ final class ReceiptShareService: NSObject {
             }
         }
 
-        messageVC.body = "🐴 호구미터 영수증"
+        // 본문에 자랑용 멘트 + 앱스토어 링크가 포함된다.
+        // 텍스트가 없으면 기존 짧은 멘트로 폴백.
+        messageVC.body = text ?? "🐴 호구미터 영수증"
 
         viewController.present(messageVC, animated: true)
     }
@@ -219,10 +254,17 @@ final class ReceiptShareService: NSObject {
 
     private func showShareSheet(
         image: UIImage,
+        text: String?,
         from viewController: UIViewController,
         completion: @escaping (Result<Void, ShareError>) -> Void
     ) {
-        let activityItems: [Any] = [image]
+        // 시스템 시트는 [이미지, 텍스트] 순으로 넘기면 채널에 따라 자동으로 적절히 사용한다.
+        // 텍스트가 nil이면 이미지만 공유.
+        var activityItems: [Any] = [image]
+        if let text = text {
+            activityItems.append(text)
+        }
+
         let activityVC = UIActivityViewController(
             activityItems: activityItems,
             applicationActivities: nil
