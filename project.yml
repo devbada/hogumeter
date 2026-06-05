@@ -10,8 +10,8 @@ settings:
     PRODUCT_NAME: HoguMeter
     PRODUCT_BUNDLE_IDENTIFIER: com.hogumeter.app
     DEVELOPMENT_TEAM: ""
-    MARKETING_VERSION: "1.1.1"
-    CURRENT_PROJECT_VERSION: "4"
+    MARKETING_VERSION: "1.3.4"
+    CURRENT_PROJECT_VERSION: "1"
     SWIFT_VERSION: "5.9"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     TARGETED_DEVICE_FAMILY: "1"  # iPhone only
@@ -44,6 +44,10 @@ targets:
           - location
         NSLocationWhenInUseUsageDescription: "호구미터가 주행 거리를 측정하기 위해 위치 정보가 필요합니다."
         NSLocationAlwaysAndWhenInUseUsageDescription: "앱이 백그라운드에서도 주행을 계속 측정하기 위해 위치 정보가 필요합니다."
+        NSPhotoLibraryAddUsageDescription: "영수증 이미지를 사진첩에 저장하기 위해 권한이 필요합니다."
+        LSApplicationQueriesSchemes:
+          - instagram
+          - instagram-stories
     settings:
       base:
         INFOPLIST_FILE: HoguMeter/Info.plist
@@ -60,6 +64,20 @@ targets:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
           SWIFT_COMPILATION_MODE: wholemodule
 
+  HoguMeterTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: HoguMeterTests
+        excludes:
+          - "**/.DS_Store"
+    dependencies:
+      - target: HoguMeter
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+        PRODUCT_BUNDLE_IDENTIFIER: com.devbada.HoguMeterTests
+
 schemes:
   HoguMeter:
     build:
@@ -69,6 +87,8 @@ schemes:
       config: Debug
     test:
       config: Debug
+      targets:
+        - HoguMeterTests
     profile:
       config: Release
     analyze:
