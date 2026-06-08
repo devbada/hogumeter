@@ -12,6 +12,8 @@ struct ContentView: View {
     @State private var showSettings = false
     @State private var showHistory = false
     @State private var colorSchemePreference: SettingsRepository.ColorSchemePreference = .system
+    /// 테마 전환 순간에 잠깐 끼었다가 사라지는 blur 강도 (0이면 선명)
+    @State private var themeTransitionBlur: CGFloat = 0
 
     private let settingsRepository = SettingsRepository()
 
@@ -32,14 +34,34 @@ struct ContentView: View {
                     Label("기록", systemImage: "clock")
                 }
         }
+        // 테마가 바뀌는 순간 잠깐 흐려졌다가 다시 선명해지며 morph 되는 느낌을 준다.
+        .blur(radius: themeTransitionBlur)
         .preferredColorScheme(preferredColorScheme)
         // ColorScheme 변경 시 자식 view들의 색 변화를 부드럽게 보간
         .animation(.easeInOut(duration: 0.45), value: preferredColorScheme)
+        // 라이트/다크가 실제로 바뀔 때마다 전환 blur 트리거 (자동·수동 모두 포함)
+        .onChange(of: preferredColorScheme) { _, _ in
+            triggerThemeTransitionBlur()
+        }
         .onAppear {
             loadColorSchemePreference()
         }
         .onReceive(NotificationCenter.default.publisher(for: .colorSchemeChanged)) { _ in
             loadColorSchemePreference()
+        }
+    }
+
+    /// 테마 전환 시 blur를 빠르게 올렸다가(↑) 천천히 0으로 내려(↓) 부드러운 전환 연출.
+    private func triggerThemeTransitionBlur() {
+        // 1) 올라가는 구간: 색이 바뀌기 시작하는 순간 빠르게 흐려진다.
+        withAnimation(.easeOut(duration: 0.18)) {
+            themeTransitionBlur = 14
+        }
+        // 2) 내려가는 구간: 색 보간(0.45s)이 끝나갈 즈음 천천히 선명해진다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) {
+            withAnimation(.easeInOut(duration: 0.40)) {
+                themeTransitionBlur = 0
+            }
         }
     }
 

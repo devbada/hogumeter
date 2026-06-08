@@ -5,7 +5,7 @@
 //  Created on 2026-05-28.
 //
 //  UIScreen.brightness 값을 ambient light의 프록시 신호로 사용해 라이트/다크 모드를 추정한다.
-//  hysteresis(0.30 / 0.45) 임계값으로 깜빡임을 방지한다.
+//  hysteresis(0.45 / 0.55) 임계값으로 깜빡임을 방지한다.
 //
 //  공식 ambient light sensor API가 없는 iOS 환경에서 자동 밝기 기능에 의존한다는 한계가 있다.
 //  자세한 명세는 SPEC_AMBIENT_DARK_MODE.md 참고.
@@ -44,13 +44,17 @@ final class AmbientLightObserver {
 
     /// - Parameters:
     ///   - initialBrightness: 초기 측정값 주입. nil이면 현재 윈도우 씬에서 조회.
-    ///   - lightToDarkThreshold: light → dark 전환 임계값 (기본 0.30)
-    ///   - darkToLightThreshold: dark → light 전환 임계값 (기본 0.45)
+    ///   - lightToDarkThreshold: light → dark 전환 임계값 (기본 0.45)
+    ///   - darkToLightThreshold: dark → light 전환 임계값 (기본 0.55)
     ///   - notificationCenter: 테스트 주입용
+    //
+    // 민감도 튜닝: 두 임계값을 0.50 부근으로 끌어올리고 hysteresis 폭을 0.10으로 좁혀
+    // "적당히만 어두워져도" 다크로 전환되도록 했다. 폭이 좁을수록 민감하지만 경계에서
+    // 깜빡일 위험이 커지므로, iOS 자동 밝기가 변화를 평활화해 주는 점에 기대 0.10을 하한으로 둔다.
     init(
         initialBrightness: Double? = nil,
-        lightToDarkThreshold: Double = 0.30,
-        darkToLightThreshold: Double = 0.45,
+        lightToDarkThreshold: Double = 0.45,
+        darkToLightThreshold: Double = 0.55,
         notificationCenter: NotificationCenter = .default
     ) {
         let initial = initialBrightness ?? AmbientLightObserver.currentSceneBrightness()
