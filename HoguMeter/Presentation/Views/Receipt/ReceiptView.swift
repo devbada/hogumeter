@@ -77,8 +77,12 @@ struct ReceiptView: View {
 
                     // 공유 버튼들
                     if let receiptImage = generatedReceiptImage {
-                        ShareButtonsView(image: receiptImage, onDismiss: { dismiss() })
-                            .padding(.top, 10)
+                        ShareButtonsView(
+                            image: receiptImage,
+                            fare: trip.totalFare,
+                            onDismiss: { dismiss() }
+                        )
+                        .padding(.top, 10)
                     } else {
                         // 이미지 생성 중 로딩 표시
                         HStack {

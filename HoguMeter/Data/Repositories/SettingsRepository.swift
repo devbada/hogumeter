@@ -34,10 +34,21 @@ final class SettingsRepository: SettingsRepositoryProtocol {
         static let receiptTemplate = "receiptTemplate"
     }
 
-    enum ColorSchemePreference: String {
-        case system
+    enum ColorSchemePreference: String, CaseIterable {
+        case system     // iOS 시스템 설정 따라가기
+        case auto       // 조도(UIScreen.brightness) 기반 자동 전환
         case light
         case dark
+
+        /// 사용자 표시명
+        var displayName: String {
+            switch self {
+            case .system: return "시스템 설정"
+            case .auto:   return "자동 (조도)"
+            case .light:  return "라이트"
+            case .dark:   return "다크"
+            }
+        }
     }
 
     // MARK: - Dependencies

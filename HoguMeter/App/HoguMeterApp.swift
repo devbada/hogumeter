@@ -64,8 +64,12 @@ struct HoguMeterApp: App {
         switch phase {
         case .active:
             NotificationCenter.default.post(name: .appBecameActive, object: nil)
+            // 조도 기반 다크모드: scene이 active일 때만 brightness notification 구독
+            appState.ambientLightObserver.startObserving()
         case .background:
             NotificationCenter.default.post(name: .appEnteredBackground, object: nil)
+            // 백그라운드 진입 시 알림 구독 해제 (불필요한 wake/leak 방지)
+            appState.ambientLightObserver.stopObserving()
         case .inactive:
             break
         @unknown default:
@@ -151,6 +155,8 @@ class AppState: ObservableObject {
     let fareCalculator: FareCalculator
     let regionDetector: RegionDetector
     let soundManager: SoundManager
+    /// 조도 기반 다크모드 전환을 위한 화면 밝기 관찰자
+    let ambientLightObserver: AmbientLightObserver
 
     // MARK: - Repositories
     let tripRepository: TripRepository
@@ -168,5 +174,6 @@ class AppState: ObservableObject {
         self.regionDetector = RegionDetector()
         self.soundManager = SoundManager(settingsRepository: settingsRepository)
         self.fareCalculator = FareCalculator(settingsRepository: settingsRepository)
+        self.ambientLightObserver = AmbientLightObserver()
     }
 }

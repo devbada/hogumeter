@@ -11,6 +11,9 @@ import MapKit
 /// 템플릿 기반 영수증 이미지 생성기
 enum TemplateReceiptGenerator {
 
+    /// 영수증 하단 워터마크 영역 높이 (브랜드 노출 + 해시태그)
+    private static let watermarkHeight: CGFloat = 32
+
     static func generate(
         from trip: Trip,
         template: ReceiptTemplate,
@@ -23,9 +26,9 @@ enum TemplateReceiptGenerator {
         let routeMapHeight: CGFloat = hasRoute ? 140 : 0
         let driverQuoteHeight: CGFloat = hasDriverQuote ? 25 : 0
 
-        // 템플릿별 높이 조정
+        // 템플릿별 높이 조정 (+ 워터마크 영역 포함)
         let baseHeight: CGFloat = template == .minimal ? 380 : 520
-        let height: CGFloat = baseHeight + routeMapHeight + driverQuoteHeight
+        let height: CGFloat = baseHeight + routeMapHeight + driverQuoteHeight + watermarkHeight
         let padding: CGFloat = 20
 
         let format = UIGraphicsImageRendererFormat()
@@ -59,7 +62,45 @@ enum TemplateReceiptGenerator {
             case .premium:
                 y = drawPremiumReceipt(ctx: ctx, trip: trip, colors: colors, width: width, padding: padding, y: y, mapSnapshot: mapSnapshot, hasRoute: hasRoute)
             }
+
+            // 모든 템플릿 하단에 공통 워터마크 그리기
+            // 영수증 본문 끝(y) 아래쪽에 그리되, 너무 가까이 붙지 않도록 살짝 여백을 둔다.
+            drawBrandWatermark(
+                ctx: ctx,
+                colors: colors,
+                width: width,
+                totalHeight: height,
+                contentEndY: y
+            )
         }
+    }
+
+    // MARK: - Brand Watermark (공통)
+
+    /// 영수증 이미지 최하단에 브랜드 워터마크를 그린다.
+    /// - 모든 템플릿에 동일하게 적용되며, 색상 스킴의 secondaryTextColor를 따라간다.
+    /// - 영수증 본문(`contentEndY`)과 이미지 하단 사이 중앙에 정렬한다.
+    private static func drawBrandWatermark(
+        ctx: CGContext,
+        colors: ReceiptColorScheme,
+        width: CGFloat,
+        totalHeight: CGFloat,
+        contentEndY: CGFloat
+    ) {
+        let watermark = Constants.Share.watermarkText as NSString
+        let watermarkAttr: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 10, weight: .medium),
+            .foregroundColor: colors.secondaryTextColor.withAlphaComponent(0.7)
+        ]
+        let size = watermark.size(withAttributes: watermarkAttr)
+
+        // 워터마크 영역의 세로 중앙에 배치
+        let watermarkAreaTop = max(contentEndY, totalHeight - watermarkHeight)
+        let availableHeight = totalHeight - watermarkAreaTop
+        let drawY = watermarkAreaTop + (availableHeight - size.height) / 2.0
+        let drawX = (width - size.width) / 2.0
+
+        watermark.draw(at: CGPoint(x: drawX, y: drawY), withAttributes: watermarkAttr)
     }
 
     // MARK: - Classic Template
