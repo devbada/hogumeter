@@ -109,6 +109,39 @@ enum CoachMarkData {
         ]
     )
 
+    // MARK: - Statistics Screen (통계)
+
+    static let statisticsScreen = CoachMarkScreen(
+        id: "statistics",
+        screenName: "통계",
+        coachMarks: [
+            CoachMark(
+                id: "statistics_overview",
+                targetView: "statisticsOverview",
+                title: "전체 이용 통계",
+                description: "전체 이용기간의 총 거리, 총 발생금액, 주행 횟수를 확인할 수 있어요.",
+                position: .bottom,
+                order: 1
+            ),
+            CoachMark(
+                id: "statistics_period",
+                targetView: "statisticsPeriod",
+                title: "기간별 추이",
+                description: "월별과 주간 기준을 바꿔 거리와 발생금액 추이를 비교해보세요.",
+                position: .bottom,
+                order: 2
+            ),
+            CoachMark(
+                id: "statistics_map",
+                targetView: "statisticsMap",
+                title: "이용 지역 모아보기",
+                description: "저장된 주행 경로를 격자로 모아 자주 이용한 지역을 확인할 수 있어요.",
+                position: .top,
+                order: 3
+            )
+        ]
+    )
+
     // MARK: - Settings Screen (설정)
 
     static let settingsScreen = CoachMarkScreen(

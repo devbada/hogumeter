@@ -11,6 +11,7 @@ Tab Bar
 ├── 🏠 메인 (Main Meter) ──→ Coach marks on first visit (4 marks)
 │   └── 🗺️ 지도 (Map) ──→ Coach marks on first map open during trip (3 marks)
 ├── 📋 기록 (History) ──→ Coach marks on first visit (2 marks)
+├── 📊 통계 (Statistics) ──→ Coach marks on first visit with saved records (3 marks)
 └── ⚙️ 설정 (Settings) ──→ Coach marks on first visit (4 marks)
 ```
 
@@ -88,6 +89,7 @@ final class CoachMarkManager: ObservableObject {
     @AppStorage("hasCompletedOnboarding_main") var completedMain
     @AppStorage("hasCompletedOnboarding_map") var completedMap
     @AppStorage("hasCompletedOnboarding_history") var completedHistory
+    @AppStorage("hasCompletedOnboarding_statistics") var completedStatistics
     @AppStorage("hasCompletedOnboarding_settings") var completedSettings
 
     func shouldShowCoachMarks(for screenId: String) -> Bool
@@ -129,7 +131,17 @@ final class CoachMarkManager: ObservableObject {
 | 1 | tripList | 주행 기록 | 완료된 주행 기록이 여기에 저장됩니다. 아래로 스크롤하면 더 많은 기록을 볼 수 있어요. |
 | 2 | tripItem | 상세 보기 | 기록을 탭하면 영수증과 상세 정보를 다시 볼 수 있어요. |
 
-### Screen 4: Settings (설정)
+### Screen 4: Statistics (통계)
+
+**Trigger**: First visit after at least one trip has been saved.
+
+| Order | Target | Title | Description |
+|-------|--------|-------|-------------|
+| 1 | statisticsOverview | 전체 이용 통계 | 전체 이용기간의 총 거리, 총 발생금액, 주행 횟수를 확인할 수 있어요. |
+| 2 | statisticsPeriod | 기간별 추이 | 월별과 주간 기준을 바꿔 거리와 발생금액 추이를 비교해보세요. |
+| 3 | statisticsMap | 이용 지역 모아보기 | 저장된 주행 경로를 격자로 모아 자주 이용한 지역을 확인할 수 있어요. |
+
+### Screen 5: Settings (설정)
 
 | Order | Target | Title | Description |
 |-------|--------|-------|-------------|

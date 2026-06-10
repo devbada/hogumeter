@@ -24,14 +24,19 @@ struct ContentView: View {
                     Label("미터기", systemImage: "gauge")
                 }
 
-            SettingsView()
-                .tabItem {
-                    Label("설정", systemImage: "gearshape")
-                }
-
             TripHistoryView()
                 .tabItem {
                     Label("기록", systemImage: "clock")
+                }
+
+            StatisticsView(repository: appState.tripRepository)
+                .tabItem {
+                    Label("통계", systemImage: "chart.bar.fill")
+                }
+
+            SettingsView()
+                .tabItem {
+                    Label("설정", systemImage: "gearshape")
                 }
         }
         // 테마가 바뀌는 순간 잠깐 흐려졌다가 다시 선명해지며 morph 되는 느낌을 준다.
