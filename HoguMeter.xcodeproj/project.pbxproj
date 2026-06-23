@@ -87,6 +87,7 @@
 		9AECD22DC3BA877835DB39AE /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B06023C3A46ACB19895E34 /* View+Extensions.swift */; };
 		9D3E683FF83D252FAFF9E6B6 /* ReceiptShareServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E94E618B72CE71610C9959 /* ReceiptShareServiceTests.swift */; };
 		9E9C9C5E32DD84624146D8D7 /* RegionFareAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249A3D34B54529253D2385C2 /* RegionFareAddView.swift */; };
+		9F6195748416D6362EBEAA7C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F8023E32ED7F8B99A5DDF0D7 /* Lottie */; };
 		9F906CEDA0ED3B2057B83CE7 /* StartPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8429E5EF6A9607E4AF835CF2 /* StartPointAnnotation.swift */; };
 		A0334E385340B567F01DEC46 /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79777E658A738A98A916216 /* RoutePoint.swift */; };
 		A212E05CD88947432A9D48E0 /* PaginationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB79C5EB5E4A135CB247EAC6 /* PaginationConfig.swift */; };
@@ -96,6 +97,7 @@
 		A9F3DD12B265C108DDA68245 /* RegionalSurchargeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981EC570E0C3AF2774D78066 /* RegionalSurchargeModeView.swift */; };
 		AA87CBB77ABC72A0CF61881B /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBF592FDDC70023D0AF9DBC /* Notification+Extensions.swift */; };
 		AAC60123429BD111808ACE91 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CFE822AFFAAB528579537 /* HapticManager.swift */; };
+		AADB3C77F1423DC32FA8F01F /* HoguMeterSplash.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3D6AB2505599668AF0FB08 /* HoguMeterSplash.json */; };
 		AD1DB6F04EBCC070861D1066 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE942707AFEC7295EEB5A7 /* LocationService.swift */; };
 		ADE20002315F10EDD2D95138 /* LocationFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AE044A0E4881B291233E58 /* LocationFormatterTests.swift */; };
 		B16C7ED5B88E9781B5D51D2D /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25344B198C63F69EDCE8FCA7 /* MapContainerView.swift */; };
@@ -214,6 +216,7 @@
 		792B6BF2CA0A05F21787D4AA /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		79A76FFCC660B7D0DAF5C9E9 /* DataCleanupServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCleanupServiceTests.swift; sourceTree = "<group>"; };
 		7A23FB2C5D15FC7BBF4A9188 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		7C3D6AB2505599668AF0FB08 /* HoguMeterSplash.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = HoguMeterSplash.json; sourceTree = "<group>"; };
 		81B00EFF98AC9A14D62E3218 /* DisclaimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewModel.swift; sourceTree = "<group>"; };
 		81EDC317817B9D2CB18E0C57 /* AutoZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomLevel.swift; sourceTree = "<group>"; };
 		82A81A7E13D11C6F4C225033 /* MockDeadReckoningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDeadReckoningService.swift; sourceTree = "<group>"; };
@@ -264,7 +267,7 @@
 		D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFare.swift; sourceTree = "<group>"; };
 		DBED755873BF6023E8A00170 /* FareInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareInputField.swift; sourceTree = "<group>"; };
 		DE93DCC5FDCE714E702D328C /* StorageStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageStats.swift; sourceTree = "<group>"; };
-		DF6AB6681D6D5F3043F077C3 /* HoguMeterTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = file; name = HoguMeterTests.xctest; path = HoguMeter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF6AB6681D6D5F3043F077C3 /* HoguMeter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoguMeter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0027E3B8BF30957FD2BE41E /* RegionalSurchargeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeServiceTests.swift; sourceTree = "<group>"; };
 		E0BE7332F192EF32E9EA0A5B /* StatisticsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsModels.swift; sourceTree = "<group>"; };
 		E4C0EC692DA97BC518B69BF7 /* FareCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareCalculatorTests.swift; sourceTree = "<group>"; };
@@ -284,6 +287,17 @@
 		FE10E81350094D7AFCFDBA7D /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		FE5FDFC51534D8D783955CBC /* AutoZoomManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoZoomManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		60054B98F201DCB1AE5066F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F6195748416D6362EBEAA7C /* Lottie in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		00102AF24CC09057009EAEFC /* Mocks */ = {
@@ -366,6 +380,14 @@
 				559E4441663816D664B71569 /* FareValidation.swift */,
 			);
 			path = UseCases;
+			sourceTree = "<group>";
+		};
+		327D0729939385D6519E20B5 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				7C3D6AB2505599668AF0FB08 /* HoguMeterSplash.json */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		3500C9519EFBE8E7CF847E29 /* Settings */ = {
@@ -604,6 +626,7 @@
 			isa = PBXGroup;
 			children = (
 				6A91BE8BC3716FB99B58A61C /* Assets.xcassets */,
+				327D0729939385D6519E20B5 /* Animations */,
 				472E66C7809099294A67AF59 /* Sounds */,
 			);
 			path = Resources;
@@ -780,7 +803,7 @@
 			isa = PBXGroup;
 			children = (
 				9B1B90C5922AF2379FA3A78C /* HoguMeter.app */,
-				DF6AB6681D6D5F3043F077C3 /* HoguMeterTests.xctest */,
+				DF6AB6681D6D5F3043F077C3 /* HoguMeter.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -802,6 +825,7 @@
 			buildPhases = (
 				D39A0FF20AB3D23D7274C8D9 /* Sources */,
 				0F57069CE399B34641E1A077 /* Resources */,
+				60054B98F201DCB1AE5066F2 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -809,6 +833,7 @@
 			);
 			name = HoguMeter;
 			packageProductDependencies = (
+				F8023E32ED7F8B99A5DDF0D7 /* Lottie */,
 			);
 			productName = HoguMeter;
 			productReference = 9B1B90C5922AF2379FA3A78C /* HoguMeter.app */;
@@ -830,7 +855,7 @@
 			packageProductDependencies = (
 			);
 			productName = HoguMeterTests;
-			productReference = DF6AB6681D6D5F3043F077C3 /* HoguMeterTests.xctest */;
+			productReference = DF6AB6681D6D5F3043F077C3 /* HoguMeter.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -840,7 +865,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					ECFE29B53F5DA4450FC547F0 = {
 						DevelopmentTeam = "";
@@ -857,6 +882,9 @@
 			);
 			mainGroup = AA0A5A3EAD97BFB5B63AC2C7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				17ED17A816321416FBBCB345 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -873,6 +901,7 @@
 			files = (
 				09E667AEFABCB87A5FDF96E1 /* Assets.xcassets in Resources */,
 				7D8A9B94D6CE8A2AFD1DC60C /* DefaultFares.json in Resources */,
+				AADB3C77F1423DC32FA8F01F /* HoguMeterSplash.json in Resources */,
 				20F9799FCF166280752BF18A /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1045,15 +1074,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "호구미터: 장난스러운 택시미터기앱";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1121,6 +1153,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1143,6 +1176,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hogumeter.app;
 				PRODUCT_NAME = HoguMeter;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1191,6 +1225,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1206,6 +1241,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hogumeter.app;
 				PRODUCT_NAME = HoguMeter;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1221,15 +1257,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W96LW7FRSD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HoguMeter/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "호구미터: 장난스러운 택시미터기앱";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1289,6 +1328,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		17ED17A816321416FBBCB345 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F8023E32ED7F8B99A5DDF0D7 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17ED17A816321416FBBCB345 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7A98E770A27106E985427625 /* Project object */;
 }

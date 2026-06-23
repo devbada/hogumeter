@@ -18,6 +18,11 @@ settings:
     SUPPORTS_MACCATALYST: false
     SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: false
 
+packages:
+  Lottie:
+    url: https://github.com/airbnb/lottie-spm.git
+    from: 4.6.0
+
 targets:
   HoguMeter:
     type: application
@@ -26,6 +31,8 @@ targets:
       - path: HoguMeter
         excludes:
           - "**/.DS_Store"
+    dependencies:
+      - package: Lottie
     info:
       path: HoguMeter/Info.plist
       properties:

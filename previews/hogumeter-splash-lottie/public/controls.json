@@ -1,0 +1,12 @@
+{
+  "controls": [
+    {
+      "sid": "bgColor",
+      "label": "배경색"
+    },
+    {
+      "sid": "taxiColor",
+      "label": "택시 색상"
+    }
+  ]
+}
