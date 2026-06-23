@@ -12,33 +12,22 @@ struct ContentView: View {
     @State private var showSettings = false
     @State private var showHistory = false
     @State private var colorSchemePreference: SettingsRepository.ColorSchemePreference = .system
+    @State private var selectedTab: AppTab = .meter
+    @State private var meterViewModel: MeterViewModel?
     /// 테마 전환 순간에 잠깐 끼었다가 사라지는 blur 강도 (0이면 선명)
     @State private var themeTransitionBlur: CGFloat = 0
 
     private let settingsRepository = SettingsRepository()
 
     var body: some View {
-        TabView {
-            MainMeterView(viewModel: createMeterViewModel())
-                .tabItem {
-                    Label("미터기", systemImage: "gauge")
-                }
-
-            TripHistoryView()
-                .tabItem {
-                    Label("기록", systemImage: "clock")
-                }
-
-            StatisticsView(repository: appState.tripRepository)
-                .tabItem {
-                    Label("통계", systemImage: "chart.bar.fill")
-                }
-
-            SettingsView()
-                .tabItem {
-                    Label("설정", systemImage: "gearshape")
-                }
+        Group {
+            if let meterViewModel = meterViewModel {
+                tabs(meterViewModel: meterViewModel)
+            } else {
+                ProgressView()
+            }
         }
+        // TODO-minam: 실제 유료 잠금 정책 확정 후 호구게이션 탭 진입 조건을 StoreKit entitlement와 연결해야 합니다.
         // 테마가 바뀌는 순간 잠깐 흐려졌다가 다시 선명해지며 morph 되는 느낌을 준다.
         .blur(radius: themeTransitionBlur)
         .preferredColorScheme(preferredColorScheme)
@@ -49,11 +38,54 @@ struct ContentView: View {
             triggerThemeTransitionBlur()
         }
         .onAppear {
+            ensureMeterViewModel()
             loadColorSchemePreference()
         }
         .onReceive(NotificationCenter.default.publisher(for: .colorSchemeChanged)) { _ in
             loadColorSchemePreference()
         }
+    }
+
+    private func tabs(meterViewModel: MeterViewModel) -> some View {
+        TabView(selection: $selectedTab) {
+            MainMeterView(viewModel: meterViewModel)
+                .tabItem {
+                    Label("미터기", systemImage: "gauge")
+                }
+                .tag(AppTab.meter)
+
+            HoguNavigationView(
+                fareCalculator: appState.fareCalculator,
+                meterViewModel: meterViewModel
+            )
+                .tabItem {
+                    Label("호구게이션", systemImage: "map")
+                }
+                .tag(AppTab.hoguNavigation)
+
+            TripHistoryView()
+                .tabItem {
+                    Label("기록", systemImage: "clock")
+                }
+                .tag(AppTab.history)
+
+            StatisticsView(repository: appState.tripRepository)
+                .tabItem {
+                    Label("통계", systemImage: "chart.bar.fill")
+                }
+                .tag(AppTab.statistics)
+
+            SettingsView()
+                .tabItem {
+                    Label("설정", systemImage: "gearshape")
+                }
+                .tag(AppTab.settings)
+        }
+    }
+
+    private func ensureMeterViewModel() {
+        guard meterViewModel == nil else { return }
+        meterViewModel = createMeterViewModel()
     }
 
     /// 테마 전환 시 blur를 빠르게 올렸다가(↑) 천천히 0으로 내려(↓) 부드러운 전환 연출.
@@ -102,6 +134,14 @@ struct ContentView: View {
             tripRepository: appState.tripRepository
         )
     }
+}
+
+private enum AppTab: Hashable {
+    case meter
+    case hoguNavigation
+    case history
+    case statistics
+    case settings
 }
 
 #Preview {

@@ -1,0 +1,3 @@
+PUBLIC_SPEED_CAMERA_SERVICE_KEY =
+
+#include? "Secrets.xcconfig"

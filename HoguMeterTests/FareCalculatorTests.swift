@@ -575,6 +575,18 @@ final class FareCalculatorTests: XCTestCase {
         XCTAssertEqual(fare, 4900, "131m 추가는 100원이 추가됩니다")
     }
 
+    func test_호구게이션_예상요금_거리와지연시간반영() {
+        let date = createDate(hour: 12, minute: 0)
+
+        let fare = calculator.estimateRouteFare(
+            distance: 10_000,
+            expectedTravelTime: 3_000,
+            at: date
+        )
+
+        XCTAssertEqual(fare, 13500, "예상 경로 요금은 거리와 기준속도 초과 지연시간을 함께 반영해야 합니다")
+    }
+
     // MARK: - Helper Methods
 
     private func createDate(hour: Int, minute: Int) -> Date {

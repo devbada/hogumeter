@@ -169,6 +169,16 @@ struct MainMeterView: View {
                     showDriverQuote = false
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .hoguNavigationDidStart)) { _ in
+                if viewModel.state == .idle {
+                    viewModel.startMeter()
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .hoguNavigationDidStop)) { _ in
+                if viewModel.state == .running {
+                    viewModel.stopMeter()
+                }
+            }
             // 무이동 감지 알림
             .alert("이동이 감지되지 않습니다", isPresented: viewModel.showIdleAlertBinding) {
                 Button("계속", role: .cancel) {
