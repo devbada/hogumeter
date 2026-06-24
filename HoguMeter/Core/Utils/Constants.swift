@@ -44,8 +44,14 @@ enum Constants {
     /// 영수증 공유 및 브랜딩에 사용되는 상수들.
     /// App Store URL 또는 카피 변경이 필요할 경우 이 곳을 수정한다.
     enum Share {
+        /// 앱스토어 앱 ID
+        static let appStoreID = "6757376286"
+
         /// 앱스토어 URL (한국 스토어 기준)
-        static let appStoreURL = "https://apps.apple.com/kr/app/호구미터/id6757376286"
+        static let appStoreURL = "https://apps.apple.com/kr/app/id\(appStoreID)"
+
+        /// 앱스토어 리뷰 작성 URL
+        static let appStoreReviewURL = "\(appStoreURL)?action=write-review"
 
         /// 브랜드 해시태그 (영수증 워터마크 및 공유 텍스트에 사용)
         static let brandHashtag = "#호구미터"

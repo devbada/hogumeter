@@ -137,9 +137,18 @@ struct SettingsView: View {
                                 .foregroundColor(.secondary)
                         }
 
-                        Link(destination: URL(string: "https://devbada.github.io/hogumeter/privacy.html")!) {
+                        Link(destination: URL(string: "https://project-nz84a.vercel.app/privacy.html")!) {
                             HStack {
                                 Text("개인정보처리방침")
+                                Spacer()
+                                Image(systemName: "arrow.up.right.square")
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+
+                        Link(destination: URL(string: "https://project-nz84a.vercel.app/terms.html")!) {
+                            HStack {
+                                Text("이용약관")
                                 Spacer()
                                 Image(systemName: "arrow.up.right.square")
                                     .foregroundColor(.secondary)

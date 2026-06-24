@@ -180,6 +180,7 @@ final class HoguNavigationViewModel: NSObject, ObservableObject {
     private let rerouteMinimumInterval: TimeInterval = 20
     private let maximumLocationAge: TimeInterval = 12
     private let maximumHorizontalAccuracy: CLLocationAccuracy = 80
+    private let minimumRoutePreviewDuration: TimeInterval = 60
 
     var hasSearchListItems: Bool {
         !recentSuggestions.isEmpty || !searchResults.isEmpty
@@ -362,9 +363,14 @@ final class HoguNavigationViewModel: NSObject, ObservableObject {
                     return
                 }
 
+                let expectedTravelTime = self.normalizedExpectedTravelTime(
+                    distance: route.distance,
+                    mapKitExpectedTravelTime: route.expectedTravelTime
+                )
+
                 let fare = self.fareCalculator.estimateRouteFare(
                     distance: route.distance,
-                    expectedTravelTime: route.expectedTravelTime,
+                    expectedTravelTime: expectedTravelTime,
                     at: Date()
                 )
 
@@ -372,7 +378,7 @@ final class HoguNavigationViewModel: NSObject, ObservableObject {
                     originName: self.originText,
                     destinationName: self.destinationText,
                     distance: route.distance,
-                    expectedTravelTime: route.expectedTravelTime,
+                    expectedTravelTime: expectedTravelTime,
                     expectedFare: fare,
                     polyline: route.polyline,
                     originCoordinate: originCoordinate,
@@ -738,9 +744,14 @@ extension HoguNavigationViewModel: CLLocationManagerDelegate {
                     return
                 }
 
+                let expectedTravelTime = self.normalizedExpectedTravelTime(
+                    distance: route.distance,
+                    mapKitExpectedTravelTime: route.expectedTravelTime
+                )
+
                 let fare = self.fareCalculator.estimateRouteFare(
                     distance: route.distance,
-                    expectedTravelTime: route.expectedTravelTime,
+                    expectedTravelTime: expectedTravelTime,
                     at: Date()
                 )
 
@@ -748,7 +759,7 @@ extension HoguNavigationViewModel: CLLocationManagerDelegate {
                     originName: "현재 위치",
                     destinationName: self.destinationText,
                     distance: route.distance,
-                    expectedTravelTime: route.expectedTravelTime,
+                    expectedTravelTime: expectedTravelTime,
                     expectedFare: fare,
                     polyline: route.polyline,
                     originCoordinate: location.coordinate,
@@ -795,6 +806,37 @@ extension HoguNavigationViewModel: CLLocationManagerDelegate {
         }
 
         return steps
+    }
+
+    private func normalizedExpectedTravelTime(
+        distance: CLLocationDistance,
+        mapKitExpectedTravelTime: TimeInterval
+    ) -> TimeInterval {
+        guard distance > 0 else {
+            return max(mapKitExpectedTravelTime, minimumRoutePreviewDuration)
+        }
+
+        let maximumAverageSpeed = maximumPreviewAverageSpeedKPH(for: distance)
+        let minimumPlausibleTravelTime = distance / (maximumAverageSpeed / 3.6)
+
+        return max(
+            mapKitExpectedTravelTime,
+            minimumPlausibleTravelTime,
+            minimumRoutePreviewDuration
+        )
+    }
+
+    private func maximumPreviewAverageSpeedKPH(for distance: CLLocationDistance) -> Double {
+        switch distance {
+        case ..<5_000:
+            return 22
+        case ..<20_000:
+            return 30
+        case ..<40_000:
+            return 38
+        default:
+            return 55
+        }
     }
 
     private func updateRouteGuidance(from location: CLLocation) {

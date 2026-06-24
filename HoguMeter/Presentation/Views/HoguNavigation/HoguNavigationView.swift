@@ -566,7 +566,7 @@ struct HoguNavigationView: View {
     }
 
     private func formatDuration(_ duration: TimeInterval) -> String {
-        let minutes = Int(duration / 60)
+        let minutes = Int(ceil(duration / 60))
         if minutes < 60 {
             return "\(max(minutes, 1))분"
         }
