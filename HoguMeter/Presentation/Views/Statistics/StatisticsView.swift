@@ -77,9 +77,7 @@ struct StatisticsView: View {
                 }
             }
             .navigationTitle("통계")
-            .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
-                coachMarkFrames = frames
-            }
+            .onCoachMarkFramesChange($coachMarkFrames)
             .onAppear {
                 viewModel.load()
                 startCoachMarksIfNeeded()

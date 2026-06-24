@@ -161,9 +161,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("설정")
-            .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
-                coachMarkFrames = frames
-            }
+            .onCoachMarkFramesChange($coachMarkFrames)
             .onAppear {
                 loadSettings()
                 if coachMarkManager.shouldShowCoachMarks(for: "settings") {

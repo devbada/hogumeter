@@ -9,9 +9,24 @@ import SwiftUI
 
 struct ControlButtonsView: View {
     let state: MeterState
+    let isDisabled: Bool
     let onStart: () -> Void
     let onStop: () -> Void
     let onReset: () -> Void
+
+    init(
+        state: MeterState,
+        isDisabled: Bool = false,
+        onStart: @escaping () -> Void,
+        onStop: @escaping () -> Void,
+        onReset: @escaping () -> Void
+    ) {
+        self.state = state
+        self.isDisabled = isDisabled
+        self.onStart = onStart
+        self.onStop = onStop
+        self.onReset = onReset
+    }
 
     var body: some View {
         HStack(spacing: 20) {
@@ -52,6 +67,8 @@ struct ControlButtonsView: View {
             }
         }
         .padding(.horizontal)
+        .disabled(isDisabled)
+        .opacity(isDisabled ? 0.45 : 1)
     }
 }
 

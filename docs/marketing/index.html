@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>호구미터 - 친구들과 드라이브할 때 재미로 즐기는 택시미터기 앱</title>
-    <meta name="description" content="내 차 탔으면 내놔! 친구들과 함께하는 드라이브를 더 재미있게 만들어주는 엔터테인먼트 택시미터기 앱. 재미용으로만 사용하세요!">
-    <meta name="keywords" content="호구미터, HoguMeter, 택시미터기, iOS앱, 드라이브, 친구, 재미, 엔터테인먼트">
+    <meta name="description" content="호구미터는 친구들과 드라이브할 때 GPS로 거리와 시간을 재고, 예상 호구비와 주행 기록을 재미로 보여주는 엔터테인먼트 택시미터기 앱입니다.">
+    <meta name="keywords" content="호구미터, HoguMeter, 택시미터기, iOS앱, 드라이브, 친구, 재미, 엔터테인먼트, 호구게이션, 주행 기록">
     <meta property="og:title" content="호구미터 - 친구들과 재미로 즐기는 택시미터기">
-    <meta property="og:description" content="야, 너 지금 택시비 15,000원이야 😂 친구들과 드라이브할 때 재미로 켜보세요!">
+    <meta property="og:description" content="GPS 미터기, 호구게이션, 영수증, 기록과 통계까지. 친구들과 드라이브할 때 재미로 켜보세요!">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://devbada.github.io/hogumeter/">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -321,6 +326,27 @@
             line-height: 1.7;
         }
 
+        .feature-list {
+            list-style: none;
+            margin-top: 14px;
+        }
+
+        .feature-list li {
+            color: #555;
+            font-size: 0.92em;
+            line-height: 1.55;
+            padding: 5px 0 5px 18px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 900;
+        }
+
         /* How to Use Section */
         .how-to-use {
             padding: 70px 20px;
@@ -600,7 +626,7 @@
             <div class="app-icon">🚕</div>
             <h1>호구미터</h1>
             <p class="tagline">친구들과 드라이브할 때 재미로 켜보세요!</p>
-            <p class="sub-tagline">"야, 지금 택시비 얼마야?" 🤣</p>
+            <p class="sub-tagline">"목적지까지 호구비 얼마 나올까?" 🤣</p>
 
             <div class="launch-badge">🎉 App Store 출시!</div>
 
@@ -633,16 +659,24 @@
                 <div class="emoji-large">🛣️</div>
                 <h3>장거리 여행할 때</h3>
                 <p>
-                    "서울에서 부산까지 택시비가 얼마나 나올까?"<br>
-                    여행하면서 재미로 확인해보세요!
+                    "여기서 목적지까지 택시비가 얼마나 나올까?"<br>
+                    호구게이션으로 예상 거리, 시간, 호구비를 먼저 보고 출발해보세요.
                 </p>
             </div>
             <div class="use-case-card">
                 <div class="emoji-large">🎮</div>
                 <h3>심심할 때</h3>
                 <p>
-                    택시 탔을 때 내 폰으로 미터기 따라해보기<br>
-                    (실제 요금과 다를 수 있어요!)
+                    택시미터기처럼 숫자가 올라가고, 말 애니메이션도 속도에 따라 바뀌어요.<br>
+                    이동이 끝나면 영수증처럼 결과를 남길 수 있어요.
+                </p>
+            </div>
+            <div class="use-case-card">
+                <div class="emoji-large">🧾</div>
+                <h3>도착 후 장난칠 때</h3>
+                <p>
+                    주행 기록과 영수증을 열어 "오늘의 호구비"를 보여주세요.<br>
+                    친구들과 밥값 내기, 커피 내기 같은 가벼운 장난에 딱 좋아요.
                 </p>
             </div>
         </div>
@@ -666,6 +700,13 @@
                 <p>친구: "헐 비싸다"</p>
                 <p class="reaction">나: "밥 한번 사" 😎</p>
             </div>
+            <div class="scenario-item">
+                <p>친구: "오늘 목적지까지 얼마나 걸려?"</p>
+                <p>나: "호구게이션 찍어볼게"</p>
+                <p class="action">*예상 거리 · 시간 · 호구비 확인*</p>
+                <p>"22분, 예상 호구비 26,200원!"</p>
+                <p class="reaction">"벌써 무섭다" 😂</p>
+            </div>
         </div>
     </section>
 
@@ -676,6 +717,10 @@
             <div class="screenshot-item">
                 <img src="images/app_screenshot.png" alt="미터기 화면">
                 <p>실시간 미터기</p>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/hogu-navigation-preview.png" alt="호구게이션 화면">
+                <p>호구게이션</p>
             </div>
             <div class="screenshot-item">
                 <img src="images/screenshot_map.png" alt="지도 화면">
@@ -699,32 +744,104 @@
             <div class="feature-card">
                 <div class="feature-icon">📍</div>
                 <h3>실시간 요금 계산</h3>
-                <p>GPS로 이동 거리를 측정해서 요금이 올라가는 걸 실시간으로 봐요</p>
+                <p>GPS로 이동 거리와 시간을 재고, 택시미터기처럼 호구비를 실시간으로 계산해요.</p>
+                <ul class="feature-list">
+                    <li>거리 요금과 시간 요금 반영</li>
+                    <li>현재 속도와 주행 시간 표시</li>
+                    <li>일시정지 없이 드라이브 흐름에 맞춰 사용</li>
+                </ul>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🏙️</div>
-                <h3>전국 7개 도시 지원</h3>
-                <p>서울, 부산, 대구, 인천, 광주, 대전, 경기 요금 기준</p>
+                <h3>지역별 요금 설정</h3>
+                <p>서울, 부산, 대구, 인천, 광주, 대전, 경기 기준 요금을 제공하고 직접 조정할 수 있어요.</p>
+                <ul class="feature-list">
+                    <li>기본요금, 거리요금, 시간요금 설정</li>
+                    <li>지역별 요금 저장</li>
+                    <li>심야 시간대 요금 기준 반영</li>
+                </ul>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🗺️</div>
                 <h3>이동 경로 기록</h3>
-                <p>어디로 갔는지 지도에서 확인하고 캡쳐해서 공유하세요</p>
+                <p>주행이 끝난 뒤 이동 경로를 지도에서 다시 볼 수 있어요.</p>
+                <ul class="feature-list">
+                    <li>실제 이동 경로 지도 표시</li>
+                    <li>주행 거리, 시간, 요금 함께 확인</li>
+                    <li>기록 화면에서 지난 드라이브 다시 보기</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧭</div>
+                <h3>호구게이션</h3>
+                <p>목적지를 검색하면 예상 거리, 예상 시간, 예상 호구비를 먼저 보여주는 장난용 내비 모드예요.</p>
+                <ul class="feature-list">
+                    <li>출발지와 목적지 검색</li>
+                    <li>경로 미리보기와 예상 호구비 계산</li>
+                    <li>내비 시작 시 미터기도 함께 시작</li>
+                    <li>현재 호구비와 예상 호구비 동시 표시</li>
+                    <li>경로 이탈 시 현재 위치 기준으로 다시 경로 계산</li>
+                </ul>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🧾</div>
                 <h3>영수증 생성</h3>
-                <p>친구한테 "이번 달 택시비 청구서"라고 보내보세요 😂</p>
+                <p>주행 결과를 영수증처럼 만들어 친구에게 공유할 수 있어요.</p>
+                <ul class="feature-list">
+                    <li>총 요금, 거리, 시간 요약</li>
+                    <li>요금 상세 내역 표시</li>
+                    <li>이미지로 저장하고 공유</li>
+                </ul>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🌙</div>
                 <h3>심야 할증 자동 적용</h3>
-                <p>밤에 드라이브하면 할증도 자동으로!</p>
+                <p>밤 시간대에는 설정된 심야 요금 기준을 자동으로 반영해요.</p>
+                <ul class="feature-list">
+                    <li>시간대별 요금 구분</li>
+                    <li>지역 요금 설정과 함께 적용</li>
+                    <li>실제 요금이 아닌 재미용 계산</li>
+                </ul>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🚕</div>
                 <h3>지역 할증 모드</h3>
-                <p>리얼하게 즐기고 싶다면 실제 택시처럼 시계외 할증도!</p>
+                <p>리얼하게 즐기고 싶다면 시계외 할증 느낌의 지역 할증 모드도 켤 수 있어요.</p>
+                <ul class="feature-list">
+                    <li>지역 할증 사용 여부 선택</li>
+                    <li>실제형/장난형 모드 선택</li>
+                    <li>친구들과 정한 놀이 규칙에 맞게 조정</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📷</div>
+                <h3>과속카메라 참고 표시</h3>
+                <p>호구게이션 중 경로 근처 카메라 정보를 참고용으로 보여줘요.</p>
+                <ul class="feature-list">
+                    <li>진행 방향 기준 가까운 카메라 표시</li>
+                    <li>제한속도 원형 표지 표시</li>
+                    <li>3km/h 이상 초과 시 작은 초과 표시</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>기록과 통계</h3>
+                <p>드라이브 기록을 쌓아두고 얼마나 달렸는지 통계로 확인할 수 있어요.</p>
+                <ul class="feature-list">
+                    <li>최근 주행 기록 보관</li>
+                    <li>누적 거리와 요금 요약</li>
+                    <li>월간/주간 흐름 확인</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>기기 안에서 관리</h3>
+                <p>주행 기록과 설정은 기기 안에서 관리하고, 광고 없이 가볍게 사용할 수 있어요.</p>
+                <ul class="feature-list">
+                    <li>서버 전송 없는 로컬 저장 중심</li>
+                    <li>광고 없는 사용 경험</li>
+                    <li>설정에서 데이터 관리</li>
+                </ul>
             </div>
         </div>
     </section>
@@ -735,19 +852,19 @@
         <div class="steps">
             <div class="step">
                 <div class="step-number">1</div>
-                <p>차에 타서 앱을 켜세요</p>
+                <p>차에 타서 호구미터를 켜세요</p>
             </div>
             <div class="step">
                 <div class="step-number">2</div>
-                <p>'시작' 버튼을 누르세요</p>
+                <p>미터기를 바로 시작하거나 호구게이션에서 목적지를 찍으세요</p>
             </div>
             <div class="step">
                 <div class="step-number">3</div>
-                <p>요금이 올라가는 걸 구경하세요 🚕</p>
+                <p>실시간 호구비, 예상 호구비, 경로 안내를 구경하세요 🚕</p>
             </div>
             <div class="step">
                 <div class="step-number">4</div>
-                <p>도착하면 친구한테 청구(?)하세요 😂</p>
+                <p>도착하면 기록과 영수증으로 친구에게 장난쳐보세요 😂</p>
             </div>
         </div>
     </section>
@@ -761,6 +878,7 @@
                 <li>실제 택시 미터기는 바퀴 회전수로 계산하고, 이 앱은 GPS를 사용합니다</li>
                 <li>그래서 실제 택시 요금과 차이가 있을 수 있어요</li>
                 <li>터널이나 지하에서는 GPS 오차가 발생할 수 있습니다</li>
+                <li>호구게이션과 과속카메라 표시는 참고용이며, 실제 운전 판단은 도로 상황과 교통 법규를 우선하세요</li>
                 <li>진짜 요금 확인은 택시 미터기를 보세요! 😊</li>
             </ul>
         </div>
@@ -792,7 +910,7 @@
             <div class="privacy-badges">
                 <div class="privacy-badge">
                     <span>✓</span>
-                    <span>서버 전송 없음</span>
+                    <span>개발자 서버 저장 없음</span>
                 </div>
                 <div class="privacy-badge">
                     <span>✓</span>
@@ -804,6 +922,7 @@
                 </div>
             </div>
             <a href="privacy.html" class="privacy-link">개인정보 처리방침 보기 →</a>
+            <a href="terms.html" class="privacy-link" style="margin-left: 16px;">이용약관 보기 →</a>
         </div>
     </section>
 
@@ -821,7 +940,9 @@
         <p class="tagline">친구들과 재미있는 드라이브 되세요! 🚗💨</p>
         <div class="links">
             <a href="privacy.html">개인정보처리방침</a>
+            <a href="terms.html">이용약관</a>
             <a href="privacy-en.html">Privacy Policy</a>
+            <a href="terms-en.html">Terms</a>
             <a href="mailto:imdevbada@gmail.com">문의하기</a>
         </div>
         <p class="copyright">© 2026 HoguMeter. All rights reserved.</p>

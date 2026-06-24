@@ -60,9 +60,7 @@ struct MapContainerView: View {
                 )
             }
         }
-        .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
-            coachMarkFrames = frames
-        }
+        .onCoachMarkFramesChange($coachMarkFrames)
         .onAppear {
             mapViewModel.initializeMapCenter()
             if coachMarkManager.shouldShowCoachMarks(for: "map") {

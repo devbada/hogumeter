@@ -27,9 +27,13 @@ struct SpeedCameraWarning: Equatable {
     let distanceM: CLLocationDistance
     let currentSpeedKmh: Double
 
+    var overspeedKmh: Int {
+        guard let limitKmh = camera.limitKmh else { return 0 }
+        return max(0, Int(currentSpeedKmh.rounded()) - limitKmh)
+    }
+
     var isSpeeding: Bool {
-        guard let limitKmh = camera.limitKmh else { return false }
-        return currentSpeedKmh > Double(limitKmh)
+        overspeedKmh >= 3
     }
 
     var title: String {

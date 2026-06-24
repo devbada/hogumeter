@@ -39,8 +39,8 @@ struct HoguNavigationView: View {
                             .padding(.top, 12)
                     }
 
-                    if !viewModel.searchResults.isEmpty && !viewModel.isNavigationStarted {
-                        searchResultsList
+                    if viewModel.hasSearchListItems && !viewModel.isNavigationStarted {
+                        searchList
                             .padding(.horizontal, 16)
                             .padding(.top, 8)
                     }
@@ -65,13 +65,33 @@ struct HoguNavigationView: View {
                         .padding(.leading, 16)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
+                    speedBadge(viewModel.userSpeed)
+                        .padding(.top, 188)
+                        .padding(.trailing, 16)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+
                     if let warning = viewModel.speedCameraWarning {
-                        speedCameraWarningCard(warning)
-                            .opacity(warning.isSpeeding && speedCameraBlink ? 0.45 : 1)
-                            .padding(.horizontal, 16)
-                            .padding(.top, 88)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                        speedCameraLimitBadge(warning, isBlinking: speedCameraBlink)
+                            .padding(.top, 195)
+                            .padding(.leading, 20)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     }
+
+                    VStack(spacing: 8) {
+                        if let message = viewModel.navigationStatusMessage {
+                            navigationStatusCard(message, isLoading: viewModel.isRerouting)
+                        }
+
+                        if let instruction = viewModel.upcomingRouteInstruction {
+                            routeGuidanceCard(
+                                instruction: instruction,
+                                distance: viewModel.upcomingRouteInstructionDistance
+                            )
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 88)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 }
             }
             .navigationTitle("호구게이션")
@@ -85,10 +105,17 @@ struct HoguNavigationView: View {
                 }
             }
             .onAppear {
-                viewModel.useCurrentLocationAsOrigin()
+                viewModel.prepareOnAppear()
             }
             .onChange(of: viewModel.speedCameraWarning?.isSpeeding ?? false) { _, isSpeeding in
                 updateSpeedCameraBlink(isSpeeding: isSpeeding)
+            }
+            .onChange(of: focusedField) { _, newValue in
+                guard let target = newValue else {
+                    viewModel.clearSearchSuggestions()
+                    return
+                }
+                viewModel.focusSearch(target: target)
             }
         }
         .navigationViewStyle(.stack)
@@ -175,37 +202,39 @@ struct HoguNavigationView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
-    private var searchResultsList: some View {
+    private var searchList: some View {
         VStack(spacing: 0) {
+            ForEach(viewModel.recentSuggestions.prefix(5)) { suggestion in
+                Button(action: {
+                    focusedField = nil
+                    viewModel.selectRecentSuggestion(suggestion)
+                }) {
+                    searchRow(
+                        icon: suggestion.icon,
+                        iconColor: .orange,
+                        title: suggestion.title,
+                        subtitle: suggestion.subtitle
+                    )
+                }
+
+                if suggestion.id != viewModel.recentSuggestions.prefix(5).last?.id {
+                    Divider()
+                        .padding(.leading, 42)
+                }
+            }
+
             ForEach(viewModel.searchResults.prefix(6)) { result in
                 Button(action: {
                     let target = viewModel.selectedSearchTarget
                     focusedField = nil
                     viewModel.selectSearchResult(result, target: target)
                 }) {
-                    HStack(spacing: 10) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.secondary)
-                            .frame(width: 20)
-
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(result.title)
-                                .font(.subheadline)
-                                .foregroundColor(.primary)
-                                .lineLimit(1)
-
-                            if !result.subtitle.isEmpty {
-                                Text(result.subtitle)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .lineLimit(1)
-                            }
-                        }
-
-                        Spacer()
-                    }
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 12)
+                    searchRow(
+                        icon: "magnifyingglass",
+                        iconColor: .secondary,
+                        title: result.title,
+                        subtitle: result.subtitle
+                    )
                 }
 
                 if result.id != viewModel.searchResults.prefix(6).last?.id {
@@ -217,6 +246,32 @@ struct HoguNavigationView: View {
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .shadow(color: .black.opacity(0.08), radius: 8, y: 4)
+    }
+
+    private func searchRow(icon: String, iconColor: Color, title: String, subtitle: String) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .foregroundColor(iconColor)
+                .frame(width: 20)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.subheadline)
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+
+                if !subtitle.isEmpty {
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                }
+            }
+
+            Spacer()
+        }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 12)
     }
 
     private func routeSummary(_ preview: HoguNavigationRoutePreview) -> some View {
@@ -249,11 +304,7 @@ struct HoguNavigationView: View {
             }
 
             Button(action: {
-                if viewModel.isNavigationStarted {
-                    viewModel.stopNavigation()
-                } else {
-                    viewModel.startNavigationFromPreview()
-                }
+                toggleNavigation()
             }) {
                 HStack(spacing: 8) {
                     Image(systemName: viewModel.isNavigationStarted ? "stop.circle.fill" : "location.north.circle.fill")
@@ -271,6 +322,21 @@ struct HoguNavigationView: View {
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 18))
         .shadow(color: .black.opacity(0.14), radius: 12, y: -4)
+    }
+
+    private func toggleNavigation() {
+        if viewModel.isNavigationStarted {
+            viewModel.stopNavigation()
+            return
+        }
+
+        guard meterViewModel.state != .running else {
+            viewModel.errorMessage = "일반 미터기 사용 중에는 네비게이션을 시작할 수 없습니다."
+            HapticManager.warning()
+            return
+        }
+
+        viewModel.startNavigationFromPreview()
     }
 
     private func hoguFareBadge(_ fare: Int) -> some View {
@@ -311,36 +377,156 @@ struct HoguNavigationView: View {
         .shadow(color: .black.opacity(0.16), radius: 10, y: 5)
     }
 
-    private func speedCameraWarningCard(_ warning: SpeedCameraWarning) -> some View {
+    private func speedBadge(_ speed: Double) -> some View {
+        VStack(spacing: 2) {
+            Text("\(Int(speed.rounded()))")
+                .font(.system(size: 34, weight: .heavy, design: .rounded))
+                .foregroundColor(.white)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+
+            Text("km/h")
+                .font(.caption2)
+                .fontWeight(.bold)
+                .foregroundColor(.white.opacity(0.86))
+        }
+        .frame(width: 86, height: 76)
+        .background(Color.black.opacity(0.78))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .shadow(color: .black.opacity(0.18), radius: 10, y: 5)
+    }
+
+    private func speedCameraLimitBadge(_ warning: SpeedCameraWarning, isBlinking: Bool) -> some View {
+        HStack(spacing: 8) {
+            speedLimitSign(limitKmh: warning.camera.limitKmh)
+
+            if warning.isSpeeding {
+                overspeedBadge(overspeedKmh: warning.overspeedKmh)
+                    .opacity(isBlinking ? 0.45 : 1)
+            }
+        }
+    }
+
+    private func speedLimitSign(limitKmh: Int?) -> some View {
+        ZStack {
+            Circle()
+                .fill(Color.white.opacity(0.94))
+                .overlay {
+                    Circle()
+                        .stroke(Color.red, lineWidth: 6)
+                }
+                .shadow(color: .black.opacity(0.16), radius: 10, y: 5)
+
+            if let limitKmh {
+                VStack(spacing: 1) {
+                    Text("제한속도")
+                        .font(.system(size: 8, weight: .heavy))
+                        .foregroundColor(.black)
+
+                    Text("\(limitKmh)")
+                        .font(.system(size: 24, weight: .heavy, design: .rounded))
+                        .foregroundColor(.black)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
+            } else {
+                Image(systemName: "camera.metering.spot")
+                    .font(.system(size: 22, weight: .bold))
+                    .foregroundColor(.red)
+            }
+        }
+        .frame(width: 62, height: 62)
+    }
+
+    private func overspeedBadge(overspeedKmh: Int) -> some View {
+        ZStack {
+            Circle()
+                .fill(Color.red)
+                .shadow(color: .red.opacity(0.34), radius: 10, y: 5)
+
+            VStack(spacing: 1) {
+                Text("초과")
+                    .font(.system(size: 9, weight: .heavy))
+
+                Text("+\(overspeedKmh)")
+                    .font(.system(size: 16, weight: .heavy, design: .rounded))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+            }
+            .foregroundColor(.white)
+        }
+        .frame(width: 54, height: 54)
+    }
+
+    private func navigationStatusCard(_ message: String, isLoading: Bool) -> some View {
         HStack(spacing: 10) {
-            Image(systemName: "camera.metering.spot")
+            if isLoading {
+                ProgressView()
+                    .controlSize(.small)
+                    .tint(.white)
+            } else {
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .foregroundColor(.white)
+                    .frame(width: 20)
+            }
+
+            Text(message)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+                .lineLimit(2)
+
+            Spacer()
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(Color.black.opacity(0.78))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.18), radius: 10, y: 5)
+    }
+
+    private func routeGuidanceCard(instruction: String, distance: CLLocationDistance?) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: guidanceIcon(for: instruction))
                 .font(.title3)
-                .foregroundColor(warning.isSpeeding ? .white : .red)
+                .foregroundColor(.white)
                 .frame(width: 28, height: 28)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(warning.title)
+                if let distance = distance {
+                    Text("\(formatDistance(distance)) 후")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white.opacity(0.82))
+                }
+
+                Text(instruction)
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(warning.isSpeeding ? .white : .primary)
-
-                Text(warning.message)
-                    .font(.caption)
-                    .foregroundColor(warning.isSpeeding ? .white.opacity(0.9) : .secondary)
+                    .foregroundColor(.white)
+                    .lineLimit(2)
             }
 
             Spacer()
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
-        .background(warning.isSpeeding ? Color.red.opacity(0.92) : Color.clear)
-        .background(.ultraThinMaterial)
+        .background(Color.blue.opacity(0.88))
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .overlay {
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(warning.isSpeeding ? Color.red : Color.clear, lineWidth: 2)
+        .shadow(color: .black.opacity(0.18), radius: 10, y: 5)
+    }
+
+    private func guidanceIcon(for instruction: String) -> String {
+        if instruction.contains("좌") {
+            return "arrow.turn.up.left"
         }
-        .shadow(color: .black.opacity(0.16), radius: 10, y: 5)
+        if instruction.contains("우") {
+            return "arrow.turn.up.right"
+        }
+        if instruction.contains("유턴") || instruction.uppercased().contains("U") {
+            return "arrow.uturn.left"
+        }
+        return "arrow.up"
     }
 
     private func updateSpeedCameraBlink(isSpeeding: Bool) {
@@ -419,18 +605,35 @@ private struct HoguNavigationMapView: UIViewRepresentable {
     }
 
     func updateUIView(_ mapView: MKMapView, context: Context) {
-        mapView.removeOverlays(mapView.overlays)
-        mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
+        mapView.showsUserLocation = !isNavigationStarted
 
         if let routePreview = routePreview {
-            mapView.addOverlay(routePreview.polyline)
-            mapView.addAnnotation(annotation(title: "출발", coordinate: routePreview.originCoordinate))
-            mapView.addAnnotation(annotation(title: "도착", coordinate: routePreview.destinationCoordinate))
-            if let speedCameraWarning = speedCameraWarning {
-                mapView.addAnnotation(annotation(title: "단속", coordinate: speedCameraWarning.camera.coordinate))
+            let routeChanged = context.coordinator.renderedRoutePolyline !== routePreview.polyline
+            updateRouteOverlays(
+                mapView,
+                context: context,
+                routePreview: routePreview,
+                routeChanged: routeChanged
+            )
+            updateVehicleAnnotation(mapView, context: context)
+
+            let annotationKey = annotationStateKey(routePreview: routePreview, speedCameraWarning: speedCameraWarning)
+            if context.coordinator.renderedAnnotationKey != annotationKey {
+                mapView.removeAnnotations(mapView.annotations.filter {
+                    !($0 is MKUserLocation)
+                        && !($0 is HoguNavigationVehicleAnnotation)
+                })
+                mapView.addAnnotation(annotation(title: "출발", coordinate: routePreview.originCoordinate))
+                mapView.addAnnotation(annotation(title: "도착", coordinate: routePreview.destinationCoordinate))
+                if let speedCameraWarning = speedCameraWarning {
+                    mapView.addAnnotation(annotation(title: "단속", coordinate: speedCameraWarning.camera.coordinate))
+                }
+                context.coordinator.renderedAnnotationKey = annotationKey
             }
 
             if isNavigationStarted {
+                guard context.coordinator.shouldUpdateCamera() else { return }
+
                 let targetCoordinate = userCoordinate ?? routePreview.originCoordinate
                 let camera = MKMapCamera(
                     lookingAtCenter: targetCoordinate,
@@ -442,9 +645,20 @@ private struct HoguNavigationMapView: UIViewRepresentable {
                 return
             }
 
-            let edgePadding = UIEdgeInsets(top: 180, left: 40, bottom: 210, right: 40)
-            mapView.setVisibleMapRect(routePreview.polyline.boundingMapRect, edgePadding: edgePadding, animated: true)
+            if routeChanged {
+                let edgePadding = UIEdgeInsets(top: 180, left: 40, bottom: 210, right: 40)
+                mapView.setVisibleMapRect(routePreview.polyline.boundingMapRect, edgePadding: edgePadding, animated: true)
+            }
             return
+        }
+
+        context.coordinator.resetRenderedRoute()
+        if !mapView.overlays.isEmpty {
+            mapView.removeOverlays(mapView.overlays)
+        }
+        let mapAnnotations = mapView.annotations.filter { !($0 is MKUserLocation) }
+        if !mapAnnotations.isEmpty {
+            mapView.removeAnnotations(mapAnnotations)
         }
 
         if let userCoordinate = userCoordinate {
@@ -458,6 +672,74 @@ private struct HoguNavigationMapView: UIViewRepresentable {
         }
     }
 
+    private func updateRouteOverlays(
+        _ mapView: MKMapView,
+        context: Context,
+        routePreview: HoguNavigationRoutePreview,
+        routeChanged: Bool
+    ) {
+        guard isNavigationStarted,
+              let userCoordinate = userCoordinate else {
+            guard routeChanged || context.coordinator.renderedProgressIndex != nil else { return }
+            mapView.removeOverlays(mapView.overlays)
+            mapView.addOverlay(routeOverlay(routePreview.polyline, title: "remaining"))
+            context.coordinator.renderedRoutePolyline = routePreview.polyline
+            context.coordinator.renderedProgressIndex = nil
+            return
+        }
+
+        let coordinates = routePreview.polyline.coordinates
+        guard coordinates.count >= 2,
+              let progressIndex = nearestRouteIndex(to: userCoordinate, routeCoordinates: coordinates),
+              routeChanged || context.coordinator.renderedProgressIndex != progressIndex else {
+            return
+        }
+
+        mapView.removeOverlays(mapView.overlays)
+
+        if progressIndex >= 1 {
+            var passedCoordinates = Array(coordinates[0...progressIndex])
+            let passedOverlay = MKPolyline(coordinates: &passedCoordinates, count: passedCoordinates.count)
+            passedOverlay.title = "passed"
+            mapView.addOverlay(passedOverlay)
+        }
+
+        if progressIndex < coordinates.count - 1 {
+            var remainingCoordinates = Array(coordinates[progressIndex..<coordinates.count])
+            let remainingOverlay = MKPolyline(coordinates: &remainingCoordinates, count: remainingCoordinates.count)
+            remainingOverlay.title = "remaining"
+            mapView.addOverlay(remainingOverlay)
+        }
+
+        context.coordinator.renderedRoutePolyline = routePreview.polyline
+        context.coordinator.renderedProgressIndex = progressIndex
+    }
+
+    private func updateVehicleAnnotation(_ mapView: MKMapView, context: Context) {
+        guard isNavigationStarted, let userCoordinate = userCoordinate else {
+            if let vehicleAnnotation = context.coordinator.vehicleAnnotation {
+                mapView.removeAnnotation(vehicleAnnotation)
+                context.coordinator.vehicleAnnotation = nil
+            }
+            return
+        }
+
+        if let vehicleAnnotation = context.coordinator.vehicleAnnotation {
+            vehicleAnnotation.coordinate = userCoordinate
+            vehicleAnnotation.heading = userHeading
+            if let view = mapView.view(for: vehicleAnnotation) as? HoguNavigationRotatingAnnotationView {
+                view.heading = vehicleAnnotation.heading
+            }
+        } else {
+            let annotation = HoguNavigationVehicleAnnotation(
+                coordinate: userCoordinate,
+                heading: userHeading
+            )
+            context.coordinator.vehicleAnnotation = annotation
+            mapView.addAnnotation(annotation)
+        }
+    }
+
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
@@ -467,6 +749,44 @@ private struct HoguNavigationMapView: UIViewRepresentable {
         annotation.title = title
         annotation.coordinate = coordinate
         return annotation
+    }
+
+    private func routeOverlay(_ polyline: MKPolyline, title: String) -> MKPolyline {
+        var coordinates = polyline.coordinates
+        let overlay = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+        overlay.title = title
+        return overlay
+    }
+
+    private func nearestRouteIndex(
+        to coordinate: CLLocationCoordinate2D,
+        routeCoordinates: [CLLocationCoordinate2D]
+    ) -> Int? {
+        guard !routeCoordinates.isEmpty else { return nil }
+
+        let targetLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        return routeCoordinates.enumerated()
+            .min { lhs, rhs in
+                let lhsLocation = CLLocation(latitude: lhs.element.latitude, longitude: lhs.element.longitude)
+                let rhsLocation = CLLocation(latitude: rhs.element.latitude, longitude: rhs.element.longitude)
+                return lhsLocation.distance(from: targetLocation) < rhsLocation.distance(from: targetLocation)
+            }?
+            .offset
+    }
+
+    private func annotationStateKey(
+        routePreview: HoguNavigationRoutePreview,
+        speedCameraWarning: SpeedCameraWarning?
+    ) -> String {
+        [
+            routePreview.originName,
+            routePreview.destinationName,
+            String(routePreview.originCoordinate.latitude),
+            String(routePreview.originCoordinate.longitude),
+            String(routePreview.destinationCoordinate.latitude),
+            String(routePreview.destinationCoordinate.longitude),
+            speedCameraWarning?.camera.id ?? ""
+        ].joined(separator: "|")
     }
 
     private func cameraDistance(for speed: Double) -> CLLocationDistance {
@@ -483,13 +803,37 @@ private struct HoguNavigationMapView: UIViewRepresentable {
     }
 
     final class Coordinator: NSObject, MKMapViewDelegate {
+        var renderedRoutePolyline: MKPolyline?
+        var renderedAnnotationKey: String?
+        var renderedProgressIndex: Int?
+        var vehicleAnnotation: HoguNavigationVehicleAnnotation?
+        private var lastCameraUpdateAt = Date.distantPast
+
+        func shouldUpdateCamera() -> Bool {
+            let now = Date()
+            guard now.timeIntervalSince(lastCameraUpdateAt) > 0.35 else {
+                return false
+            }
+            lastCameraUpdateAt = now
+            return true
+        }
+
+        func resetRenderedRoute() {
+            renderedRoutePolyline = nil
+            renderedAnnotationKey = nil
+            renderedProgressIndex = nil
+            vehicleAnnotation = nil
+        }
+
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             guard let polyline = overlay as? MKPolyline else {
                 return MKOverlayRenderer(overlay: overlay)
             }
 
             let renderer = MKPolylineRenderer(polyline: polyline)
-            renderer.strokeColor = UIColor.systemOrange
+            renderer.strokeColor = polyline.title == "passed"
+                ? UIColor.systemGray3
+                : UIColor.systemOrange
             renderer.lineWidth = 6
             renderer.lineCap = .round
             renderer.lineJoin = .round
@@ -498,6 +842,16 @@ private struct HoguNavigationMapView: UIViewRepresentable {
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             guard !(annotation is MKUserLocation) else { return nil }
+
+            if let vehicleAnnotation = annotation as? HoguNavigationVehicleAnnotation {
+                let identifier = "HoguNavigationVehicle"
+                let view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? HoguNavigationRotatingAnnotationView
+                    ?? HoguNavigationRotatingAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                view.annotation = annotation
+                view.configureVehicle()
+                view.heading = vehicleAnnotation.heading
+                return view
+            }
 
             let identifier = "HoguNavigationPoint"
             let annotationTitle = annotation.title ?? ""
@@ -517,6 +871,89 @@ private struct HoguNavigationMapView: UIViewRepresentable {
             }
             return view
         }
+    }
+}
+
+private final class HoguNavigationVehicleAnnotation: NSObject, MKAnnotation {
+    dynamic var coordinate: CLLocationCoordinate2D
+    var heading: CLLocationDirection
+    let title: String? = "현재 위치"
+
+    init(coordinate: CLLocationCoordinate2D, heading: CLLocationDirection) {
+        self.coordinate = coordinate
+        self.heading = heading
+    }
+}
+
+private final class HoguNavigationRotatingAnnotationView: MKAnnotationView {
+    private var headingOffset: CGFloat = 0
+
+    var heading: CLLocationDirection = 0 {
+        didSet {
+            transform = CGAffineTransform(rotationAngle: CGFloat(heading * .pi / 180) + headingOffset)
+        }
+    }
+
+    func configureVehicle() {
+        headingOffset = 0
+        image = vehicleImage()
+        frame = CGRect(x: 0, y: 0, width: 46, height: 56)
+        centerOffset = CGPoint(x: 0, y: 0)
+        canShowCallout = false
+    }
+
+    private func vehicleImage() -> UIImage? {
+        let size = CGSize(width: 46, height: 56)
+        let renderer = UIGraphicsImageRenderer(size: size)
+
+        return renderer.image { context in
+            let cgContext = context.cgContext
+            cgContext.setShadow(offset: CGSize(width: 0, height: 4), blur: 7, color: UIColor.black.withAlphaComponent(0.26).cgColor)
+
+            let bodyRect = CGRect(x: 9, y: 8, width: 28, height: 40)
+            let bodyPath = UIBezierPath(roundedRect: bodyRect, cornerRadius: 12)
+            UIColor.systemBlue.setFill()
+            bodyPath.fill()
+
+            cgContext.setShadow(offset: .zero, blur: 0, color: nil)
+
+            let hoodPath = UIBezierPath()
+            hoodPath.move(to: CGPoint(x: 23, y: 2))
+            hoodPath.addLine(to: CGPoint(x: 34, y: 15))
+            hoodPath.addLine(to: CGPoint(x: 12, y: 15))
+            hoodPath.close()
+            UIColor(red: 0.23, green: 0.68, blue: 1, alpha: 1).setFill()
+            hoodPath.fill()
+
+            let glassPath = UIBezierPath(roundedRect: CGRect(x: 14, y: 16, width: 18, height: 13), cornerRadius: 5)
+            UIColor.white.withAlphaComponent(0.88).setFill()
+            glassPath.fill()
+
+            let cabinPath = UIBezierPath(roundedRect: CGRect(x: 13, y: 30, width: 20, height: 12), cornerRadius: 5)
+            UIColor(red: 0.09, green: 0.31, blue: 0.92, alpha: 1).setFill()
+            cabinPath.fill()
+
+            UIColor.black.withAlphaComponent(0.34).setFill()
+            UIBezierPath(roundedRect: CGRect(x: 5, y: 18, width: 7, height: 15), cornerRadius: 3).fill()
+            UIBezierPath(roundedRect: CGRect(x: 34, y: 18, width: 7, height: 15), cornerRadius: 3).fill()
+            UIBezierPath(roundedRect: CGRect(x: 5, y: 36, width: 7, height: 15), cornerRadius: 3).fill()
+            UIBezierPath(roundedRect: CGRect(x: 34, y: 36, width: 7, height: 15), cornerRadius: 3).fill()
+
+            UIColor.white.withAlphaComponent(0.9).setFill()
+            UIBezierPath(ovalIn: CGRect(x: 15, y: 5, width: 5, height: 5)).fill()
+            UIBezierPath(ovalIn: CGRect(x: 26, y: 5, width: 5, height: 5)).fill()
+        }
+    }
+}
+
+private extension MKPolyline {
+    var coordinates: [CLLocationCoordinate2D] {
+        var coordinates = [CLLocationCoordinate2D](
+            repeating: kCLLocationCoordinate2DInvalid,
+            count: pointCount
+        )
+        getCoordinates(&coordinates, range: NSRange(location: 0, length: pointCount))
+        return coordinates
     }
 }
 
