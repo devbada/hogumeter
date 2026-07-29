@@ -17,7 +17,14 @@ struct SpeedCameraRegionFilter: Hashable {
     }
 }
 
-final class SpeedCameraAPIClient {
+struct SpeedCameraRegionRetryPolicy {
+    static func cooldown(forFailureCount failureCount: Int) -> TimeInterval {
+        min(10 * pow(2, Double(min(max(failureCount - 1, 0), 5))), 5 * 60)
+    }
+}
+
+actor SpeedCameraAPIClient {
+    typealias RegionFetchOverride = @Sendable (SpeedCameraRegionFilter) async -> Result<[SpeedCamera], Error>
     private enum Config {
         static let endpoint = "https://api.data.go.kr/openapi/tn_pubr_public_unmanned_traffic_camera_api"
         static let infoKey = "PublicSpeedCameraServiceKey"
@@ -26,11 +33,42 @@ final class SpeedCameraAPIClient {
     }
 
     private let session: URLSession
+    private let nowProvider: @Sendable () -> Date
+    private let regionFetchOverride: RegionFetchOverride?
     private var cachedCameras: [SpeedCamera]?
-    private var regionCachedCameras: [String: [SpeedCamera]] = [:]
+    private var regionCachedCameras: [String: RegionCacheEntry] = [:]
+    private var regionFailures: [String: RegionFailureState] = [:]
+    private var inFlightRegionTasks: [String: InFlightRegionRequest] = [:]
+    private var nextRegionRequestID = 0
 
-    init(session: URLSession = .shared) {
+    private struct RegionCacheEntry {
+        let cameras: [SpeedCamera]
+        let expiresAt: Date
+    }
+
+    private struct RegionFailureState {
+        let consecutiveFailures: Int
+        let retryAfter: Date
+    }
+
+    private struct InFlightRegionRequest {
+        let requestID: Int
+        let task: Task<Result<[SpeedCamera], Error>, Never>
+    }
+
+    private enum CachePolicy {
+        static let successTTL: TimeInterval = 10 * 60
+        static let emptySuccessTTL: TimeInterval = 60
+    }
+
+    init(
+        session: URLSession = .shared,
+        nowProvider: @escaping @Sendable () -> Date = { Date() },
+        regionFetchOverride: RegionFetchOverride? = nil
+    ) {
         self.session = session
+        self.nowProvider = nowProvider
+        self.regionFetchOverride = regionFetchOverride
     }
 
     func fetchCameras() async -> [SpeedCamera] {
@@ -38,15 +76,15 @@ final class SpeedCameraAPIClient {
             return cachedCameras
         }
 
-        guard let serviceKey = Bundle.main.object(forInfoDictionaryKey: Config.infoKey) as? String,
-              !serviceKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-              !serviceKey.hasPrefix("$(") else {
+        let serviceKey = Bundle.main.object(forInfoDictionaryKey: Config.infoKey) as? String ?? ""
+        guard regionFetchOverride != nil || (!serviceKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !serviceKey.hasPrefix("$(")) else {
             Logger.gps.warning("[SpeedCamera] PublicSpeedCameraServiceKey 미설정")
             return []
         }
 
         var allCameras: [SpeedCamera] = []
         var totalCount = 0
+        var completedSuccessfully = true
 
         for pageNo in 1...Config.maxPages {
             do {
@@ -61,11 +99,14 @@ final class SpeedCameraAPIClient {
                 }
             } catch {
                 Logger.gps.error("[SpeedCamera] API 조회 실패: \(error.localizedDescription)")
+                completedSuccessfully = false
                 break
             }
         }
 
-        cachedCameras = allCameras
+        if completedSuccessfully {
+            cachedCameras = allCameras
+        }
         return allCameras
     }
 
@@ -75,9 +116,8 @@ final class SpeedCameraAPIClient {
             return await fetchCameras()
         }
 
-        guard let serviceKey = Bundle.main.object(forInfoDictionaryKey: Config.infoKey) as? String,
-              !serviceKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-              !serviceKey.hasPrefix("$(") else {
+        let serviceKey = Bundle.main.object(forInfoDictionaryKey: Config.infoKey) as? String ?? ""
+        guard regionFetchOverride != nil || (!serviceKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !serviceKey.hasPrefix("$(")) else {
             Logger.gps.warning("[SpeedCamera] PublicSpeedCameraServiceKey 미설정")
             return []
         }
@@ -85,20 +125,75 @@ final class SpeedCameraAPIClient {
         var allCameras: [SpeedCamera] = []
 
         for region in uniqueRegions {
-            if let cached = regionCachedCameras[region.cacheKey] {
-                allCameras.append(contentsOf: cached)
-                continue
+            let result = await fetchRegionCameras(serviceKey: serviceKey, region: region, now: nowProvider())
+            if case let .success(cameras) = result {
+                allCameras.append(contentsOf: cameras)
             }
-
-            let cameras = await fetchCameras(serviceKey: serviceKey, region: region)
-            regionCachedCameras[region.cacheKey] = cameras
-            allCameras.append(contentsOf: cameras)
         }
 
         return deduplicated(allCameras)
     }
 
-    private func fetchCameras(serviceKey: String, region: SpeedCameraRegionFilter) async -> [SpeedCamera] {
+    func hasPendingRetry(regions: [SpeedCameraRegionFilter]) -> Bool {
+        regions.contains { regionFailures[$0.cacheKey] != nil }
+    }
+
+    private func fetchRegionCameras(
+        serviceKey: String,
+        region: SpeedCameraRegionFilter,
+        now: Date
+    ) async -> Result<[SpeedCamera], Error> {
+        let key = region.cacheKey
+        if let cached = regionCachedCameras[key], cached.expiresAt > now {
+            return .success(cached.cameras)
+        }
+        if let failure = regionFailures[key], failure.retryAfter > now {
+            return .failure(SpeedCameraRegionRequestError.cooldown)
+        }
+        let task: Task<Result<[SpeedCamera], Error>, Never>
+        if let existing = inFlightRegionTasks[key] {
+            task = existing.task
+        } else {
+            nextRegionRequestID += 1
+            let requestID = nextRegionRequestID
+            let created = Task<Result<[SpeedCamera], Error>, Never> { [weak self] in
+                guard let self else { return .failure(SpeedCameraRegionRequestError.cancelled) }
+                let result: Result<[SpeedCamera], Error>
+                if let regionFetchOverride = await self.regionFetchOverride {
+                    result = await regionFetchOverride(region)
+                } else {
+                    result = await self.fetchRegionFromNetwork(serviceKey: serviceKey, region: region)
+                }
+                await self.completeRegionRequest(key: key, requestID: requestID, result: result, completedAt: self.nowProvider())
+                return result
+            }
+            inFlightRegionTasks[key] = InFlightRegionRequest(requestID: requestID, task: created)
+            task = created
+        }
+        return await task.value
+    }
+
+    private func completeRegionRequest(
+        key: String,
+        requestID: Int,
+        result: Result<[SpeedCamera], Error>,
+        completedAt: Date
+    ) {
+        guard inFlightRegionTasks[key]?.requestID == requestID else { return }
+        inFlightRegionTasks[key] = nil
+        switch result {
+        case let .success(cameras):
+            let ttl = cameras.isEmpty ? CachePolicy.emptySuccessTTL : CachePolicy.successTTL
+            regionCachedCameras[key] = RegionCacheEntry(cameras: cameras, expiresAt: completedAt.addingTimeInterval(ttl))
+            regionFailures[key] = nil
+        case .failure:
+            let failures = (regionFailures[key]?.consecutiveFailures ?? 0) + 1
+            let cooldown = SpeedCameraRegionRetryPolicy.cooldown(forFailureCount: failures)
+            regionFailures[key] = RegionFailureState(consecutiveFailures: failures, retryAfter: completedAt.addingTimeInterval(cooldown))
+        }
+    }
+
+    private func fetchRegionFromNetwork(serviceKey: String, region: SpeedCameraRegionFilter) async -> Result<[SpeedCamera], Error> {
         var cameras: [SpeedCamera] = []
         var totalCount = 0
 
@@ -115,11 +210,10 @@ final class SpeedCameraAPIClient {
                 }
             } catch {
                 Logger.gps.error("[SpeedCamera] 지역 API 조회 실패: \(error.localizedDescription)")
-                break
+                return .failure(error)
             }
         }
-
-        return cameras
+        return .success(cameras)
     }
 
     private func fetchPage(
@@ -259,6 +353,11 @@ private enum SpeedCameraAPIError: LocalizedError {
     }
 }
 
+private enum SpeedCameraRegionRequestError: Error {
+    case cooldown
+    case cancelled
+}
+
 private struct SpeedCameraPage {
     let totalCount: Int
     let cameras: [SpeedCamera]
@@ -280,10 +379,10 @@ private struct SpeedCameraHeader: Decodable {
 
 private struct SpeedCameraBody: Decodable {
     let totalCount: Int
-    let items: SpeedCameraItems
+    let items: SpeedCameraItems?
 
     var normalizedItems: [SpeedCameraItem] {
-        items.values
+        items?.values ?? []
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -294,7 +393,7 @@ private struct SpeedCameraBody: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         totalCount = try container.decodeFlexibleInt(forKey: .totalCount) ?? 0
-        items = try container.decode(SpeedCameraItems.self, forKey: .items)
+        items = try container.decodeIfPresent(SpeedCameraItems.self, forKey: .items)
     }
 }
 
@@ -318,7 +417,17 @@ private enum SpeedCameraItems: Decodable {
             return
         }
 
-        self = .wrapper(try container.decode(SpeedCameraItemWrapper.self))
+        if let wrapper = try? container.decode(SpeedCameraItemWrapper.self) {
+            self = .wrapper(wrapper)
+            return
+        }
+
+        if (try? container.decode(String.self)) != nil {
+            self = .list([])
+            return
+        }
+
+        self = .list([])
     }
 }
 

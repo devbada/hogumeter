@@ -597,30 +597,24 @@ private struct ScreenshotTripHistoryView: View {
 
 #Preview("1. 메인 화면 (대기)") {
     Screenshot_MainIdle()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("2. 주행 중") {
     Screenshot_MainRunning()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("3. 영수증") {
     Screenshot_Receipt()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("4. 설정") {
     Screenshot_Settings()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("5. 지역별 요금") {
     Screenshot_RegionFares()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("6. 주행 기록") {
     Screenshot_History()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }

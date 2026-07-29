@@ -75,7 +75,7 @@ struct MainMeterView: View {
                         if isHoguNavigationActive {
                             HStack(spacing: 8) {
                                 Image(systemName: "lock.fill")
-                                Text("네비게이션 사용 중에는 일반 미터기를 조작할 수 없습니다.")
+                                Text("길안내 중에는 일반 미터기를 조작할 수 없습니다.")
                                     .font(.caption)
                                     .fontWeight(.semibold)
                             }

@@ -7,16 +7,25 @@
 
 import SwiftUI
 import MapKit
+import UIKit
 
 struct HoguNavigationView: View {
+    private static let searchPanelCompassClearance: CGFloat = 72
+    private static let searchListMaximumHeight: CGFloat = 420
+
     @StateObject private var viewModel: HoguNavigationViewModel
     let meterViewModel: MeterViewModel
     @State private var speedCameraBlink = false
+    @State private var isNavigationSheetExpanded = false
+    @State private var isNavigationTabBarHidden = true
     @FocusState private var focusedField: HoguNavigationInputTarget?
 
     init(fareCalculator: FareCalculator, meterViewModel: MeterViewModel) {
         self.meterViewModel = meterViewModel
-        self._viewModel = StateObject(wrappedValue: HoguNavigationViewModel(fareCalculator: fareCalculator))
+        self._viewModel = StateObject(wrappedValue: HoguNavigationViewModel(
+            fareCalculator: fareCalculator,
+            sharedLocationPublisher: meterViewModel.locationService.locationPublisher
+        ))
     }
 
     var body: some View {
@@ -24,19 +33,31 @@ struct HoguNavigationView: View {
             ZStack {
                 HoguNavigationMapView(
                     routePreview: viewModel.routePreview,
+                    navigationFrame: viewModel.navigationFrame,
+                    energyPolicy: viewModel.energyPolicy,
                     userCoordinate: viewModel.userCoordinate,
                     userHeading: viewModel.userHeading,
+                    hasUsableCourse: viewModel.hasUsableCourse,
                     userSpeed: viewModel.userSpeed,
                     isNavigationStarted: viewModel.isNavigationStarted,
                     speedCameraWarning: viewModel.speedCameraWarning
                 )
                 .ignoresSafeArea(edges: .bottom)
 
+                if focusedField != nil {
+                    Color.black.opacity(0.001)
+                        .ignoresSafeArea()
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            dismissKeyboard()
+                        }
+                }
+
                 VStack(spacing: 0) {
                     if !viewModel.isNavigationStarted {
                         searchPanel
                             .padding(.horizontal, 16)
-                            .padding(.top, 12)
+                            .padding(.top, Self.searchPanelCompassClearance)
                     }
 
                     if viewModel.hasSearchListItems && !viewModel.isNavigationStarted {
@@ -47,7 +68,7 @@ struct HoguNavigationView: View {
 
                     Spacer()
 
-                    if let preview = viewModel.routePreview {
+                    if let preview = viewModel.routePreview, !viewModel.isNavigationStarted {
                         routeSummary(preview)
                             .padding(.horizontal, 16)
                             .padding(.bottom, 18)
@@ -66,13 +87,13 @@ struct HoguNavigationView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
                     speedBadge(viewModel.userSpeed)
-                        .padding(.top, 188)
+                        .padding(.top, 252)
                         .padding(.trailing, 16)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
                     if let warning = viewModel.speedCameraWarning {
                         speedCameraLimitBadge(warning, isBlinking: speedCameraBlink)
-                            .padding(.top, 195)
+                            .padding(.top, 259)
                             .padding(.leading, 20)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     }
@@ -85,20 +106,39 @@ struct HoguNavigationView: View {
                         if let instruction = viewModel.upcomingRouteInstruction {
                             routeGuidanceCard(
                                 instruction: instruction,
-                                distance: viewModel.upcomingRouteInstructionDistance
+                                distance: viewModel.upcomingRouteInstructionDistance,
+                                maneuver: viewModel.upcomingRouteManeuver ?? .straight
                             )
                         }
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 88)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+
+                    navigationRouteSheet(preview)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 14)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+
+                    tabBarVisibilityControl
+                        .padding(.trailing, 18)
+                        .padding(.bottom, 112)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                 }
             }
-            .navigationTitle("호구게이션")
+            .navigationTitle(viewModel.isNavigationStarted ? "" : "호구게이션")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar(viewModel.isNavigationStarted ? .hidden : .visible, for: .navigationBar)
+            .toolbar(
+                viewModel.isNavigationStarted && isNavigationTabBarHidden ? .hidden : .visible,
+                for: .tabBar
+            )
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: viewModel.useCurrentLocationAsOrigin) {
+                    Button {
+                        dismissKeyboard()
+                        viewModel.useCurrentLocationAsOrigin()
+                    } label: {
                         Image(systemName: viewModel.isResolvingLocation ? "location.circle" : "location")
                     }
                     .disabled(viewModel.isResolvingLocation)
@@ -117,8 +157,22 @@ struct HoguNavigationView: View {
                 }
                 viewModel.focusSearch(target: target)
             }
+            .onChange(of: viewModel.isNavigationStarted) { _, isStarted in
+                if isStarted {
+                    isNavigationSheetExpanded = false
+                    isNavigationTabBarHidden = true
+                } else {
+                    isNavigationTabBarHidden = false
+                }
+            }
         }
         .navigationViewStyle(.stack)
+    }
+
+    private var hudBackgroundStyle: AnyShapeStyle {
+        viewModel.energyPolicy.usesOpaqueHUD
+            ? AnyShapeStyle(Color.white.opacity(0.94))
+            : AnyShapeStyle(.ultraThinMaterial)
     }
 
     private var searchPanel: some View {
@@ -148,7 +202,7 @@ struct HoguNavigationView: View {
             }
 
             Button(action: {
-                focusedField = nil
+                dismissKeyboard()
                 viewModel.calculateRoute()
             }) {
                 HStack(spacing: 8) {
@@ -165,7 +219,7 @@ struct HoguNavigationView: View {
             .disabled(viewModel.isCalculatingRoute)
         }
         .padding(14)
-        .background(.ultraThinMaterial)
+        .background(hudBackgroundStyle)
         .clipShape(RoundedRectangle(cornerRadius: 18))
         .shadow(color: .black.opacity(0.12), radius: 12, y: 6)
     }
@@ -187,6 +241,7 @@ struct HoguNavigationView: View {
                 .frame(width: 32, alignment: .leading)
 
             TextField(title, text: text)
+                .frame(minWidth: 0)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .focused($focusedField, equals: target)
@@ -195,6 +250,24 @@ struct HoguNavigationView: View {
                     guard focusedField == target else { return }
                     viewModel.updateSearchQuery(newValue, target: target)
                 }
+
+            if target == .origin {
+                Button {
+                    dismissKeyboard()
+                    viewModel.useCurrentLocationAsOrigin()
+                } label: {
+                    Image(systemName: viewModel.isResolvingLocation ? "location.circle" : "location.fill")
+                    .font(.system(size: 15, weight: .semibold))
+                    .fontWeight(.semibold)
+                    .foregroundColor(.green)
+                    .frame(width: 34, height: 30)
+                    .background(Color.green.opacity(0.12))
+                    .clipShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .disabled(viewModel.isResolvingLocation)
+                .accessibilityLabel("현재위치로 지정")
+            }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
@@ -203,46 +276,50 @@ struct HoguNavigationView: View {
     }
 
     private var searchList: some View {
-        VStack(spacing: 0) {
-            ForEach(viewModel.recentSuggestions.prefix(5)) { suggestion in
-                Button(action: {
-                    focusedField = nil
-                    viewModel.selectRecentSuggestion(suggestion)
-                }) {
-                    searchRow(
-                        icon: suggestion.icon,
-                        iconColor: .orange,
-                        title: suggestion.title,
-                        subtitle: suggestion.subtitle
-                    )
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(viewModel.recentSuggestions.prefix(5)) { suggestion in
+                    Button(action: {
+                        let target = focusedField ?? viewModel.selectedSearchTarget
+                        dismissKeyboard()
+                        viewModel.selectRecentSuggestion(suggestion, target: target)
+                    }) {
+                        searchRow(
+                            icon: suggestion.icon,
+                            iconColor: .orange,
+                            title: suggestion.title,
+                            subtitle: suggestion.subtitle
+                        )
+                    }
+
+                    if suggestion.id != viewModel.recentSuggestions.prefix(5).last?.id {
+                        Divider()
+                            .padding(.leading, 42)
+                    }
                 }
 
-                if suggestion.id != viewModel.recentSuggestions.prefix(5).last?.id {
-                    Divider()
-                        .padding(.leading, 42)
-                }
-            }
+                ForEach(viewModel.searchResults.prefix(HoguNavigationSearchResultPolicy.visibleLimit)) { result in
+                    Button(action: {
+                        let target = viewModel.selectedSearchTarget
+                        dismissKeyboard()
+                        viewModel.selectSearchResult(result, target: target)
+                    }) {
+                        searchRow(
+                            icon: "magnifyingglass",
+                            iconColor: .secondary,
+                            title: result.title,
+                            subtitle: result.subtitle
+                        )
+                    }
 
-            ForEach(viewModel.searchResults.prefix(6)) { result in
-                Button(action: {
-                    let target = viewModel.selectedSearchTarget
-                    focusedField = nil
-                    viewModel.selectSearchResult(result, target: target)
-                }) {
-                    searchRow(
-                        icon: "magnifyingglass",
-                        iconColor: .secondary,
-                        title: result.title,
-                        subtitle: result.subtitle
-                    )
-                }
-
-                if result.id != viewModel.searchResults.prefix(6).last?.id {
-                    Divider()
-                        .padding(.leading, 42)
+                    if result.id != viewModel.searchResults.prefix(HoguNavigationSearchResultPolicy.visibleLimit).last?.id {
+                        Divider()
+                            .padding(.leading, 42)
+                    }
                 }
             }
         }
+        .frame(maxHeight: Self.searchListMaximumHeight)
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .shadow(color: .black.opacity(0.08), radius: 8, y: 4)
@@ -304,39 +381,186 @@ struct HoguNavigationView: View {
             }
 
             Button(action: {
+                dismissKeyboard()
                 toggleNavigation()
             }) {
                 HStack(spacing: 8) {
                     Image(systemName: viewModel.isNavigationStarted ? "stop.circle.fill" : "location.north.circle.fill")
-                    Text(viewModel.isNavigationStarted ? "네비게이션 중지" : "네비게이션 시작")
+                    Text(viewModel.isNavigationStarted ? "안내 종료" : "안내 시작")
+                        .fontWeight(.semibold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 15)
+                .foregroundColor(.white)
+                .background(viewModel.isNavigationStarted ? Color.red : Color.green)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+            }
+
+            Button(action: {
+                dismissKeyboard()
+                viewModel.resetRouteCalculationResult()
+            }) {
+                HStack(spacing: 8) {
+                    Image(systemName: "arrow.counterclockwise")
+                    Text("호구비 계산 초기화")
                         .fontWeight(.semibold)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 13)
-                .foregroundColor(.white)
-                .background(viewModel.isNavigationStarted ? Color.red : Color.green)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .foregroundColor(.secondary)
+                .background(Color(.secondarySystemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("호구비 계산 초기화")
+            .accessibilityHint("출발지와 목적지는 유지하고 계산 결과만 지웁니다")
+        }
+        .padding(18)
+        .background(hudBackgroundStyle)
+        .clipShape(RoundedRectangle(cornerRadius: 26))
+        .overlay {
+            RoundedRectangle(cornerRadius: 26)
+                .stroke(Color.white.opacity(0.16), lineWidth: 1)
+        }
+        .shadow(color: .black.opacity(0.18), radius: 18, y: -6)
+    }
+
+    private func navigationRouteSheet(_ preview: HoguNavigationRoutePreview) -> some View {
+        VStack(spacing: isNavigationSheetExpanded ? 14 : 8) {
+            Capsule()
+                .fill(Color.white.opacity(0.34))
+                .frame(width: 52, height: 5)
+                .padding(.top, 2)
+
+            HStack(spacing: 10) {
+                compactSummaryItem(
+                    title: "예상 거리",
+                    value: formatDistance(preview.distance)
+                )
+
+                Divider()
+                    .frame(height: 38)
+
+                compactSummaryItem(
+                    title: "예상 시간",
+                    value: formatDuration(preview.expectedTravelTime)
+                )
+
+                Divider()
+                    .frame(height: 38)
+
+                compactSummaryItem(
+                    title: "예상 호구비",
+                    value: "\(preview.expectedFare.formattedWithComma)원",
+                    valueColor: .orange
+                )
+            }
+
+            if isNavigationSheetExpanded {
+                Button(action: {
+                    dismissKeyboard()
+                    toggleNavigation()
+                }) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "stop.circle.fill")
+                        Text("안내 종료")
+                            .fontWeight(.semibold)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 15)
+                    .foregroundColor(.white)
+                    .background(Color.red)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
-        .padding(16)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 18))
-        .shadow(color: .black.opacity(0.14), radius: 12, y: -4)
+        .padding(.horizontal, 18)
+        .padding(.top, 8)
+        .padding(.bottom, isNavigationSheetExpanded ? 18 : 14)
+        .background(hudBackgroundStyle)
+        .clipShape(RoundedRectangle(cornerRadius: 30))
+        .overlay {
+            RoundedRectangle(cornerRadius: 30)
+                .stroke(Color.white.opacity(0.16), lineWidth: 1)
+        }
+        .shadow(color: .black.opacity(0.2), radius: 18, y: -6)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) {
+                isNavigationSheetExpanded.toggle()
+            }
+        }
+        .gesture(
+            DragGesture(minimumDistance: 14)
+                .onEnded { value in
+                    withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) {
+                        if value.translation.height < -18 {
+                            isNavigationSheetExpanded = true
+                        } else if value.translation.height > 18 {
+                            isNavigationSheetExpanded = false
+                        }
+                    }
+                }
+        )
+    }
+
+    private var tabBarVisibilityControl: some View {
+        Button {
+            isNavigationTabBarHidden.toggle()
+        } label: {
+            Image(systemName: isNavigationTabBarHidden ? "arrow.up.to.line.compact" : "arrow.down.to.line.compact")
+                .font(.system(size: 16, weight: .bold))
+                .frame(width: 42, height: 42)
+                .background(hudBackgroundStyle)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.white.opacity(0.25), lineWidth: 1))
+        }
+        .accessibilityLabel(isNavigationTabBarHidden ? "하단 메뉴 보기" : "하단 메뉴 숨기기")
+        .shadow(color: .black.opacity(0.18), radius: 8, y: 4)
+    }
+
+    private func compactSummaryItem(title: String, value: String, valueColor: Color = .primary) -> some View {
+        VStack(spacing: 3) {
+            Text(value)
+                .font(.system(size: 18, weight: .heavy, design: .rounded))
+                .foregroundColor(valueColor)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+
+            Text(title)
+                .font(.caption2)
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity)
     }
 
     private func toggleNavigation() {
         if viewModel.isNavigationStarted {
             viewModel.stopNavigation()
+            isNavigationSheetExpanded = false
             return
         }
 
         guard meterViewModel.state != .running else {
-            viewModel.errorMessage = "일반 미터기 사용 중에는 네비게이션을 시작할 수 없습니다."
+            viewModel.errorMessage = "일반 미터기 사용 중에는 길안내를 시작할 수 없습니다."
             HapticManager.warning()
             return
         }
 
         viewModel.startNavigationFromPreview()
+    }
+
+    private func dismissKeyboard() {
+        focusedField = nil
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 
     private func hoguFareBadge(_ fare: Int) -> some View {
@@ -352,7 +576,7 @@ struct HoguNavigationView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(.ultraThinMaterial)
+        .background(hudBackgroundStyle)
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .shadow(color: .black.opacity(0.12), radius: 8, y: 4)
     }
@@ -372,7 +596,7 @@ struct HoguNavigationView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .background(.ultraThinMaterial)
+        .background(hudBackgroundStyle)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.16), radius: 10, y: 5)
     }
@@ -485,48 +709,58 @@ struct HoguNavigationView: View {
         .shadow(color: .black.opacity(0.18), radius: 10, y: 5)
     }
 
-    private func routeGuidanceCard(instruction: String, distance: CLLocationDistance?) -> some View {
-        HStack(spacing: 10) {
-            Image(systemName: guidanceIcon(for: instruction))
-                .font(.title3)
-                .foregroundColor(.white)
-                .frame(width: 28, height: 28)
+    private func routeGuidanceCard(
+        instruction: String,
+        distance: CLLocationDistance?,
+        maneuver: HoguNavigationManeuver
+    ) -> some View {
+        HStack(spacing: 16) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color.white.opacity(0.18))
 
-            VStack(alignment: .leading, spacing: 2) {
+                Image(systemName: maneuver.iconName)
+                    .font(.system(size: 34, weight: .heavy))
+                    .foregroundColor(.white)
+            }
+            .frame(width: 58, height: 58)
+
+            VStack(alignment: .leading, spacing: 4) {
                 if let distance = distance {
                     Text("\(formatDistance(distance)) 후")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white.opacity(0.82))
+                        .font(.system(size: 24, weight: .heavy, design: .rounded))
+                        .foregroundColor(.white)
                 }
 
                 Text(instruction)
-                    .font(.subheadline)
-                    .fontWeight(.bold)
+                    .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
                     .lineLimit(2)
+                    .minimumScaleFactor(0.82)
             }
 
             Spacer()
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 12)
-        .background(Color.blue.opacity(0.88))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.18), radius: 10, y: 5)
-    }
-
-    private func guidanceIcon(for instruction: String) -> String {
-        if instruction.contains("좌") {
-            return "arrow.turn.up.left"
+        .padding(.horizontal, 18)
+        .padding(.vertical, 16)
+        .background {
+            RoundedRectangle(cornerRadius: 22)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 0.02, green: 0.53, blue: 1.0).opacity(0.96),
+                            Color(red: 0.02, green: 0.35, blue: 0.92).opacity(0.92)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
         }
-        if instruction.contains("우") {
-            return "arrow.turn.up.right"
+        .overlay {
+            RoundedRectangle(cornerRadius: 22)
+                .stroke(Color.white.opacity(0.18), lineWidth: 1)
         }
-        if instruction.contains("유턴") || instruction.uppercased().contains("U") {
-            return "arrow.uturn.left"
-        }
-        return "arrow.up"
+        .shadow(color: .blue.opacity(0.22), radius: 16, y: 8)
     }
 
     private func updateSpeedCameraBlink(isSpeeding: Bool) {
@@ -579,8 +813,11 @@ struct HoguNavigationView: View {
 
 private struct HoguNavigationMapView: UIViewRepresentable {
     let routePreview: HoguNavigationRoutePreview?
+    let navigationFrame: HoguNavigationFrame?
+    let energyPolicy: HoguNavigationEnergyPolicy
     let userCoordinate: CLLocationCoordinate2D?
     let userHeading: CLLocationDirection
+    let hasUsableCourse: Bool
     let userSpeed: Double
     let isNavigationStarted: Bool
     let speedCameraWarning: SpeedCameraWarning?
@@ -593,7 +830,7 @@ private struct HoguNavigationMapView: UIViewRepresentable {
         mapView.showsScale = true
         mapView.isPitchEnabled = true
         mapView.isRotateEnabled = true
-        mapView.pointOfInterestFilter = .includingAll
+        mapView.pointOfInterestFilter = energyPolicy.showsPointsOfInterest ? .includingAll : .excludingAll
         mapView.setRegion(
             MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: 37.5665, longitude: 126.9780),
@@ -605,7 +842,10 @@ private struct HoguNavigationMapView: UIViewRepresentable {
     }
 
     func updateUIView(_ mapView: MKMapView, context: Context) {
+        let mapUpdateSpan = HoguNavigationPerformanceMonitor.shared.begin(.mapUpdate)
+        defer { HoguNavigationPerformanceMonitor.shared.end(.mapUpdate, id: mapUpdateSpan) }
         mapView.showsUserLocation = !isNavigationStarted
+        mapView.pointOfInterestFilter = energyPolicy.showsPointsOfInterest ? .includingAll : .excludingAll
 
         if let routePreview = routePreview {
             let routeChanged = context.coordinator.renderedRoutePolyline !== routePreview.polyline
@@ -613,9 +853,11 @@ private struct HoguNavigationMapView: UIViewRepresentable {
                 mapView,
                 context: context,
                 routePreview: routePreview,
+                navigationFrame: navigationFrame,
+                energyPolicy: energyPolicy,
                 routeChanged: routeChanged
             )
-            updateVehicleAnnotation(mapView, context: context)
+            updateVehicleAnnotation(mapView, context: context, navigationFrame: navigationFrame, energyPolicy: energyPolicy)
 
             let annotationKey = annotationStateKey(routePreview: routePreview, speedCameraWarning: speedCameraWarning)
             if context.coordinator.renderedAnnotationKey != annotationKey {
@@ -632,16 +874,28 @@ private struct HoguNavigationMapView: UIViewRepresentable {
             }
 
             if isNavigationStarted {
-                guard context.coordinator.shouldUpdateCamera() else { return }
-
-                let targetCoordinate = userCoordinate ?? routePreview.originCoordinate
+                let vehicleCoordinate = navigationFrame?.projection.coordinate ?? userCoordinate ?? routePreview.originCoordinate
+                let displayHeading = vehicleDisplayHeading(for: navigationFrame)
+                guard context.coordinator.shouldUpdateCamera(
+                    coordinate: vehicleCoordinate,
+                    heading: displayHeading,
+                    policy: energyPolicy
+                ) else { return }
+                let cameraDistance = cameraDistance(for: userSpeed)
                 let camera = MKMapCamera(
-                    lookingAtCenter: targetCoordinate,
-                    fromDistance: cameraDistance(for: userSpeed),
-                    pitch: 58,
-                    heading: userHeading
+                    lookingAtCenter: cameraFocusCoordinate(
+                        from: vehicleCoordinate,
+                        heading: displayHeading,
+                        distance: cameraDistance * 0.24
+                    ),
+                    fromDistance: cameraDistance,
+                    pitch: energyPolicy.cameraPitch,
+                    heading: displayHeading
                 )
-                mapView.setCamera(camera, animated: true)
+                let cameraSpan = HoguNavigationPerformanceMonitor.shared.begin(.cameraUpdate)
+                mapView.setCamera(camera, animated: energyPolicy.allowsMapAnimation)
+                HoguNavigationPerformanceMonitor.shared.end(.cameraUpdate, id: cameraSpan)
+                HoguNavigationPerformanceMonitor.shared.event("cameraUpdates")
                 return
             }
 
@@ -676,47 +930,69 @@ private struct HoguNavigationMapView: UIViewRepresentable {
         _ mapView: MKMapView,
         context: Context,
         routePreview: HoguNavigationRoutePreview,
+        navigationFrame: HoguNavigationFrame?,
+        energyPolicy: HoguNavigationEnergyPolicy,
         routeChanged: Bool
     ) {
         guard isNavigationStarted,
-              let userCoordinate = userCoordinate else {
-            guard routeChanged || context.coordinator.renderedProgressIndex != nil else { return }
+              let projection = navigationFrame?.projection else {
+            guard routeChanged || context.coordinator.renderedProgressDistance != nil else { return }
             mapView.removeOverlays(mapView.overlays)
+            mapView.addOverlay(routeOverlay(routePreview.polyline, title: "remainingCasing"))
             mapView.addOverlay(routeOverlay(routePreview.polyline, title: "remaining"))
             context.coordinator.renderedRoutePolyline = routePreview.polyline
-            context.coordinator.renderedProgressIndex = nil
+            context.coordinator.renderedProgressDistance = nil
             return
         }
 
         let coordinates = routePreview.polyline.coordinates
-        guard coordinates.count >= 2,
-              let progressIndex = nearestRouteIndex(to: userCoordinate, routeCoordinates: coordinates),
-              routeChanged || context.coordinator.renderedProgressIndex != progressIndex else {
+        guard routeChanged || context.coordinator.shouldUpdateOverlay(
+            progressDistance: projection.progressDistance,
+            policy: energyPolicy
+        ) else {
             return
         }
 
         mapView.removeOverlays(mapView.overlays)
+        let overlaySpan = HoguNavigationPerformanceMonitor.shared.begin(.overlayRebuild)
 
-        if progressIndex >= 1 {
+        let progressIndex = projection.segmentIndex
+        if progressIndex >= 0 {
             var passedCoordinates = Array(coordinates[0...progressIndex])
+            if projection.segmentRatio > 0 {
+                passedCoordinates.append(projection.coordinate)
+            }
             let passedOverlay = MKPolyline(coordinates: &passedCoordinates, count: passedCoordinates.count)
             passedOverlay.title = "passed"
             mapView.addOverlay(passedOverlay)
         }
 
         if progressIndex < coordinates.count - 1 {
-            var remainingCoordinates = Array(coordinates[progressIndex..<coordinates.count])
+            var remainingCoordinates = [projection.coordinate]
+            remainingCoordinates.append(contentsOf: coordinates[(progressIndex + 1)...])
+            let remainingCasingOverlay = MKPolyline(coordinates: &remainingCoordinates, count: remainingCoordinates.count)
+            remainingCasingOverlay.title = "remainingCasing"
+            mapView.addOverlay(remainingCasingOverlay)
+
             let remainingOverlay = MKPolyline(coordinates: &remainingCoordinates, count: remainingCoordinates.count)
             remainingOverlay.title = "remaining"
             mapView.addOverlay(remainingOverlay)
         }
 
         context.coordinator.renderedRoutePolyline = routePreview.polyline
-        context.coordinator.renderedProgressIndex = progressIndex
+        context.coordinator.renderedProgressDistance = projection.progressDistance
+        context.coordinator.recordOverlay(progressDistance: projection.progressDistance)
+        HoguNavigationPerformanceMonitor.shared.end(.overlayRebuild, id: overlaySpan)
+        HoguNavigationPerformanceMonitor.shared.event("overlayReplacements")
     }
 
-    private func updateVehicleAnnotation(_ mapView: MKMapView, context: Context) {
-        guard isNavigationStarted, let userCoordinate = userCoordinate else {
+    private func updateVehicleAnnotation(
+        _ mapView: MKMapView,
+        context: Context,
+        navigationFrame: HoguNavigationFrame?,
+        energyPolicy: HoguNavigationEnergyPolicy
+    ) {
+        guard isNavigationStarted, let navigationFrame else {
             if let vehicleAnnotation = context.coordinator.vehicleAnnotation {
                 mapView.removeAnnotation(vehicleAnnotation)
                 context.coordinator.vehicleAnnotation = nil
@@ -724,20 +1000,55 @@ private struct HoguNavigationMapView: UIViewRepresentable {
             return
         }
 
+        let displayCoordinate = navigationFrame.projection.coordinate
+        let displayHeading = navigationFrame.displayHeading
+
         if let vehicleAnnotation = context.coordinator.vehicleAnnotation {
-            vehicleAnnotation.coordinate = userCoordinate
-            vehicleAnnotation.heading = userHeading
+            context.coordinator.updateVehicleAnnotation(
+                vehicleAnnotation,
+                to: displayCoordinate,
+                allowsAnimation: energyPolicy.allowsVehicleAnimation
+            )
+            vehicleAnnotation.heading = displayHeading
             if let view = mapView.view(for: vehicleAnnotation) as? HoguNavigationRotatingAnnotationView {
                 view.heading = vehicleAnnotation.heading
             }
         } else {
             let annotation = HoguNavigationVehicleAnnotation(
-                coordinate: userCoordinate,
-                heading: userHeading
+                coordinate: displayCoordinate,
+                heading: displayHeading
             )
             context.coordinator.vehicleAnnotation = annotation
             mapView.addAnnotation(annotation)
         }
+    }
+
+    private func vehicleDisplayHeading(for navigationFrame: HoguNavigationFrame?) -> CLLocationDirection {
+        navigationFrame?.displayHeading ?? (userHeading.isFinite ? max(userHeading, 0) : 0)
+    }
+
+    private func cameraFocusCoordinate(
+        from coordinate: CLLocationCoordinate2D,
+        heading: CLLocationDirection,
+        distance: CLLocationDistance
+    ) -> CLLocationCoordinate2D {
+        let earthRadius: CLLocationDistance = 6_378_137
+        let bearingRadians = heading * .pi / 180
+        let latitudeRadians = coordinate.latitude * .pi / 180
+        let longitudeRadians = coordinate.longitude * .pi / 180
+        let angularDistance = distance / earthRadius
+        let nextLatitude = asin(
+            sin(latitudeRadians) * cos(angularDistance)
+                + cos(latitudeRadians) * sin(angularDistance) * cos(bearingRadians)
+        )
+        let nextLongitude = longitudeRadians + atan2(
+            sin(bearingRadians) * sin(angularDistance) * cos(latitudeRadians),
+            cos(angularDistance) - sin(latitudeRadians) * sin(nextLatitude)
+        )
+        return CLLocationCoordinate2D(
+            latitude: nextLatitude * 180 / .pi,
+            longitude: nextLongitude * 180 / .pi
+        )
     }
 
     func makeCoordinator() -> Coordinator {
@@ -756,22 +1067,6 @@ private struct HoguNavigationMapView: UIViewRepresentable {
         let overlay = MKPolyline(coordinates: &coordinates, count: coordinates.count)
         overlay.title = title
         return overlay
-    }
-
-    private func nearestRouteIndex(
-        to coordinate: CLLocationCoordinate2D,
-        routeCoordinates: [CLLocationCoordinate2D]
-    ) -> Int? {
-        guard !routeCoordinates.isEmpty else { return nil }
-
-        let targetLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        return routeCoordinates.enumerated()
-            .min { lhs, rhs in
-                let lhsLocation = CLLocation(latitude: lhs.element.latitude, longitude: lhs.element.longitude)
-                let rhsLocation = CLLocation(latitude: rhs.element.latitude, longitude: rhs.element.longitude)
-                return lhsLocation.distance(from: targetLocation) < rhsLocation.distance(from: targetLocation)
-            }?
-            .offset
     }
 
     private func annotationStateKey(
@@ -805,24 +1100,75 @@ private struct HoguNavigationMapView: UIViewRepresentable {
     final class Coordinator: NSObject, MKMapViewDelegate {
         var renderedRoutePolyline: MKPolyline?
         var renderedAnnotationKey: String?
-        var renderedProgressIndex: Int?
+        var renderedProgressDistance: CLLocationDistance?
         var vehicleAnnotation: HoguNavigationVehicleAnnotation?
-        private var lastCameraUpdateAt = Date.distantPast
+        private var renderBudget = HoguNavigationRenderBudget()
+        private let vehicleAnimationDuration: TimeInterval = 0.25
+        private let maximumAnimatedVehicleDistance: CLLocationDistance = 120
 
-        func shouldUpdateCamera() -> Bool {
-            let now = Date()
-            guard now.timeIntervalSince(lastCameraUpdateAt) > 0.35 else {
-                return false
+        func shouldUpdateCamera(
+            coordinate: CLLocationCoordinate2D,
+            heading: CLLocationDirection,
+            policy: HoguNavigationEnergyPolicy
+        ) -> Bool {
+            renderBudget.shouldUpdateCamera(
+                coordinate: coordinate,
+                heading: heading,
+                policy: policy,
+                now: Date()
+            )
+        }
+
+        func shouldUpdateOverlay(
+            progressDistance: CLLocationDistance,
+            policy: HoguNavigationEnergyPolicy
+        ) -> Bool {
+            renderBudget.shouldUpdateOverlay(
+                progressDistance: progressDistance,
+                policy: policy,
+                now: Date()
+            )
+        }
+
+        func recordOverlay(progressDistance: CLLocationDistance) {
+            renderBudget.recordOverlay(progressDistance: progressDistance, at: Date())
+        }
+
+        func updateVehicleAnnotation(
+            _ annotation: HoguNavigationVehicleAnnotation,
+            to coordinate: CLLocationCoordinate2D,
+            allowsAnimation: Bool
+        ) {
+            let currentLocation = CLLocation(
+                latitude: annotation.coordinate.latitude,
+                longitude: annotation.coordinate.longitude
+            )
+            let nextLocation = CLLocation(
+                latitude: coordinate.latitude,
+                longitude: coordinate.longitude
+            )
+
+            guard allowsAnimation,
+                  currentLocation.distance(from: nextLocation) <= maximumAnimatedVehicleDistance else {
+                annotation.coordinate = coordinate
+                return
             }
-            lastCameraUpdateAt = now
-            return true
+
+            UIView.animate(
+                withDuration: vehicleAnimationDuration,
+                delay: 0,
+                options: [.curveLinear, .beginFromCurrentState, .allowUserInteraction]
+            ) {
+                annotation.coordinate = coordinate
+            }
         }
 
         func resetRenderedRoute() {
             renderedRoutePolyline = nil
             renderedAnnotationKey = nil
-            renderedProgressIndex = nil
+            renderedProgressDistance = nil
             vehicleAnnotation = nil
+            renderBudget.reset()
         }
 
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -831,10 +1177,17 @@ private struct HoguNavigationMapView: UIViewRepresentable {
             }
 
             let renderer = MKPolylineRenderer(polyline: polyline)
-            renderer.strokeColor = polyline.title == "passed"
-                ? UIColor.systemGray3
-                : UIColor.systemOrange
-            renderer.lineWidth = 6
+            switch polyline.title {
+            case "passed":
+                renderer.strokeColor = UIColor.systemGray3.withAlphaComponent(0.72)
+                renderer.lineWidth = 8
+            case "remainingCasing":
+                renderer.strokeColor = UIColor.white.withAlphaComponent(0.72)
+                renderer.lineWidth = 15
+            default:
+                renderer.strokeColor = UIColor.systemOrange
+                renderer.lineWidth = 9
+            }
             renderer.lineCap = .round
             renderer.lineJoin = .round
             return renderer

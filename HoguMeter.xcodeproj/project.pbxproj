@@ -19,10 +19,12 @@
 		0AE03F70981B89FF8C6ECCE5 /* TaxiHorseAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D14E15902C9AE16AC551E4 /* TaxiHorseAnnotationView.swift */; };
 		0C7592F3383D07CB34261525 /* CoachMarkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91967DD9C4A7CC458F202213 /* CoachMarkManagerTests.swift */; };
 		0E95337F5EB362DD0FE6938C /* FareInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBED755873BF6023E8A00170 /* FareInputField.swift */; };
+		0F1E2D3C4B5A69788796A5B4 /* HoguNavigationPerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1E2D3C4B5A69788796A5B4 /* HoguNavigationPerformanceMonitor.swift */; };
 		102F0A3585AC4FCA45BD07B7 /* TemplateSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A27055310915F595892384 /* TemplateSelectionView.swift */; };
 		10327309682D41AED8FD6BB5 /* TooltipBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC75072BF947D6D9F1B08347 /* TooltipBubble.swift */; };
 		15CB2AD570752D4562C9A77D /* DataManagementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAAD81B7A25D7D650A68EEC /* DataManagementViewModel.swift */; };
 		1C009835DD07F50CD2D55F8B /* DriverQuotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B6193F6F1A18FF1A313B03 /* DriverQuotes.swift */; };
+		1F1E2D3C4B5A69788796A5B4 /* HoguNavigationOptimizationFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E2D3C4B5A69788796A5B4 /* HoguNavigationOptimizationFlags.swift */; };
 		1F8348EC3768EBF2C737E245 /* RouteOptimizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F6ED958FA228C82348A245 /* RouteOptimizerTests.swift */; };
 		20A7E95CA73016A397471852 /* FareDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA039B6DD5901DF909CE00 /* FareDisplayView.swift */; };
 		20F9799FCF166280752BF18A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F029931CE359423C7030D6A1 /* README.md */; };
@@ -182,6 +184,7 @@
 		2B4DB1A38B5156B4CCD9B378 /* FareTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareTimeZone.swift; sourceTree = "<group>"; };
 		2E0C82ADFDFD92640EC4DD24 /* QA_TEST_CASES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = QA_TEST_CASES.md; sourceTree = "<group>"; };
 		2E9276A082DD294C30EEC7E8 /* DeadReckoningServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadReckoningServiceTests.swift; sourceTree = "<group>"; };
+		2F1E2D3C4B5A69788796A5B4 /* HoguNavigationPerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoguNavigationPerformanceMonitor.swift; sourceTree = "<group>"; };
 		323BB62BFC19FDCBADA83D97 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		32F8518516BF4CD18AE3DBB8 /* SpeedCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCamera.swift; sourceTree = "<group>"; };
 		337D5D1E06240B7ED195FB0B /* DataManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagementView.swift; sourceTree = "<group>"; };
@@ -189,6 +192,7 @@
 		3D2CBC9DCCC195598BAA15DE /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
 		3D6595FDE2A06FF0A60C4A44 /* TripHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripHistoryViewModel.swift; sourceTree = "<group>"; };
 		3D75F48E87B771DB51524A77 /* RouteOptimizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteOptimizer.swift; sourceTree = "<group>"; };
+		3F1E2D3C4B5A69788796A5B4 /* HoguNavigationOptimizationFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoguNavigationOptimizationFlags.swift; sourceTree = "<group>"; };
 		3F4416AEEA326AC176E93203 /* TripPaginationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPaginationTests.swift; sourceTree = "<group>"; };
 		43AB03943B65B41C22FD299D /* LocationFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFormatter.swift; sourceTree = "<group>"; };
 		4C9086290BD18940E3D6B70E /* ReceiptShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptShareService.swift; sourceTree = "<group>"; };
@@ -276,7 +280,7 @@
 		D89B8EC5327279C3DE17EAF0 /* RegionFare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFare.swift; sourceTree = "<group>"; };
 		DBED755873BF6023E8A00170 /* FareInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareInputField.swift; sourceTree = "<group>"; };
 		DE93DCC5FDCE714E702D328C /* StorageStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageStats.swift; sourceTree = "<group>"; };
-		DF6AB6681D6D5F3043F077C3 /* HoguMeter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoguMeter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF6AB6681D6D5F3043F077C3 /* HoguMeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoguMeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0027E3B8BF30957FD2BE41E /* RegionalSurchargeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalSurchargeServiceTests.swift; sourceTree = "<group>"; };
 		E0BE7332F192EF32E9EA0A5B /* StatisticsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsModels.swift; sourceTree = "<group>"; };
 		E4C0EC692DA97BC518B69BF7 /* FareCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareCalculatorTests.swift; sourceTree = "<group>"; };
@@ -496,6 +500,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		4F1E2D3C4B5A69788796A5B4 /* Performance */ = {
+			isa = PBXGroup;
+			children = (
+				3F1E2D3C4B5A69788796A5B4 /* HoguNavigationOptimizationFlags.swift */,
+				2F1E2D3C4B5A69788796A5B4 /* HoguNavigationPerformanceMonitor.swift */,
+			);
+			path = Performance;
+			sourceTree = "<group>";
+		};
 		513BA7EC6CCA7959C4002F6D /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,6 +578,7 @@
 				430BAAB4A9A3D833D866E1BA /* Constants */,
 				D011F1E0DB460DFBAB04354A /* Extensions */,
 				A26742003F42E47CF095B2B0 /* Managers */,
+				4F1E2D3C4B5A69788796A5B4 /* Performance */,
 				FAF65945604109D785F4DB73 /* Protocols */,
 				8A364BF6B66BD10D3E354AD9 /* Utils */,
 			);
@@ -833,7 +847,7 @@
 			isa = PBXGroup;
 			children = (
 				9B1B90C5922AF2379FA3A78C /* HoguMeter.app */,
-				DF6AB6681D6D5F3043F077C3 /* HoguMeter.xctest */,
+				DF6AB6681D6D5F3043F077C3 /* HoguMeterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -885,7 +899,7 @@
 			packageProductDependencies = (
 			);
 			productName = HoguMeterTests;
-			productReference = DF6AB6681D6D5F3043F077C3 /* HoguMeter.xctest */;
+			productReference = DF6AB6681D6D5F3043F077C3 /* HoguMeterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -895,7 +909,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2650;
+				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					ECFE29B53F5DA4450FC547F0 = {
 						DevelopmentTeam = "";
@@ -951,6 +965,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F1E2D3C4B5A69788796A5B4 /* HoguNavigationOptimizationFlags.swift in Sources */,
+				0F1E2D3C4B5A69788796A5B4 /* HoguNavigationPerformanceMonitor.swift in Sources */,
 				F1D4096E1A44ABD8F86F6FE0 /* AddressInfo.swift in Sources */,
 				C93CA0F08E30570BDC916459 /* AmbientLightObserver.swift in Sources */,
 				DB7372DBA62FE975C3DCBA10 /* AnimationConstants.swift in Sources */,
@@ -1143,6 +1159,8 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.devbada.HoguMeterTests;
+				PRODUCT_MODULE_NAME = HoguMeterTests;
+				PRODUCT_NAME = HoguMeterTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HoguMeter.app/HoguMeter";
@@ -1153,6 +1171,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1225,6 +1244,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1327,6 +1347,8 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.devbada.HoguMeterTests;
+				PRODUCT_MODULE_NAME = HoguMeterTests;
+				PRODUCT_NAME = HoguMeterTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HoguMeter.app/HoguMeter";

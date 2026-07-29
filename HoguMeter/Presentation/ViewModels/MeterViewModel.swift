@@ -12,6 +12,23 @@ import Observation
 import UIKit
 import SwiftUI
 
+struct MeterTimerGenerationGate {
+    private(set) var generation = 0
+
+    mutating func start() -> Int {
+        generation += 1
+        return generation
+    }
+
+    mutating func stop() {
+        generation += 1
+    }
+
+    func accepts(capturedGeneration: Int, isRunning: Bool, hasTripStartTime: Bool) -> Bool {
+        generation == capturedGeneration && isRunning && hasTripStartTime
+    }
+}
+
 @MainActor
 @Observable
 final class MeterViewModel {
@@ -73,6 +90,7 @@ final class MeterViewModel {
     private var cancellables = Set<AnyCancellable>()
     private var tripStartTime: Date?
     private var timer: Timer?
+    private var timerGenerationGate = MeterTimerGenerationGate()
     private var lastLocationUpdateTime: Date?
     private let speedTimeoutInterval: TimeInterval = 3.0  // 3초간 업데이트 없으면 속도 0
     private var hasSurchargeTrackingStarted: Bool = false  // 할증 추적 시작 여부
@@ -181,6 +199,7 @@ final class MeterViewModel {
     }
 
     func resetMeter() {
+        stopTimer()
         state = .idle
         currentFare = getBaseFare()  // 0이 아닌 기본요금으로 리셋
         distance = 0
@@ -400,9 +419,17 @@ final class MeterViewModel {
     }
 
     private func startTimer() {
+        timer?.invalidate()
+        let capturedGeneration = timerGenerationGate.start()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self, let startTime = self.tripStartTime else { return }
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
+                guard let self,
+                      self.timerGenerationGate.accepts(
+                        capturedGeneration: capturedGeneration,
+                        isRunning: self.state == .running,
+                        hasTripStartTime: self.tripStartTime != nil
+                      ),
+                      let startTime = self.tripStartTime else { return }
                 self.duration = Date().timeIntervalSince(startTime)
                 self.checkNightTime()
                 self.checkSpeedTimeout()
@@ -424,6 +451,7 @@ final class MeterViewModel {
     private func stopTimer() {
         timer?.invalidate()
         timer = nil
+        timerGenerationGate.stop()
     }
 
     private func checkNightTime() {
