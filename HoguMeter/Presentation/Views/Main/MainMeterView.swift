@@ -12,7 +12,6 @@ struct MainMeterView: View {
     @State private var receiptTrip: Trip?   // 영수증에 표시할 Trip
     @State private var showMap = false      // 지도 표시 상태
     @State private var showDriverQuote = false  // 택시기사 한마디 표시 상태
-    @State private var isHoguNavigationActive = false
 
     // Coach Mark
     @StateObject private var coachMarkManager = CoachMarkManager.shared
@@ -64,29 +63,13 @@ struct MainMeterView: View {
                         // 컨트롤 버튼
                         ControlButtonsView(
                             state: viewModel.state,
-                            isDisabled: isHoguNavigationActive,
+                            isDisabled: false,
                             onStart: { viewModel.startMeter() },
                             onStop: { viewModel.stopMeter() },
                             onReset: { viewModel.resetMeter() }
                         )
                         .coachMarkTarget(id: "startButton")
                         .padding(.bottom, isCompactHeight ? 12 : 20)
-
-                        if isHoguNavigationActive {
-                            HStack(spacing: 8) {
-                                Image(systemName: "lock.fill")
-                                Text("길안내 중에는 일반 미터기를 조작할 수 없습니다.")
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                            }
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 9)
-                            .background(Color.black.opacity(0.72))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 10)
-                        }
                     }
                     .frame(maxWidth: 600)
                     .frame(maxWidth: .infinity)
@@ -130,7 +113,7 @@ struct MainMeterView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 // 지도 버튼 (미터 실행 중일 때만 표시)
-                if viewModel.state == .running && !isHoguNavigationActive {
+                if viewModel.state == .running {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: { showMap = true }) {
                             Image(systemName: "map")
@@ -185,21 +168,6 @@ struct MainMeterView: View {
                     }
                 } else {
                     showDriverQuote = false
-                }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .hoguNavigationDidStart)) { _ in
-                isHoguNavigationActive = true
-                if viewModel.state == .stopped {
-                    viewModel.resetMeter()
-                    viewModel.startMeter()
-                } else if viewModel.state == .idle {
-                    viewModel.startMeter()
-                }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .hoguNavigationDidStop)) { _ in
-                isHoguNavigationActive = false
-                if viewModel.state == .running {
-                    viewModel.stopMeter()
                 }
             }
             // 무이동 감지 알림

@@ -6,6 +6,9 @@
 > **Estimate**: {시간}
 > **Assignee**: TBD
 
+> 실행 상태와 검증 증거는 `docs/loop/README.md` 및
+> `docs/loop/runs/<YYYYMMDD>-<slug>/` 구조를 따릅니다.
+
 ---
 
 ## 📋 개요
@@ -20,11 +23,20 @@
 
 작업 완료 조건:
 
-- [ ] {조건 1}
-- [ ] {조건 2}
-- [ ] {조건 3}
+- [ ] **AC-01**: {관찰 가능한 조건 1}
+- [ ] **AC-02**: {관찰 가능한 조건 2}
+- [ ] **AC-03**: {관찰 가능한 조건 3}
 - [ ] 테스트 작성 및 통과
 - [ ] 코드 리뷰 완료
+
+## 🚫 Non-goals
+
+- {이번 slice에서 하지 않을 일}
+
+## ⚠️ Risk / Rollback
+
+- **Risk**: {P0-P3 및 위험}
+- **Rollback**: {되돌리는 방법 또는 feature flag}
 
 ## 📝 구현 사항
 
@@ -59,6 +71,12 @@
 - 패턴: {사용할 디자인 패턴}
 
 ## 🧪 테스트 계획
+
+### Acceptance Criteria 매핑
+
+| AC | 자동 검증 | 수동 검증 | 환경 |
+|---|---|---|---|
+| AC-01 | {test} | {scenario} | {simulator/device} |
 
 ### Unit Tests
 ```swift

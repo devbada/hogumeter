@@ -27,7 +27,6 @@ struct ContentView: View {
                 ProgressView()
             }
         }
-        // TODO-minam: 실제 유료 잠금 정책 확정 후 호구게이션 탭 진입 조건을 StoreKit entitlement와 연결해야 합니다.
         // 테마가 바뀌는 순간 잠깐 흐려졌다가 다시 선명해지며 morph 되는 느낌을 준다.
         .blur(radius: themeTransitionBlur)
         .preferredColorScheme(preferredColorScheme)
@@ -53,15 +52,6 @@ struct ContentView: View {
                     Label("미터기", systemImage: "gauge")
                 }
                 .tag(AppTab.meter)
-
-            HoguNavigationView(
-                fareCalculator: appState.fareCalculator,
-                meterViewModel: meterViewModel
-            )
-                .tabItem {
-                    Label("호구게이션", systemImage: "map")
-                }
-                .tag(AppTab.hoguNavigation)
 
             TripHistoryView()
                 .tabItem {
@@ -138,7 +128,6 @@ struct ContentView: View {
 
 private enum AppTab: Hashable {
     case meter
-    case hoguNavigation
     case history
     case statistics
     case settings
