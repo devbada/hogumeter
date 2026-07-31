@@ -63,6 +63,7 @@ struct MainMeterView: View {
                         // 컨트롤 버튼
                         ControlButtonsView(
                             state: viewModel.state,
+                            isDisabled: false,
                             onStart: { viewModel.startMeter() },
                             onStop: { viewModel.stopMeter() },
                             onReset: { viewModel.resetMeter() }
@@ -180,9 +181,7 @@ struct MainMeterView: View {
             } message: {
                 Text("10분 동안 이동이 없습니다.\n미터기를 계속 실행하시겠습니까?")
             }
-            .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
-                coachMarkFrames = frames
-            }
+            .onCoachMarkFramesChange($coachMarkFrames)
             .onAppear {
                 if coachMarkManager.shouldShowCoachMarks(for: "main") {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

@@ -23,6 +23,7 @@ final class CoachMarkManager: ObservableObject {
     @AppStorage("hasCompletedOnboarding_main") var completedMain = false
     @AppStorage("hasCompletedOnboarding_map") var completedMap = false
     @AppStorage("hasCompletedOnboarding_history") var completedHistory = false
+    @AppStorage("hasCompletedOnboarding_statistics") var completedStatistics = false
     @AppStorage("hasCompletedOnboarding_settings") var completedSettings = false
     @AppStorage("onboardingVersion") var onboardingVersion = 1
 
@@ -47,6 +48,8 @@ final class CoachMarkManager: ObservableObject {
             return !completedMap
         case "history":
             return !completedHistory
+        case "statistics":
+            return !completedStatistics
         case "settings":
             return !completedSettings
         default:
@@ -104,6 +107,7 @@ final class CoachMarkManager: ObservableObject {
         completedMain = false
         completedMap = false
         completedHistory = false
+        completedStatistics = false
         completedSettings = false
     }
 
@@ -140,6 +144,8 @@ final class CoachMarkManager: ObservableObject {
             completedMap = true
         case "history":
             completedHistory = true
+        case "statistics":
+            completedStatistics = true
         case "settings":
             completedSettings = true
         default:
@@ -151,6 +157,7 @@ final class CoachMarkManager: ObservableObject {
         registerScreen(CoachMarkData.mainScreen)
         registerScreen(CoachMarkData.mapScreen)
         registerScreen(CoachMarkData.historyScreen)
+        registerScreen(CoachMarkData.statisticsScreen)
         registerScreen(CoachMarkData.settingsScreen)
     }
 }

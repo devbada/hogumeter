@@ -44,6 +44,10 @@ final class CoachMarkManagerTests: XCTestCase {
         XCTAssertTrue(sut.shouldShowCoachMarks(for: "history"))
     }
 
+    func testShouldShowCoachMarksForStatisticsScreenOnFirstVisit() {
+        XCTAssertTrue(sut.shouldShowCoachMarks(for: "statistics"))
+    }
+
     // MARK: - TC-003: First visit to Settings tab → Settings coach marks appear
 
     func testShouldShowCoachMarksForSettingsScreenOnFirstVisit() {
@@ -112,6 +116,8 @@ final class CoachMarkManagerTests: XCTestCase {
         sut.skipCoachMarks()
         sut.startCoachMarks(for: "history")
         sut.skipCoachMarks()
+        sut.startCoachMarks(for: "statistics")
+        sut.skipCoachMarks()
         sut.startCoachMarks(for: "settings")
         sut.skipCoachMarks()
 
@@ -122,6 +128,7 @@ final class CoachMarkManagerTests: XCTestCase {
         XCTAssertTrue(sut.shouldShowCoachMarks(for: "main"))
         XCTAssertTrue(sut.shouldShowCoachMarks(for: "map"))
         XCTAssertTrue(sut.shouldShowCoachMarks(for: "history"))
+        XCTAssertTrue(sut.shouldShowCoachMarks(for: "statistics"))
         XCTAssertTrue(sut.shouldShowCoachMarks(for: "settings"))
     }
 
@@ -185,6 +192,13 @@ final class CoachMarkManagerTests: XCTestCase {
 
         // Then
         XCTAssertEqual(count, 4) // Main screen has 4 coach marks
+    }
+
+    func testStatisticsCoachMarkCountReturnsCorrectCount() {
+        sut.startCoachMarks(for: "statistics")
+
+        XCTAssertEqual(sut.currentScreenCoachMarkCount, 3)
+        XCTAssertEqual(sut.currentCoachMark?.id, "statistics_overview")
     }
 
     func testNextCoachMarkOnLastMarkCompletesScreen() {

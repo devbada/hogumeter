@@ -174,9 +174,7 @@ struct AppInfoView: View {
     }
 
     private func openAppStore() {
-        // TODO: 실제 App Store ID로 변경 필요
-        let appStoreURL = "https://apps.apple.com/app/id0000000000"
-        if let url = URL(string: appStoreURL) {
+        if let url = URL(string: Constants.Share.appStoreReviewURL) {
             UIApplication.shared.open(url)
         }
     }

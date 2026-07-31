@@ -62,6 +62,3 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 *.plist
-
-# Secrets
-Config/Secrets.xcconfig

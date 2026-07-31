@@ -81,12 +81,25 @@ struct SettingsView: View {
 
                         Picker("다크 모드", selection: $colorSchemePreference) {
                             Text("시스템 설정").tag(SettingsRepository.ColorSchemePreference.system)
+                            Text("자동 (조도)").tag(SettingsRepository.ColorSchemePreference.auto)
                             Text("라이트").tag(SettingsRepository.ColorSchemePreference.light)
                             Text("다크").tag(SettingsRepository.ColorSchemePreference.dark)
                         }
                         .onChange(of: colorSchemePreference) { _, newValue in
                             repository.colorSchemePreference = newValue
                             NotificationCenter.default.post(name: .colorSchemeChanged, object: nil)
+                        }
+
+                        // '자동' 선택 시 안내: iOS 자동 밝기 연동이 필요함을 알림
+                        if colorSchemePreference == .auto {
+                            Label {
+                                Text("자동 모드는 iOS의 자동 밝기 기능에 따라 동작합니다. 정확한 전환을 원하시면 iOS 설정 → 손쉬운 사용 → 디스플레이 및 텍스트 크기 → 자동 밝기를 켜주세요.")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            } icon: {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(.secondary)
+                            }
                         }
 
                         NavigationLink {
@@ -124,9 +137,18 @@ struct SettingsView: View {
                                 .foregroundColor(.secondary)
                         }
 
-                        Link(destination: URL(string: "https://devbada.github.io/hogumeter/privacy.html")!) {
+                        Link(destination: URL(string: "https://project-nz84a.vercel.app/privacy.html")!) {
                             HStack {
                                 Text("개인정보처리방침")
+                                Spacer()
+                                Image(systemName: "arrow.up.right.square")
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+
+                        Link(destination: URL(string: "https://project-nz84a.vercel.app/terms.html")!) {
+                            HStack {
+                                Text("이용약관")
                                 Spacer()
                                 Image(systemName: "arrow.up.right.square")
                                     .foregroundColor(.secondary)
@@ -148,9 +170,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("설정")
-            .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
-                coachMarkFrames = frames
-            }
+            .onCoachMarkFramesChange($coachMarkFrames)
             .onAppear {
                 loadSettings()
                 if coachMarkManager.shouldShowCoachMarks(for: "settings") {

@@ -7,6 +7,16 @@
 //
 
 import SwiftUI
+import CoreLocation
+
+// MARK: - Screenshot 더미용 편의 init
+// RoutePoint의 정식 init이 `init(location: CLLocation)` 하나뿐이라 좌표만으로 생성하는 편의 init을
+// 이 파일 한정으로 제공한다. (entity 본체는 그대로 유지)
+private extension RoutePoint {
+    init(latitude: Double, longitude: Double) {
+        self.init(location: CLLocation(latitude: latitude, longitude: longitude))
+    }
+}
 
 // MARK: - Mock Data for Screenshots
 
@@ -587,30 +597,24 @@ private struct ScreenshotTripHistoryView: View {
 
 #Preview("1. 메인 화면 (대기)") {
     Screenshot_MainIdle()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("2. 주행 중") {
     Screenshot_MainRunning()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("3. 영수증") {
     Screenshot_Receipt()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("4. 설정") {
     Screenshot_Settings()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("5. 지역별 요금") {
     Screenshot_RegionFares()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }
 
 #Preview("6. 주행 기록") {
     Screenshot_History()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro Max"))
 }

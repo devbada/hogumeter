@@ -92,6 +92,14 @@ final class TripRepository {
         return summary.toTrip(routePoints: routePoints)
     }
 
+    /// Get route data for statistics while preserving trip boundaries.
+    func getAllRoutes() -> [[RoutePoint]] {
+        getAllSummaries()
+            .filter(\.hasRouteData)
+            .compactMap { routeDataManager.loadRoute(tripId: $0.id) }
+            .filter { !$0.isEmpty }
+    }
+
     /// Delete a trip by summary
     func delete(_ summary: TripSummary) {
         routeDataManager.deleteRoute(tripId: summary.id)

@@ -77,7 +77,10 @@ final class LocationService: NSObject, LocationServiceProtocol {
     private var signalLossCheckTimer: Timer?
 
     /// 신호 손실로 판단하는 시간 (초)
-    private let signalLossTimeout: TimeInterval = 5.0
+    private let signalLossTimeout: TimeInterval = 15.0
+
+    /// 정지에 가까우면 위치 업데이트가 없어도 신호 손실로 보지 않음
+    private let signalLossMovingSpeedThreshold: Double = 1.0
 
     // MARK: - Dead Reckoning
 
@@ -199,6 +202,10 @@ final class LocationService: NSObject, LocationServiceProtocol {
         let timeSinceLastUpdate = Date().timeIntervalSince(lastUpdate)
 
         if timeSinceLastUpdate > signalLossTimeout {
+            guard lastValidSpeed > signalLossMovingSpeedThreshold else {
+                return
+            }
+
             // 일정 시간 동안 업데이트 없음 → 신호 손실
             if gpsSignalState != .lost {
                 handleSignalLoss(reason: "위치 업데이트 타임아웃 (\(Int(timeSinceLastUpdate))초)")

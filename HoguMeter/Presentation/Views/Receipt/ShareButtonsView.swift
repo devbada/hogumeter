@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ShareButtonsView: View {
     let image: UIImage
+    /// 공유 본문에 노출할 총 요금(원). nil이면 본문 텍스트 없이 이미지만 공유된다.
+    let fare: Int?
     let onDismiss: (() -> Void)?
 
     @State private var showAlert = false
@@ -19,8 +21,9 @@ struct ShareButtonsView: View {
 
     private let shareService = ReceiptShareService.shared
 
-    init(image: UIImage, onDismiss: (() -> Void)? = nil) {
+    init(image: UIImage, fare: Int? = nil, onDismiss: (() -> Void)? = nil) {
         self.image = image
+        self.fare = fare
         self.onDismiss = onDismiss
     }
 
@@ -108,7 +111,7 @@ struct ShareButtonsView: View {
             topVC = presentedVC
         }
 
-        shareService.share(image: image, to: destination, from: topVC) { result in
+        shareService.share(image: image, to: destination, fare: fare, from: topVC) { result in
             DispatchQueue.main.async {
                 isSharing = false
                 sharingDestination = nil

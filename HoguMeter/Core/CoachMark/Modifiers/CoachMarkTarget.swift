@@ -27,7 +27,7 @@ struct CoachMarkTargetModifier: ViewModifier {
                     Color.clear
                         .preference(
                             key: CoachMarkFramePreferenceKey.self,
-                            value: [id: geo.frame(in: .global)]
+                            value: [id: geo.frame(in: .global).roundedForCoachMark]
                         )
                 }
             )
@@ -38,5 +38,25 @@ extension View {
     /// Marks this view as a target for coach marks with the given identifier
     func coachMarkTarget(id: String) -> some View {
         modifier(CoachMarkTargetModifier(id: id))
+    }
+
+    func onCoachMarkFramesChange(_ frames: Binding<[String: CGRect]>) -> some View {
+        onPreferenceChange(CoachMarkFramePreferenceKey.self) { newFrames in
+            DispatchQueue.main.async {
+                guard frames.wrappedValue != newFrames else { return }
+                frames.wrappedValue = newFrames
+            }
+        }
+    }
+}
+
+private extension CGRect {
+    var roundedForCoachMark: CGRect {
+        CGRect(
+            x: origin.x.rounded(),
+            y: origin.y.rounded(),
+            width: size.width.rounded(),
+            height: size.height.rounded()
+        )
     }
 }

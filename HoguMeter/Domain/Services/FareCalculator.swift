@@ -187,7 +187,6 @@ final class FareCalculator {
 
         if totalRawUnits > 0 && extraUnitsRaw > 0 {
             let distanceRatio = distanceUnitsRaw / totalRawUnits
-            let timeRatio = timeUnitsRaw / totalRawUnits
 
             let extraUnits = Int(extraUnitsRaw)
             let extraFare = extraUnits * fareComponents.distanceFare

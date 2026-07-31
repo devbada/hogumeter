@@ -98,9 +98,7 @@ struct TripHistoryView: View {
             } message: {
                 Text("모든 주행 기록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")
             }
-            .onPreferenceChange(CoachMarkFramePreferenceKey.self) { frames in
-                coachMarkFrames = frames
-            }
+            .onCoachMarkFramesChange($coachMarkFrames)
             .onAppear {
                 // Always reload to show latest trips (e.g., after completing a new trip)
                 viewModel.loadInitialPage()
