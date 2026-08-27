@@ -132,26 +132,6 @@ final class FareCalculator {
         )
     }
 
-    /// 목적지 기반 예상 요금 계산.
-    /// MapKit 경로는 거리와 예상 소요시간만 제공하므로, 기준 속도보다 오래 걸리는 구간을 저속 지연시간으로 추정한다.
-    func estimateRouteFare(
-        distance: Double,
-        expectedTravelTime: TimeInterval,
-        at date: Date = Date()
-    ) -> Int {
-        let fare = settingsRepository.currentRegionFare
-        let thresholdMetersPerSecond = max(fare.lowSpeedThreshold / 3.6, 0.1)
-        let thresholdTravelTime = distance / thresholdMetersPerSecond
-        let estimatedLowSpeedDuration = max(0, expectedTravelTime - thresholdTravelTime)
-
-        return calculate(
-            highSpeedDistance: distance,
-            lowSpeedDuration: estimatedLowSpeedDuration,
-            regionChanges: 0,
-            at: date
-        )
-    }
-
     /// 요금 상세 내역 계산 (병산제 적용)
     /// - Parameters:
     ///   - highSpeedDistance: 고속 구간 이동 거리 (meters)
