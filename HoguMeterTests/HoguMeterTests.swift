@@ -10,10 +10,6 @@ import Testing
 
 struct HoguMeterTests {
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    }
-
     @Test func meterTimerGenerationGate_start세대만실행을허용한다() async throws {
         var gate = MeterTimerGenerationGate()
         let generation = gate.start()

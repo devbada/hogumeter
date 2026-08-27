@@ -185,12 +185,12 @@
         <header>
             <div class="app-name">호구미터 (HoguMeter)</div>
             <h1>개인정보 처리방침</h1>
-            <div class="update-date">최종 수정일: 2026년 6월 24일</div>
+            <div class="update-date">최종 수정일: 2026년 7월 31일</div>
         </header>
 
         <div class="content">
             <h2>1. 개요</h2>
-            <p>호구미터(이하 "앱")는 친구들과 함께하는 드라이브를 더 재미있게 만들어주는 <strong>엔터테인먼트 목적의 택시미터기 시뮬레이션 및 목적지 기반 호구비 예측 앱</strong>입니다.</p>
+            <p>호구미터(이하 "앱")는 친구들과 함께하는 드라이브를 더 재미있게 만들어주는 <strong>엔터테인먼트 목적의 택시미터기 시뮬레이션 앱</strong>입니다.</p>
             <p>본 개인정보 처리방침은 앱이 어떤 정보를 수집하고, 어떻게 사용하며, 어떻게 보호하는지 설명합니다.</p>
 
             <h2>2. 수집하는 정보</h2>
@@ -198,15 +198,15 @@
             <h3>2.1 위치 정보</h3>
             <table>
                 <tr><th>항목</th><th>내용</th></tr>
-                <tr><td>수집 목적</td><td>이동 거리 측정, 요금 계산, 호구게이션 경로 표시 및 현재 위치 표시</td></tr>
+                <tr><td>수집 목적</td><td>이동 거리 측정, 요금 계산, 주행 경로 및 현재 위치 표시</td></tr>
                 <tr><td>수집 항목</td><td>GPS 좌표 (위도, 경도), 이동 속도, 이동 방향, 위치 정확도</td></tr>
-                <tr><td>수집 시점</td><td>미터기 또는 호구게이션 작동 중</td></tr>
+                <tr><td>수집 시점</td><td>미터기 작동 중</td></tr>
                 <tr><td>저장 위치</td><td>사용자 기기 내 (로컬 저장)</td></tr>
-                <tr><td>외부 전송</td><td>경로 계산, 장소 검색, 역지오코딩을 위해 Apple MapKit 서비스에 필요한 정보가 전송될 수 있음</td></tr>
+                <tr><td>외부 전송</td><td>지도 표시 및 주소 변환을 위해 Apple 지도 서비스에 필요한 정보가 전송될 수 있음</td></tr>
             </table>
 
             <div class="highlight">
-                <strong>중요:</strong> 주행 기록과 설정은 사용자 기기 내에 저장됩니다. 다만 호구게이션의 장소 검색, 경로 계산, 주소 변환 기능을 제공하기 위해 Apple MapKit 서비스와 통신할 수 있습니다. 호구미터 개발자는 별도 서버에 사용자의 주행 기록을 저장하지 않습니다.
+                <strong>중요:</strong> 주행 기록과 설정은 사용자 기기 내에 저장됩니다. 지도 표시와 주소 변환을 위해 Apple 지도 서비스와 통신할 수 있지만, 호구미터 개발자는 별도 서버에 사용자의 주행 기록을 저장하지 않습니다.
             </div>
 
             <h3>2.2 주행 기록</h3>
@@ -219,25 +219,7 @@
                 <tr><td>외부 전송</td><td><strong>전송하지 않음</strong></td></tr>
             </table>
 
-            <h3>2.3 호구게이션 검색 및 경로 정보</h3>
-            <table>
-                <tr><th>항목</th><th>내용</th></tr>
-                <tr><td>수집 목적</td><td>목적지 검색, 경로 미리보기, 예상 거리/시간/호구비 계산</td></tr>
-                <tr><td>수집 항목</td><td>검색어, 출발지/목적지 좌표, 선택한 장소명, 최근 검색 및 최근 경로</td></tr>
-                <tr><td>저장 위치</td><td>최근 검색 및 최근 경로는 사용자 기기 내 저장</td></tr>
-                <tr><td>외부 전송</td><td>장소 검색 및 경로 계산을 위해 Apple MapKit 서비스에 검색어와 출발지/목적지 정보가 전송될 수 있음</td></tr>
-            </table>
-
-            <h3>2.4 과속카메라 참고 정보</h3>
-            <table>
-                <tr><th>항목</th><th>내용</th></tr>
-                <tr><td>사용 목적</td><td>호구게이션 중 경로 주변 단속카메라 참고 표시</td></tr>
-                <tr><td>사용 정보</td><td>경로 주변 시도/시군구명, 공공데이터포털 단속카메라 공개 데이터</td></tr>
-                <tr><td>외부 통신</td><td>공공데이터포털(data.go.kr) API 조회가 발생할 수 있음</td></tr>
-                <tr><td>주의</td><td>단속카메라 정보는 참고용이며 정확성, 최신성, 완전성을 보장하지 않음</td></tr>
-            </table>
-
-            <h3>2.5 앱 설정</h3>
+            <h3>2.3 앱 설정</h3>
             <table>
                 <tr><th>항목</th><th>내용</th></tr>
                 <tr><td>수집 목적</td><td>사용자 맞춤 설정 유지</td></tr>
@@ -264,20 +246,18 @@
             <table>
                 <tr><th>목적</th><th>설명</th></tr>
                 <tr><td>요금 계산</td><td>GPS 기반 이동 거리 및 시간 측정으로 가상의 택시 요금 계산</td></tr>
-                <tr><td>호구게이션</td><td>목적지 검색, 경로 미리보기, 예상 거리/시간/호구비 계산</td></tr>
-                <tr><td>과속카메라 참고 표시</td><td>공공데이터 기반 단속카메라 정보를 참고용으로 표시</td></tr>
                 <tr><td>주행 기록</td><td>사용자가 과거 주행 내역을 확인할 수 있도록 저장</td></tr>
                 <tr><td>설정 유지</td><td>사용자가 설정한 요금 체계 및 앱 설정 유지</td></tr>
             </table>
 
             <h2>5. 정보의 저장 및 보안</h2>
             <h3>5.1 저장 위치</h3>
-            <p>주행 기록, 최근 검색, 최근 경로, 앱 설정은 <strong>사용자의 기기 내</strong>에 저장됩니다.</p>
+            <p>주행 기록과 앱 설정은 <strong>사용자의 기기 내</strong>에 저장됩니다.</p>
             <ul>
                 <li>개발자 운영 서버에 주행 기록 저장 없음</li>
                 <li>클라우드 동기화 없음</li>
                 <li>광고/분석 목적의 데이터 전송 없음</li>
-                <li>호구게이션 및 과속카메라 참고 표시 기능 사용 시 Apple MapKit 및 공공데이터포털 API 통신 가능</li>
+                <li>주행 지도 표시 및 주소 변환 시 Apple 지도 서비스와 통신 가능</li>
             </ul>
 
             <h3>5.2 보안</h3>
@@ -315,8 +295,7 @@
             <h2>8. 제3자 서비스 및 제공</h2>
             <p>호구미터는 광고, 분석, 판매 목적으로 수집 정보를 제3자에게 제공하지 않습니다. 다만 앱 기능 제공을 위해 다음 외부 서비스와 통신할 수 있습니다.</p>
             <ul>
-                <li><strong>Apple MapKit:</strong> 장소 검색, 경로 계산, 지도 표시, 역지오코딩</li>
-                <li><strong>공공데이터포털(data.go.kr):</strong> 단속카메라 공개 데이터 조회</li>
+                <li><strong>Apple 지도:</strong> 주행 지도 표시 및 주소 변환</li>
                 <li>광고 네트워크 없음</li>
                 <li>분석 서비스 없음</li>
             </ul>
@@ -342,10 +321,10 @@
             <div class="summary-box">
                 <table>
                     <tr><th>항목</th><th>내용</th></tr>
-                    <tr><td>수집 정보</td><td>위치(GPS), 주행 기록, 최근 검색/경로, 앱 설정</td></tr>
+                    <tr><td>수집 정보</td><td>위치(GPS), 주행 기록, 앱 설정</td></tr>
                     <tr><td>저장 위치</td><td>사용자 기기 내 (로컬)</td></tr>
                     <tr><td>개발자 서버 저장</td><td><strong>없음</strong></td></tr>
-                    <tr><td>외부 통신</td><td>Apple MapKit, 공공데이터포털 API</td></tr>
+                    <tr><td>외부 통신</td><td>Apple 지도 서비스</td></tr>
                     <tr><td>광고/분석 제공</td><td><strong>없음</strong></td></tr>
                     <tr><td>광고/분석</td><td><strong>없음</strong></td></tr>
                     <tr><td>삭제 방법</td><td>앱 삭제 시 완전 삭제</td></tr>
@@ -358,8 +337,8 @@
         </div>
 
         <footer>
-            <p>본 개인정보 처리방침은 2026년 6월 24일부터 적용됩니다.</p>
-            <p style="margin-top: 10px;"><a href="terms.html">이용약관</a> · <a href="privacy-en.html">English</a></p>
+            <p>본 개인정보 처리방침은 2026년 7월 31일부터 적용됩니다.</p>
+            <p style="margin-top: 10px;"><a href="index.html">홈</a> · <a href="terms.html">이용약관</a> · <a href="privacy-en.html">English</a></p>
             <p style="margin-top: 10px;">&copy; 2026 HoguMeter. All rights reserved.</p>
         </footer>
     </div>
