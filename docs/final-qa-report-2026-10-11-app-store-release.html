@@ -14,7 +14,7 @@
 </head>
 <body>
   <h1>HoguMeter 1.5.3 App Store 릴리스 QA</h1>
-  <p><strong>작성일:</strong> 2026-10-11 · <strong>상태:</strong> <span class="pending">사용자 업로드 및 App Store Connect 입력 대기</span></p>
+  <p><strong>작성일:</strong> 2026-10-11 · <strong>상태:</strong> <span class="pending">업로드된 build 처리 및 App Store Connect 입력 대기</span></p>
 
   <h2>제출 대상</h2>
   <div class="box">
@@ -37,8 +37,8 @@
 
   <h2>PC에서 할 일</h2>
   <ol>
-    <li>Xcode Organizer에서 <code>HoguMeter-1.5.3.xcarchive</code>를 열고 <em>Distribute App → App Store Connect → Upload</em>을 선택한다.</li>
-    <li>App Store Connect에서 build <code>1.5.3 (1)</code>이 처리 완료된 뒤 1.5.3 버전에 연결한다. 이미 같은 build 번호가 존재하면 빌드 번호를 2 이상으로 올려 새 archive를 만들어야 한다.</li>
+    <li>App Store Connect에서 upload된 build <code>1.5.3 (1)</code>이 처리 완료된 뒤 1.5.3 버전에 연결한다. 이미 같은 build 번호가 존재하면 빌드 번호를 2 이상으로 올려 새 archive를 만들어야 한다.</li>
+    <li><a href="app-store-submission-1.5.3.md">제출 내용 초안</a>의 ‘새로운 기능’과 ‘앱 심사 메모’를 입력한다.</li>
     <li>App Privacy, 연령 등급, 가격/배포 국가, 수출 규정, 심사용 연락처·데모 정보, 개인정보처리방침 URL을 확인·입력한다.</li>
     <li>6.5인치 비투명 PNG 세트(<code>appstore/marketing-6.5-1284x2778</code>)와 iPad 스크린샷이 현재 1.5.3 UI를 정확히 반영하는지 확인 후 업로드한다. 제거된 호구게이션을 암시하는 지도 캡처는 사용하지 않는다.</li>
     <li>TestFlight에서 백그라운드 GPS 연속성, 자동 잠금, 장시간 발열을 실기기로 다시 확인한 뒤 심사 제출한다.</li>
