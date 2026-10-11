@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HoguMeter 1.5.3 App Store 릴리스 QA 보고서</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #172033; }
+    h1 { margin-bottom: .2em; } h2 { margin-top: 2em; }
+    .ok { color: #087443; font-weight: 700; } .pending { color: #9a5800; font-weight: 700; }
+    code { background: #f1f3f6; padding: .15em .35em; border-radius: 4px; }
+    li { margin: .35em 0; } .box { background: #f7f9fc; padding: 1rem 1.25rem; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h1>HoguMeter 1.5.3 App Store 릴리스 QA</h1>
+  <p><strong>작성일:</strong> 2026-10-11 · <strong>상태:</strong> <span class="pending">사용자 업로드 및 App Store Connect 입력 대기</span></p>
+
+  <h2>제출 대상</h2>
+  <div class="box">
+    <ul>
+      <li>번들 ID: <code>com.hogumeter.app</code></li>
+      <li>버전 / 빌드: <code>1.5.3 (1)</code></li>
+      <li>변경: 자동 잠금 복구, 백그라운드 전력 사용 절감, 장거리 주행 시 불필요한 wake-up 감소</li>
+      <li>호구게이션은 복구하지 않았음</li>
+    </ul>
+  </div>
+
+  <h2>자동 검증 결과</h2>
+  <ul>
+    <li><span class="ok">통과</span> iPhoneOS Release archive 생성</li>
+    <li><span class="ok">통과</span> App Store Connect 방식 export 생성</li>
+    <li><span class="ok">통과</span> IPA 서명: Apple Distribution, Team <code>W96LW7FRSD</code></li>
+    <li><span class="ok">통과</span> IPA의 <code>Info.plist</code> 검증 및 버전 <code>1.5.3 (1)</code> 확인</li>
+    <li><span class="ok">통과</span> 기존 Simulator build, <code>plutil -lint</code>, <code>git diff --check</code></li>
+  </ul>
+
+  <h2>PC에서 할 일</h2>
+  <ol>
+    <li>Xcode Organizer에서 <code>HoguMeter-1.5.3.xcarchive</code>를 열고 <em>Distribute App → App Store Connect → Upload</em>을 선택한다.</li>
+    <li>App Store Connect에서 build <code>1.5.3 (1)</code>이 처리 완료된 뒤 1.5.3 버전에 연결한다. 이미 같은 build 번호가 존재하면 빌드 번호를 2 이상으로 올려 새 archive를 만들어야 한다.</li>
+    <li>App Privacy, 연령 등급, 가격/배포 국가, 수출 규정, 심사용 연락처·데모 정보, 개인정보처리방침 URL을 확인·입력한다.</li>
+    <li>6.5인치 비투명 PNG 세트(<code>appstore/marketing-6.5-1284x2778</code>)와 iPad 스크린샷이 현재 1.5.3 UI를 정확히 반영하는지 확인 후 업로드한다. 제거된 호구게이션을 암시하는 지도 캡처는 사용하지 않는다.</li>
+    <li>TestFlight에서 백그라운드 GPS 연속성, 자동 잠금, 장시간 발열을 실기기로 다시 확인한 뒤 심사 제출한다.</li>
+  </ol>
+
+  <h2>알려진 제한</h2>
+  <ul>
+    <li>이 보고서는 upload 및 심사 제출을 수행하지 않는다.</li>
+    <li>App Store Connect의 동일 build 번호 여부와 메타데이터 완결성은 계정 화면에서 확인해야 한다.</li>
+    <li>앱은 UserDefaults 및 FileManager를 사용한다. 업로드 시 Apple의 Privacy Manifest/required-reason 경고가 발생하면 해당 경고에 맞추어 <code>PrivacyInfo.xcprivacy</code>를 추가·검증한다.</li>
+  </ul>
+
+  <h2>사용자 확인</h2>
+  <p>업로드 결과, 처리된 build 번호, TestFlight/심사 상태를 기록: ________________________________</p>
+  <p>최종 App Store 심사 제출 및 출시 승인은 사용자에게 있습니다.</p>
+</body>
+</html>
