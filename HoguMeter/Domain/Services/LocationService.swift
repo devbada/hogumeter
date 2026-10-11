@@ -25,6 +25,14 @@ protocol LocationServiceProtocol {
 
     func startTracking()
     func stopTracking()
+    func handleAppBecameActive()
+    func handleAppEnteredBackground()
+}
+
+extension LocationServiceProtocol {
+    // Test doubles and alternative services do not need to implement power policy.
+    func handleAppBecameActive() {}
+    func handleAppEnteredBackground() {}
 }
 
 final class LocationService: NSObject, LocationServiceProtocol {
@@ -75,12 +83,15 @@ final class LocationService: NSObject, LocationServiceProtocol {
 
     /// 신호 손실 판단 타이머
     private var signalLossCheckTimer: Timer?
+    private var isInBackground = false
 
     /// 신호 손실로 판단하는 시간 (초)
     private let signalLossTimeout: TimeInterval = 15.0
 
     /// 정지에 가까우면 위치 업데이트가 없어도 신호 손실로 보지 않음
     private let signalLossMovingSpeedThreshold: Double = 1.0
+    private let foregroundSignalLossCheckInterval: TimeInterval = 1.0
+    private let backgroundSignalLossCheckInterval: TimeInterval = 15.0
 
     // MARK: - Dead Reckoning
 
@@ -129,8 +140,10 @@ final class LocationService: NSObject, LocationServiceProtocol {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 10
-        locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.pausesLocationUpdatesAutomatically = false
+        locationManager.activityType = .automotiveNavigation
+        // Background execution belongs only to an active trip session.
+        locationManager.allowsBackgroundLocationUpdates = false
+        locationManager.pausesLocationUpdatesAutomatically = true
     }
 
     private func setupDeadReckoningBindings() {
@@ -140,6 +153,9 @@ final class LocationService: NSObject, LocationServiceProtocol {
 
     // MARK: - Public Methods
     func startTracking() {
+        isInBackground = false
+        applyForegroundLocationPolicy()
+        locationManager.allowsBackgroundLocationUpdates = true
         totalDistance = 0
         highSpeedDistance = 0
         lowSpeedDuration = 0
@@ -173,6 +189,9 @@ final class LocationService: NSObject, LocationServiceProtocol {
 
     func stopTracking() {
         locationManager.stopUpdatingLocation()
+        // 주행 세션이 끝난 뒤에는 background 위치 실행 권한을 남기지 않는다.
+        locationManager.allowsBackgroundLocationUpdates = false
+        locationManager.pausesLocationUpdatesAutomatically = true
         signalLossCheckTimer?.invalidate()
         signalLossCheckTimer = nil
 
@@ -184,13 +203,45 @@ final class LocationService: NSObject, LocationServiceProtocol {
         Logger.gps.info("[GPS] 위치 추적 중지")
     }
 
+    /// 백그라운드에서도 주행 측정의 정확도는 보존하되, 정차 시 iOS가 위치
+    /// 하드웨어를 일시 정지할 수 있도록 자동 일시정지를 허용한다.
+    func handleAppEnteredBackground() {
+        guard !isInBackground else { return }
+        isInBackground = true
+        locationManager.pausesLocationUpdatesAutomatically = true
+        restartSignalLossCheckTimerIfNeeded()
+    }
+
+    /// foreground로 돌아오면 미터의 기존 정확도와 응답성을 복원한다.
+    func handleAppBecameActive() {
+        guard isInBackground else { return }
+        isInBackground = false
+        applyForegroundLocationPolicy()
+        restartSignalLossCheckTimerIfNeeded()
+    }
+
     // MARK: - Signal Loss Check Timer
 
     private func startSignalLossCheckTimer() {
         signalLossCheckTimer?.invalidate()
-        signalLossCheckTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        signalLossCheckTimer = Timer.scheduledTimer(withTimeInterval: signalLossCheckInterval, repeats: true) { [weak self] _ in
             self?.checkForSignalLoss()
         }
+    }
+
+    private var signalLossCheckInterval: TimeInterval {
+        isInBackground ? backgroundSignalLossCheckInterval : foregroundSignalLossCheckInterval
+    }
+
+    private func restartSignalLossCheckTimerIfNeeded() {
+        guard signalLossCheckTimer != nil else { return }
+        startSignalLossCheckTimer()
+    }
+
+    private func applyForegroundLocationPolicy() {
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = 10
+        locationManager.pausesLocationUpdatesAutomatically = false
     }
 
     private func checkForSignalLoss() {
