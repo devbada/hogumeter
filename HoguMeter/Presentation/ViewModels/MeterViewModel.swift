@@ -200,7 +200,11 @@ final class MeterViewModel {
 
     func resetMeter() {
         stopTimer()
+        // 일반 UI에서는 이미 stopMeter() 뒤에 호출되지만, 다른 호출 경로에서도
+        // 위치 추적과 background execution이 남지 않도록 reset을 완전한 정리로 만든다.
+        _locationService.stopTracking()
         state = .idle
+        tripStartTime = nil
         currentFare = getBaseFare()  // 0이 아닌 기본요금으로 리셋
         distance = 0
         duration = 0
@@ -213,6 +217,7 @@ final class MeterViewModel {
         currentDriverQuote = ""
         showIdleAlert = false
         _routeManager.clearRoute()
+        _easterEggManager.onTripEnd()
         idleDetectionService.reset()
 
         // 지역 할증 초기화
@@ -285,7 +290,7 @@ final class MeterViewModel {
         NotificationCenter.default.publisher(for: .appEnteredBackground)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.idleDetectionService.handleAppEnteredBackground()
+                self?.handleAppEnteredBackground()
             }
             .store(in: &cancellables)
 
@@ -308,6 +313,7 @@ final class MeterViewModel {
 
     /// 앱이 포그라운드로 돌아왔을 때 처리
     private func handleAppBecameActive() {
+        _locationService.handleAppBecameActive()
         // 무이동 감지 서비스에 알림
         idleDetectionService.handleAppBecameActive()
 
@@ -315,6 +321,14 @@ final class MeterViewModel {
         if state == .running {
             setScreenAlwaysOn(true)
         }
+    }
+
+    private func handleAppEnteredBackground() {
+        // 화면은 App 수준에서 즉시 잠금 허용으로 복구한다. 위치는 주행 중에도
+        // 유지하되 LocationService가 background 전력 프로필로 낮춘다.
+        setScreenAlwaysOn(false)
+        _locationService.handleAppEnteredBackground()
+        idleDetectionService.handleAppEnteredBackground()
     }
 
     private func handleIdleDetectionState(_ state: IdleDetectionState) {
@@ -525,5 +539,6 @@ final class MeterViewModel {
     /// - Parameter enabled: true면 화면이 자동으로 꺼지지 않음
     private func setScreenAlwaysOn(_ enabled: Bool) {
         UIApplication.shared.isIdleTimerDisabled = enabled
+        Logger.meter.info("[MeterVM] 화면 자동 잠금 허용: \(!enabled)")
     }
 }

@@ -67,11 +67,15 @@ struct HoguMeterApp: App {
             // 조도 기반 다크모드: scene이 active일 때만 brightness notification 구독
             appState.ambientLightObserver.startObserving()
         case .background:
+            // 화면 유지 정책은 foreground 전용이다. 위치 측정이 background에서
+            // 계속되더라도 전역 idle timer가 화면 잠금을 막아서는 안 된다.
+            UIApplication.shared.isIdleTimerDisabled = false
             NotificationCenter.default.post(name: .appEnteredBackground, object: nil)
             // 백그라운드 진입 시 알림 구독 해제 (불필요한 wake/leak 방지)
             appState.ambientLightObserver.stopObserving()
         case .inactive:
-            break
+            // 제어 센터, 전화 수신처럼 background 직전의 중간 상태에서도 즉시 복구한다.
+            UIApplication.shared.isIdleTimerDisabled = false
         @unknown default:
             break
         }

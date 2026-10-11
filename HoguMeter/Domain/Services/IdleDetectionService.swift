@@ -402,6 +402,10 @@ final class IdleDetectionService: IdleDetectionServiceProtocol {
     func handleAppEnteredBackground() {
         isInBackground = true
 
+        // 백그라운드에서는 예약한 로컬 알림이 담당한다. RunLoop timer를 유지해
+        // 불필요한 wakeup을 만들지 않고, active 복귀 시 경과 시간을 재계산한다.
+        stopCheckTimer()
+
         // 모니터링 중이면 백그라운드 알림 예약
         if state == .monitoring && !notificationSent {
             scheduleBackgroundNotification()
